@@ -6,47 +6,57 @@
     <title>Cadastro</title>
 </head>
 <body>
-
     <h1>Formulário de Cadastro de Usuário</h1>
     <p>Preencha os campos abaixo para criar sua conta.</p>
 
-    <form action="" method="post">
+    {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="message {{ message.tags }}"> {# Aplicando a message e as tags específicas, criar uma estilização para aparecer por cima da página #}
+        {{ message }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+    <form action="{% url 'inicial:cadastro' %}" method="post"> 
         {% csrf_token %}
         <div>
             <label for="nome">Nome Completo:</label><br>
-            <input type="text" id="nome" name="nome_usuario" required>
+            <input type="text" id="nome" name="nome_usuario" value="{{ form_data.nome_usuario | default:'' }}" required>
         </div>
         <br>
 
         <div>
             <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email_usuario" required>
+            <input type="email" id="email" name="email_usuario" value="{{ form_data.email_usuario | default:'' }}" required>
         </div>
         <br>
 
         <div>
             <label for="data_nasc">Data de Nascimento:</label><br>
-            <input type="date" id="data_nasc" name="data_nascimento" required>
+            <input type="date" id="data_nasc" name="data_nascimento" value="{{ form_data.data_nascimento | default:'' }}" required>
         </div>
         <br>
 
         <div>
             <label for="senha">Senha:</label><br>
             <input type="password" id="senha" name="senha_usuario" required>
+            {# Senhas não são repopuladas por segurança #}
         </div>
         <br>
 
         <div>
             <label for="confirma_senha">Confirme sua Senha:</label><br>
-            <input type="password" id="confirma_senha" name="confirma_senha_usuario" required>
+            <input type="password" id="confirma_senha" name="confirma_senha" required>
+            {# Senhas não são repopuladas por segurança #}
         </div>
         <br>
 
         <div>
             <button type="submit">Cadastrar</button>
         </div>
-
     </form>
-<a href="{% url 'inicial:login' %}">Cadastre-se</a>
+    <a href="{% url 'inicial:login' %}">Já tem uma conta? Faça login</a>
 </body>
 </html>

@@ -11,11 +11,23 @@
     <div class="login-container">
         <div class="login-box">
             <h1>Anúbis</h1>
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li class="message {{ message.tags }}">
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             <p>Sua plataforma para clubes de leitura.</p>
-            <form action="dashboard.html">
+            <form action="{% url 'inicial:home' %}">
+                 {% csrf_token %}
                 <div class="input-group">
                    <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email_usuario" required>
+                    <input type="email" id="email" name="email_usuario" value="{{ form_data.email_usuario | default:'' }}" required>
+                    </div>
                 </div>
                 <div class="input-group">
                     <label for="senha">Senha:</label><br>
