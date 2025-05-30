@@ -9,11 +9,19 @@ from datetime import datetime, date
 from . models import Usuario
 # Create your views here.
 
+
+def root_dispatch_view(request: HttpRequest):
+    # Redireciona o usuário com base na sessão.
+    if request.session.get('usuario_id'):
+        # Usuário está logado, redireciona para a página principal da aplicação para logados.
+        return redirect('principal:home')
+    else:
+        # Usuário não está logado
+        return redirect('inicial:inicial')
+
 def inicial(request):
-    contexto = {
-        "nome":"Vick"
-    }
-    return render(request, 'inicial/home.html', contexto)
+    
+    return render(request, 'inicial/inicial.html')
 
 def cadastrar_usuario(request:HttpRequest):
     if request.method == "POST":
@@ -87,7 +95,7 @@ def cadastrar_usuario(request:HttpRequest):
 
     return render(request, 'inicial/cadastro.html')
 
-def login(request):
+def login(request:HttpRequest):
     if request.method == "POST":
         email = request.POST.get("email_usuario")
         senha = request.POST.get("senha_usuario")
@@ -95,9 +103,32 @@ def login(request):
         if not email or not senha:
             messages.error(request, "Todos os campos são obrigatórios.")
             return render(request, 'inicial/login.html', {'form_data': form_data})
+        try:        
+            usuario = Usuario.objects.get(email=email)
+            if check_password(senha, usuario.senha):
+                # Senha correta - config da sessão
+                request.session['usuario_id'] = usuario.id
+                request.session['usuario_nome'] = usuario.nome
+                return redirect("principal:home") 
+            else:
+                # Senha incorreta
+                messages.error(request, "E-mail ou senha inválidos.")
+                return render(request, 'inicial/login.html', {'form_data': form_data})
 
-
-
-
+        except Usuario.DoesNotExist:
+            # Usuário não encontrado com o email fornecido
+            messages.error(request, "E-mail ou senha inválidos.")
+            return render(request, 'inicial/login.html', {'form_data': form_data})
+        
+        except Exception as e:
+            # Trata outros erros inesperados
+            messages.error(request, f"Ocorreu um erro inesperado: {e}")
+            return render(request, 'inicial/login.html', {'form_data': form_data})
 
     return render(request, 'inicial/login.html')
+
+def logout_usuario(request: HttpRequest):
+    if request.session.items(): # Verifica se tem algo na sessão para limpar
+        request.session.flush() # Limpa 
+        messages.success(request, "Você foi desconectado com sucesso.")
+    return redirect('inicial:login') 

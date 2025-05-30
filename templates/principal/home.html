@@ -1,0 +1,24 @@
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Anúbis</title>
+    </head>
+    <body>
+            <h1>Olá, {{ nome_usuario }}!</h1>
+            <p>Bem-vindo(a) à sua área de gerenciamento de clubes literários.</p>
+            
+            <p><a href="{% url 'inicial:logout' %}">Sair</a></p>
+       
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </body>
+    </html>
+    
