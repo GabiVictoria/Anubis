@@ -18,9 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from inicial import views as inicial_views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls), 
     path('', inicial_views.root_dispatch_view, name='root_dispatch'),
     path('auth/', include('inicial.urls', namespace='inicial')),
     path('app/', include('principal.urls', namespace='principal')),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

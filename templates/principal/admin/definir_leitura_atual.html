@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Definir Leitura Atual para {{ clube.nome }} - Anúbis</title>
+ <link rel="stylesheet" href="{% static 'principal/admin.css' %}">
+  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
+ <script defer src="{% static 'inicial/messages.js' %}"></script> 
+</head>
+<body>
+ <header>
+    <div class="header-left">
+      <img src="{% static 'img/Logo..png' %}" alt="Logo Anúbis" class="header-logo"> 
+      <h1>Anúbis</h1>
+    </div>
+    <div class="slogan">Sua plataforma de Clube do livro</div>
+    <nav>
+      <a href="{% url 'principal:home' %}">Home</a>
+      <a href="{% url 'principal:criar_clube' %}">Criar</a>
+      <a href="#">Perfil</a> {# Defina URL do perfil #}
+      <a href="{% url 'inicial:logout' %}">Sair</a>
+    </nav>
+  </header>
+
+  <div class="main-container admin-form-page">
+    <h2 class="form-title">Definir Leitura Atual para: {{ clube.nome }}</h2>
+
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if form.fields.leitura_clube_item.queryset %} {# Verifica se há opções no formulário #}
+      <form method="post" class="styled-form">
+        {% csrf_token %}
+        <div class="form-field">
+            {{ form.leitura_clube_item.label_tag }}
+            <ul> 
+            {% for radio in form.leitura_clube_item %}
+                <li><label for="{{ radio.id_for_label }}">{{ radio.tag }} {{ radio.choice_label }}</label></li>
+            {% endfor %}
+            </ul>
+            {% if form.leitura_clube_item.help_text %}<small class="helptext">{{ form.leitura_clube_item.help_text }}</small>{% endif %}
+            {% for error in form.leitura_clube_item.errors %}<div class="error-message" style="color:var(--danger-color); font-size:0.85rem; margin-top:0.2rem;">{{ error }}</div>{% endfor %}
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="action-button">Definir como Leitura Atual</button>
+          <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">Cancelar</a>
+        </div>
+      </form>
+    {% else %}
+      <p>Não há livros na estante do clube com status "Quero Ler" ou "Próximo a Ser Lido" para definir como leitura atual.</p>
+      <p><a href="{% url 'principal:adicionar_livro_estante_clube' clube.id %}" class="action-button">Adicionar Livros à Estante</a></p>
+      <div class="form-actions">
+        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action" style="margin-left:auto;">Voltar</a>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -35,11 +35,38 @@ class Clube(models.Model):
     class Privacidade(models.TextChoices):
         PUBLICO = 'PUBLICO', 'Público'
         PRIVADO = 'PRIVADO', 'Privado'
+    LIMITE_MEMBROS_OPCOES = [
+        (10, 'Até 10 membros'),
+        (20, 'Até 20 membros'),
+        (50, 'Até 50 membros'),
+    ]
 
     nome = models.CharField(max_length=100)
     descricao = models.TextField()
-    privacidade = models.CharField(max_length=10, choices=Privacidade.choices, default=Privacidade.PUBLICO)
-    membros = models.ManyToManyField(Usuario, through='ClubeMembro', related_name='clubes')
+    privacidade = models.CharField(
+        max_length=10,
+        choices=Privacidade.choices,
+        default=Privacidade.PUBLICO
+    )
+    limite_membros = models.PositiveIntegerField(
+        choices=LIMITE_MEMBROS_OPCOES,
+        default=10
+    )
+    membros = models.ManyToManyField(
+        Usuario,
+        through='ClubeMembro',
+        related_name='clubes_participados'
+    )
+    
+    # NOVO CAMPO: Data de Criação
+    data_criacao = models.DateTimeField(auto_now_add=True)
+
+    # NOVO CAMPO: Capa do Clube
+    capa_clube = models.ImageField(
+        upload_to='clubes_capas/', # Define o subdiretório dentro de MEDIA_ROOT
+        null=True,                 # Permite que o campo seja nulo no banco de dados
+        blank=True                 # Permite que o campo seja vazio em formulários
+    )
 
     def __str__(self):
         return self.nome

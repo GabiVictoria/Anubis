@@ -1,25 +1,119 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anúbis</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anúbis - Bem-vindo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
+  {# Assumindo que o CSS da designer se chama 'inicial.css' e está em 'static/inicial/css/' #}
+  <link rel="stylesheet" href="{% static 'inicial/inicia.css' %}" />
+  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
+ <script defer src="{% static 'inicial/messages.js' %}"></script> 
 </head>
 <body>
-        <h1>Bem-vindo!</h1>
-        <p>Gerencie seus clubes literários de forma fácil e divertida.</p>
-        
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+  {# Bloco de mensagens do Django, conforme solicitado #}
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 
-        <p>
-            <a href="{% url 'inicial:login' %}">Entrar</a> | 
-            <a href="{% url 'inicial:cadastro' %}">Cadastre-se</a>
-        </p>
-    </body>
+  <header>
+    <div class="branding">
+      {# Caminho da imagem atualizado - use 'inicial/img/Logo..png' se estiver namespaced #}
+      <img src="{% static 'img/Logo..png' %}" alt="Logo da Anúbis" class="logo" />
+      <h1>Anúbis</h1>
+    </div>
+    <p>Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro </p>
+    <p>Conecte-se com leitores como você. Leia junto. Compartilhe ideias.</p>
+    <div class="buttons">
+      {# Links atualizados para usar a tag url do Django #}
+      <a href="{% url 'inicial:login' %}">Entrar</a>
+      <a href="{% url 'inicial:cadastro' %}">Criar Conta</a>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2>Livros que os clubes estão lendo agora</h2>
+    <div class="books">
+      <div class="book">
+        {# Caminhos das imagens atualizados - use 'inicial/img/' se estiverem namespaced #}
+        <img src="{% static 'img/eassimqacaba.jpg' %}" alt="Livro 1" />
+        <p>É Assim que Acaba</p>
+      </div>
+      <div class="book">
+        <img src="{% static 'img/opusculo-humanitario.jpg' %}" alt="Livro 2" />
+        <p>Opúscolo Humanitário</p>
+      </div>
+      <div class="book">
+        <img src="{% static 'img/osol.jpg' %}" alt="Livro 3" />
+        <p>O Sol é para Todos</p>
+      </div>
+      <div class="book">
+        <img src="{% static 'img/haruki.jpg' %}" alt="Livro 4" />
+        <p>Norwegian Wood</p>
+      </div>
+      <div class="book">
+        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="Livro 5" /> {# Corrigido alt para Livro 5 #}
+        <p>Noites Brancas</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Clubes</h2>
+    {# Esta seção é estática no design. Para torná-la dinâmica: #}
+    {# 1. Sua view 'inicial' precisaria buscar dados de clubes. #}
+    {# 2. Você usaria um loop {% for clube in clubes_em_destaque %} aqui. #}
+    <div class="meeting-section">
+      <div class="meeting">
+        <h3>Clube: Leituras Noturnas</h3>
+        <p>Livro: A Biblioteca da Meia-Noite</p>
+        <p>Venha fazer parte do melhor clube, apenas lemos as melhores obras de todos os tempos</p>
+        <p>Fundado por Ana Claúdia</p>
+      </div>
+      <div class="meeting">
+        <h3>Clube: Mistérios Literários</h3>
+        <p>Livro: Verity</p>
+        <p>literalmete para quem quiser!</p>
+        <p>Fundado por Vitor Fernandes</p>
+      </div>
+      <div class="meeting">
+        <h3>Clube: Leitores do Sul</h3>
+        <p>Livro: O Sol é para Todos</p>
+        <p>Um clube para quem gosta de conversar, rabiscar os livros e tirar lições de vida de cada grande leitura</p>
+        <p>Fundado por Claúdia Borges</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Comentários de Leitores</h2>
+    {# Esta seção também é estática. Precisaria de lógica similar à seção de Clubes para ser dinâmica. #}
+    <div class="rating-section">
+      <div class="rating">
+        <p>“Finalmente encontrei pessoas que amam os mesmos livros que eu. As discussões são incríveis!”</p>
+        <div class="user">— Marina L.</div>
+      </div>
+      <div class="rating">
+        <p>“A experiência de ler em grupo mudou completamente minha forma de ver a leitura.”</p>
+        <div class="user">— Carlos M.</div>
+      </div>
+      <div class="rating">
+        <p>“Descobri livros maravilhosos e amigos incríveis no processo.”</p>
+        <div class="user">— Ana Beatriz S.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Anúbis. Todos os direitos reservados.
+    Plaforma criada no Instituto Federal de São Paulo
+  </footer>
+</body>
 </html>

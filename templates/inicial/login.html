@@ -1,43 +1,55 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anúbis - Bem-vindo</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anúbis</title>
+  <link rel="stylesheet" href="{% static 'inicial/login.css' %}"/>
+  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
+ <script defer src="{% static 'inicial/messages.js' %}"></script> 
 </head>
-<body class="login-page">
-    <div class="login-container">
-        <div class="login-box">
-            <h1>Anúbis</h1>
-
-            {% if messages %}
-        <ul class="messages">
+<body>
+    {% if messages %}
+          <ul class="messages"> {# Estilos inline removidos daqui #}
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              <li class="{{ message.tags }}"> {# Estilos inline removidos daqui #}
+                {{ message }}
+              </li>
             {% endfor %}
-        </ul>
-    {% endif %}
-            <p>Sua plataforma para clubes de leitura.</p>
-            <form action="{% url 'inicial:login' %}" method="post">
-                 {% csrf_token %}
-                <div class="input-group">
-                   <label for="email">Email:</label><br>
-                    <input type="email" id="email" name="email_usuario" value="{{ form_data.email_usuario | default:'' }}" required>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="senha">Senha:</label><br>
-            <input type="password" id="senha" name="senha_usuario" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Entrar</button>
-            </form>
-            <div class="login-footer">
-                <a href="#">Esqueceu a senha?</a>
-               <p>Não tem uma conta? <a href="{% url 'inicial:cadastro' %}">Cadastre-se</a></p>
-            </div>
-        </div>
+          </ul>
+        {% endif %}
+  <div class="container">
+    <div class="image-section">
+      <img src="{% static 'img/Logo..png' %}" alt="Imagem de fundo" />
     </div>
+
+    
+
+    <div class="login-section">
+      <div class="login-box">
+
+        <h2>REALIZE SEU LOGIN</h2>
+
+        <form method="post" action="{% url 'inicial:login' %}">
+          {% csrf_token %}
+          <div class="input-group">
+            <input type="email" name="email_usuario" placeholder="E-mail" value="{{ form_data.email_usuario | default:'' }}" required />
+            <input type="password" name="senha_usuario" placeholder="Senha" required />
+          </div>
+
+          <button type="submit">Entrar</button>
+          
+          <div class="links">
+            <a href="#">Esqueci minha senha</a>
+          </div>
+
+          <div class="signup">
+            <a href="{% url 'inicial:cadastro' %}">Cadastre-se</a>
+          </div> 
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

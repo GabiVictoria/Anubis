@@ -1,0 +1,182 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom right, #5c340b, #e2d1c3);
+    color: #333;
+    overflow-x: hidden;
+  }
+  
+  header {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .branding {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .branding h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: #6b4f4f;
+  }
+  
+  header p {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .buttons {
+    margin-top: 1.5rem;
+  }
+  
+  .buttons {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    margin: 0;
+    display: flex;
+    gap: 1.5rem; /* espaço entre botões */
+    background: transparent; /* remove fundo da caixa */
+    padding: 0; /* sem padding na div */
+    border-radius: 0;
+    box-shadow: none;
+  }
+  
+.buttons a {
+  background-color: #6b4f4f;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  text-decoration: none;
+  transition: background 0.3s;
+  display: inline-block;
+}
+
+.buttons a:hover {
+  background-color: #4a3636;
+}
+
+  .buttons a:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+
+  
+  .buttons a:hover {
+    background-color: #4a3636;
+  }
+  
+  .section {
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  
+.section h2 {
+  font-size: 1.8rem; /* Reduzido de 2rem */
+  margin-bottom: 0.8rem; /* Reduzido de 1rem */
+}
+  
+  .books {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem; /* Reduzido de 2rem */
+  margin-top: 1.5rem; /* Reduzido de 2rem */
+}
+
+.book {
+  background: white;
+  padding: 0.8rem; /* Reduzido de 1rem */
+  border-radius: 12px; /* Reduzido de 16px */
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); /* Sombra um pouco mais sutil */
+  width: 200px; /* Reduzido de 220px */
+  transition: transform 0.3s ease;
+}
+
+.book:hover {
+  transform: scale(1.05);
+}
+
+.book img {
+  width: 100%;
+  border-radius: 10px; /* Reduzido de 12px */
+}
+
+.book p {
+  margin-top: 0.6rem; /* Reduzido de 0.75rem */
+  font-size: 0.9rem; /* Reduzido de 1rem */
+  font-weight: bold;
+  color: #6b4f4f;
+}
+  
+  .combined-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+  
+  .meeting-section, .rating-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .meeting, .rating {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .meeting h3 {
+    color: #6b4f4f;
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
+  
+  .meeting p {
+    margin: 0.25rem 0;
+    color: #555;
+    text-align: left;
+  }
+  
+  .rating p {
+    font-style: italic;
+    color: #444;
+  }
+  
+  .rating .user {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: #6b4f4f;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.9rem;
+    color: #888;
+  }
+  

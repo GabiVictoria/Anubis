@@ -1,0 +1,123 @@
+/* Remove margens e preenchimentos padrão de todos os elementos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%; /* Faz com que html e body ocupem a altura total disponível */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden; /* Tenta impedir a rolagem no nível do body/html */
+}
+
+/* Ajuste no container para herdar a altura e ser o container flex principal */
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%; /* Ocupa toda a altura do body */
+}
+
+/* Estilo da seção da imagem */
+.image-section {
+  flex: 1; /* Ocupa metade da tela */
+  position: relative; /* Para object-fit da imagem funcionar bem */
+  /* background-color: #ddd;  Adicione uma cor de fundo para debug se a imagem não carregar */
+}
+
+/* A imagem ocupa toda a seção */
+.image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* A imagem cobre toda a área sem distorcer */
+  display: block; /* Remove espaço extra abaixo da imagem se houver */
+}
+
+/* Estilo da seção de login */
+.login-section {
+  flex: 1; /* Outra metade da tela */
+  background-color: #f7f7f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Adiciona um respiro caso o login-box fique muito grande */
+  /* Se mesmo assim o login-box estourar, a rolagem interna aqui seria a melhor opção, mas você não quer */
+  /* overflow-y: auto; */
+}
+
+/* Caixa onde fica o formulário */
+.login-box {
+  width: 100%; /* Ajustado para ser mais flexível dentro do padding do login-section */
+  max-width: 400px; /* Limita o tamanho em telas grandes */
+  /* Considere adicionar um max-height aqui se necessário, e overflow-y: auto no próprio login-box */
+  /* max-height: 90vh; */ /* Exemplo, para não passar da altura da tela */
+  /* overflow-y: auto; */  /* Se o conteúdo interno do login-box for o problema */
+}
+
+/* Título "ACCOUNT LOGIN" (ou "REALIZE SEU LOGIN") */
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 20px; /* Reduzido um pouco */
+  color: #333;
+  letter-spacing: 1px;
+}
+
+/* uma caixa embaixo da outra */
+.input-group {
+  display: flex;
+  flex-direction: column; /* muda a direção para coluna */
+  gap: 10px;
+  margin-bottom: 15px; /* Reduzido um pouco */
+}
+
+/* Campos de texto e senha */
+.input-group input {
+  /* flex: 1; não é necessário aqui pois a direção é coluna */
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 16px;
+  width: 100%; /* Garante que o input ocupe a largura */
+}
+
+/* Botão de entrar */
+button[type="submit"] { /* Mais específico para evitar afetar outros botões */
+  width: 100%;
+  padding: 12px; /* Reduzido um pouco */
+  background-color: #5B4418; 
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 20px; /* Reduzido um pouco */
+}
+
+button[type="submit"]:hover {
+  background-color: #241a07;
+}
+
+/* Texto abaixo do botão: recuperação de login/senha */
+.links {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 15px; /* Reduzido um pouco */
+}
+
+/* Destaca os termos "User name" e "password" */
+.links span {
+  color: #241a07;
+}
+
+/* Link para criar nova conta */
+.signup {
+  text-align: center;
+  font-size: 15px;
+  /* margin-bottom: 0; */ /* Remova se for o último elemento e não precisar de margem */
+}
+
+.signup a {
+  color: #241a07;
+  text-decoration: none;
+}
+

@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados da Pesquisa - Anúbis</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'principal/listagem.css' %}">
+  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
+ <script defer src="{% static 'inicial/messages.js' %}"></script> 
+</head>
+<body>
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <header>
+    <div class="logo-container">
+      <img src="{% static 'img/Logo..png' %}" alt="Anúbis">
+      <h1>Anúbis</h1>
+    </div>
+    <div class="slogan">
+      Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro.
+    </div>
+    <nav>
+      <a href="{% url 'principal:home' %}">Home</a>
+      <a href="{% url 'principal:criar_clube' %}">Criar</a>
+      <a href="#">Perfil</a> {# Substitua pela URL do perfil quando implementada #}
+      <a href="{% url 'inicial:logout' %}">Sair</a>
+    </nav>
+  </header>
+
+  <section class="search-section">
+    <h2>Resultados da Pesquisa para: "{{ query|default_if_none:'' }}"</h2>
+    <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container">
+      <input class="search-bar-input" type="text" name="q" placeholder="Buscar novamente..." value="{{ query|default_if_none:'' }}">
+      <button class="search-bar-button" type="submit">
+        <i class="fas fa-search"></i>
+      </button>
+    </form>
+  </section>
+
+  <main id="club-list-container" class="main-container">
+    {% if resultados %}
+      <div id="club-list-grid">
+        {% for clube_res in resultados %}
+          <div class="club-card">
+            <img src="{{ clube_res.capa_url }}" alt="{{ clube_res.nome }}" class="club-image">
+            <div class="club-card-content-wrapper">
+                <h3 class="club-title">{{ clube_res.nome }}</h3>
+                <p class="club-description club-content-fixed-item">{{ clube_res.descricao|truncatewords:15|default:"&nbsp;" }}</p>
+                <div class="founder club-content-fixed-item">
+                  <span>Fundado por: {{ clube_res.fundador_nome|default:"&nbsp;" }}</span>
+                </div>
+                <p class="club-meta club-content-fixed-item">Membros: {{ clube_res.membros_count|default:"&nbsp;" }}</p>
+                <p class="club-meta club-content-fixed-item">Fundado em: {{ clube_res.data_fundacao_formatada|default:"&nbsp;" }}</p>
+                <div class="current-book club-content-fixed-item">
+                    {% if clube_res.leitura_atual_nome and clube_res.leitura_atual_nome != "Nenhuma leitura atual" %}
+                        📖 Lendo: {{ clube_res.leitura_atual_nome }}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                </div>
+                {% if clube_res.match_reason %}
+                    <p class="match-reason club-content-fixed-item"><em>{{ clube_res.match_reason }}</em></p>
+                {% else %}
+                    <p class="match-reason club-content-fixed-item">&nbsp;</p>
+                {% endif %}
+
+                {# BOTÃO VER CLUBE ADICIONADO #}
+                <div class="card-actions" style="margin-top: auto; padding-top: 0.5rem;"> {# Empurra o botão para baixo #}
+                   <a href="{% url 'principal:detalhes_clube' clube_res.id %}" class="view-club-button">Ver Clube</a>
+                </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="text-align:center; margin-top: 40px; width:100%; font-size: 1.2rem;">Nenhum clube encontrado para "{{ query }}".</p>
+    {% endif %}
+  </main>
+
+
+</body>
+</html>

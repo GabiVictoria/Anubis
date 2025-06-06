@@ -1,62 +1,68 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Criar Conta - Anúbis</title>
+  <link rel="stylesheet" href="{% static 'inicial/cad.css' %}"/>
+  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
+ <script defer src="{% static 'inicial/messages.js' %}"></script> 
 </head>
 <body>
-    <h1>Formulário de Cadastro de Usuário</h1>
-    <p>Preencha os campos abaixo para criar sua conta.</p>
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 
-    {% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li class="message {{ message.tags }}"> {# Aplicando a message e as tags específicas, criar uma estilização para aparecer por cima da página #}
-        {{ message }}
-      </li>
-    {% endfor %}
-  </ul>
-{% endif %}
+  <div class="container">
+    <div class="image-section">
+      <img src="{% static 'img/Logo..png' %}" alt="Imagem de fundo" />
+    </div>
 
-    <form action="{% url 'inicial:cadastro' %}" method="post"> 
-        {% csrf_token %}
-        <div>
-            <label for="nome">Nome Completo:</label><br>
-            <input type="text" id="nome" name="nome_usuario" value="{{ form_data.nome_usuario | default:'' }}" required>
-        </div>
-        <br>
+    <div class="login-section">
+      <div class="login-box">
+        
+        <img src="{% static 'img/Logo..png' %}" alt="Logo" class="logo" />
 
-        <div>
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email_usuario" value="{{ form_data.email_usuario | default:'' }}" required>
-        </div>
-        <br>
+        <h2>CRIAR CONTA</h2>
 
-        <div>
-            <label for="data_nasc">Data de Nascimento:</label><br>
-            <input type="date" id="data_nasc" name="data_nascimento" value="{{ form_data.data_nascimento | default:'' }}" required>
-        </div>
-        <br>
+        <form method="post" action="{% url 'inicial:cadastro' %}">
+          {% csrf_token %}
 
-        <div>
-            <label for="senha">Senha:</label><br>
-            <input type="password" id="senha" name="senha_usuario" required>
-            {# Senhas não são repopuladas por segurança #}
-        </div>
-        <br>
+          <div class="form-group">
+            <input type="text" id="nome" name="nome_usuario" placeholder="Nome completo" value="{{ form_data.nome_usuario | default:'' }}" required />
+          </div>
 
-        <div>
-            <label for="confirma_senha">Confirme sua Senha:</label><br>
-            <input type="password" id="confirma_senha" name="confirma_senha" required>
-            {# Senhas não são repopuladas por segurança #}
-        </div>
-        <br>
+          <div class="form-group">
+            <input type="email" id="email" name="email_usuario" placeholder="E-mail" value="{{ form_data.email_usuario | default:'' }}" required />
+          </div>
 
-        <div>
-            <button type="submit">Cadastrar</button>
-        </div>
-    </form>
-    <a href="{% url 'inicial:login' %}">Já tem uma conta? Faça login</a>
+          <div class="form-group">
+            <input type="date" id="data_nasc" name="data_nascimento" placeholder="Data de nascimento" value="{{ form_data.data_nascimento | default:'' }}" required />
+          </div>
+          
+          <div class="form-group">
+            <input type="password" id="senha" name="senha_usuario" placeholder="Crie uma senha" required />
+          </div>
+
+          <div class="form-group">
+            <input type="password" id="confirma_senha" name="confirma_senha" placeholder="Confirme sua senha" required />
+          </div>
+
+          <button type="submit">CRIAR CONTA</button>
+
+          <div class="signup">
+            <a href="{% url 'inicial:login' %}">Já tem uma conta? Faça login</a>
+          </div> 
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,0 +1,303 @@
+/* Em anubis/static/principal/css/clube_detalhe.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  --bg-color: #b48e68;
+  --primary-color: #222;
+  --accent-color: #6b4c3b; /* Cor principal para botões e destaques */
+  --card-bg: #fff;
+  --border-radius: 10px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Sombra mais sutil */
+  --font-family: 'Poppins', sans-serif;
+  --text-secondary: #555;
+  --leader-color: #97131e; /* Cor para destacar o líder/admin */
+  --co-leader-color: #795548; /* Cor para destacar o moderador */
+  --border-color-light: #eee; /* Borda sutil para elementos internos */
+  --danger-color: #dc3545; /* Para botões de sair/excluir */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  line-height: 1.6;
+}
+
+/* --- Estilos de Cabeçalho (Consistente com outras páginas) --- */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.5rem;
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.header-logo { /* Classe adicionada à logo no header */
+    height: 45px;
+    width: auto; /* Mantém proporção */
+}
+.header-left { display: flex; align-items: center; gap: 0.8rem;}
+.header-left h1 { font-size: 2rem; margin: 0; font-weight: 700;}
+.slogan { font-size: 0.9rem; color: var(--text-secondary); text-align: center; max-width: 450px; margin: 0 1rem;}
+nav { display: flex; gap: 0.8rem; flex-wrap: wrap;}
+nav a { text-decoration: none; color: var(--primary-color); padding: 0.5rem 1rem; border-radius: var(--border-radius); transition: background 0.3s, color 0.3s; font-weight: 500; font-size: 0.9rem;}
+nav a:hover, nav a.active { background: var(--accent-color); color: #fff;}
+
+/* --- Barra de Pesquisa Padronizada --- */
+.search-bar-container.details-page-search { /* Classe adicional para possível estilização específica */
+  display: flex;
+  align-items: center;
+  max-width: 600px; 
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius, 5px);
+  background-color: var(--card-bg, #fff);
+  overflow: hidden;
+  height: 2.3rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.search-bar-input { flex-grow: 1; height: 100%; padding: 0 12px; font-size: 0.9rem; line-height: 2.3rem; border: none; outline: none; background-color: transparent; color: var(--primary-color, #222); box-sizing: border-box; }
+.search-bar-input::placeholder { color: #888; }
+.search-bar-button { height: 100%; padding: 0 12px; background-color: var(--accent-color, #6b4c3b); color: white; border: none; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s; box-sizing: border-box; }
+.search-bar-button i.fas.fa-search { margin: 0; padding: 0; line-height: 1;}
+.search-bar-button:hover { background-color: #5a3a2e; }
+
+/* --- Container Principal e Seções --- */
+.main-container {
+  max-width: 900px; /* Mais estreito para melhor leitura de detalhes */
+  margin: 20px auto;
+  padding: 0 15px;
+  display: grid;
+  grid-template-columns: 1fr; /* Seções empilhadas */
+  gap: 1.5rem; /* Espaço entre seções */
+}
+
+.section {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  /* margin-bottom: 1.5rem; Removido, o gap do grid cuida disso */
+}
+
+
+h2, h3, h4 { /* Títulos dentro das seções */
+  color: var(--primary-color);
+  margin-top: 0; /* Remove margem superior padrão dos títulos */
+}
+.section h3, .section h4 { /* Subtítulos de seção */
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color-light);
+    padding-bottom: 0.5rem;
+}
+.section h4 { font-size: 1.2rem; }
+
+/* --- Informações do Clube (.club-info) --- */
+.club-info {
+  display: flex;
+  align-items: flex-start; /* Alinha itens no topo */
+  gap: 1.5rem;
+}
+.club-main-image {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0; /* Evita que a imagem encolha */
+  background-color: #f0f0f0; /* Placeholder */
+}
+.club-description-text {
+  flex-grow: 1;
+}
+.club-description-text h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent-color);
+}
+.club-description-text p {
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+.club-meta {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+.club-actions {
+  margin-left: auto; /* Empurra para a direita se houver espaço */
+  padding-left: 1rem;
+}
+
+/* Botões de Ação Genéricos */
+.action-button {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: var(--accent-color);
+  border: none;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-align: center;
+  margin-top: 5px;
+}
+.action-button:hover {
+  background-color: #4a3636; /* Escurece o accent-color */
+}
+.sair-clube-button {
+  background-color: var(--danger-color); /* Vermelho para sair */
+}
+.sair-clube-button:hover {
+  background-color: #c82333; /* Vermelho mais escuro */
+}
+
+
+
+/* --- Seção de Administração --- */
+.admin-section h4 { border-bottom: none; margin-bottom: 0.8rem;}
+.admin-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+.admin-button { font-size: 0.85rem; padding: 0.5rem 0.8rem; background-color: #6c757d; } /* Cor diferente para botões admin */
+.admin-button:hover { background-color: #5a6268; }
+
+
+/* --- Livro do Momento (.featured-book) --- */
+.featured-book .section-title { /* Título h3 da seção */
+  font-size: 1.3rem;
+  color: var(--primary-color); 
+  margin-bottom: 1rem;
+  border-bottom: none; /* Remove a borda se não quiser */
+}
+.book-card { /* Container do livro em destaque */
+  display: flex;
+  align-items: flex-start; /* Alinha imagem e infos no topo */
+  gap: 1rem;
+}
+.book-cover { /* Imagem do livro em destaque */
+  width: 100px; /* Ajuste conforme necessário */
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  flex-shrink: 0;
+}
+.book-info { flex-grow: 1; }
+.book-info .book-title { /* Título h4 do livro */
+  font-size: 1.2rem;
+  color: var(--accent-color);
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+.book-info p { font-size: 0.9rem; margin: 0.3rem 0; color: var(--text-secondary); }
+.book-info a { color: var(--accent-color); text-decoration: underline; }
+.book-info a:hover { color: #4a3636; }
+
+
+/* --- Seção de Votação (.voting-section) --- */
+.voting-section h3 { font-size: 1.3rem; }
+.voting-section h3 small { font-size: 0.8rem; color: var(--text-secondary); font-weight: normal;}
+.book-option {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color-light);
+}
+.book-option:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+.book-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.book-option-image {
+  width: 50px; /* Imagem menor na opção de voto */
+  height: 75px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.book-option-details { flex-grow: 1; }
+.book-option-title { font-weight: 600; font-size: 1rem; display: block; margin-bottom: 0.2rem;}
+.book-option-author { font-size: 0.8rem; color: var(--text-secondary); display: block; margin-bottom: 0.3rem;}
+.progress {
+  height: 18px; /* Altura da barra de progresso */
+  background-color: #e9ecef; /* Fundo da barra */
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  margin: 5px 0;
+}
+.progress-bar { /* Barra de progresso em si */
+  height: 100%;
+  background-color: var(--accent-color);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  line-height: 18px; /* Alinha o texto na barra */
+  text-align: center;
+  white-space: nowrap;
+  transition: width 0.6s ease;
+}
+.vote-count { font-size: 0.8rem; color: var(--text-secondary); display: block; margin-top: 2px;}
+.vote-radio { margin-top: 5px; display: block; font-size: 0.9rem;}
+.vote-radio input[type="radio"] { margin-right: 5px; vertical-align: middle; }
+.vote-radio label { font-weight: normal; vertical-align: middle; cursor: pointer; }
+.vote-button { /* Botão de confirmar voto */
+  /* Herda de .action-button, pode adicionar mais especificidade se necessário */
+  margin-top: 1rem;
+}
+.feedback-text { font-size: 0.9rem; margin-top: 1rem; text-align: center; }
+
+
+/* --- Seção de Membros (.members-section) --- */
+.members-section h3 { font-size: 1.3rem; }
+.member-list { list-style: none; padding: 0; margin-top: 1rem; }
+.member-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color-light);
+}
+.member-item:last-child { border-bottom: none; }
+.member-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
+  background-color: #f0f0f0; /* Placeholder */
+}
+.member-info { flex-grow: 1; }
+.member-name { font-weight: 500; font-size: 0.95rem; display: block; }
+.member-name.leader { color: var(--leader-color); font-weight: bold; }
+.member-name.co-leader { color: var(--co-leader-color); font-weight: bold; }
+.member-details { font-size: 0.8rem; color: var(--text-secondary); }
+
+
+/* --- Estante de Livros Lidos (.shelf-section) --- */
+.shelf-section h3 { font-size: 1.3rem; }
+.shelf-list { list-style: none; padding: 0; margin-top: 1rem; }
+.shelf-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border-color-light);
+}
+.shelf-item:last-child { border-bottom: none; }
+.shelf-book-cover {
+  width: 45px; /* Capa menor na estante */
+  height: 65px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  background-color: #f0f0f0; /* Placeholder */
+}
+.shelf-item-info { flex-grow: 1; }

@@ -1,0 +1,208 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ clube.nome }} - Detalhes do Clube - Anúbis</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'principal/clube_detalhe.css' %}">
+  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
+ <script defer src="{% static 'inicial/messages.js' %}"></script> 
+</head>
+<body>
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <header>
+    <div class="header-left">
+      <img src="{% static 'img/Logo..png' %}" alt="Logo Anúbis" class="header-logo"> 
+      <h1>Anúbis</h1>
+    </div>
+    <div class="slogan">Sua plataforma de Clube do livro</div>
+    <nav>
+      <a href="{% url 'principal:home' %}">Home</a>
+      <a href="{% url 'principal:criar_clube' %}">Criar</a>
+      <a href="#">Perfil</a> {# Defina URL do perfil #}
+      <a href="{% url 'inicial:logout' %}">Sair</a>
+    </nav>
+  </header>
+
+  {# Barra de pesquisa padronizada, se desejar nesta página #}
+  <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container details-page-search">
+    <input class="search-bar-input" type="text" name="q" placeholder="Buscar em Anúbis..." value="{{ query|default_if_none:'' }}">
+    <button class="search-bar-button" type="submit">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
+
+  <div class="main-container">
+    <div class="club-info section">
+      <img src="{% if clube.capa_clube %}{{ clube.capa_clube.url }}{% else %}{% static 'img/default_club_placeholder.png' %}{% endif %}" alt="Capa do Clube {{ clube.nome }}" class="club-main-image">
+      <div class="club-description-text">
+        <h2>{{ clube.nome }}</h2>
+        <p>{{ clube.descricao }}</p>
+        <div class="club-meta">
+          Criado por <strong>{{ fundador_nome }}</strong> em {{ clube.data_criacao|date:"F Y" }}
+        </div>
+      </div>
+      <div class="club-actions">
+        {% if is_membro %}
+          <form method="post" action="{% url 'principal:sair_clube' clube.id %}">
+            {% csrf_token %}
+            <button type="submit" class="action-button sair-clube-button">Sair do Clube</button>
+          </form>
+        {% elif clube.privacidade == PrivacidadeChoices.PUBLICO %}
+          <form method="post" action="{% url 'principal:entrar_clube' clube.id %}">
+              {% csrf_token %}
+              <button type="submit" class="action-button entrar-clube-button">Entrar no Clube</button>
+          </form>
+        {% else %}
+          <p class="feedback-text"><em>Este clube é privado.</em></p>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if cargo_usuario_atual == CargoChoices.ADMIN %}
+    <div class="admin-section section card-style">
+        <h4>Painel do Administrador do Clube</h4>
+        <div class="admin-actions">
+            {# DESCOMENTE ESTES LINKS/BOTÕES #}
+            <a href="{% url 'principal:editar_clube_info' clube.id %}" class="action-button admin-button">Editar Informações do Clube</a>
+            <a href="{% url 'principal:adicionar_livro_estante_clube' clube.id %}" class="action-button admin-button">Adicionar Livro à Estante</a>
+            <a href="{% url 'principal:definir_leitura_atual_clube' clube.id %}" class="action-button admin-button">Definir Leitura Atual</a>
+            <a href="{% url 'principal:criar_votacao_clube' clube.id %}" class="action-button admin-button">Criar Nova Votação</a>
+            {# O parágrafo abaixo pode ser removido se os links estiverem ativos #}
+            {# <p><em>(Funcionalidades de admin a serem implementadas)</em></p> #}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if leitura_do_momento_obj %}
+      <div class="featured-book section card-style">
+        <h3 class="section-title">📖 Livro do Momento</h3>
+        <div class="book-card">
+          <img src="{% if leitura_do_momento_obj.livro.capa %}{{ leitura_do_momento_obj.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ leitura_do_momento_obj.livro.nome }}" class="book-cover">
+          <div class="book-info">
+            <h4 class="book-title">{{ leitura_do_momento_obj.livro.nome }}</h4>
+            <p><strong>Autor:</strong> {{ leitura_do_momento_obj.livro.autor }}</p>
+            {# <p><strong>Próxima reunião:</strong> DATA_AQUI </p> #}
+            {# <p><strong>Link da reunião:</strong> <a href="LINK_AQUI">LINK_AQUI</a></p> #}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if votacao_ativa %}
+      <div class="voting-section section card-style">
+        <h3>Votação para Próximo Livro <small>(encerra em {{ votacao_ativa.data_fim|date:"d/m/Y H:i" }})</small></h3>
+        <form method="post" action="{% url 'principal:registrar_voto' clube_id=clube.id votacao_id=votacao_ativa.id %}">
+          {% csrf_token %}
+          {% for opcao in opcoes_votacao_com_votos %}
+            <div class="book-option">
+              <div class="book-row">
+                <img src="{% if opcao.livro.capa %}{{ opcao.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ opcao.livro.nome }}" class="book-option-image">
+                <div class="book-option-details">
+                  <strong class="book-option-title">{{ opcao.livro.nome }}</strong> <small class="book-option-author">por {{ opcao.livro.autor }}</small>
+                  <div class="progress" title="{{ opcao.percentual }}% dos votos">
+                    <div class="progress-bar" style="width: {{ opcao.percentual }}%;">
+                       {{ opcao.percentual }}%
+                    </div>
+                  </div>
+                  <small class="vote-count">{{ opcao.votos }} voto(s) de {{ total_votos_na_votacao }}</small>
+                  {% if is_membro and not usuario_ja_votou %}
+                    <span class="vote-radio">
+                        <input type="radio" name="livro_votado" value="{{ opcao.livro.id }}" id="livro_{{opcao.livro.id}}">
+                        <label for="livro_{{opcao.livro.id}}">Votar neste</label>
+                    </span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          
+          {% if is_membro and not usuario_ja_votou and opcoes_votacao_com_votos %}
+            <button type="submit" class="action-button vote-button">Confirmar Voto</button>
+          {% elif is_membro and usuario_ja_votou %}
+            <p class="feedback-text"><em>Você já votou nesta votação.</em></p>
+          {% elif not is_membro and votacao_ativa %}
+            <p class="feedback-text"><em>Você precisa ser membro para votar.</em></p>
+          {% elif not opcoes_votacao_com_votos and votacao_ativa %}
+            <p class="feedback-text"><em>Nenhuma opção de livro nesta votação ainda.</em></p>
+          {% endif %}
+        </form>
+      </div>
+    {% endif %}
+
+    {% if not leitura_do_momento_obj and not votacao_ativa and cargo_usuario_atual == CargoChoices.ADMIN %}
+        <div class="section suggestion-box card-style">
+            <p>O clube não está lendo nenhum livro e não há votações ativas.</p>
+            {# <a href="{% url 'principal:adicionar_livro_estante' clube.id %}" class="action-button">Definir Leitura Atual</a> #}
+            {# <a href="{% url 'principal:criar_votacao_clube' clube.id %}" class="action-button">Iniciar Nova Votação</a> #}
+        </div>
+    {% endif %}
+
+    <div class="members-section section card-style">
+      <h3>Membros ({{ clube.membros.count }})</h3>
+      <ul class="member-list">
+        {% for membro_cm in membros_do_clube %}
+          <li class="member-item">
+            <img src="{{ default_avatar_url }}" alt="{{ membro_cm.usuario.nome }}" class="member-avatar">
+            <div class="member-info">
+              <span class="member-name {% if membro_cm.cargo == CargoChoices.ADMIN %}leader{% elif membro_cm.cargo == CargoChoices.MODERADOR %}co-leader{% endif %}">
+                {{ membro_cm.usuario.nome }}
+                {% if membro_cm.cargo == CargoChoices.ADMIN %}(Admin){% elif membro_cm.cargo == CargoChoices.MODERADOR %}(Mod){% endif %}
+              </span>
+              <div class="member-details">Entrou: {{ membro_cm.data_inscricao|date:"d/m/Y" }}</div>
+            </div>
+          </li>
+        {% empty %}
+          <li>Este clube ainda não tem membros.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="shelf-section section card-style">
+      <h3>Livros Já Lidos Pelo Clube</h3>
+      {% if leituras_finalizadas %}
+        <ul class="shelf-list">
+          {% for leitura in leituras_finalizadas %}
+            <li class="shelf-item">
+              <img src="{% if leitura.livro.capa %}{{ leitura.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ leitura.livro.nome }}" class="shelf-book-cover">
+              <div class="shelf-item-info">
+                <strong>{{ leitura.livro.nome }}</strong>
+                <span>Finalizado em: {{ leitura.data_finalizacao|date:"d/m/Y"|default:"N/D" }} | Avaliação: {{ leitura.nota_media_clube|default:"N/A" }}/5</span>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>Nenhum livro finalizado pelo clube ainda.</p>
+      {% endif %}
+    </div>
+
+  </div> <script>
+    // Lógica JS de Clube.js para animação de barras de progresso (se mantida)
+    document.addEventListener('DOMContentLoaded', () => {
+      const progressBars = document.querySelectorAll('.voting-section .progress-bar');
+      progressBars.forEach(bar => {
+        const finalWidth = bar.style.width; // Pega o width inline definido pelo Django
+        if (finalWidth) {
+            bar.style.width = '0%'; // Começa em 0 para animar
+            setTimeout(() => {
+                bar.style.width = finalWidth;
+            }, 300); // Pequeno delay para a animação ser visível
+        }
+      });
+      // Outras lógicas de Clube.js podem ser adicionadas aqui,
+      // como hover em nomes de membros, etc., se desejado e adaptado.
+    });
+  </script>
+  {# <script defer src="{% static 'principal/js/clube_detalhe.js' %}"></script> #}
+</body>
+</html>
