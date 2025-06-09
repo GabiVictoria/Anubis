@@ -68,7 +68,7 @@ class Clube(models.Model):
         null=True,                 # Permite que o campo seja nulo no banco de dados
         blank=True                 # Permite que o campo seja vazio em formulários
     )
-
+    capa_recomendada = models.CharField(max_length=100, null=True, blank=True)
     def __str__(self):
         return self.nome
 

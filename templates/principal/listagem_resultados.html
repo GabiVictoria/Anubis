@@ -22,9 +22,16 @@
       <div id="club-list-grid">
         {% for clube_res in resultados %}
           <div class="club-card">
-            <img src="{% if clube_res.capa_obj %}{{ clube_res.capa_obj.url }}{% else %}{% static 'img/imgideal.png' %}{% endif %}" 
-         alt="Capa de {{ clube_res.nome }}" 
-         class="club-image">
+            {% if clube.capa_clube %}
+    {# Se existe uma imagem upada pelo usuário, use-a #}
+    <img src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" class="club-image">
+{% elif clube.capa_recomendada %}
+    {# Senão, se existe uma imagem de recomendação, use o caminho estático #}
+    <img src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" class="club-image">
+{% else %}
+    {# Senão, use a imagem padrão #}
+    <img src="{% static 'img/imgideal.png' %}" alt="Capa padrão" class="club-image">
+{% endif %}
             <div class="club-card-content-wrapper">
                 <h3 class="club-title">{{ clube_res.nome }}</h3>
                 <p class="club-description club-content-fixed-item">{{ clube_res.descricao|truncatewords:15|default:"&nbsp;" }}</p>

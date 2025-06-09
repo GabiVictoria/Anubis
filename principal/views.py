@@ -135,20 +135,15 @@ def criar_clube(request: HttpRequest):
                 limite_membros=limite_membros_int
             )
 
-            # Lógica para capa: upload tem prioridade
+            # COLOQUE ESTE NOVO BLOCO NO LUGAR
             if capa_clube_file:
+                # Se o usuário fez upload, salvamos no ImageField e limpamos a recomendada
                 novo_clube.capa_clube = capa_clube_file
+                novo_clube.capa_recomendada = None
             elif capa_recomendada_path_relativo:
-                # Encontrar o caminho absoluto da imagem estática recomendada
-                # Certifique-se que 'capa_recomendada_path_relativo' é algo como 'img/nome_da_imagem.jpg'
-                caminho_absoluto_estatico = finders.find(capa_recomendada_path_relativo)
-                
-                if caminho_absoluto_estatico and os.path.exists(caminho_absoluto_estatico):
-                    with open(caminho_absoluto_estatico, 'rb') as f:
-                        django_file = ContentFile(f.read(), name=os.path.basename(capa_recomendada_path_relativo))
-                        novo_clube.capa_clube = django_file
-                else:
-                    messages.warning(request, f"Imagem recomendada '{capa_recomendada_path_relativo}' não encontrada ou inválida. Clube será criado sem capa ou com a capa upada, se houver.")
+                # Se o usuário escolheu uma recomendada, salvamos o caminho e limpamos o upload
+                novo_clube.capa_recomendada = capa_recomendada_path_relativo
+                novo_clube.capa_clube = None
             
             novo_clube.save() # Salva o clube para obter um ID e para que o ImageField processe o arquivo
 

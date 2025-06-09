@@ -81,7 +81,16 @@
           {% for opcao in opcoes_votacao_com_votos %}
             <div class="book-option">
               <div class="book-row">
-                <img src="{% if opcao.livro.capa %}{{ opcao.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ opcao.livro.nome }}" class="book-option-image">
+{% if clube.capa_clube %}
+    {# Se existe uma imagem upada pelo usuário, use-a #}
+    <img src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" class="club-main-image">
+{% elif clube.capa_recomendada %}
+    {# Senão, se existe uma imagem de recomendação, use o caminho estático #}
+    <img src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" class="club-main-image" >
+{% else %}
+    {# Senão, use a imagem padrão #}
+    <img src="{% static 'img/imgideal.png' %}" alt="Capa padrão" class="club-main-image">
+{% endif %}
                 <div class="book-option-details">
                   <strong class="book-option-title">{{ opcao.livro.nome }}</strong> <small class="book-option-author">por {{ opcao.livro.autor }}</small>
                   <div class="progress" title="{{ opcao.percentual }}% dos votos">
