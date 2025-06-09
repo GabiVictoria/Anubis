@@ -41,6 +41,15 @@ RAILWAY_STATIC_HOST = os.environ.get('RAILWAY_STATIC_HOST')
 if RAILWAY_STATIC_HOST:
     ALLOWED_HOSTS.append(RAILWAY_STATIC_HOST)
 
+
+CSRF_TRUSTED_ORIGINS = []
+if RAILWAY_PUBLIC_DOMAIN:
+    # A URL precisa estar no formato https://...
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RAILWAY_PUBLIC_DOMAIN}")
+
+if RAILWAY_STATIC_HOST:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{RAILWAY_STATIC_HOST}")
+
 # Application definition
 
 INSTALLED_APPS = [
