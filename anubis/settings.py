@@ -26,11 +26,20 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+]
+
+# Adiciona a URL pública da Railway, se disponível
+RAILWAY_PUBLIC_DOMAIN = os.environ.get('RAILWAY_PUBLIC_DOMAIN')
+if RAILWAY_PUBLIC_DOMAIN:
+    ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
+
+# Adiciona o host estático da Railway (garantia extra)
 RAILWAY_STATIC_HOST = os.environ.get('RAILWAY_STATIC_HOST')
 if RAILWAY_STATIC_HOST:
     ALLOWED_HOSTS.append(RAILWAY_STATIC_HOST)
-
 
 # Application definition
 
