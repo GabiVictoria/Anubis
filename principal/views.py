@@ -32,7 +32,6 @@ def home(request: HttpRequest):
 
     clubes_info_list = []
     for clube in clubes_do_usuario_qs:
-        # CORREÇÃO APLICADA AQUI
         clube_info = {
             'id': clube.id,
             'nome': clube.nome,
@@ -162,7 +161,6 @@ def pagina_de_busca(request: HttpRequest):
                 admin_membro = ClubeMembro.objects.filter(clube=clube, cargo=ClubeMembro.Cargo.ADMIN).order_by('data_inscricao').first()
                 leitura_atual_obj = LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.LENDO_ATUALMENTE).select_related('livro').first()
                 
-                # CORREÇÃO APLICADA AQUI
                 resultados_finais.append({
                     'id': clube.id,
                     'nome': clube.nome,
@@ -342,10 +340,12 @@ def editar_clube(request: HttpRequest, clube_id, clube, **kwargs):
 
             if capa_clube_file:
                 clube_editado.capa_clube = capa_clube_file
-                clube_editado.capa_recomendada = None
+                clube_editado.capa_recomendada = None # Limpa a referência da recomendada
             elif capa_recomendada_path:
                  clube_editado.capa_recomendada = capa_recomendada_path
-                 clube_editado.capa_clube = None
+                 # Se a capa_clube não for um novo upload, o form.save() já preserva o valor antigo. 
+                 # Mas para garantir que a recomendada seja usada, limpamos o campo de upload.
+                 clube_editado.capa_clube.delete(save=False) # Remove o arquivo antigo, se houver
             
             clube_editado.save()
             messages.success(request, f"O clube '{clube.nome}' foi atualizado com sucesso!")
@@ -396,7 +396,7 @@ def buscar_livros_api(request: HttpRequest):
     url = f"https://openlibrary.org/search.json?{query_string}"
     
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=15)
         response.raise_for_status()
         data = response.json()
 
@@ -470,20 +470,22 @@ def adicionar_livro_api_para_estante(request: HttpRequest, clube_id, clube, **kw
             }
         )
         
-        if created and not livro.capa and capa_url and 'None' not in capa_url:
-            try:
-                img_response = requests.get(capa_url)
-                if img_response.status_code == 200:
-                    file_name = f"{isbn13}.jpg"
-                    livro.capa.save(file_name, ContentFile(img_response.content), save=True)
-            except Exception as e:
-                print(f"Erro ao baixar capa do livro da Open Library: {e}")
-
+        # LÓGICA DE ADIÇÃO E DOWNLOAD DA CAPA CORRIGIDA
         if LeituraClube.objects.filter(clube=clube, livro=livro).exists():
             messages.warning(request, f"O livro '{livro.nome}' já está na estante do clube.")
         else:
             LeituraClube.objects.create(clube=clube, livro=livro, status=LeituraClube.StatusClube.A_LER)
             messages.success(request, f"Livro '{livro.nome}' adicionado à estante com sucesso!")
+
+            # Agora, independentemente de ser novo ou não, verifica a capa
+            if not livro.capa and capa_url and 'None' not in capa_url:
+                try:
+                    img_response = requests.get(capa_url, timeout=10)
+                    if img_response.status_code == 200:
+                        file_name = f"{livro.isbn13}.jpg"
+                        livro.capa.save(file_name, ContentFile(img_response.content), save=True)
+                except Exception as e:
+                    print(f"AVISO: Não foi possível baixar a capa para o livro {livro.isbn13}. Erro: {e}")
 
         return redirect('principal:detalhes_clube', clube_id=clube.id)
     
