@@ -106,16 +106,13 @@
   <a href="{% url 'principal:detalhes_clube' clube_info.id %}" class="link-card"> 
     
     <div class="card">
-{% if clube.capa_clube %}
-    {# Se existe uma imagem upada pelo usuário, use-a #}
-    <img src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}">
-{% elif clube.capa_recomendada %}
-    {# Senão, se existe uma imagem de recomendação, use o caminho estático #}
-    <img src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}">
-{% else %}
-    {# Senão, use a imagem padrão #}
-    <img src="{% static 'img/imgideal.png' %}" alt="Capa padrão">
-{% endif %}
+   {% if clube_info.capa_clube %}
+        <img src="{{ clube_info.capa_clube.url }}" alt="{{ clube_info.nome }}">
+    {% elif clube_info.capa_recomendada %}
+        <img src="{% static clube_info.capa_recomendada %}" alt="{{ clube_info.nome }}">
+    {% else %}
+        <img src="{% static 'img/imgideal.png' %}" alt="Capa padrão">
+    {% endif %}
       <div class="card-content">
         <h3 class="texto-truncado">{{ clube_info.nome }}</h3>
         <p class="info-label">Fundado por: {{ clube_info.fundador_nome|default:"(a definir)" }}</p>

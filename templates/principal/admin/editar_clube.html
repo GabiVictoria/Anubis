@@ -1,4 +1,3 @@
-
 {% extends 'principal/base.html' %}
 {% load static %}
 {% block styles %}
@@ -40,19 +39,20 @@
 
       <div class="card">
         <label for="{{ form.capa_clube.id_for_label }}">Ou envie uma imagem personalizada (substitui a atual e a recomendada):</label>
+        
+        <p style="font-size: 0.9em; color: #555;">Capa atual:</p>
+        
         {% if clube.capa_clube %}
-          <p style="font-size: 0.9em; color: #555;">Capa atual:</p>
-         {% if clube.capa_clube %}
-    {# Se existe uma imagem upada pelo usuário, use-a #}
-    <img src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" style="width: 80px; border-radius: 8px; margin-bottom: 10px;">
-{% elif clube.capa_recomendada %}
-    {# Senão, se existe uma imagem de recomendação, use o caminho estático #}
-    <img src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" style="width: 80px; border-radius: 8px; margin-bottom: 10px;">
-{% else %}
-    {# Senão, use a imagem padrão #}
-    <img src="{% static 'img/imgideal.png' %}" alt="Capa padrão" style="width: 80px; border-radius: 8px; margin-bottom: 10px;">
-{% endif %}
+            {# Se existe uma imagem upada pelo usuário, use-a #}
+            <img src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" style="width: 80px; border-radius: 8px; margin-bottom: 10px;">
+        {% elif clube.capa_recomendada %}
+            {# Senão, se existe uma imagem de recomendação, use o caminho estático #}
+            <img src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" style="width: 80px; border-radius: 8px; margin-bottom: 10px;">
+        {% else %}
+            {# Senão, use a imagem padrão #}
+            <img src="{% static 'img/imgideal.png' %}" alt="Capa padrão" style="width: 80px; border-radius: 8px; margin-bottom: 10px;">
         {% endif %}
+        
         {{ form.capa_clube }}
         {{ form.capa_clube.errors }}
       </div>
