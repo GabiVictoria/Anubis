@@ -1,37 +1,13 @@
+
+{% extends 'principal/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{ clube.nome }} - Detalhes do Clube - Anúbis</title>
+{% block styles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'principal/clube_detalhe.css' %}">
-  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
- <script defer src="{% static 'inicial/messages.js' %}"></script> 
-</head>
-<body>
-  {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+ 
+{% endblock %}
 
-  <header>
-    <div class="header-left">
-      <img src="{% static 'img/Logo..png' %}" alt="Logo Anúbis" class="header-logo"> 
-      <h1>Anúbis</h1>
-    </div>
-    <div class="slogan">Sua plataforma de Clube do livro</div>
-    <nav>
-      <a href="{% url 'principal:home' %}">Home</a>
-      <a href="{% url 'principal:criar_clube' %}">Criar</a>
-      <a href="#">Perfil</a> {# Defina URL do perfil #}
-      <a href="{% url 'inicial:logout' %}">Sair</a>
-    </nav>
-  </header>
+{% block content %}
 
   {# Barra de pesquisa padronizada, se desejar nesta página #}
   <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container details-page-search">
@@ -43,7 +19,7 @@
 
   <div class="main-container">
     <div class="club-info section">
-      <img src="{% if clube.capa_clube %}{{ clube.capa_clube.url }}{% else %}{% static 'img/default_club_placeholder.png' %}{% endif %}" alt="Capa do Clube {{ clube.nome }}" class="club-main-image">
+<img src="{% if clube.capa_clube %}{{ clube.capa_clube.url }}{% else %}{% static 'img/imgideal.png' %}{% endif %}" alt="{{ clube.nome }}" class="club-main-image">
       <div class="club-description-text">
         <h2>{{ clube.nome }}</h2>
         <p>{{ clube.descricao }}</p>
@@ -72,13 +48,12 @@
     <div class="admin-section section card-style">
         <h4>Painel do Administrador do Clube</h4>
         <div class="admin-actions">
-            {# DESCOMENTE ESTES LINKS/BOTÕES #}
-            <a href="{% url 'principal:editar_clube_info' clube.id %}" class="action-button admin-button">Editar Informações do Clube</a>
+            
+            <a href="{% url 'principal:editar_clube' clube.id %}" class="action-button admin-button">Editar Informações do Clube</a>
             <a href="{% url 'principal:adicionar_livro_estante_clube' clube.id %}" class="action-button admin-button">Adicionar Livro à Estante</a>
             <a href="{% url 'principal:definir_leitura_atual_clube' clube.id %}" class="action-button admin-button">Definir Leitura Atual</a>
             <a href="{% url 'principal:criar_votacao_clube' clube.id %}" class="action-button admin-button">Criar Nova Votação</a>
-            {# O parágrafo abaixo pode ser removido se os links estiverem ativos #}
-            {# <p><em>(Funcionalidades de admin a serem implementadas)</em></p> #}
+           
         </div>
     </div>
     {% endif %}
@@ -203,6 +178,4 @@
       // como hover em nomes de membros, etc., se desejado e adaptado.
     });
   </script>
-  {# <script defer src="{% static 'principal/js/clube_detalhe.js' %}"></script> #}
-</body>
-</html>
+{% endblock %}

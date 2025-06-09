@@ -25,47 +25,52 @@ body {
   line-height: 1.6;
 }
 
-/* --- Estilos de Cabeçalho (Consistente com outras páginas) --- */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.2rem 1.5rem;
-  background-color: var(--card-bg);
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-.header-logo { /* Classe adicionada à logo no header */
-    height: 45px;
-    width: auto; /* Mantém proporção */
-}
-.header-left { display: flex; align-items: center; gap: 0.8rem;}
-.header-left h1 { font-size: 2rem; margin: 0; font-weight: 700;}
-.slogan { font-size: 0.9rem; color: var(--text-secondary); text-align: center; max-width: 450px; margin: 0 1rem;}
-nav { display: flex; gap: 0.8rem; flex-wrap: wrap;}
-nav a { text-decoration: none; color: var(--primary-color); padding: 0.5rem 1rem; border-radius: var(--border-radius); transition: background 0.3s, color 0.3s; font-weight: 500; font-size: 0.9rem;}
-nav a:hover, nav a.active { background: var(--accent-color); color: #fff;}
 
-/* --- Barra de Pesquisa Padronizada --- */
-.search-bar-container.details-page-search { /* Classe adicional para possível estilização específica */
+.search-bar-container {
+  display: flex; /* Alinha o input e o botão na mesma linha */
+  align-items: center; /* Alinha verticalmente no centro */
+  max-width: 700px; /* Ou o quão "comprida" você quer que seja */
+  margin: 20px auto; /* Centraliza a barra na página */
+
+  border-radius: 5px; /* Usa sua variável de borda ou um fallback */
+  background-color: whitesmoke; 
+  overflow: hidden; /* Para garantir que os cantos arredondados funcionem bem com os filhos */
+  height: 2.3rem;
+}
+
+.search-bar-input {
+flex-grow: 1;
+  font-size: 1rem;
+  border: none; /* Remove a borda padrão do input */
+  outline: none; /* Remove o outline ao focar */
+  background-color: transparent; /* O fundo já está no container */
+  color: var(--primary-color, #222);
+ 
+  height: 100%;
+}
+
+.search-bar-input::placeholder {
+  color: #888;
+}
+
+.search-bar-button {
+  padding: 10px 15px; /* Padding para o botão */
+  background-color: var(--accent-color, #6b4c3b); /* Cor de destaque para o botão */
+  color: white;
+  border: none; /* Remove a borda padrão do botão */
+  cursor: pointer;
+  font-size: 1rem; /* Para o tamanho do ícone */
   display: flex;
   align-items: center;
-  max-width: 600px; 
-  margin: 20px auto;
-  border: 1px solid #ccc;
-  border-radius: var(--border-radius, 5px);
-  background-color: var(--card-bg, #fff);
-  overflow: hidden;
-  height: 2.3rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  justify-content: center;
+  transition: background-color 0.3s;
+height: 2.3rem;
 }
-.search-bar-input { flex-grow: 1; height: 100%; padding: 0 12px; font-size: 0.9rem; line-height: 2.3rem; border: none; outline: none; background-color: transparent; color: var(--primary-color, #222); box-sizing: border-box; }
-.search-bar-input::placeholder { color: #888; }
-.search-bar-button { height: 100%; padding: 0 12px; background-color: var(--accent-color, #6b4c3b); color: white; border: none; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s; box-sizing: border-box; }
-.search-bar-button i.fas.fa-search { margin: 0; padding: 0; line-height: 1;}
-.search-bar-button:hover { background-color: #5a3a2e; }
+
+.search-bar-button:hover {
+  background-color: #5a3a2e; /* Tom mais escuro no hover */
+}
+
 
 /* --- Container Principal e Seções --- */
 .main-container {
@@ -103,15 +108,14 @@ h2, h3, h4 { /* Títulos dentro das seções */
 .club-info {
   display: flex;
   align-items: flex-start; /* Alinha itens no topo */
-  gap: 1.5rem;
+  gap: 1rem;
 }
 .club-main-image {
-  width: 120px;
-  height: 120px;
+  height: auto;
+  width: 80px;
   object-fit: cover;
-  border-radius: 8px;
-  flex-shrink: 0; /* Evita que a imagem encolha */
-  background-color: #f0f0f0; /* Placeholder */
+  border-radius: 5px;
+  flex-shrink: 0; 
 }
 .club-description-text {
   flex-grow: 1;
@@ -139,7 +143,7 @@ h2, h3, h4 { /* Títulos dentro das seções */
 /* Botões de Ação Genéricos */
 .action-button {
   display: inline-block;
-  padding: 0.6rem 1rem;
+  padding: 0.6rem;
   font-size: 0.9rem;
   font-weight: 500;
   color: #fff;
@@ -151,6 +155,8 @@ h2, h3, h4 { /* Títulos dentro das seções */
   transition: background-color 0.2s;
   text-align: center;
   margin-top: 5px;
+  height: 40px;
+  width: 130px;
 }
 .action-button:hover {
   background-color: #4a3636; /* Escurece o accent-color */
@@ -301,3 +307,4 @@ h2, h3, h4 { /* Títulos dentro das seções */
   background-color: #f0f0f0; /* Placeholder */
 }
 .shelf-item-info { flex-grow: 1; }
+

@@ -126,25 +126,27 @@ nav a {
 
 .cards {
       display: grid;
-      /* Usar a unidade 'fr' é mais moderno e flexível para criar colunas iguais */
       grid-template-columns: 1fr 1fr 1fr;
-      border: solid red; /* Mantido para depuração */
-      gap: 16px; /* Usar um valor fixo para o espaçamento é mais previsível */
+      gap: 16px;
     }
-
+    .link-card{
+      text-decoration: none;
+      display: block;
+      color: inherit;
+    }
     .card {
       background-color: rgb(252, 252, 252);
       border-radius: 10px;
-      padding: 12px;
+      padding: 10px;
       box-shadow: 0 0 8px rgba(0, 0, 0, 0.08);
       box-sizing: border-box;
       
       display: flex;
       align-items: flex-start; /* Alinha os itens no topo para um melhor visual */
-      gap: 12px;
+      gap: 10px;
 
       /* ADIÇÃO PRINCIPAL: Define uma altura mínima para todos os cards */
-      min-height: 150px; /* Ajuste este valor conforme sua necessidade */
+      min-height: 170px; /* Ajuste este valor conforme sua necessidade */
     }
 
     .card img {
@@ -164,14 +166,21 @@ nav a {
     }
 
     /* Opcional: Melhora o espaçamento do texto */
-    .card-content h3, .card-content p {
+    .card-content h3{
         margin: 2px 0;
+        font-size: 1.5rem;
+    }
+    .card-content p{
+       margin: 2px 0;
+      font-size: 0.9rem;
     }
 
-    /* Opcional: Empurra o último elemento (como o "Lendo agora") para baixo */
-    /* .card-content p:last-child {
-        margin-top: auto;
-    } */
+    .texto-truncado {
+    white-space: nowrap;      /* Impede que o texto quebre em várias linhas */
+    overflow: hidden;         /* Esconde o texto que ultrapassa o limite do elemento */
+    text-overflow: ellipsis;  /* Adiciona os "..." no final do texto escondido */
+    max-width: 300px;
+    }
 
     .progress-bar {
       background-color: #eee;

@@ -1,55 +1,163 @@
+{% extends 'principal/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adicionar Livro à Estante de {{ clube.nome }} - Anúbis</title>
+{% block styles %}
   <link rel="stylesheet" href="{% static 'principal/admin.css' %}">
-  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
- <script defer src="{% static 'inicial/messages.js' %}"></script> 
-</head>
-<body>
-<header>
-    <div class="header-left">
-      <img src="{% static 'img/Logo..png' %}" alt="Logo Anúbis" class="header-logo"> 
-      <h1>Anúbis</h1>
-    </div>
-    <div class="slogan">Sua plataforma de Clube do livro</div>
-    <nav>
-      <a href="{% url 'principal:home' %}">Home</a>
-      <a href="{% url 'principal:criar_clube' %}">Criar</a>
-      <a href="#">Perfil</a> {# Defina URL do perfil #}
-      <a href="{% url 'inicial:logout' %}">Sair</a>
-    </nav>
-  </header>
 
-  <div class="main-container admin-form-page">
-    <h2 class="form-title">Adicionar Livro à Estante do Clube: {{ clube.nome }}</h2>
+  <style>
+    .results-container { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+    .livro-card { border: 1px solid var(--border-color-light); border-radius: var(--border-radius); padding: 1rem; display: flex; flex-direction: column; align-items: center; text-align: center; background-color: #f9f9f9; }
+    .livro-card img { width: 100px; height: 150px; object-fit: cover; border-radius: 5px; margin-bottom: 0.8rem; background-color: #e0e0e0; }
+    .livro-card h4 { font-size: 1rem; font-weight: 600; margin: 0 0 0.3rem 0; }
+    .livro-card p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.2rem; }
+    .livro-card .info-extra { font-size: 0.8rem; color: #777; margin-bottom: 0.8rem; }
+    .livro-card .action-button { width: 100%; padding: 0.5rem; font-size: 0.8rem; margin-top: auto; }
+    #load-more-container { grid-column: 1 / -1; text-align: center; padding: 1rem 0; }
+    .search-form-grid { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: flex-end; }
+  </style>
+{% endblock %}
+{% block content %}
+  
 
-    {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-          <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-
-    <form method="post" class="styled-form">
-      {% csrf_token %}
-      {% for field in form %}
-        <div class="form-field">
-            {{ field.label_tag }}
-            {{ field }}
-            {% if field.help_text %}<small class="helptext">{{ field.help_text }}</small>{% endif %}
-            {% for error in field.errors %}<div class="error-message" style="color:var(--danger-color); font-size:0.85rem; margin-top:0.2rem;">{{ error }}</div>{% endfor %}
+  <div class="main-container admin-page">
+    <h2 class="form-title">Adicionar Livro à Estante: {{ clube.nome }}</h2>
+    
+    <div class="search-form-grid">
+        <div class="form-field" style="margin-bottom: 0;">
+            <label for="livro-title-input">Título do Livro:</label>
+            <input type="text" id="livro-title-input" placeholder="Ex: O Pequeno Príncipe">
         </div>
-      {% endfor %}
-      <div class="form-actions">
-        <button type="submit" class="action-button">Adicionar Livro</button>
-        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">Cancelar</a>
-      </div>
-    </form>
+        <div class="form-field" style="margin-bottom: 0;">
+            <label for="livro-author-input">Autor:</label>
+            <input type="text" id="livro-author-input" placeholder="Ex: Antoine de Saint-Exupéry">
+        </div>
+        <button id="livro-search-btn" class="action-button secondary-action">Buscar</button>
+    </div>
+
+    <div id="search-results" class="results-container">
+      <p style="color: var(--text-secondary); grid-column: 1 / -1; text-align:center; padding: 1rem;">Preencha um ou ambos os campos acima para buscar.</p>
+    </div>
+
+    <div id="load-more-container" style="display: none;">
+        <button id="load-more-btn" class="action-button">Carregar Mais</button>
+    </div>
+    
+    <div class="form-actions">
+        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">Voltar para o Clube</a>
+    </div>
   </div>
-</body>
-</html>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const searchBtn = document.getElementById('livro-search-btn');
+    const titleInput = document.getElementById('livro-title-input');
+    const authorInput = document.getElementById('livro-author-input');
+    const resultsContainer = document.getElementById('search-results');
+    const loadMoreContainer = document.getElementById('load-more-container');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    const clubeId = "{{ clube.id }}";
+    const csrfToken = "{{ csrf_token }}";
+    
+    let currentTitleQuery = '';
+    let currentAuthorQuery = '';
+    let currentPage = 1;
+    let totalItems = 0;
+    let itemsLoaded = 0;
+
+    const createBookCard = (livro) => {
+        const capaUrl = livro.capa || "{% static 'img/default_book_cover.png' %}";
+        const autores = livro.autores.join(', ');
+        const formActionUrl = `{% url 'principal:adicionar_livro_api_para_estante' clube_id=clube.id %}`;
+        
+        return `
+            <div class="livro-card">
+                <img src="${capaUrl}" alt="Capa de ${livro.titulo}" onerror="this.onerror=null;this.src='{% static 'img/default_book_cover.png' %}';">
+                <div class="livro-info">
+                    <h4>${livro.titulo}</h4>
+                    <p>${autores}</p>
+                    <div class="info-extra">
+                        <span>Páginas: ${livro.paginas || 'N/A'}</span>
+                    </div>
+                    <form method="post" action="${formActionUrl}">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
+                        <input type="hidden" name="isbn13" value="${livro.isbn13}">
+                        <input type="hidden" name="titulo" value="${livro.titulo}">
+                        <input type="hidden" name="autores" value="${autores}">
+                        <input type="hidden" name="paginas" value="${livro.paginas || ''}">
+                        <input type="hidden" name="data_publicacao" value="${livro.data_publicacao || ''}">
+                        <input type="hidden" name="capa" value="${capaUrl}">
+                        <button type="submit" class="action-button">Adicionar à Estante</button>
+                    </form>
+                </div>
+            </div>
+        `;
+    };
+
+    const fetchBooks = (isNewSearch = false) => {
+        if (isNewSearch) {
+            currentPage = 1;
+            itemsLoaded = 0;
+            resultsContainer.innerHTML = '<p style="grid-column: 1 / -1;">Buscando...</p>';
+            loadMoreContainer.style.display = 'none';
+        }
+        
+        currentTitleQuery = titleInput.value.trim();
+        currentAuthorQuery = authorInput.value.trim();
+
+        if (!currentTitleQuery && !currentAuthorQuery) {
+            resultsContainer.innerHTML = '<p style="grid-column: 1 / -1; text-align:center;">Por favor, preencha o título ou o autor.</p>';
+            return;
+        }
+
+        loadMoreBtn.disabled = true;
+        loadMoreBtn.textContent = 'Carregando...';
+
+        const params = new URLSearchParams({ page: currentPage });
+        if (currentTitleQuery) params.append('title', currentTitleQuery);
+        if (currentAuthorQuery) params.append('author', currentAuthorQuery);
+
+        const searchUrl = `{% url 'principal:buscar_livros_api' %}?${params.toString()}`;
+
+        fetch(searchUrl)
+            .then(response => response.ok ? response.json() : Promise.reject(response.statusText))
+            .then(data => {
+                if (isNewSearch) resultsContainer.innerHTML = '';
+                if (data.error) throw new Error(data.error);
+
+                if (data.livros && data.livros.length > 0) {
+                    data.livros.forEach(livro => {
+                        resultsContainer.insertAdjacentHTML('beforeend', createBookCard(livro));
+                    });
+                    totalItems = data.totalItems;
+                    itemsLoaded += data.livros.length;
+                    
+                    if (itemsLoaded < totalItems) {
+                        loadMoreContainer.style.display = 'block';
+                    } else {
+                        loadMoreContainer.style.display = 'none';
+                    }
+                } else if (isNewSearch) {
+                    resultsContainer.innerHTML = '<p style="grid-column: 1 / -1;">Nenhum livro encontrado para esta busca.</p>';
+                } else {
+                    loadMoreContainer.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar livros:', error);
+                resultsContainer.innerHTML = `<p style="color:red; grid-column: 1 / -1;">Ocorreu um erro ao buscar. Tente novamente.</p>`;
+            })
+            .finally(() => {
+                loadMoreBtn.disabled = false;
+                loadMoreBtn.textContent = 'Carregar Mais Resultados';
+            });
+    };
+
+    searchBtn.addEventListener('click', () => fetchBooks(true));
+    loadMoreBtn.addEventListener('click', () => {
+        currentPage++;
+        fetchBooks(false);
+    });
+});
+</script>
+
+{% endblock %}

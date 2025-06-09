@@ -5,24 +5,27 @@ from django.utils import timezone
 from datetime import timedelta
 
 class ClubeEditForm(forms.ModelForm):
+    # Definimos explicitamente o widget para o campo da capa
+    capa_clube = forms.ImageField(
+        label="Nova Imagem de Capa (opcional)", 
+        required=False, 
+        widget=forms.FileInput  # <--- Esta é a mudança principal!
+    )
+
     class Meta:
         model = Clube
+        # O campo 'capa_clube' já foi definido acima, então podemos listá-lo aqui
         fields = ['nome', 'descricao', 'privacidade', 'limite_membros', 'capa_clube']
         widgets = {
             'descricao': forms.Textarea(attrs={'rows': 3}),
-            'privacidade': forms.RadioSelect, # Para melhor visualização das opções
+            'privacidade': forms.RadioSelect,
         }
         labels = {
             'nome': 'Nome do Clube',
             'descricao': 'Descrição',
             'privacidade': 'Privacidade do Clube',
             'limite_membros': 'Limite Máximo de Membros',
-            'capa_clube': 'Nova Imagem de Capa (opcional)',
         }
-    
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['capa_clube'].required = False # Torna a capa opcional na edição
 
 class AdicionarLivroEstanteForm(forms.Form):
     livro = forms.ModelChoiceField(

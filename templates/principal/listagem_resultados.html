@@ -1,39 +1,11 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resultados da Pesquisa - Anúbis</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="{% static 'principal/listagem.css' %}">
-  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
- <script defer src="{% static 'inicial/messages.js' %}"></script> 
-</head>
-<body>
-  {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
 
-  <header>
-    <div class="logo-container">
-      <img src="{% static 'img/Logo..png' %}" alt="Anúbis">
-      <h1>Anúbis</h1>
-    </div>
-    <div class="slogan">
-      Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro.
-    </div>
-    <nav>
-      <a href="{% url 'principal:home' %}">Home</a>
-      <a href="{% url 'principal:criar_clube' %}">Criar</a>
-      <a href="#">Perfil</a> {# Substitua pela URL do perfil quando implementada #}
-      <a href="{% url 'inicial:logout' %}">Sair</a>
-    </nav>
-  </header>
+{% extends 'principal/base.html' %}
+{% load static %}
+{% block styles %}
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'principal/listagem.css' %}">
+{% endblock %}
+ {% block content %}
 
   <section class="search-section">
     <h2>Resultados da Pesquisa para: "{{ query|default_if_none:'' }}"</h2>
@@ -50,7 +22,9 @@
       <div id="club-list-grid">
         {% for clube_res in resultados %}
           <div class="club-card">
-            <img src="{{ clube_res.capa_url }}" alt="{{ clube_res.nome }}" class="club-image">
+            <img src="{% if clube_res.capa_obj %}{{ clube_res.capa_obj.url }}{% else %}{% static 'img/imgideal.png' %}{% endif %}" 
+         alt="Capa de {{ clube_res.nome }}" 
+         class="club-image">
             <div class="club-card-content-wrapper">
                 <h3 class="club-title">{{ clube_res.nome }}</h3>
                 <p class="club-description club-content-fixed-item">{{ clube_res.descricao|truncatewords:15|default:"&nbsp;" }}</p>
@@ -86,5 +60,4 @@
   </main>
 
 
-</body>
-</html>
+{% endblock %}

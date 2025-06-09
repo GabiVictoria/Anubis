@@ -21,65 +21,6 @@ body {
   line-height: 1.5;
 }
 
-/* Estilos do Cabeçalho (para consistência com home.html) */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.2rem 1.5rem;
-  background-color: var(--card-bg);
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
-.logo-container img {
-  height: 45px;
-  margin-right: 8px;
-}
-
-.logo-container h1 {
-  font-size: 2rem;
-  margin:0;
-  font-weight: 700;
-}
-
-.slogan {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  text-align: center;
-  max-width: 450px;
-}
-
-nav {
-  display: flex;
-  gap: 0.8rem;
-  flex-wrap: wrap;
-}
-
-nav a {
-  text-decoration: none;
-  color: var(--primary-color);
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  transition: background 0.3s, color 0.3s;
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
-nav a:hover, nav a.active {
-  background: var(--accent-color);
-  color: #fff;
-}
-
 /* Seção de Título da Página e Barra de Pesquisa */
 .search-section {
   padding: 15px 20px;
@@ -96,29 +37,26 @@ nav a:hover, nav a.active {
 
 /* BARRA DE PESQUISA PADRONIZADA (COPIADA DA HOME PARA CONSISTÊNCIA) */
 .search-bar-container {
-  display: flex;
-  align-items: center;
-  max-width: 600px; 
-  margin: 10px auto 20px auto;
-  border: 1px solid #ccc; /* Borda sutil */
-  border-radius: var(--border-radius, 5px);
-  background-color: var(--card-bg, #fff); /* Fundo branco */
-  overflow: hidden;
-  height: 2.3rem; /* Altura da barra */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  display: flex; /* Alinha o input e o botão na mesma linha */
+  align-items: center; /* Alinha verticalmente no centro */
+  max-width: 700px; /* Ou o quão "comprida" você quer que seja */
+  margin: 20px auto; /* Centraliza a barra na página */
+
+  border-radius: 5px; /* Usa sua variável de borda ou um fallback */
+  background-color: whitesmoke; 
+  overflow: hidden; /* Para garantir que os cantos arredondados funcionem bem com os filhos */
+  height: 2.3rem;
 }
 
 .search-bar-input {
-  flex-grow: 1;
-  height: 100%;
-  padding: 0 12px; /* Padding horizontal */
-  font-size: 0.9rem;
-  line-height: 2.3rem; /* Alinha texto verticalmente com a altura do container */
-  border: none;
-  outline: none;
-  background-color: transparent;
+flex-grow: 1;
+  font-size: 1rem;
+  border: none; /* Remove a borda padrão do input */
+  outline: none; /* Remove o outline ao focar */
+  background-color: transparent; /* O fundo já está no container */
   color: var(--primary-color, #222);
-  box-sizing: border-box;
+ 
+  height: 100%;
 }
 
 .search-bar-input::placeholder {
@@ -126,24 +64,23 @@ nav a:hover, nav a.active {
 }
 
 .search-bar-button {
-  height: 100%;
-  padding: 0 12px; /* Padding horizontal */
-  background-color: var(--accent-color, #6b4c3b);
+  padding: 10px 15px; /* Padding para o botão */
+  background-color: var(--accent-color, #6b4c3b); /* Cor de destaque para o botão */
   color: white;
-  border: none;
+  border: none; /* Remove a borda padrão do botão */
   cursor: pointer;
-  font-size: 0.9rem; /* Tamanho do ícone */
+  font-size: 1rem; /* Para o tamanho do ícone */
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s;
-  box-sizing: border-box;
+height: 2.3rem;
 }
-.search-bar-button i.fas.fa-search { margin: 0; padding: 0; line-height: 1;}
 
 .search-bar-button:hover {
-  background-color: #5a3a2e;
+  background-color: #5a3a2e; /* Tom mais escuro no hover */
 }
+
 
 
 /* Container Principal para os Cards */
@@ -168,7 +105,7 @@ nav a:hover, nav a.active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 280px; /* ALTURA MÍNIMA PARA PADRONIZAÇÃO DOS CARDS - AJUSTE! */
+  min-height: 500px;
   box-sizing: border-box;
   transition: transform 0.2s ease-in-out;
 }
@@ -177,12 +114,11 @@ nav a:hover, nav a.active {
 }
 
 .club-image {
-  width: 90px;
-  height: 90px;
-  border-radius: 6px; 
-  margin-bottom: 0.8rem; 
-  object-fit: cover;
-  background-color: #f0f0f0; /* Fundo para caso a imagem não carregue */
+ height: auto;
+      width: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+      flex-shrink: 0; 
 }
 
 .club-card-content-wrapper {
@@ -191,16 +127,15 @@ nav a:hover, nav a.active {
   align-items: center;
   text-align: center;
   width: 100%;
-  flex-grow: 1; /* Para ocupar espaço vertical dentro do min-height do card */
+  flex-grow: 1; 
+
 }
 
 .club-title {
   font-size: 1.1rem; 
   color: var(--accent-color, #4b3621);
-  margin-bottom: 0.4rem; 
   font-weight: 600;
-  min-height: 1.4em; 
-  line-height: 1.3;
+  line-height: 1rem;
   width: 100%; /* Para o text-align:center funcionar bem */
 }
 
@@ -210,24 +145,18 @@ nav a:hover, nav a.active {
 .club-meta,
 .current-book,
 .match-reason {
-  font-size: 0.8rem; 
+  font-size: 0.9rem; 
   color: var(--text-secondary, #555);
-  margin-bottom: 0.3rem; 
   width: 100%; /* Para text-align:center do wrapper */
-  min-height: 1.3em; /* Altura mínima para uma linha de texto */
-  line-height: 1.3em; 
+  line-height: 0.9rem; 
   box-sizing: border-box;
   display: block; 
 }
 
 .club-description {
-    min-height: 2.6em; /* Espaço para ~2 linhas de descrição (1.3em * 2) */
-    /* Se quiser truncar com reticências: */
-    /* overflow: hidden; */
-    /* text-overflow: ellipsis; */
-    /* display: -webkit-box; */
-    /* -webkit-line-clamp: 2; */
-    /* -webkit-box-orient: vertical; */
+    min-height: 2.5em; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
 }
 
 .founder {
@@ -236,13 +165,6 @@ nav a:hover, nav a.active {
     align-items: center;
     justify-content: center; /* Centraliza o conteúdo do founder */
 }
-.founder img { /* Se você decidir adicionar a imagem do fundador no HTML */
-    width: 20px; 
-    height: 20px;
-    border-radius: 50%;
-    margin-right: 6px;
-}
-
 .current-book {
   font-weight: 600; 
   color: var(--accent-color, #4b3621);

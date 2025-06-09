@@ -24,26 +24,6 @@ body {
   line-height: 1.6;
 }
 
-/* --- Estilos de Cabeçalho (Consistente) --- */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem; /* Header um pouco mais compacto */
-  background-color: var(--card-bg);
-  box-shadow: var(--shadow);
-  /* position: sticky; top: 0; z-index: 1000; Removido sticky para admin, pode ser opcional */
-}
-.header-logo { 
-    height: 40px; /* Logo menor no header */
-    width: auto; 
-}
-.header-left { display: flex; align-items: center; gap: 0.7rem;}
-.header-left h1 { font-size: 1.8rem; margin: 0; font-weight: 700;}
-.slogan { display: none; /* Slogan pode ser omitido em páginas de admin internas */ }
-nav { display: flex; gap: 0.7rem; flex-wrap: wrap;}
-nav a { text-decoration: none; color: var(--primary-color); padding: 0.4rem 0.8rem; border-radius: var(--border-radius); transition: background 0.2s, color 0.2s; font-weight: 500; font-size: 0.85rem;}
-nav a:hover, nav a.active { background: var(--accent-color); color: #fff;}
 
 /* --- Container Principal para Páginas de Admin --- */
 .main-container.admin-page {

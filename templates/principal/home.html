@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - Anúbis</title>
+  <title>Anúbis</title>
+      <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
-   <link rel="stylesheet" href="{% static 'principal/homee.css' %}">
+   <link rel="stylesheet" href="{% static 'principal/home.css' %}">
  <script defer src="{% static 'inicial/messages.js' %}"></script> 
 </head>
 <body>
@@ -26,7 +27,7 @@
     </div>
     <div class="slogan">
       Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro.
-      {# Olá, {{ nome_usuario }}! #}
+     
     </div>
     <nav>
       <a href="{% url 'principal:home' %}" class="active">Home</a>
@@ -44,7 +45,7 @@
 </form>
 
   <div class="container">
-    <div class="card carousel">
+    <div class="carousel">
       <div class="carousel-item active">
         <img src="{% static 'img/slide1..png' %}" alt="Slide 1">
       </div>
@@ -100,25 +101,25 @@
     <h2>Meus Clubes do Livro</h2>
     {% if clubes_do_usuario %}
       <div class="cards">
-        {% for clube_info in clubes_do_usuario %} {# Alterado para clube_info #}
-          <div class="card">
-            {# Imagem do clube: Use clube_info.capa_clube_url se você adicionar e passar na view #}
-            <img src="{% if clube_info.capa_clube_url %}{{ clube_info.capa_clube_url }}{% else %}{% static 'img/terror.jpg' %}{% endif %}" alt="{{ clube_info.nome }}">
-            <div class="card-content">
-              <h3>{{ clube_info.nome }}</h3>
-              <p class="info-label">Fundado por: {{ clube_info.fundador_nome|default:"(a definir)" }}</p>
-              <p class="info-label">Desde: {{ clube_info.data_criacao|date:"M Y"|default:"(a definir)" }}</p> {# Usando data_criacao do clube #}
-              <p class="info-label"><strong>Membros:</strong> {{ clube_info.membros_count }}</p>
+        {% for clube_info in clubes_do_usuario %} 
+  
+  <a href="{% url 'principal:detalhes_clube' clube_info.id %}" class="link-card"> 
+    
+    <div class="card">
+      <img src="{% if clube_info.capa_clube_url %}{{ clube_info.capa_clube_url }}{% else %}{% static 'img/imgideal.png' %}{% endif %}" alt="{{ clube_info.nome }}">
+      <div class="card-content">
+        <h3 class="texto-truncado">{{ clube_info.nome }}</h3>
+        <p class="info-label">Fundado por: {{ clube_info.fundador_nome|default:"(a definir)" }}</p>
+        <p class="info-label">Desde: {{ clube_info.data_criacao|date:"M Y"|default:"(a definir)" }}</p>
+        <p class="info-label"><strong>Membros:</strong> {{ clube_info.membros_count }}</p>
+        {% if clube_info.leitura_atual_nome %}
+          <p class="info-label texto-truncado"><strong>Lendo agora:</strong> {{ clube_info.leitura_atual_nome }}</p>
+        {% endif %}
+      </div>
+    </div>
 
-              {% if clube_info.leitura_atual_nome %}
-                <p class="info-label"><strong>Lendo agora:</strong> {{ clube_info.leitura_atual_nome }}</p>
-              {% endif %}
-              
-              {# Link para ver detalhes do clube (quando a view/URL existir) #}
-              {# <a href="{% url 'principal:detalhes_clube' clube_info.id %}" class="ver-clube-btn">Ver Clube</a> #}
-            </div>
-          </div>
-        {% endfor %}
+  </a> 
+  {% endfor %}
       </div>
     {% else %}
       <div class="no-clubs-message" style="text-align:center; padding: 20px; margin-top: 20px; background-color: #f0f0f0; border-radius: 8px;">

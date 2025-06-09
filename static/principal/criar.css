@@ -13,6 +13,7 @@
     --font-family: 'Poppins', sans-serif;
     --leader-color: #9c27b0;
     --co-leader-color: #795548;
+     --danger-color: #dc3545;
 }
 
 
@@ -137,8 +138,10 @@ nav a:hover {
 .carousel {
     position: relative;
     height: 250px;
+    
     overflow: hidden;
     border-radius: var(--border-radius);
+    background-color: var(--bg-color);
 }
 
 .carousel-item {
@@ -186,12 +189,12 @@ input[type="file"] {
 }
 
 .image-recommendations img {
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 130px;
     object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
-    border: 2px solid transparent;
+    border: 3px solid transparent;
     transition: transform 0.3s, border-color 0.3s;
 }
 
@@ -200,7 +203,7 @@ input[type="file"] {
 }
 
 .image-recommendations img.selected {
-    border-color: #333;
+    border-color: var(--co-leader-color);
 }
 
 .tags {
@@ -265,3 +268,52 @@ input[type="file"] {
 
 
 
+.form-actions {
+  display: flex;
+  justify-content: flex-end; /* Alinha os botões à direita */
+  gap: 1rem; /* Espaço entre os botões */
+  margin-top: 20px;
+  margin-inline: 10px;
+}
+
+.btn-submit-clube,
+.btn-cancel-clube, .sair-clube-button {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  text-decoration: none; /* Para o link 'Cancelar' */
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  text-align: center;
+}
+
+.btn-submit-clube {
+  background-color: var(--accent-color); /* Cor principal do seu site */
+}
+
+.btn-submit-clube:hover {
+  background-color: #4a3636; /* Tom mais escuro da cor principal */
+}
+
+.btn-cancel-clube {
+  background-color: #6c757d; /* Cinza para ações secundárias */
+}
+
+.btn-cancel-clube:hover {
+  background-color: #5a6268; /* Cinza mais escuro */
+}
+.sair-clube-button{
+    background-color: var(--danger-color);}
+.sair-clube-butto:hover{
+    background-color: rgb(89, 6, 6);
+}
+
+/* Efeito de clique para ambos os botões */
+.btn-submit-clube:active,
+.btn-cancel-clube:active {
+  transform: translateY(1px); 
+}

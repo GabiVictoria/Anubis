@@ -1,24 +1,25 @@
+# anubis/principal/views.py
+
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpRequest, HttpResponseForbidden
+from django.http import HttpRequest, HttpResponseForbidden, JsonResponse
 from django.contrib import messages
 from django.utils import timezone
 from .decorators import login_obrigatorio, admin_clube_obrigatorio
-from inicial.models import Clube, ClubeMembro, LeituraClube,Livro,Votacao, VotoUsuario, Mensagem, Usuario
+from inicial.models import Clube, ClubeMembro, LeituraClube, Livro, Votacao, VotoUsuario, Mensagem, Usuario
 from django.db import IntegrityError
-
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.files.base import ContentFile
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.db.models import Q
-from .forms import ClubeEditForm, AdicionarLivroEstanteForm, DefinirLeituraAtualForm, CriarVotacaoForm
+from .forms import ClubeEditForm, DefinirLeituraAtualForm, CriarVotacaoForm
 import os
-# Create your views here.
+import requests
+import urllib.parse
+from datetime import datetime
 
-
-
-
-
+# (Cole aqui suas views existentes: home, criar_clube, pagina_de_busca, detalhes_clube, etc.)
+# ...
 @login_obrigatorio
 def home(request: HttpRequest):
     usuario_atual = request.usuario_logado_obj
@@ -173,27 +174,22 @@ def criar_clube(request: HttpRequest):
 @login_obrigatorio
 def pagina_de_busca(request: HttpRequest):
     query = request.GET.get('q', '').strip()
-    resultados_finais = [] # Lista para armazenar os dicionários formatados para o template
+    resultados_finais = []
 
     if query:
-        # 1. Buscar clubes pelo nome
+        # (Sua lógica de busca continua a mesma)
         clubes_por_nome = Clube.objects.filter(nome__icontains=query)
-
-        # 2. Buscar clubes com base nos livros (LENDO ou PRÓXIMO)
-        # Encontra os LeituraClube que correspondem ao nome do livro e ao status desejado
         leituras_com_livro_buscado = LeituraClube.objects.filter(
             Q(livro__nome__icontains=query) &
             (Q(status=LeituraClube.StatusClube.LENDO_ATUALMENTE) | Q(status=LeituraClube.StatusClube.PROXIMO))
-        ).select_related('clube', 'livro') # select_related para otimizar
+        ).select_related('clube', 'livro')
 
-        # Coleta os clubes dessas leituras, evitando duplicatas se um clube aparecer em ambas as buscas
-        clubes_encontrados_ids = set() # Para rastrear IDs de clubes já adicionados
+        clubes_encontrados_ids = set()
 
-        # Processa clubes encontrados por nome
-        for clube in clubes_por_nome:
+        # Processa clubes encontrados (simplificado para uma função)
+        def processar_clube(clube, razao_match):
             if clube.id not in clubes_encontrados_ids:
                 clubes_encontrados_ids.add(clube.id)
-                # Monta o dicionário de informações para o template
                 admin_membro = ClubeMembro.objects.filter(clube=clube, cargo=ClubeMembro.Cargo.ADMIN).order_by('data_inscricao').first()
                 leitura_atual_obj = LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.LENDO_ATUALMENTE).select_related('livro').first()
                 
@@ -201,42 +197,28 @@ def pagina_de_busca(request: HttpRequest):
                     'id': clube.id,
                     'nome': clube.nome,
                     'descricao': clube.descricao,
-                    'capa_url': clube.capa_clube.url if clube.capa_clube else staticfiles_storage.url('img/default_club_placeholder.png'), # Imagem padrão
+                    # --- MUDANÇA PRINCIPAL AQUI ---
+                    # Passamos o objeto do campo da imagem, não a URL
+                    'capa_obj': clube.capa_clube, 
                     'fundador_nome': admin_membro.usuario.nome if admin_membro else "N/D",
                     'data_fundacao_formatada': clube.data_criacao.strftime("%B %Y") if clube.data_criacao else "N/D",
                     'membros_count': clube.membros.count(),
                     'leitura_atual_nome': leitura_atual_obj.livro.nome if leitura_atual_obj and leitura_atual_obj.livro else "Nenhuma leitura atual",
-                    'match_reason': f"Nome do clube corresponde a '{query}'"
+                    'match_reason': razao_match
                 })
 
-        # Processa clubes encontrados por livros
+        for clube in clubes_por_nome:
+            processar_clube(clube, f"Nome do clube corresponde a '{query}'")
+
         for leitura in leituras_com_livro_buscado:
-            clube = leitura.clube
-            if clube.id not in clubes_encontrados_ids: # Se ainda não foi adicionado pela busca por nome
-                clubes_encontrados_ids.add(clube.id)
-                admin_membro = ClubeMembro.objects.filter(clube=clube, cargo=ClubeMembro.Cargo.ADMIN).order_by('data_inscricao').first()
-                # A leitura atual já é a 'leitura' se status LENDO, ou podemos buscar explicitamente
-                leitura_atual_obj = LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.LENDO_ATUALMENTE).select_related('livro').first()
-
-                resultados_finais.append({
-                    'id': clube.id,
-                    'nome': clube.nome,
-                    'descricao': clube.descricao,
-                    'capa_url': clube.capa_clube.url if clube.capa_clube else staticfiles_storage.url('img/default_club_placeholder.png'),
-                    'fundador_nome': admin_membro.usuario.nome if admin_membro else "N/D",
-                    'data_fundacao_formatada': clube.data_criacao.strftime("%B %Y") if clube.data_criacao else "N/D",
-                    'membros_count': clube.membros.count(),
-                    'leitura_atual_nome': leitura_atual_obj.livro.nome if leitura_atual_obj and leitura_atual_obj.livro else "Nenhuma leitura atual",
-                    'match_reason': f"Livro '{leitura.livro.nome}' (status: {leitura.get_status_display()}) corresponde a '{query}'"
-                })
+            processar_clube(leitura.clube, f"Livro '{leitura.livro.nome}' corresponde a '{query}'")
     
     contexto = {
         'query': query,
         'resultados': resultados_finais,
-        'nome_usuario': request.usuario_logado_obj.nome, # Para o header
+        'nome_usuario': request.usuario_logado_obj.nome,
     }
     return render(request, 'principal/listagem_resultados.html', contexto)
-
 @login_obrigatorio
 def detalhes_clube(request: HttpRequest, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
@@ -391,74 +373,190 @@ def sair_clube(request: HttpRequest, clube_id):
             messages.error(request, "Você não é membro deste clube.")
         return redirect('principal:detalhes_clube', clube_id=clube_id)
     return redirect('principal:detalhes_clube', clube_id=clube_id)
-
-@admin_clube_obrigatorio # Este decorator deve passar 'clube' como kwarg
-def editar_clube_info(request: HttpRequest, clube_id, clube, **kwargs): # Recebe 'clube'
-    # 'clube' é o objeto Clube injetado pelo decorator
-    # 'clube_id' da URL ainda está disponível, mas 'clube' é o objeto que usaremos.
     
-    # Debug para confirmar
-    # print(f"DEBUG: Em editar_clube_info, clube_id da URL: {clube_id}")
-    # print(f"DEBUG: Em editar_clube_info, objeto clube recebido: {clube} (ID: {clube.id if clube else 'N/A'})")
-
+@admin_clube_obrigatorio
+def editar_clube(request: HttpRequest, clube_id, clube, **kwargs):
     if request.method == 'POST':
         form = ClubeEditForm(request.POST, request.FILES, instance=clube)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Informações do clube atualizadas com sucesso!")
+            clube_editado = form.save(commit=False) # Não salva no banco ainda
+
+            # --- NOVA LÓGICA PARA CAPA ---
+            capa_clube_file = request.FILES.get('capa_clube')
+            capa_recomendada_path = request.POST.get('capa_recomendada_selecionada')
+
+            # Prioridade 1: Upload de um novo arquivo
+            if capa_clube_file:
+                clube_editado.capa_clube = capa_clube_file
+            # Prioridade 2: Uma capa recomendada foi selecionada
+            elif capa_recomendada_path:
+                caminho_absoluto = finders.find(capa_recomendada_path)
+                if caminho_absoluto and os.path.exists(caminho_absoluto):
+                    with open(caminho_absoluto, 'rb') as f:
+                        django_file = ContentFile(f.read(), name=os.path.basename(capa_recomendada_path))
+                        clube_editado.capa_clube = django_file
+            # Se nenhum dos dois, a capa atual é mantida (não fazemos nada)
+
+            clube_editado.save() # Agora salva o clube com a capa correta
+            messages.success(request, f"O clube '{clube.nome}' foi atualizado com sucesso!")
             return redirect('principal:detalhes_clube', clube_id=clube.id)
         else:
-            messages.error(request, "Houve um erro ao atualizar. Verifique os campos.")
+            messages.error(request, "Houve um erro no formulário. Por favor, verifique os dados.")
     else:
         form = ClubeEditForm(instance=clube)
     
     contexto = {
         'form': form,
-        'clube': clube, # Passa o objeto clube para o template
+        'clube': clube,
         'nome_usuario': request.usuario_logado_obj.nome,
     }
     return render(request, 'principal/admin/editar_clube.html', contexto)
 
+@admin_clube_obrigatorio
+def excluir_clube(request: HttpRequest, clube_id, clube, **kwargs):
+    """
+    View para excluir um clube. Só aceita requisições POST.
+    """
+    if request.method == 'POST':
+        nome_clube = clube.nome
+        clube.delete()
+        messages.success(request, f"O clube '{nome_clube}' foi excluído permanentemente.")
+        return redirect('principal:home')
+    else:
+        # Redireciona se alguém tentar acessar via GET
+        messages.error(request, "Ação inválida.")
+        return redirect('principal:detalhes_clube', clube_id=clube_id)
+# --- VIEWS DE BUSCA E ADIÇÃO ---
+
+@login_obrigatorio
+def buscar_livros_api(request: HttpRequest):
+    title_query = request.GET.get('title', '')
+    author_query = request.GET.get('author', '')
+    page = request.GET.get('page', '1')
+
+    params = {}
+    if title_query:
+        params['title'] = title_query
+    if author_query:
+        params['author'] = author_query
+
+    if not params:
+        return JsonResponse({'error': 'Forneça um título ou autor para a busca.'}, status=400)
+
+    params['page'] = page
+    params['limit'] = 10
+    params['fields'] = "key,title,author_name,cover_i,first_publish_year,number_of_pages_median,isbn"
+    
+    query_string = urllib.parse.urlencode(params)
+    url = f"https://openlibrary.org/search.json?{query_string}"
+    
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        livros_formatados = []
+        for doc in data.get('docs', []):
+            cover_url = None
+            if doc.get('cover_i'):
+                cover_url = f"https://covers.openlibrary.org/b/id/{doc.get('cover_i')}-L.jpg"
+            
+            isbn13 = None
+            if doc.get('isbn'):
+                for i in doc.get('isbn', []):
+                    if len(i) == 13 and i.isdigit():
+                        isbn13 = i
+                        break
+
+            if isbn13:
+                livros_formatados.append({
+                    'isbn13': isbn13,
+                    'titulo': doc.get('title', 'Título indisponível'),
+                    'autores': doc.get('author_name', ['Autor desconhecido']),
+                    'data_publicacao': doc.get('first_publish_year', None),
+                    'paginas': doc.get('number_of_pages_median', None),
+                    'capa': cover_url
+                })
+
+        response_data = {
+            'livros': livros_formatados,
+            'totalItems': data.get('numFound', 0),
+            'page': int(page)
+        }
+
+        return JsonResponse(response_data)
+    except requests.exceptions.RequestException as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
 
 @admin_clube_obrigatorio
-def adicionar_livro_estante_clube(request: HttpRequest, clube_id, clube, **kwargs): # Recebe 'clube'
-    if request.method == 'POST':
-        form = AdicionarLivroEstanteForm(request.POST, clube=clube) # Passa o objeto clube para o form
-        if form.is_valid():
-            livro = form.cleaned_data['livro']
-            status = form.cleaned_data['status']
-            
-            if LeituraClube.objects.filter(clube=clube, livro=livro).exists():
-                messages.warning(request, f"O livro '{livro.nome}' já está na estante do clube.")
-            else:
-                LeituraClube.objects.create(clube=clube, livro=livro, status=status)
-                messages.success(request, f"Livro '{livro.nome}' adicionado à estante como '{dict(LeituraClube.StatusClube.choices)[status]}'.")
-            return redirect('principal:detalhes_clube', clube_id=clube.id)
-        else:
-            messages.error(request, "Erro ao adicionar livro. Verifique os dados.")
-    else:
-        form = AdicionarLivroEstanteForm(clube=clube) # Passa o objeto clube para o form para filtrar o queryset de livros
-    
+def adicionar_livro_estante_clube(request: HttpRequest, clube_id, clube, **kwargs):
     contexto = {
         'clube': clube,
-        'form': form,
         'nome_usuario': request.usuario_logado_obj.nome,
     }
     return render(request, 'principal/admin/adicionar_livro_estante.html', contexto)
 
 
 @admin_clube_obrigatorio
-def definir_leitura_atual_clube(request: HttpRequest, clube_id, clube, **kwargs): # Recebe 'clube'
+def adicionar_livro_api_para_estante(request: HttpRequest, clube_id, clube, **kwargs):
     if request.method == 'POST':
-        form = DefinirLeituraAtualForm(request.POST, clube=clube) # Passa o objeto clube para o form
+        isbn13 = request.POST.get('isbn13')
+        titulo = request.POST.get('titulo')
+        autores = request.POST.get('autores')
+        paginas = request.POST.get('paginas')
+        capa_url = request.POST.get('capa')
+        ano_publicacao = request.POST.get('data_publicacao')
+
+        if not all([isbn13, titulo, autores]):
+            messages.error(request, "Dados do livro incompletos (ISBN obrigatório).")
+            return redirect('principal:adicionar_livro_estante_clube', clube_id=clube.id)
+
+        paginas_int = int(paginas) if paginas and paginas.isdigit() else None
+        data_publicacao_obj = None
+        if ano_publicacao and ano_publicacao.isdigit():
+            data_publicacao_obj = datetime(int(ano_publicacao), 1, 1).date()
+
+        livro, created = Livro.objects.get_or_create(
+            isbn13=isbn13,
+            defaults={
+                'nome': titulo,
+                'autor': autores,
+                'paginas': paginas_int,
+                'data_publicacao': data_publicacao_obj
+            }
+        )
+        
+        if created and not livro.capa and capa_url and 'None' not in capa_url:
+            try:
+                img_response = requests.get(capa_url)
+                if img_response.status_code == 200:
+                    file_name = f"{isbn13}.jpg"
+                    livro.capa.save(file_name, ContentFile(img_response.content), save=True)
+            except Exception as e:
+                print(f"Erro ao baixar capa do livro da Open Library: {e}")
+
+        if LeituraClube.objects.filter(clube=clube, livro=livro).exists():
+            messages.warning(request, f"O livro '{livro.nome}' já está na estante do clube.")
+        else:
+            LeituraClube.objects.create(clube=clube, livro=livro, status=LeituraClube.StatusClube.A_LER)
+            messages.success(request, f"Livro '{livro.nome}' adicionado à estante com sucesso!")
+
+        return redirect('principal:detalhes_clube', clube_id=clube.id)
+    
+    return redirect('principal:adicionar_livro_estante_clube', clube_id=clube.id)
+
+# ... (resto das suas views: definir_leitura_atual_clube, criar_votacao_clube) ...
+@admin_clube_obrigatorio
+def definir_leitura_atual_clube(request: HttpRequest, clube_id, clube, **kwargs):
+    if request.method == 'POST':
+        form = DefinirLeituraAtualForm(request.POST, clube=clube)
         if form.is_valid():
             leitura_clube_item_selecionado = form.cleaned_data['leitura_clube_item']
             
             LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.LENDO_ATUALMENTE).exclude(id=leitura_clube_item_selecionado.id).update(status=LeituraClube.StatusClube.A_LER)
 
             leitura_clube_item_selecionado.status = LeituraClube.StatusClube.LENDO_ATUALMENTE
-            # Opcional: adicionar um campo data_inicio_leitura ao modelo LeituraClube
-            # leitura_clube_item_selecionado.data_inicio_leitura = timezone.now() 
             leitura_clube_item_selecionado.save()
             
             messages.success(request, f"'{leitura_clube_item_selecionado.livro.nome}' definido como leitura atual do clube.")
@@ -466,7 +564,7 @@ def definir_leitura_atual_clube(request: HttpRequest, clube_id, clube, **kwargs)
         else:
             messages.error(request, "Erro ao definir leitura atual. Verifique os dados do formulário.")
     else:
-        form = DefinirLeituraAtualForm(clube=clube) # Passa o objeto clube para o form para filtrar o queryset
+        form = DefinirLeituraAtualForm(clube=clube)
 
     contexto = {
         'clube': clube,
@@ -477,20 +575,17 @@ def definir_leitura_atual_clube(request: HttpRequest, clube_id, clube, **kwargs)
 
 
 @admin_clube_obrigatorio
-def criar_votacao_clube(request: HttpRequest, clube_id, clube, **kwargs): # Recebe 'clube'
+def criar_votacao_clube(request: HttpRequest, clube_id, clube, **kwargs):
     if request.method == 'POST':
-        form = CriarVotacaoForm(request.POST, clube=clube) # Passa o objeto clube para o form
+        form = CriarVotacaoForm(request.POST, clube=clube)
         if form.is_valid():
-            Votacao.objects.filter(clube=clube, is_ativa=True).update(is_ativa=False)
+            Votacao.objects.filter(clube=clube, is_ativa=True).update(is_iva=False)
 
             nova_votacao = Votacao(
                 clube=clube,
                 data_fim=form.cleaned_data['data_fim'],
                 is_ativa=True 
             )
-            # Se você adicionar um campo título ao modelo Votacao e ao form:
-            # if form.cleaned_data.get('titulo_votacao'):
-            #    nova_votacao.titulo = form.cleaned_data['titulo_votacao']
             nova_votacao.save()
             nova_votacao.livros_opcoes.set(form.cleaned_data['livros_opcoes'])
             
@@ -499,7 +594,7 @@ def criar_votacao_clube(request: HttpRequest, clube_id, clube, **kwargs): # Rece
         else:
             messages.error(request, "Erro ao criar votação. Verifique os campos.")
     else:
-        form = CriarVotacaoForm(clube=clube) # Passa o objeto clube para o form para filtrar queryset
+        form = CriarVotacaoForm(clube=clube)
         
     contexto = {
         'clube': clube,

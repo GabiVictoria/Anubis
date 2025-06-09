@@ -19,6 +19,7 @@ class Usuario(models.Model):
 # 2. MODELO DE LIVRO
 # ==============================================================================
 class Livro(models.Model):
+    isbn13 = models.CharField(max_length=13, unique=True, null=True, blank=True)
     nome = models.CharField(max_length=200)
     autor = models.CharField(max_length=200)
     paginas = models.IntegerField(null=True, blank=True)

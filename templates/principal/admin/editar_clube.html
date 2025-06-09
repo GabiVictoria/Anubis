@@ -1,68 +1,84 @@
+
+{% extends 'principal/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar Clube: {{ clube.nome }} - Anúbis</title>
-  <link rel="stylesheet" href="{% static 'principal/admin.css' %}">
-  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
- <script defer src="{% static 'inicial/messages.js' %}"></script> 
-</head>
-<body>
- <header>
-    <div class="header-left">
-      <img src="{% static 'img/Logo..png' %}" alt="Logo Anúbis" class="header-logo"> 
-      <h1>Anúbis</h1>
-    </div>
-    <div class="slogan">Sua plataforma de Clube do livro</div>
-    <nav>
-      <a href="{% url 'principal:home' %}">Home</a>
-      <a href="{% url 'principal:criar_clube' %}">Criar</a>
-      <a href="#">Perfil</a> {# Defina URL do perfil #}
-      <a href="{% url 'inicial:logout' %}">Sair</a>
-    </nav>
-  </header>
-
-  <div class="main-container admin-form-page">
-    <h2 class="form-title">Editar Clube: {{ clube.nome }}</h2>
-
-    {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-          <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-
-    <form method="post" enctype="multipart/form-data" class="styled-form">
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'principal/criar.css' %}"/>
+  <script defer src="{% static 'principal/js/criar.js' %}"></script>
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <form method="post" action="{% url 'principal:editar_clube' clube.id %}" enctype="multipart/form-data">
       {% csrf_token %}
       
-      {% for field in form %}
-        <div class="form-field">
-            {{ field.label_tag }}
-            {{ field }}
-            {% if field.help_text %}
-                <small class="helptext">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-                <div class="error-message" style="color:var(--danger-color); font-size:0.85rem; margin-top:0.2rem;">{{ error }}</div>
-            {% endfor %}
-        </div>
-      {% endfor %}
+      <div class="card">
+        <h2>Editando o clube: {{ clube.nome }}</h2>
+        <label for="{{ form.nome.id_for_label }}">Nome do Clube:</label>
+        {{ form.nome }}
+        {{ form.nome.errors }}
+      </div>
+
+      <div class="card">
+        <label for="{{ form.descricao.id_for_label }}">Descrição do clube:</label>
+        {{ form.descricao }}
+        {{ form.descricao.errors }}
+      </div>
       
-      {% if clube.capa_clube %}
-        <div class="current-image-preview form-field">
-            <p>Capa Atual:</p>
-            <img src="{{ clube.capa_clube.url }}" alt="Capa atual do {{ clube.nome }}" class="form-image-preview">
+      <input type="hidden" name="capa_recomendada_selecionada" id="id_capa_recomendada_selecionada">
+      <div class="card">
+        <label>Escolha uma nova imagem recomendada:</label>
+        <div class="image-recommendations" id="image-recommendations">
+          <img src="{% static 'img/Suge1.jpg' %}" alt="Imagem 1" data-src="img/Suge1.jpg">
+          <img src="{% static 'img/Suge2.jpg' %}" alt="Imagem 2" data-src="img/Suge2.jpg">
+          <img src="{% static 'img/Suge3.jpg' %}" alt="Imagem 3" data-src="img/Suge3.jpg">
+          <img src="{% static 'img/Suge4.jpg' %}" alt="Imagem 4" data-src="img/Suge4.jpg">
+          <img src="{% static 'img/Suge5.jpg' %}" alt="Imagem 5" data-src="img/Suge5.jpg">
+          <img src="{% static 'img/Suge6.jpg' %}" alt="Imagem 6" data-src="img/Suge6.jpg">
+          <img src="{% static 'img/Suge7.jpg' %}" alt="Imagem 7" data-src="img/Suge7.jpg">
+          <img src="{% static 'img/Suge8.jpg' %}" alt="Imagem 8" data-src="img/Suge8.jpg">
         </div>
-      {% endif %}
+      </div>
+
+      <div class="card">
+        <label for="{{ form.capa_clube.id_for_label }}">Ou envie uma imagem personalizada (substitui a atual e a recomendada):</label>
+        {% if clube.capa_clube %}
+          <p style="font-size: 0.9em; color: #555;">Capa atual:</p>
+          <img src="{{ clube.capa_clube.url }}" alt="Capa atual" style="width: 80px; border-radius: 8px; margin-bottom: 10px;">
+        {% endif %}
+        {{ form.capa_clube }}
+        {{ form.capa_clube.errors }}
+      </div>
+
+      <div class="card">
+        <label for="{{ form.limite_membros.id_for_label }}">Quantidade de membros:</label>
+        {{ form.limite_membros }}
+        {{ form.limite_membros.errors }}
+      </div>
+
+      <div class="card">
+        <label>Público ou Privado:</label>
+        <div class="public-private">
+            {{ form.privacidade }}
+            {{ form.privacidade.errors }}
+        </div>
+      </div>
       
       <div class="form-actions">
-        <button type="submit" class="action-button">Salvar Alterações</button>
-        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">Cancelar</a>
+        <button type="submit" class="btn-submit-clube">Salvar Alterações</button>
+        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="btn-cancel-clube">Cancelar</a>
       </div>
     </form>
+
+    <div class="card" >
+        <h3>Excluir clube</h3>
+        <h4>Atenção !</h4>
+        <p>A exclusão de um clube é permanente e não pode ser desfeita. Todos os dados, membros e leituras associadas serão perdidos.</p>
+        <form method="post" action="{% url 'principal:excluir_clube' clube.id %}" style="margin-top: 1rem;">
+            {% csrf_token %}
+            <button type="submit" class="sair-clube-button"
+                    onclick="return confirm('Tem certeza que deseja excluir este clube? Esta ação é irreversível.');">
+                Excluir Clube
+            </button>
+        </form>
+    </div>
   </div>
-</body>
-</html>
+{% endblock %}
