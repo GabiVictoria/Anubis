@@ -53,9 +53,9 @@
     right: 1rem;
     margin: 0;
     display: flex;
-    gap: 1.5rem; /* espaço entre botões */
-    background: transparent; /* remove fundo da caixa */
-    padding: 0; /* sem padding na div */
+    gap: 1.5rem; 
+    background: transparent; 
+    padding: 0; 
     border-radius: 0;
     box-shadow: none;
   }
@@ -91,24 +91,24 @@
   }
   
 .section h2 {
-  font-size: 1.8rem; /* Reduzido de 2rem */
-  margin-bottom: 0.8rem; /* Reduzido de 1rem */
+  font-size: 1.8rem; 
+  margin-bottom: 0.8rem; 
 }
   
   .books {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem; /* Reduzido de 2rem */
-  margin-top: 1.5rem; /* Reduzido de 2rem */
+  gap: 1.5rem; 
+  margin-top: 1.5rem; 
 }
 
 .book {
   background: white;
-  padding: 0.8rem; /* Reduzido de 1rem */
-  border-radius: 12px; /* Reduzido de 16px */
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); /* Sombra um pouco mais sutil */
-  width: 200px; /* Reduzido de 220px */
+  padding: 0.8rem; 
+  border-radius: 12px; 
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); 
+  width: 200px; 
   transition: transform 0.3s ease;
 }
 
@@ -118,12 +118,12 @@
 
 .book img {
   width: 100%;
-  border-radius: 10px; /* Reduzido de 12px */
+  border-radius: 10px; 
 }
 
 .book p {
-  margin-top: 0.6rem; /* Reduzido de 0.75rem */
-  font-size: 0.9rem; /* Reduzido de 1rem */
+  margin-top: 0.6rem; 
+  font-size: 0.9rem; 
   font-weight: bold;
   color: #6b4f4f;
 }

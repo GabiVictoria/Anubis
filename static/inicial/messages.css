@@ -1,98 +1,87 @@
-/* Estilização para o container das mensagens Django */
 ul.messages {
-  position: fixed; /* Posição fixa em relação à viewport */
-  top: 20px; /* Distância do topo */
+  --success-bg: #d1e7dd;
+  --success-color: #0f5132;
+  --success-border: #146c43;
+  --info-bg: #cff4fc;
+  --info-color: #055160;
+  --info-border: #0aa2c0;
+  --warning-bg: #fff3cd;
+  --warning-color: #664d03;
+  --warning-border: #ffc107;
+  --error-bg: #f8d7da;
+  --error-color: #842029;
+  --error-border: #dc3545;
+  --debug-bg: #e9ecef;
+  --debug-color: #495057;
+  --debug-border: #6c757d;
+
+  position: fixed;
+  top: 20px;
   left: 50%;
-  transform: translateX(-50%); /* Centraliza horizontalmente */
-  z-index: 10000; /* Garante que fique por cima de outros elementos */
-  width: auto; /* Largura se ajusta ao conteúdo */
-  max-width: 90%; /* Largura máxima para não ocupar a tela toda em telas largas */
+  transform: translateX(-50%);
+  z-index: 10000;
+  width: auto;
+  max-width: 90%;
   padding: 0;
   margin: 0;
   list-style: none;
-  /* Para o caso de múltiplas mensagens, o container não colapsar imediatamente */
 }
 
 @media (min-width: 600px) {
   ul.messages {
-    max-width: 500px; /* Uma largura máxima mais definida para telas maiores */
+    max-width: 500px;
   }
 }
 
-/* Estilo individual para cada mensagem */
 ul.messages li {
   padding: 12px 20px;
   margin-bottom: 10px;
-  border-radius: var(--border-radius, 8px); /* Usando sua variável ou um fallback */
-  box-shadow: var(--shadow, 0 2px 10px rgba(0,0,0,0.15));
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
   font-size: 0.95rem;
   font-weight: 500;
-  opacity: 1; /* Começa visível */
-  transform: translateY(0); /* Posição inicial para animação */
-  /* Animação: nome, duração, timing-function, delay, fill-mode */
+  border-left: 5px solid;
   animation: fadeOutMessage 0.5s ease-out 3.5s forwards;
-  /* - fadeOutMessage: nome da animação
-    - 0.5s: duração da animação de fade-out
-    - ease-out: timing function
-    - 3.5s: delay ANTES da animação começar (mensagem fica visível por 3.5s)
-    - forwards: mantém o estado final da animação (invisível)
-  */
 }
 
-/* Esconder completamente após a animação (a animação já cuida da visibilidade) */
-/* Esta regra adicional garante que, se a animação falhar ou for interrompida,
-   o elemento ainda desapareça do fluxo após um tempo, mas a animação com 'forwards'
-   e visibility:hidden no keyframe final é a principal forma de esconder.
-   No entanto, com 'forwards', as propriedades do último keyframe são mantidas.
-*/
-
-
-/* Cores baseadas nas tags de mensagem do Django */
-ul.messages li.debug {
-  background-color: #e9ecef; /* Cinza claro */
-  color: #495057;
-  border-left: 5px solid #6c757d;
-}
-ul.messages li.info {
-  background-color: #cff4fc;
-  color: #055160;
-  border-left: 5px solid #0aa2c0;
-}
 ul.messages li.success {
-  background-color: #d1e7dd;
-  color: #0f5132;
-  border-left: 5px solid #146c43;
-}
-ul.messages li.warning {
-  background-color: #fff3cd;
-  color: #664d03;
-  border-left: 5px solid #ffc107;
-}
-ul.messages li.error {
-  background-color: #f8d7da;
-  color: #842029;
-  border-left: 5px solid #dc3545;
+  background-color: var(--success-bg);
+  color: var(--success-color);
+  border-left-color: var(--success-border);
 }
 
-/* Definição da animação de fade-out */
+ul.messages li.info {
+  background-color: var(--info-bg);
+  color: var(--info-color);
+  border-left-color: var(--info-border);
+}
+
+ul.messages li.warning {
+  background-color: var(--warning-bg);
+  color: var(--warning-color);
+  border-left-color: var(--warning-border);
+}
+
+ul.messages li.error {
+  background-color: var(--error-bg);
+  color: var(--error-color);
+  border-left-color: var(--error-border);
+}
+
+ul.messages li.debug {
+  background-color: var(--debug-bg);
+  color: var(--debug-color);
+  border-left-color: var(--debug-border);
+}
+
 @keyframes fadeOutMessage {
-  0% {
+  from {
     opacity: 1;
     transform: translateY(0);
   }
-  80% { /* Começa a sumir mais para o final da animação de 0.5s */
-    opacity: 1; /* Ainda visível */
-    transform: translateY(0);
-  }
-  100% {
+  to {
     opacity: 0;
-    transform: translateY(-30px); /* Efeito de subir ao sumir */
-    visibility: hidden; /* Esconde o elemento e o torna não interativo */
-    /* Para tentar colapsar o espaço (funciona melhor com JS para definir display:none) */
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
-    height: 0;
-    border: none; /* Remove a borda para ajudar a colapsar */
+    transform: translateY(-30px);
+    visibility: hidden;
   }
 }

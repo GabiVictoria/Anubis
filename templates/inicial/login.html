@@ -5,15 +5,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Anúbis</title>
+  <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
   <link rel="stylesheet" href="{% static 'inicial/login.css' %}"/>
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
  <script defer src="{% static 'inicial/messages.js' %}"></script> 
 </head>
 <body>
     {% if messages %}
-          <ul class="messages"> {# Estilos inline removidos daqui #}
+          <ul class="messages"> 
             {% for message in messages %}
-              <li class="{{ message.tags }}"> {# Estilos inline removidos daqui #}
+              <li class="{{ message.tags }}"> 
                 {{ message }}
               </li>
             {% endfor %}
