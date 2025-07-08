@@ -375,63 +375,117 @@ def excluir_clube(request: HttpRequest, clube_id, clube, **kwargs):
 
 @login_obrigatorio
 def buscar_livros_api(request: HttpRequest):
-    title_query = request.GET.get('title', '')
-    author_query = request.GET.get('author', '')
-    page = request.GET.get('page', '1')
+    title_query = request.GET.get('title', '').strip()
+    author_query = request.GET.get('author', '').strip()
+    page = int(request.GET.get('page', '1'))
 
-    params = {}
-    if title_query:
-        params['title'] = title_query
-    if author_query:
-        params['author'] = author_query
-
-    if not params:
+    if not title_query and not author_query:
         return JsonResponse({'error': 'Forneça um título ou autor para a busca.'}, status=400)
 
-    params['page'] = page
-    params['limit'] = 10
-    params['fields'] = "key,title,author_name,cover_i,first_publish_year,number_of_pages_median,isbn"
-    
-    query_string = urllib.parse.urlencode(params)
-    url = f"https://openlibrary.org/search.json?{query_string}"
-    
-    try:
-        response = requests.get(url, timeout=15)
-        response.raise_for_status()
-        data = response.json()
+    livros_encontrados = {}
+    google_total_items = 0  # Variável para armazenar o total de itens do Google
 
-        livros_formatados = []
-        for doc in data.get('docs', []):
-            cover_url = None
-            if doc.get('cover_i'):
-                cover_url = f"https://covers.openlibrary.org/b/id/{doc.get('cover_i')}-L.jpg"
+    # 1. Busca na API do Google Books
+    try:
+        google_api_key = getattr(settings, 'GOOGLE_BOOKS_API_KEY', None)
+        if google_api_key:
+            query_parts = []
+            if title_query:
+                query_parts.append(f'intitle:{title_query}')
+            if author_query:
+                query_parts.append(f'inauthor:{author_query}')
             
+            google_query = '+'.join(query_parts)
+            start_index = (page - 1) * 15  # Aumentado para 15
+            
+            google_url = f"https://www.googleapis.com/books/v1/volumes?q={urllib.parse.quote(google_query)}&orderBy=relevance&maxResults=15&startIndex={start_index}&key={google_api_key}"
+            
+            response_google = requests.get(google_url, timeout=15)
+            response_google.raise_for_status()
+            data_google = response_google.json()
+            
+            # **CORREÇÃO**: Armazena o total de itens reportado pelo Google
+            google_total_items = data_google.get('totalItems', 0)
+
+            for item in data_google.get('items', []):
+                volume_info = item.get('volumeInfo', {})
+                isbn13 = None
+                for identifier in volume_info.get('industryIdentifiers', []):
+                    if identifier.get('type') == 'ISBN_13':
+                        isbn13 = identifier.get('identifier')
+                        break
+                
+                if isbn13:
+                    livros_encontrados[isbn13] = {
+                        'isbn13': isbn13,
+                        'titulo': volume_info.get('title', 'Título indisponível'),
+                        'autores': volume_info.get('authors', ['Autor desconhecido']),
+                        'data_publicacao': volume_info.get('publishedDate', '')[:4] if volume_info.get('publishedDate') else None,
+                        'paginas': volume_info.get('pageCount', None),
+                        'capa': volume_info.get('imageLinks', {}).get('thumbnail', None)
+                    }
+    except requests.exceptions.RequestException as e:
+        print(f"AVISO: Erro ao buscar no Google Books API: {e}")
+
+    # 2. Busca na API da Open Library, com lógica de priorização de capa
+    try:
+        params = {'limit': 15, 'page': page} # Aumentado para 15
+        if title_query:
+            params['title'] = title_query
+        if author_query:
+            params['author'] = author_query
+
+        params['language'] = 'por'
+        
+        query_string = urllib.parse.urlencode(params)
+        url_ol = f"https://openlibrary.org/search.json?{query_string}&fields=key,title,author_name,cover_i,first_publish_year,number_of_pages_median,isbn"
+        
+        response_ol = requests.get(url_ol, timeout=15)
+        response_ol.raise_for_status()
+        data_ol = response_ol.json()
+
+        for doc in data_ol.get('docs', []):
             isbn13 = None
             if doc.get('isbn'):
                 for i in doc.get('isbn', []):
                     if len(i) == 13 and i.isdigit():
                         isbn13 = i
                         break
-
+            
             if isbn13:
-                livros_formatados.append({
+                livro_novo_ol = {
                     'isbn13': isbn13,
                     'titulo': doc.get('title', 'Título indisponível'),
                     'autores': doc.get('author_name', ['Autor desconhecido']),
                     'data_publicacao': doc.get('first_publish_year', None),
                     'paginas': doc.get('number_of_pages_median', None),
-                    'capa': cover_url
-                })
+                    'capa': f"https://covers.openlibrary.org/b/id/{doc.get('cover_i')}-L.jpg" if doc.get('cover_i') else None
+                }
 
-        response_data = {
-            'livros': livros_formatados,
-            'totalItems': data.get('numFound', 0),
-            'page': int(page)
-        }
+                livro_existente = livros_encontrados.get(isbn13)
+                
+                if not livro_existente or (livro_novo_ol['capa'] and not livro_existente['capa']):
+                    livros_encontrados[isbn13] = livro_novo_ol
 
-        return JsonResponse(response_data)
     except requests.exceptions.RequestException as e:
-        return JsonResponse({'error': str(e)}, status=500)
+        print(f"AVISO: Erro ao buscar na Open Library API: {e}")
+
+    livros_combinados = list(livros_encontrados.values())
+    
+    livros_formatados = sorted(
+        livros_combinados,
+        key=lambda livro: livro.get('capa') is not None,
+        reverse=True
+    )
+
+    response_data = {
+        'livros': livros_formatados,
+        # **CORREÇÃO**: Usa o total do Google como referência para paginação
+        'totalItems': google_total_items,
+        'page': page
+    }
+
+    return JsonResponse(response_data)
 
 @admin_clube_obrigatorio
 def adicionar_livro_estante_clube(request: HttpRequest, clube_id, clube, **kwargs):

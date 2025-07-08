@@ -16,8 +16,6 @@
   </style>
 {% endblock %}
 {% block content %}
-  
-
   <div class="main-container admin-page">
     <h2 class="form-title">Adicionar Livro à Estante: {{ clube.nome }}</h2>
     
@@ -54,8 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsContainer = document.getElementById('search-results');
     const loadMoreContainer = document.getElementById('load-more-container');
     const loadMoreBtn = document.getElementById('load-more-btn');
-
-    const clubeId = "{{ clube.id }}";
     const csrfToken = "{{ csrf_token }}";
     
     let currentTitleQuery = '';
@@ -66,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const createBookCard = (livro) => {
         const capaUrl = livro.capa || "{% static 'img/default_book_cover.png' %}";
-        const autores = livro.autores.join(', ');
+        const autores = Array.isArray(livro.autores) ? livro.autores.join(', ') : (livro.autores || 'Autor desconhecido');
         const formActionUrl = `{% url 'principal:adicionar_livro_api_para_estante' clube_id=clube.id %}`;
         
         return `
@@ -85,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" name="autores" value="${autores}">
                         <input type="hidden" name="paginas" value="${livro.paginas || ''}">
                         <input type="hidden" name="data_publicacao" value="${livro.data_publicacao || ''}">
-                        <input type="hidden" name="capa" value="${capaUrl}">
+                        <input type="hidden" name="capa" value="${livro.capa || ''}">
                         <button type="submit" class="action-button">Adicionar à Estante</button>
                     </form>
                 </div>
@@ -148,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .finally(() => {
                 loadMoreBtn.disabled = false;
-                loadMoreBtn.textContent = 'Carregar Mais Resultados';
+                loadMoreBtn.textContent = 'Carregar Mais';
             });
     };
 
@@ -159,5 +155,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
-
 {% endblock %}
