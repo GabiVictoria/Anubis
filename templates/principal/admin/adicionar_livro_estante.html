@@ -20,18 +20,30 @@
 
   <div class="main-container admin-page">
     <h2 class="form-title">Adicionar Livro à Estante: {{ clube.nome }}</h2>
-    
-    <div class="search-form-grid">
-        <div class="form-field" style="margin-bottom: 0;">
-            <label for="livro-title-input">Título do Livro:</label>
-            <input type="text" id="livro-title-input" placeholder="Ex: O Pequeno Príncipe">
-        </div>
-        <div class="form-field" style="margin-bottom: 0;">
-            <label for="livro-author-input">Autor:</label>
-            <input type="text" id="livro-author-input" placeholder="Ex: Antoine de Saint-Exupéry">
-        </div>
-        <button id="livro-search-btn" class="action-button secondary-action">Buscar</button>
-    </div>
+<div class="styled-form">
+  <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-secondary);">
+    Preencha um ou ambos os campos abaixo para buscar.
+  </p>
+
+  <div class="form-field">
+    <label for="livro-title-input">Título do Livro:</label>
+    <input type="text" id="livro-title-input" placeholder="Ex: O Pequeno Príncipe">
+  </div>
+
+  <div class="form-field">
+    <label for="livro-author-input">Autor:</label>
+    <input type="text" id="livro-author-input" placeholder="Ex: Antoine de Saint-Exupéry">
+  </div>
+<div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+  <button id="livro-search-btn" class="action-button secondary-action">
+    Buscar
+  </button>
+  <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action" style="font-size: 0.9rem; padding: 0.6rem 1.4rem;">
+    Voltar para o Clube
+  </a>
+</div>
+
+
 
     <div id="search-results" class="results-container">
       <p style="color: var(--text-secondary); grid-column: 1 / -1; text-align:center; padding: 1rem;">Preencha um ou ambos os campos acima para buscar.</p>
@@ -41,10 +53,7 @@
         <button id="load-more-btn" class="action-button">Carregar Mais</button>
     </div>
     
-    <div class="form-actions">
-        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">Voltar para o Clube</a>
-    </div>
-  </div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {

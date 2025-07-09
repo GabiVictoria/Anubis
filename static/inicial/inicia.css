@@ -179,4 +179,59 @@
     font-size: 0.9rem;
     color: #888;
   }
-  
+
+ /* BARRA DE PESQUISA MEO */
+.search-bar-container {
+  display: flex;
+  justify-content: center;
+  width: 100%; /* garante que ocupe toda a tela */
+  padding: 0 2rem; /* espaçamento lateral opcional */
+  box-sizing: border-box;
+}
+
+form {
+  display: flex;
+  width: 100%;
+  max-width: 1000px; /* ajuste como quiser: 1100px, 1200px... */
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px 15px; /* ALTURA PADRÃO MANTIDA */
+  border: none;
+  border-radius: 5px 0 0 5px;
+  font-size: 1rem; /* TAMANHO DO TEXTO PADRÃO */
+  background-color: #f1f1f1;
+  color: #333;
+}
+
+.search-input::placeholder {
+  color: #888;
+}
+
+.search-button {
+  background-color: #6f4e37; 
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 0 15px; /* MANTIDO */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-icon {
+  color: white; 
+  font-size: 1.2rem;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem auto;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem; /* aumenta o espaço abaixo do texto */
+}

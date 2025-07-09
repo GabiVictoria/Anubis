@@ -1,30 +1,6 @@
 /* anubis/static/principal/css/admin_styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-:root {
-  --bg-color: #f0f2f5; /* Fundo um pouco mais claro para páginas de admin */
-  --primary-color: #333;
-  --accent-color: #6b4c3b;
-  --card-bg: #fff;
-  --border-radius: 8px; /* Raio de borda um pouco menor para formulários */
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --font-family: 'Poppins', sans-serif;
-  --text-secondary: #555;
-  --border-color-light: #ddd;
-  --danger-color: #dc3545;
-  --success-color: #198754;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family);
-  background-color: var(--bg-color);
-  color: var(--primary-color);
-  line-height: 1.6;
-}
-
-
 /* --- Container Principal para Páginas de Admin --- */
 .main-container.admin-page {
   max-width: 750px; /* Largura para formulários */
@@ -176,12 +152,12 @@ body {
 }
 
 .secondary-action { /* Para botões de "Cancelar" ou links */
-  background-color: #6c757d; /* Cinza */
+  background-color: #6b4c3b; /* Cinza */
   color: white;
   text-align: center; /* Para o <a> */
 }
 .secondary-action:hover {
-  background-color: #5a6268;
+  background-color: #4a3636;
 }
 
 /* --- Mensagens Django --- */
@@ -210,4 +186,57 @@ ul.messages li.info { color: #055160; background-color: #cff4fc; border-color: #
     display: block;
     margin-top: -0.8rem; /* Puxa para perto do input */
     margin-bottom: 0.8rem;
+}
+#livro-title-input,
+#livro-author-input {
+  font-size: 1rem;
+  padding: 1rem;
+  border: 2px solid #7a6053;     /* Cor visível da borda */
+  border-radius: 6px;            /* Borda arredondada */
+  background-color: #fff;        /* Fundo branco */
+  color: #333;                   /* Cor do texto */
+}
+
+
+
+
+.livros-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.livro-card {
+  width: 120px;
+  text-align: center;
+  border: 2px solid var(--border-color-light);
+  border-radius: 10px;
+  padding: 0.5rem;
+  position: relative;
+  background-color: white;
+  cursor: pointer;
+}
+
+.livro-capa {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
+  margin-bottom: 0.3rem;
+}
+
+.livro-titulo {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.livro-card input[type="checkbox"] {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  transform: scale(1.3);
 }
