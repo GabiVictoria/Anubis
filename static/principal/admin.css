@@ -1,30 +1,6 @@
 /* anubis/static/principal/css/admin_styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-:root {
-  --bg-color: #f0f2f5; /* Fundo um pouco mais claro para páginas de admin */
-  --primary-color: #333;
-  --accent-color: #6b4c3b;
-  --card-bg: #fff;
-  --border-radius: 8px; /* Raio de borda um pouco menor para formulários */
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --font-family: 'Poppins', sans-serif;
-  --text-secondary: #555;
-  --border-color-light: #ddd;
-  --danger-color: #dc3545;
-  --success-color: #198754;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family);
-  background-color: var(--bg-color);
-  color: var(--primary-color);
-  line-height: 1.6;
-}
-
-
 /* --- Container Principal para Páginas de Admin --- */
 .main-container.admin-page {
   max-width: 750px; /* Largura para formulários */
@@ -77,13 +53,19 @@ body {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.styled-form input:focus,
-.styled-form textarea:focus,
-.styled-form select:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb, 107, 76, 59), 0.25); /* Use var(--accent-color-rgb) se definido */
+.styled-form input[type="datetime-local"] {
+  border: 2px solid #6b4c3b;  /* mesma cor usada no foco */
+  border-radius: 6px;
+  color: #5a5a5a;
 }
+.styled-form input[type="text"] {
+  border: 2px solid #6b4c3b;  /* mesma cor usada no foco do datetime-local */
+  border-radius: 6px;
+  color: #5a5a5a;
+  padding: 8px; /* para ficar visualmente melhor */
+  font-size: 1rem;
+}
+
 
 .styled-form textarea {
   min-height: 100px;
@@ -176,12 +158,12 @@ body {
 }
 
 .secondary-action { /* Para botões de "Cancelar" ou links */
-  background-color: #6c757d; /* Cinza */
+  background-color: #6b4c3b; /* Cinza */
   color: white;
   text-align: center; /* Para o <a> */
 }
 .secondary-action:hover {
-  background-color: #5a6268;
+  background-color: #4a3636;
 }
 
 /* --- Mensagens Django --- */
@@ -211,3 +193,136 @@ ul.messages li.info { color: #055160; background-color: #cff4fc; border-color: #
     margin-top: -0.8rem; /* Puxa para perto do input */
     margin-bottom: 0.8rem;
 }
+#livro-title-input,
+#livro-author-input {
+  font-size: 1rem;
+  padding: 1rem;
+  border: 2px solid #7a6053;     /* Cor visível da borda */
+  border-radius: 6px;            /* Borda arredondada */
+  background-color: #fff;        /* Fundo branco */
+  color: #333;                   /* Cor do texto */
+}
+
+/* Container do formulário */
+.main-container.admin-form-page {
+  max-width: 600px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Formulário e campos */
+.styled-form .form-field {
+  margin-bottom: 25px;
+}
+
+.styled-form ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.styled-form li {
+  margin-bottom: 12px;
+}
+
+.styled-form label {
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Botões */
+/* Botões - versão menor */
+.action-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 14px;         /* menor que os 12px 20px anteriores */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;         /* levemente menor */
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.action-button:hover {
+  background-color: #45a049;
+}
+
+.secondary-action {
+  background-color: #ccc;
+  color: #333;
+  margin-left: 10px;
+}
+
+.secondary-action:hover {
+  background-color: #bbb;
+}
+
+
+/* Texto de ajuda e erros */
+.helptext {
+  display: block;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.error-message {
+  color: #d93025;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Ações alinhadas */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  gap: 10px;
+}
+
+
+.livro-opcao {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.livro-opcao label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.capa-livro {
+  width: 50px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.titulo-livro {
+  font-size: 1rem;
+  color: #333;
+}
+input[type="datetime-local"] {
+  color: #5a5a5a; /* marrom escuro */
+}
+
+
+
+

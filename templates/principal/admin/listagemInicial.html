@@ -26,62 +26,20 @@
 
   <header>
     <div class="branding">
-      
+     
       <img src="{% static 'img/Logo..png' %}" alt="Logo da Anúbis" class="logo" />
       <h1>Anúbis</h1>
     </div>
     <p>Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro </p>
     <p>Conecte-se com leitores como você. Leia junto. Compartilhe ideias.</p>
     <div class="buttons">
-      
+     
       <a href="{% url 'inicial:login' %}">Entrar</a>
       <a href="{% url 'inicial:cadastro' %}">Criar Conta</a>
     </div>
   </header>
 
-  <section class="search-section">
-  <h2>Que tal procurar o clube ideal para você? Dá um clique</h2>
-  <div class="search-bar-container">
-    <form action="{% url 'principal:inicial_busca' %}" method="GET"> 
-        <input
-        type="text"
-        name="q"
-        placeholder="Buscar livros, clubes..."
-        class="search-input"
-        />
-        <button type="submit" class="search-button">
-            <i class="fas fa-search search-icon"></i>
-        </button>
-    </form> </div>
-</section>
 
-
-  <section class="section">
-    <h2>Livros que os clubes estão lendo agora</h2>
-    <div class="books">
-      <div class="book">
-        
-        <img src="{% static 'img/eassimqacaba.jpg' %}" alt="Livro 1" />
-        <p>É Assim que Acaba</p>
-      </div>
-      <div class="book">
-        <img src="{% static 'img/opusculo-humanitario.jpg' %}" alt="Livro 2" />
-        <p>Opúscolo Humanitário</p>
-      </div>
-      <div class="book">
-        <img src="{% static 'img/osol.jpg' %}" alt="Livro 3" />
-        <p>O Sol é para Todos</p>
-      </div>
-      <div class="book">
-        <img src="{% static 'img/haruki.jpg' %}" alt="Livro 4" />
-        <p>Norwegian Wood</p>
-      </div>
-      <div class="book">
-        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="Livro 5" /> 
-        <p>Noites Brancas</p>
-      </div>
-    </div>
-  </section>
 
   <footer>
     © 2025 Anúbis. Todos os direitos reservados.

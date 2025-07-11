@@ -8,9 +8,8 @@
   <title>Anúbis</title>
   <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'inicial/inicia.css' %}" />
-  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
- <script defer src="{% static 'inicial/messages.js' %}"></script> 
+  <link rel="stylesheet" href="{% static 'principal/inicial_busca.css' %}">
+
 </head>
 <body>
 
@@ -40,7 +39,7 @@
   </header>
 
   <section class="search-section">
-  <h2>Que tal procurar o clube ideal para você? Dá um clique</h2>
+  <h2>Resultados para: mistérios</h2>
   <div class="search-bar-container">
     <form action="{% url 'principal:inicial_busca' %}" method="GET"> 
         <input
@@ -55,33 +54,27 @@
     </form> </div>
 </section>
 
+<div class="club-card">
+  <img src="https://via.placeholder.com/150x200" alt="Capa do Livro" class="club-image" />
+  <div class="club-info">
+    <h2 class="club-name">Clube Mistérios da Agatha</h2>
+    <p><strong>Membros:</strong> 35</p>
+    <p><strong>Data de criação:</strong> 10/08/2025</p>
+    <p><strong>Livro atual:</strong> "Só sobrou um" - Agatha Christie</p>
+    <p><strong>Criado por:</strong> Carlos Ricardo</p>
+  </div>
+</div>
+<div class="club-card">
+  <img src="https://via.placeholder.com/150x200" alt="Capa do Livro" class="club-image" />
+  <div class="club-info">
+    <h2 class="club-name">Clube Mistérios da noite</h2>
+    <p><strong>Membros:</strong> 35</p>
+    <p><strong>Data de criação:</strong> 23/06/2025</p>
+    <p><strong>Livro atual:</strong> "O Nome do Vento" - Patrick Rothfuss</p>
+    <p><strong>Criado por:</strong> Ana Souza</p>
+  </div>
+</div>
 
-  <section class="section">
-    <h2>Livros que os clubes estão lendo agora</h2>
-    <div class="books">
-      <div class="book">
-        
-        <img src="{% static 'img/eassimqacaba.jpg' %}" alt="Livro 1" />
-        <p>É Assim que Acaba</p>
-      </div>
-      <div class="book">
-        <img src="{% static 'img/opusculo-humanitario.jpg' %}" alt="Livro 2" />
-        <p>Opúscolo Humanitário</p>
-      </div>
-      <div class="book">
-        <img src="{% static 'img/osol.jpg' %}" alt="Livro 3" />
-        <p>O Sol é para Todos</p>
-      </div>
-      <div class="book">
-        <img src="{% static 'img/haruki.jpg' %}" alt="Livro 4" />
-        <p>Norwegian Wood</p>
-      </div>
-      <div class="book">
-        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="Livro 5" /> 
-        <p>Noites Brancas</p>
-      </div>
-    </div>
-  </section>
 
   <footer>
     © 2025 Anúbis. Todos os direitos reservados.

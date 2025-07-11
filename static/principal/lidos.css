@@ -1,0 +1,279 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+ 
+/* COR FUNDO */
+:root {
+  --bg-color: #b48e68;
+  --primary-color: #222;
+  --accent-color: #6b4c3b;
+  --card-bg: #fff;
+  --border-radius: 10px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --font-family: 'Poppins', sans-serif;
+  --leader-color: #97131e;
+  --co-leader-color: #795548;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  line-height: 1.6;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 1rem;
+  font-size: 1rem;  
+}     
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.5rem; /* ALTERADO: menu menor */
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-left img {
+  height: 80px; /* ALTERADO: imagem maior */
+  width: 80px;  /* ALTERADO: imagem maior */
+  margin-right: 1rem;
+}
+
+.header-left h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.slogan {
+  font-size: 1.3rem; 
+  color: #555;
+  text-align: center;
+  max-width: 100%;        /* ALTERADO: permite ocupar mais espaço */
+  white-space: nowrap;    /* ADICIONADO: impede quebra de linha */
+  overflow: hidden;       /* OPCIONAL: esconde se passar do limite */
+  text-overflow: ellipsis;/* OPCIONAL: adiciona "..." se cortar */
+}
+
+
+nav {
+  display: flex;
+  gap: 0.5rem; /* ALTERADO: espaçamento menor entre botões */
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  transition: background 0.3s, color 0.3s;
+  font-weight: 500;
+  border: 2px solid var(--accent-color); /* ADICIONADO: borda nos botões */
+}
+
+nav a:hover {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+/* até aqui deveria ser o menu */
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container img {
+  height: 80px; /* ALTERADO: imagem maior */
+  margin-right: 10px;
+}
+
+
+
+ * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+   
+    .clube-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .clube-header img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .clube-header h1 {
+      font-size: 2rem;
+      color: #333;
+    }
+
+    .botoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .botoes button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background-color: #6B4C3B;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .botoes button:hover {
+      background-color: #4A3636;
+    }
+
+    .filtro-ano {
+      margin-bottom: 20px;
+    }
+
+    .filtro-ano select {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .livros-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .livro-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      width: 350px;
+    }
+
+    .livro-card img {
+      width: 80px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .livro-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .livro-info h3 {
+      margin: 0;
+      color: #222;
+    }
+
+    .livro-info p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .card-central {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* NN COLAR NO MENU*/
+.card-central {
+  max-width: 1000px;
+  margin: 60px auto 40px auto; /* Aumenta o espaço acima */
+  background-color: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* caixa da descrição */
+.descricao-clube{
+  background-color: #f0f0f0; /* cor de fundo clara */
+  border: 1.5px solid #a67c52; /* borda marrom, por exemplo */
+  border-radius: 8px; /* borda arredondada */
+  padding: 9px 16px; /* espaçamento interno */
+  max-width: 1000px; /* largura máxima */
+  margin-top: 10px; /* espaço acima da caixa */
+  font-size: 1rem;
+  color: #333; /* cor do texto */
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1); /* sombra leve opcional */
+}
+
+
+   .botoes a {
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-color: #6B4C3B;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.botoes a:hover {
+  background-color: #4A3636;
+}
+
+.botoes a.ativo {
+  background-color: #4A3636;
+  border: 2px solid #2d1f1f;
+  font-weight: bold;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+

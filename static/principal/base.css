@@ -1,93 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-
- header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-    }
-header    h2 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-  }
-
- header  h3 {
-    font-size: 1.6rem;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    }
-
- header  p {
-    margin-bottom: 1rem;
-    font-size: 1rem;  
-    }     
-
-    
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 2rem;
-      background-color: var(--card-bg);
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-       width: 100%;
-    box-sizing: border-box;
-    }
-
-  
-    .header-left {
-    display: flex;
-    align-items: center;
+/* COR FUNDO */
+:root {
+  --bg-color: #b48e68;
+  --primary-color: #222;
+  --accent-color: #6b4c3b;
+  --card-bg: #fff;
+  --border-radius: 10px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --font-family: 'Poppins', sans-serif;
+  --leader-color: #97131e;
+  --co-leader-color: #795548;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  line-height: 1.6;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 1rem;
+  font-size: 1rem;  
+}     
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.5rem; /* ALTERADO: menu menor */
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
 .header-left img {
-    height: 60px;
-    width: 60px;
-    margin-right: 1rem;
-}
-  .header-left h1 {
-    font-size: 2rem;
-    margin: 0;
+  height: 80px; /* ALTERADO: imagem maior */
+  width: 80px;  /* ALTERADO: imagem maior */
+  margin-right: 1rem;
 }
 
-
- .slogan {
-    font-size: 1rem;
-    color: #555;
-    text-align: center;
-    max-width: 500px;
+.header-left h1 {
+  font-size: 2rem;
+  margin: 0;
 }
-   
+
+.slogan {
+  font-size: 1.3rem; 
+  color: #555;
+  text-align: center;
+  max-width: 100%;        /* ALTERADO: permite ocupar mais espaço */
+  white-space: nowrap;    /* ADICIONADO: impede quebra de linha */
+  overflow: hidden;       /* OPCIONAL: esconde se passar do limite */
+  text-overflow: ellipsis;/* OPCIONAL: adiciona "..." se cortar */
+}
+
 
 nav {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 0.5rem; /* ALTERADO: espaçamento menor entre botões */
+  flex-wrap: wrap;
 }
+
 nav a {
-    text-decoration: none;
-    color: var(--primary-color);
-    padding: 0.6rem 1.2rem;
-    border-radius: var(--border-radius);
-    transition: background 0.3s, color 0.3s;
-    font-weight: 500;
+  text-decoration: none;
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  transition: background 0.3s, color 0.3s;
+  font-weight: 500;
+  border: 2px solid var(--accent-color); /* ADICIONADO: borda nos botões */
 }
 
-    nav a:hover {
-      background: var(--accent-color);
-      color: #fff;
-    }
-/* ate aqui deveria ser o menu */
+nav a:hover {
+  background: var(--accent-color);
+  color: #fff;
+}
 
-
-    .logo-container {
+.logo-container {
   display: flex;
   align-items: center;
 }
 
 .logo-container img {
-  height: 50px;
+  height: 80px; /* ALTERADO: imagem maior */
   margin-right: 10px;
 }
+
+/* até aqui deveria ser o menu */

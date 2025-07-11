@@ -599,3 +599,28 @@ def criar_votacao_clube(request: HttpRequest, clube_id, clube, **kwargs):
         'nome_usuario': request.usuario_logado_obj.nome,
     }
     return render(request, 'principal/admin/criarvotacao.html', contexto)
+
+
+def perfil(request): 
+    return render(request, 'principal/perfil.html') 
+
+def estante(request): 
+    return render(request, 'principal/estante.html') 
+
+def lidos_view(request):
+    return render(request, 'principal/lidos.html') 
+
+def abandonados_view(request):
+    return render(request, 'principal/abandonados.html') 
+
+def proximo_livro_view(request):
+    return render(request, 'principal/proximo_livro.html')
+
+def queremos_ler_view(request):
+    return render(request, 'principal/queremos_ler.html')
+
+def releitura_view(request):
+    return render(request, 'principal/releitura.html')
+
+def inicial_busca_view(request):
+    return render(request, 'principal/inicial_busca.html')

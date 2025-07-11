@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil</title>
+  <link rel="stylesheet" href="{% static 'principal/perfil.css' %}">
+
+
+</head>
+<header>
+    <div class="logo-container">
+      <img src="{% static 'img/Logo..png' %}" alt="Anúbis">
+      <h1>Anúbis</h1>
+    </div>
+    <div class="slogan">
+      Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro.
+    </div>
+    <nav>
+      <a href="{% url 'principal:home' %}" class="active">Home</a>
+      <a href="{% url 'principal:criar_clube' %}">Criar</a>
+      <a href="{% url 'principal:perfil' %}">Perfil</a>
+      <a href="{% url 'inicial:logout' %}">Sair</a>
+    </nav>
+</header>
+<body>
+  <div class="perfil-container">
+    <div class="capa">
+      <label for="upload-capa">
+        <input type="file" id="upload-capa" hidden />
+        <span class="icone-camera">&#128247;</span>
+      </label>
+    </div>
+
+    <div class="perfil-informacoes">
+      <div class="foto-perfil">
+        <img src="{% static 'img/Logo..png' %}" alt="Foto de perfil" />
+      </div>
+      <div class="dados-perfil">
+        <h1>Débora Sabongi</h1>
+        <p class="descricao">Amo ler, compartihar e socializar! Gosto de ler durante as noites!• 
+        <div class="botoes">
+          <button class="azul">livros lidos</button>
+          <button class="azul">Abandonados</button>
+          <button class="azul">Quero ler</button>
+          <button class="azul">Relendo</button>
+          <button class="azul">Meus clubes</button>
+          <button class="borda">Editar perfil</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="livros-recentes">
+    <h2>📚 Livros lidos recentemente</h2>
+    <div class="livros-galeria">
+
+      <div class="livro-card">
+        <img src="https://covers.openlibrary.org/b/id/10523367-L.jpg" alt="Drácula">
+        <h3>Drácula</h3>
+        <p>Bram Stoker</p>
+        <p class="clube">Clube: Terror dos Clássicos</p>
+        <p class="nota">Nota média: ⭐ 4.7</p>
+      </div>
+
+      <div class="livro-card">
+        <img src="https://covers.openlibrary.org/b/id/8235116-L.jpg" alt="Frankenstein">
+        <h3>Frankenstein</h3>
+        <p>Mary Shelley</p>
+        <p class="clube">Clube: Lendas Góticas</p>
+        <p class="nota">Nota média: ⭐ 4.5</p>
+      </div>
+
+      <div class="livro-card">
+        <img src="https://covers.openlibrary.org/b/id/11169723-L.jpg" alt="O Médico e o Monstro">
+        <h3>O Médico e o Monstro</h3>
+        <p>R. L. Stevenson</p>
+        <p class="clube">Clube: Noites de Mistério</p>
+        <p class="nota">Nota média: ⭐ 4.2</p>
+      </div>
+
+    </div>
+  </div>
+
+<section class="clubes-recentes">
+  <h2>📚 Clubes Recentes</h2>
+  <div class="clubes-galeria">
+    <div class="clube-card">
+      <img src="p4.jpg" alt="Capa do clube Terror dos Clássicos" />
+      <h3>Terror dos Clássicos</h3>
+      <p><strong>Admin:</strong> Ana Oliveira</p>
+      <p><strong>Criado em:</strong> 10/03/2024</p>
+      <p><strong>Você entrou em:</strong> 01/07/2025</p>
+      <p><strong>📖 Livro atual:</strong> Drácula</p>
+      <p><strong>📘 Próximo livro:</strong> Carmilla</p>
+    </div>
+
+    <div class="clube-card">
+      <img src="p4.jpg" alt="Capa do clube Lendas Góticas" />
+      <h3>Lendas Góticas</h3>
+      <p><strong>Admin:</strong> Lucas Martins</p>
+      <p><strong>Criado em:</strong> 15/04/2024</p>
+      <p><strong>Você entrou em:</strong> 02/07/2025</p>
+      <p><strong>📖 Livro atual:</strong> Frankenstein</p>
+      <p><strong>📘 Próximo livro:</strong> O Retrato de Dorian Gray</p>
+    </div>
+  </div>
+</section>
+
+
+</body>
+</html>
