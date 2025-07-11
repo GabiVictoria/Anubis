@@ -114,7 +114,7 @@ height: 2.3rem;
 }
 
 .club-image {
- height: auto;
+ height: 150px;
       width: 80px;
       object-fit: cover;
       border-radius: 5px;

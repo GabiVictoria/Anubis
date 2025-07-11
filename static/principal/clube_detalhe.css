@@ -111,7 +111,7 @@ h2, h3, h4 { /* Títulos dentro das seções */
   gap: 1rem;
 }
 .club-main-image {
-  height: auto;
+  height: 150px;
   width: 80px;
   object-fit: cover;
   border-radius: 5px;
