@@ -101,3 +101,6 @@ class CriarVotacaoForm(forms.Form):
         if livros_selecionados and len(livros_selecionados) < 2:
             raise forms.ValidationError("Selecione pelo menos dois livros para a votação.")
         return livros_selecionados
+
+
+

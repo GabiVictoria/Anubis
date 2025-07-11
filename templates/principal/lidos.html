@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clube do Livro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'principal/lidos.css' %}">
+  <script src="{% static 'principal/js/lidos.js' %}"></script>
+
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="{% static 'img/Logo..png' %}" alt="Anúbis">
+      <h1>Anúbis</h1>
+    </div>
+    <div class="slogan">
+      Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro.
+    </div>
+    <nav>
+      <a href="{% url 'principal:home' %}" class="active">Home</a>
+      <a href="{% url 'principal:criar_clube' %}">Criar</a>
+      <a href="{% url 'principal:perfil' %}">Perfil</a>
+      <a href="{% url 'inicial:logout' %}">Sair</a>
+    </nav>
+  </header>
+
+  <div class="card-central">
+    <div class="clube-header">
+      <img src="{% static 'img/Logo..png' %}" alt="Logo do Clube">
+      <h1>Clube dos Leitores Fantásticos</h1>
+    </div>
+
+
+    <p class="descricao-clube">
+      Um grupo apaixonado por literatura fantástica, onde discutimos obras, autores e universos que nos transportam além da realidade.
+    </p>
+
+
+    <div class="botoes">
+    <a href="{% url 'principal:estante' %}" class="botoes">Lendo</a>
+    <a href="{% url 'principal:lidos' %}" class="botoes">Lidos</a>
+    <a href="{% url 'principal:abandonados' %}" class="botoes">Abandonados</a>
+    <a href="{% url 'principal:proximo_livro' %}" class="botoes">Próximo Livro</a>
+    <a href="{% url 'principal:queremos_ler' %}" class="botoes">Queremos Ler</a>
+    <a href="{% url 'principal:releitura' %}" class="botoes">Releitura</a>
+</div>
+
+
+  <div class="filtro-ano">
+      <label for="ano">Filtrar por ano: </label>
+      <select id="ano">
+        <option>Todos</option>
+        <option>2025</option>
+        <option>2024</option>
+      </select>
+    </div>
+
+    <div class="livros-container">
+      <div class="livro-card" data-ano="2025">
+        <img src="p4.jpg" alt="Capa do Livro">
+        <div class="livro-info" data-ano="2025">
+          <h3>O Nome do Vento</h3>
+          <p><strong>Autor:</strong> Patrick Rothfuss</p>
+          <p><strong>Última leitura:</strong> 15/05/2025</p>
+          <p><strong>Nota média:</strong> ⭐ 4.8</p>
+        </div>
+      </div>
+
+      <div class="livro-card data-ano="2025"">
+        <img src="capa-duna.jpg" alt="Capa do Livro">
+        <div class="livro-info">
+          <h3>Duna</h3>
+          <p><strong>Autor:</strong> Frank Herbert</p>
+          <p><strong>Última leitura:</strong> 02/03/2025</p>
+          <p><strong>Nota média:</strong>⭐ 4.5</p>
+        </div>
+      </div>
+
+      <div class="livro-card" data-ano="2025">
+        <img src="capa-hobbit.jpg" alt="Capa do Livro">
+        <div class="livro-info">
+          <h3>O Hobbit</h3>
+          <p><strong>Autor:</strong> J.R.R. Tolkien</p>
+          <p><strong>Última leitura:</strong> 10/01/2025</p>
+          <p><strong>Nota média:</strong>⭐ 4.9</p>
+        </div>
+      </div>
+
+      <div class="livro-card" data-ano="2025">
+        <img src="capa-cores-da-magica.jpg" alt="Capa do Livro">
+        <div class="livro-info">
+          <h3>A Cor da Magia</h3>
+          <p><strong>Autor:</strong> Terry Pratchett</p>
+          <p><strong>Última leitura:</strong> 25/02/2025</p>
+          <p><strong>Nota média:</strong> ⭐ 4.2</p>
+        </div>
+      </div>
+
+      <div class="livro-card" data-ano="2025">
+        <img src="capa-jogos-vorazes.jpg" alt="Capa do Livro">
+        <div class="livro-info">
+          <h3>Jogos Vorazes</h3>
+          <p><strong>Autor:</strong> Suzanne Collins</p>
+          <p><strong>Última leitura:</strong> 08/04/2025</p>
+          <p><strong>Nota média:</strong>⭐ 4.6</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+</body>
+</html>

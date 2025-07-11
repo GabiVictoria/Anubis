@@ -4,6 +4,7 @@
 {% block styles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'principal/clube_detalhe.css' %}">
+  <script src="{% static 'principal/js/clube_detalhe.js' %}"></script>
  
 {% endblock %}
 
@@ -189,4 +190,57 @@
       // como hover em nomes de membros, etc., se desejado e adaptado.
     });
   </script>
+
+    
+<div class="card-container">
+  <h2 class="card-title">BARRA DE PROGRESSO</h2>
+  <hr />
+
+  <div class="card">
+
+
+    <img src="https://upload.wikimedia.org/wikipedia/en/8/8e/KafkaontheShore.jpg" alt="Kafka à Beira Mar" class="book-cover">
+    
+    <div class="content">
+      <div class="title">Kafka à Beira Mar</div>
+      <div class="club">Haruki Murakami</div>
+      
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-text" id="progressText">45% concluído</div>
+
+      <div class="controls">
+        <label for="progressInput">Atualizar %:</label>
+        <input type="number" id="progressInput" min="0" max="100">
+        <button onclick="atualizarProgresso()">Atualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card-container">
+  <h2 class="card-title">VISITAR A ESTANTE DO CLUBE</h2>
+  <hr />
+  
+  <div class="card">
+    <div class="content">
+      <p>Explore os livros mais desejados e odiados. Clique abaixo para visitar a estante e conhecer um pouco os gostos do nosso clube.</p>
+      
+      <div class="controls">
+        <!-- Corrigido: Use a URL do Django corretamente -->
+        <a href="{% url 'principal:estante' %}">
+          <button class="visit-button">Visitar Estante</button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+    
 {% endblock %}

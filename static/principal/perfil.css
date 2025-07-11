@@ -1,0 +1,357 @@
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+ 
+/* COR FUNDO */
+:root {
+  --bg-color: #b48e68;
+  --primary-color: #222;
+  --accent-color: #6b4c3b;
+  --card-bg: #fff;
+  --border-radius: 10px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --font-family: 'Poppins', sans-serif;
+  --leader-color: #97131e;
+  --co-leader-color: #795548;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-color);
+  color: var(--primary-color);
+  line-height: 1.6;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+p {
+  margin-bottom: 1rem;
+  font-size: 1rem;  
+}     
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.5rem; /* ALTERADO: menu menor */
+  background-color: var(--card-bg);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-left img {
+  height: 80px; /* ALTERADO: imagem maior */
+  width: 80px;  /* ALTERADO: imagem maior */
+  margin-right: 1rem;
+}
+
+.header-left h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.slogan {
+  font-size: 1.3rem; 
+  color: #555;
+  text-align: center;
+  max-width: 100%;        /* ALTERADO: permite ocupar mais espaço */
+  white-space: nowrap;    /* ADICIONADO: impede quebra de linha */
+  overflow: hidden;       /* OPCIONAL: esconde se passar do limite */
+  text-overflow: ellipsis;/* OPCIONAL: adiciona "..." se cortar */
+}
+
+
+nav {
+  display: flex;
+  gap: 0.5rem; /* ALTERADO: espaçamento menor entre botões */
+  flex-wrap: wrap;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  transition: background 0.3s, color 0.3s;
+  font-weight: 500;
+  border: 2px solid var(--accent-color); /* ADICIONADO: borda nos botões */
+}
+
+nav a:hover {
+  background: var(--accent-color);
+  color: #fff;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container img {
+  height: 80px; /* ALTERADO: imagem maior */
+  margin-right: 10px;
+}
+/* até aqui deveria ser o menu */
+
+.perfil-container {
+  background-color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 850px;
+  margin: 30px auto;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.capa {
+  height: 180px;
+  background: #b0c4cd;
+  position: relative;
+  z-index: 1;
+}
+
+
+.icone-camera {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background-color: white;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.perfil-informacoes {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.foto-perfil {
+  position: relative;
+  z-index: 2;
+}
+
+.foto-perfil img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+  margin-top: -80px;
+}
+
+.dados-perfil h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+/* BOTOES */
+.botoes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .botoes button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background-color: #6B4C3B;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .botoes button:hover {
+      background-color: #4A3636;
+    }
+
+
+    .botoes .borda {
+        background-color: transparent;
+        border: 1.5px solid #4A3636;  /* cor da borda */
+        color: #444;               /* cor do texto */
+        font-weight: 500;
+    }
+
+    .botoes .borda:hover {
+    background-color: #eee;    /* efeito hover sutil */
+    color: #4A3636;
+}
+
+
+    
+
+
+/* livross recentess */
+
+
+.livros-recentes {
+  max-width: 850px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.livros-recentes h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.livros-galeria {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.livro-card {
+  width: 150px;
+  text-align: center;
+  border-radius: 8px;
+  background: #f8f8f8;
+  padding: 10px;
+  transition: transform 0.2s ease;
+}
+.livro-card .clube {
+  font-weight: bold;
+  color: #333;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.livro-card .nota {
+  color: #e0a800;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+
+.livro-card:hover {
+  transform: scale(1.05);
+}
+
+.livro-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.livro-card h3 {
+  font-size: 1rem;
+  margin: 0;
+  color: #0a66c2;
+}
+
+.livro-card p {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* clubes recentes */
+.clube-card {
+  width: 180px;
+  border-radius: 8px;
+  background: #f9f9f9;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+  text-align: left; /* <-- Alinhamento à esquerda */
+  display: flex;
+  flex-direction: column;
+}
+
+.clube-card:hover {
+  transform: scale(1.03);
+}
+
+.clube-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.clube-card h3 {
+  font-size: 1rem;
+  color: #222;
+  margin: 8px 0;
+}
+
+.clube-card p {
+  margin: 4px 0;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.clubes-recentes {
+  max-width: 850px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.clubes-recentes h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.clubes-galeria {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+/* caixa da descrição */
+.descricao{
+  background-color: #f0f0f0; /* cor de fundo clara */
+  border: 1.5px solid #a67c52; /* borda marrom, por exemplo */
+  border-radius: 8px; /* borda arredondada */
+  padding: 9px 16px; /* espaçamento interno */
+  max-width: 600px; /* largura máxima */
+  margin-top: 10px; /* espaço acima da caixa */
+  font-size: 1rem;
+  color: #333; /* cor do texto */
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1); /* sombra leve opcional */
+}

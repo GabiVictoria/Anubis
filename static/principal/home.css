@@ -40,10 +40,7 @@ h3 {
   font-weight: 600;
 }
 
-p {
-  margin-bottom: 1rem;
-  font-size: 1rem;  
-}     
+
 
 header {
   display: flex;
@@ -118,8 +115,6 @@ nav a:hover {
   height: 80px; /* ALTERADO: imagem maior */
   margin-right: 10px;
 }
-
-
 
 
     .section {

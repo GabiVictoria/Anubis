@@ -53,13 +53,19 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.styled-form input:focus,
-.styled-form textarea:focus,
-.styled-form select:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb, 107, 76, 59), 0.25); /* Use var(--accent-color-rgb) se definido */
+.styled-form input[type="datetime-local"] {
+  border: 2px solid #6b4c3b;  /* mesma cor usada no foco */
+  border-radius: 6px;
+  color: #5a5a5a;
 }
+.styled-form input[type="text"] {
+  border: 2px solid #6b4c3b;  /* mesma cor usada no foco do datetime-local */
+  border-radius: 6px;
+  color: #5a5a5a;
+  padding: 8px; /* para ficar visualmente melhor */
+  font-size: 1rem;
+}
+
 
 .styled-form textarea {
   min-height: 100px;
@@ -197,46 +203,126 @@ ul.messages li.info { color: #055160; background-color: #cff4fc; border-color: #
   color: #333;                   /* Cor do texto */
 }
 
-
-
-
-.livros-lista {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding: 0;
-  list-style: none;
-  margin-top: 1rem;
+/* Container do formulário */
+.main-container.admin-form-page {
+  max-width: 600px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.livro-card {
-  width: 120px;
+/* Título */
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30px;
   text-align: center;
-  border: 2px solid var(--border-color-light);
-  border-radius: 10px;
-  padding: 0.5rem;
-  position: relative;
-  background-color: white;
+}
+
+/* Formulário e campos */
+.styled-form .form-field {
+  margin-bottom: 25px;
+}
+
+.styled-form ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.styled-form li {
+  margin-bottom: 12px;
+}
+
+.styled-form label {
+  font-size: 1rem;
   cursor: pointer;
 }
 
-.livro-capa {
-  width: 100%;
+/* Botões */
+/* Botões - versão menor */
+.action-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 14px;         /* menor que os 12px 20px anteriores */
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;         /* levemente menor */
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.action-button:hover {
+  background-color: #45a049;
+}
+
+.secondary-action {
+  background-color: #ccc;
+  color: #333;
+  margin-left: 10px;
+}
+
+.secondary-action:hover {
+  background-color: #bbb;
+}
+
+
+/* Texto de ajuda e erros */
+.helptext {
+  display: block;
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+.error-message {
+  color: #d93025;
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+/* Ações alinhadas */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 30px;
+  gap: 10px;
+}
+
+
+.livro-opcao {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.livro-opcao label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.capa-livro {
+  width: 50px;
   height: auto;
   border-radius: 4px;
-  object-fit: cover;
-  margin-bottom: 0.3rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.livro-titulo {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--primary-color);
+.titulo-livro {
+  font-size: 1rem;
+  color: #333;
+}
+input[type="datetime-local"] {
+  color: #5a5a5a; /* marrom escuro */
 }
 
-.livro-card input[type="checkbox"] {
-  position: absolute;
-  top: 6px;
-  left: 6px;
-  transform: scale(1.3);
-}
+
+
+

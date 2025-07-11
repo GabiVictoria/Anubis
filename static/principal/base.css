@@ -107,8 +107,6 @@ nav a:hover {
   color: #fff;
 }
 
-/* até aqui deveria ser o menu */
-
 .logo-container {
   display: flex;
   align-items: center;
@@ -118,3 +116,5 @@ nav a:hover {
   height: 80px; /* ALTERADO: imagem maior */
   margin-right: 10px;
 }
+
+/* até aqui deveria ser o menu */

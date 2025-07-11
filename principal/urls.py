@@ -12,6 +12,19 @@ urlpatterns = [
     path("criar-clube/", views.criar_clube, name="criar_clube"),
     path("busca/", views.pagina_de_busca, name="pagina_de_busca"),
     path('clube/<int:clube_id>/', views.detalhes_clube, name='detalhes_clube'),
+    path("perfil/", views.perfil, name="perfil"), 
+    path("estante/", views.estante, name="estante"),
+
+     # Rotas da estante aninhadas sob 'estante/'
+    path('estante/lidos/', views.lidos_view, name='lidos'), 
+    path('estante/abandonados/', views.abandonados_view, name='abandonados'),
+    path('estante/proximo/', views.proximo_livro_view, name='proximo_livro'), 
+    path('estante/queremos/', views.queremos_ler_view, name='queremos_ler'), 
+    path('estante/releitura/', views.releitura_view, name='releitura'), 
+    path('inicial_busca/', views.inicial_busca_view, name='inicial_busca'),
+
+
+
 
     # Ações do usuário no clube
     path('clube/<int:clube_id>/sair/', views.sair_clube, name='sair_clube'),
