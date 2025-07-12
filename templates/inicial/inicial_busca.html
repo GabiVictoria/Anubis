@@ -8,7 +8,8 @@
   <title>Anúbis</title>
   <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'principal/inicial_busca.css' %}">
+  <link rel="stylesheet" href="{% static 'inicial/busca.css' %}" />
+  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
 
 </head>
 <body>
@@ -41,7 +42,7 @@
   <section class="search-section">
   <h2>Resultados para: mistérios</h2>
   <div class="search-bar-container">
-    <form action="{% url 'principal:inicial_busca' %}" method="GET"> 
+    <form action="{% url 'inicial:inicial_busca' %}" method="GET"> 
         <input
         type="text"
         name="q"

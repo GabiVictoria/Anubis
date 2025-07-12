@@ -132,3 +132,7 @@ def logout_usuario(request: HttpRequest):
         request.session.flush() # Limpa 
         messages.success(request, "Você foi desconectado com sucesso.")
     return redirect('inicial:login') 
+
+
+def inicial_busca_view(request):
+    return render(request, 'inicial/inicial_busca.html')

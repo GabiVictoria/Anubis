@@ -21,7 +21,7 @@ urlpatterns = [
     path('estante/proximo/', views.proximo_livro_view, name='proximo_livro'), 
     path('estante/queremos/', views.queremos_ler_view, name='queremos_ler'), 
     path('estante/releitura/', views.releitura_view, name='releitura'), 
-    path('inicial_busca/', views.inicial_busca_view, name='inicial_busca'),
+   
 
 
 

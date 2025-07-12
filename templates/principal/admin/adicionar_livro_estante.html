@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let itemsLoaded = 0;
 
     const createBookCard = (livro) => {
-        const capaUrl = livro.capa || "{% static 'img/default_book_cover.png' %}";
+        const capaUrl = livro.capa || "{% static 'img/sem_capa.png' %}";
         const autores = Array.isArray(livro.autores) ? livro.autores.join(', ') : (livro.autores || 'Autor desconhecido');
         const formActionUrl = `{% url 'principal:adicionar_livro_api_para_estante' clube_id=clube.id %}`;
         

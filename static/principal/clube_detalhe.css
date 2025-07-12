@@ -111,8 +111,8 @@ h2, h3, h4 { /* Títulos dentro das seções */
   gap: 1rem;
 }
 .club-main-image {
-  height: 150px;
-  width: 80px;
+  height: 160px;
+  width: 90px;
   object-fit: cover;
   border-radius: 5px;
   flex-shrink: 0; 
@@ -124,6 +124,8 @@ h2, h3, h4 { /* Títulos dentro das seções */
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
   color: var(--accent-color);
+  overflow-wrap: break-word;
+    word-break: break-word; 
 }
 .club-description-text p {
   font-size: 0.95rem;

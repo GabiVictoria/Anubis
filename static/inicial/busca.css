@@ -189,12 +189,16 @@
   box-sizing: border-box;
 }
 
+
 form {
   display: flex;
   width: 100%;
   max-width: 1000px; /* ajuste como quiser: 1100px, 1200px... */
 }
-
+form:focus-within {
+    box-shadow: 0 0 0 2px #6f4e37;
+    border-radius: 5px;
+}
 .search-input {
   flex: 1;
   padding: 10px 15px; /* ALTURA PADRÃO MANTIDA */
@@ -231,6 +235,11 @@ form {
   align-items: center;
   margin: 2rem auto;
 }
+
+.search-input:focus {
+  outline: none; 
+}
+
 h2 {
   text-align: center;
   margin-bottom: 1.5rem; /* aumenta o espaço abaixo do texto */

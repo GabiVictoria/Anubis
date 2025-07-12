@@ -1,11 +1,7 @@
-
-
-.search-bar input {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: var(--border-radius);
-    margin-bottom: 2rem;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .container {
@@ -37,7 +33,7 @@
     
     overflow: hidden;
     border-radius: var(--border-radius);
-    background-color: var(--bg-color);
+    background-color: #b48e68;;
 }
 
 .carousel-item {
@@ -85,8 +81,8 @@ input[type="file"] {
 }
 
 .image-recommendations img {
-    width: 70px;
-    height: 130px;
+    width: 90px;
+    height: 160px;
     object-fit: cover;
     border-radius: 8px;
     cursor: pointer;
@@ -126,42 +122,6 @@ input[type="file"] {
     display: flex;
     gap: 15px;
 }
-  /* Barra de pesquisa. Se precisar tá aqui o css, mas a pagina ta sem barra*/ 
-.search-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px auto 10px;
-  max-width: 1000px;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 2px solid #634536;
-  border-radius: 8px 0 0 8px;
-  font-size: 16px;
-  outline: none;
-  background-color: #fff;
-  color: #333;
-}
-
-.search-button {
-  padding: 10px 15px;
-  background-color: #634536;
-  color: white;
-  border: 2px solid #634536;
-  border-left: none;
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-.search-button:hover {
-  background-color: #4c2f26;
-}
-
 
 
 .form-actions {
@@ -192,23 +152,22 @@ input[type="file"] {
 }
 
 .btn-submit-clube:hover {
-  background-color: #4a3636; /* Tom mais escuro da cor principal */
+  background-color: #4a3636; 
 }
 
 .btn-cancel-clube {
-  background-color: #b42b19; /* Cinza para ações secundárias */
+  background-color: #dc3545; 
 }
 
 .btn-cancel-clube:hover {
-  background-color: #420902; /* Cinza mais escuro */
+  background-color:#b42b19; 
 }
 .sair-clube-button{
-    background-color: var(--danger-color);}
-.sair-clube-butto:hover{
-    background-color: rgb(89, 6, 6);
+    background-color: #dc3545}
+.sair-clube-button:hover{
+    background-color: #b42b19;
 }
 
-/* Efeito de clique para ambos os botões */
 .btn-submit-clube:active,
 .btn-cancel-clube:active {
   transform: translateY(1px); 
@@ -217,13 +176,35 @@ input[type="file"] {
 .titulo-com-imagem {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
   margin-bottom: 1rem;
 }
 
+.titulo-com-imagem h2{
+overflow-wrap: break-word;
+    word-break: break-word; 
+    font-size: 1.9rem;
+    margin: 0px;
+}
+
 .imagem-edicao {
-  width: 70px;
-  height: 130px;
+  width: 107px;
+  height: 200px;
   object-fit: cover;
   border-radius: 8px;
+}
+
+.cabecalho-edicao input{
+   width: 100%;
+   margin: 0px;
+   font-size: 0.90rem;
+}
+.cabecalho-edicao label{
+   margin-top: 0px;
+    font-size: 0.90rem;
+}
+.cabecalho-edicao {
+   display: flex;
+   flex-direction: column;
+   width: 100%;
 }

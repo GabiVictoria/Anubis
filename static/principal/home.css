@@ -153,8 +153,8 @@ nav a:hover {
     }
 
     .card img {
-      height: 150px;
-      width: 80px;
+      height: 160px;
+      width: 90px;
       object-fit: cover;
       border-radius: 5px;
       flex-shrink: 0; /* Impede que a imagem encolha */

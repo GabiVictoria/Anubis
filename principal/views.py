@@ -621,6 +621,3 @@ def queremos_ler_view(request):
 
 def releitura_view(request):
     return render(request, 'principal/releitura.html')
-
-def inicial_busca_view(request):
-    return render(request, 'principal/inicial_busca.html')
