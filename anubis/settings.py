@@ -45,13 +45,12 @@ if RAILWAY_STATIC_HOST:
     ALLOWED_HOSTS.append(RAILWAY_STATIC_HOST)
 
 
-CSRF_TRUSTED_ORIGINS = []
-if RAILWAY_PUBLIC_DOMAIN:
-    # A URL precisa estar no formato https://...
-    CSRF_TRUSTED_ORIGINS.append(f"https://{RAILWAY_PUBLIC_DOMAIN}")
-
-if RAILWAY_STATIC_HOST:
-    CSRF_TRUSTED_ORIGINS.append(f"https://{RAILWAY_STATIC_HOST}")
+# Lista de origens confiáveis para proteção CSRF.
+# Adicione a URL do seu site com 'https://' no início.
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.railway.app',  # Confia em todos os subdomínios seguros da Railway
+    'https://*.up.railway.app'
+]
 
 # Application definition
 
