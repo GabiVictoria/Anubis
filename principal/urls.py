@@ -13,7 +13,7 @@ urlpatterns = [
     path("busca/", views.pagina_de_busca, name="pagina_de_busca"),
     path('clube/<int:clube_id>/', views.detalhes_clube, name='detalhes_clube'),
     path("perfil/", views.perfil, name="perfil"), 
-    path("estante/", views.estante, name="estante"),
+    path('clube/<int:clube_id>/estante/', views.estante, name='estante'),
 
      # Rotas da estante aninhadas sob 'estante/'
     path('estante/lidos/', views.lidos_view, name='lidos'), 
@@ -33,9 +33,14 @@ urlpatterns = [
 
     # Rotas de admin do clube
     path('clube/<int:clube_id>/admin/editar/', views.editar_clube, name='editar_clube'),
-      path('clube/<int:clube_id>/admin/excluir/', views.excluir_clube, name='excluir_clube'),
+    path('clube/<int:clube_id>/admin/excluir/', views.excluir_clube, name='excluir_clube'),
     path('clube/<int:clube_id>/admin/definir-leitura-atual/', views.definir_leitura_atual_clube, name='definir_leitura_atual_clube'),
     path('clube/<int:clube_id>/admin/criar-votacao/', views.criar_votacao_clube, name='criar_votacao_clube'),
+    path('clube/<int:clube_id>/criar_reuniao/', views.criar_reuniao, name='criar_reuniao'),
+    path('reuniao/<int:reuniao_id>/editar/', views.editar_reuniao, name='editar_reuniao'),
+    path('clube/<int:clube_id>/votacao/<int:votacao_id>/editar/', views.editar_votacao, name='editar_votacao'),
+    path('votacao/<int:votacao_id>/fechar/', views.fechar_votacao, name='fechar_votacao'),
+
 
     # --- ROTAS NOVAS E MODIFICADAS PARA API DE LIVROS ---
     # 1. Endpoint que o JavaScript vai chamar para buscar livros

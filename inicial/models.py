@@ -2,6 +2,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone # para manipulação de data/hora
+from django.utils.translation import gettext_lazy as _ 
 
 # ==============================================================================
 # 1. MODELO DE USUÁRIO
@@ -34,12 +35,13 @@ class Livro(models.Model):
 # ==============================================================================
 class Clube(models.Model):
     class Privacidade(models.TextChoices):
-        PUBLICO = 'PUBLICO', 'Público'
-        PRIVADO = 'PRIVADO', 'Privado'
+        PUBLICO = 'PUBLICO', _('Público')
+        PRIVADO = 'PRIVADO', _('Privado')
+        
     LIMITE_MEMBROS_OPCOES = [
-        (10, 'Até 10 membros'),
-        (20, 'Até 20 membros'),
-        (50, 'Até 50 membros'),
+        (10, _('Até 10 membros')),
+        (20, _('Até 20 membros')),
+        (50, _('Até 50 membros')),
     ]
 
     nome = models.CharField(max_length=100)
@@ -74,9 +76,9 @@ class Clube(models.Model):
 
 class ClubeMembro(models.Model):
     class Cargo(models.TextChoices):
-        ADMIN = 'ADMIN', 'Administrador'
-        MODERADOR = 'MODERADOR', 'Moderador'
-        MEMBRO = 'MEMBRO', 'Membro'
+        ADMIN = 'ADMIN', _('Administrador')
+        MODERADOR = 'MODERADOR', _('Moderador')
+        MEMBRO = 'MEMBRO', _('Membro')
 
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
@@ -130,10 +132,10 @@ class VotoUsuario(models.Model):
 # ==============================================================================
 class LeituraClube(models.Model):
     class StatusClube(models.TextChoices):
-        A_LER = 'A_LER', 'A Ler (Lista de Desejos)'
-        PROXIMO = 'PROXIMO', 'Próximo a Ser Lido'
-        LENDO_ATUALMENTE = 'LENDO', 'Lendo Atualmente'
-        FINALIZADO = 'FINALIZADO', 'Finalizado'
+        A_LER = 'A_LER', _('A Ler (Lista de Desejos)')
+        PROXIMO = 'PROXIMO', _('Próximo a Ser Lido')
+        LENDO_ATUALMENTE = 'LENDO', _('Lendo Atualmente')
+        FINALIZADO = 'FINALIZADO', _('Finalizado')
 
     clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
     livro = models.ForeignKey(Livro, on_delete=models.CASCADE)
@@ -152,33 +154,38 @@ class LeituraClube(models.Model):
 # ==============================================================================
 class Reuniao(models.Model):
     class TipoReuniao(models.TextChoices):
-        REMOTO = 'REMOTO', 'Remoto'
-        PRESENCIAL = 'PRESENCIAL', 'Presencial'
+        REMOTO = 'REMOTO', _('Remoto')
+        PRESENCIAL = 'PRESENCIAL', _('Presencial')
 
+  
     class TipoMeta(models.TextChoices):
-        CAPITULOS = 'CAPITULOS', 'Capítulos'
-        PAGINAS = 'PAGINAS', 'Páginas'
+        CAPITULOS = 'CAPITULOS', _('Capítulos')
+        PAGINAS = 'PAGINAS', _('Páginas')
 
-    leitura_clube = models.ForeignKey(LeituraClube, on_delete=models.CASCADE, related_name='reunioes')
-    titulo = models.CharField(max_length=200, default='Reunião de Discussão')
+    clube = models.ForeignKey(Clube, on_delete=models.CASCADE, related_name='reunioes')
+    leitura_associada = models.ForeignKey(LeituraClube, on_delete=models.SET_NULL, null=True, blank=True, related_name='reunioes_agendadas')
+    titulo = models.CharField(max_length=200, default=_('Reunião de Discussão'))
     data_horario = models.DateTimeField()
     tipo = models.CharField(max_length=15, choices=TipoReuniao.choices, default=TipoReuniao.REMOTO)
     link_reuniao = models.URLField(max_length=500, null=True, blank=True)
     endereco = models.TextField(null=True, blank=True)
+    descricao = models.TextField(null=True, blank=True, help_text=_("Detalhes, pauta ou o que será discutido na reunião."))
+    
+   
     meta_tipo = models.CharField(max_length=15, choices=TipoMeta.choices, null=True, blank=True)
     meta_quantidade = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.titulo} - {self.leitura_clube.clube.nome}"
+        return f"{self.titulo} - {self.clube.nome}"
 
 # ==============================================================================
 # 7. MODELO DA ESTANTE PESSOAL
 # ==============================================================================
 class EstantePessoal(models.Model):
     class StatusLeitura(models.TextChoices):
-        LENDO = 'LENDO', 'Lendo'
-        LIDO = 'LIDO', 'Lido'
-        ABANDONADO = 'ABANDONADO', 'Abandonado'
+        LENDO = 'LENDO', _('Lendo')
+        LIDO = 'LIDO', _('Lido')
+        ABANDONADO = 'ABANDONADO', _('Abandonado')
 
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     livro = models.ForeignKey(Livro, on_delete=models.CASCADE)

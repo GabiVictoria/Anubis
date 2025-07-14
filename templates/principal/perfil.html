@@ -5,7 +5,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>{% trans "Perfil" %}</title>
+  <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
+   <title>Anúbis</title>
   <link rel="stylesheet" href="{% static 'principal/perfil.css' %}">
   
   {# --- CORREÇÃO: Link para a biblioteca de ícones foi adicionado aqui --- #}
@@ -103,27 +104,35 @@
     </div>
   </div>
 
-  <section class="clubes-recentes">
-    <h2>📚 {% trans "Clubes Recentes" %}</h2>
+    <section class="clubes-recentes">
+    <h2>📚 {% trans "Clubes Que Você Entrou Recentemente" %}</h2>
     <div class="clubes-galeria">
-      <div class="clube-card">
-        <img src="p4.jpg" alt="{% trans 'Capa do clube Terror dos Clássicos' %}" />
-        <h3>{% trans "Terror dos Clássicos" %}</h3>
-        <p><strong>{% trans "Admin:" %}</strong> Ana Oliveira</p>
-        <p><strong>{% trans "Criado em:" %}</strong> 10/03/2024</p>
-        <p><strong>{% trans "Você entrou em:" %}</strong> 01/07/2025</p>
-        <p><strong>📖 {% trans "Livro atual:" %}</strong> Drácula</p>
-        <p><strong>📘 {% trans "Próximo livro:" %}</strong> Carmilla</p>
-      </div>
-      <div class="clube-card">
-        <img src="p4.jpg" alt="{% trans 'Capa do clube Lendas Góticas' %}" />
-        <h3>{% trans "Lendas Góticas" %}</h3>
-        <p><strong>{% trans "Admin:" %}</strong> Lucas Martins</p>
-        <p><strong>{% trans "Criado em:" %}</strong> 15/04/2024</p>
-        <p><strong>{% trans "Você entrou em:" %}</strong> 02/07/2025</p>
-        <p><strong>📖 {% trans "Livro atual:" %}</strong> Frankenstein</p>
-        <p><strong>📘 {% trans "Próximo livro:" %}</strong> {% trans "O Retrato de Dorian Gray" %}</p>
-      </div>
+      
+      {% for item in clubes_recentes %}
+        <div class="clube-card">
+           <a href="{% url 'principal:detalhes_clube' item.clube_obj.id %}" class="ver-clube-btn">
+          {% if item.clube_obj.capa_clube %}
+            <img src="{{ item.clube_obj.capa_clube.url }}" alt="{% trans 'Capa do clube' %} {{ item.clube_obj.nome }}" />
+          {% elif item.clube_obj.capa_recomendada %}
+            <img src="{% static item.clube_obj.capa_recomendada %}" alt="{% trans 'Capa do clube' %} {{ item.clube_obj.nome }}" />
+          {% else %}
+            <img src="{% static 'img/imgideal.png' %}" alt="{% trans 'Capa padrão' %}" />
+          {% endif %}</a>
+          
+          <h3>{{ item.clube_obj.nome }}</h3>
+          
+          <p><strong>{% trans "Admin:" %}</strong> {{ item.admin_nome|default:_("N/D") }}</p>
+          <p><strong>{% trans "Criado em:" %}</strong> {{ item.clube_obj.data_criacao|date:"d/m/Y" }}</p>
+          <p><strong>{% trans "Você entrou em:" %}</strong> {{ item.data_entrada|date:"d/m/Y" }}</p>
+          
+          <p><strong>📖 {% trans "Livro atual:" %}</strong> {{ item.livro_atual|default:_("Não definido") }}</p>
+          <p><strong>📘 {% trans "Próximo livro:" %}</strong> {{ item.proximo_livro|default:_("Não definido") }}</p>
+
+        </div>
+      {% empty %}
+        <p class="sem-clubes-msg">{% trans "Você ainda não faz parte de nenhum clube. Que tal explorar alguns?" %}</p>
+      {% endfor %}
+
     </div>
   </section>
 

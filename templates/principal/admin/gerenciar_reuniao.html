@@ -1,0 +1,16 @@
+{% extends 'principal/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="main-container admin-form-page">
+    <h2 class="form-title">{{ form_title }}</h2>
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-actions">
+            <button type="submit" class="action-button">{% trans "Salvar" %}</button>
+            <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">{% trans "Cancelar" %}</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

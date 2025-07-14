@@ -11,39 +11,89 @@
 {% block content %}
   <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container details-page-search">
     <input class="search-bar-input" type="text" name="q" placeholder="{% trans 'Buscar em Anúbis...' %}" value="{{ query|default_if_none:'' }}">
-    <button class="search-bar-button" type="submit"><i class="fas fa-search"></i></button>
+    <button class="search-bar-button" type="submit">
+      <i class="fas fa-search"></i>
+    </button>
   </form>
 
   <div class="main-container">
     <div class="club-info section">
-        {% if clube.capa_clube %}<img src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" class="club-main-image">
-        {% elif clube.capa_recomendada %}<img src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" class="club-main-image">
-        {% else %}<img src="{% static 'img/imgideal.png' %}" alt="{% trans 'Capa Padrão' %}" class="club-main-image">{% endif %}
-        <div class="club-description-text">
-            <h2>{{ clube.nome }}</h2>
-            <p>{{ clube.descricao }}</p>
-            <div class="club-meta">
-                {# --- CORREÇÃO APLICADA AQUI --- #}
-                {% blocktrans %}Criado por <strong>{{ fundador_nome }}</strong> em {{ data_criacao_formatada }}{% endblocktrans %}
-            </div>
+      {% if clube.capa_clube %}
+        <img src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" class="club-main-image">
+      {% elif clube.capa_recomendada %}
+        <img src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" class="club-main-image">
+      {% else %}
+        <img src="{% static 'img/imgideal.png' %}" alt="{% trans 'Capa Padrão' %}" class="club-main-image">
+      {% endif %}
+      <div class="club-description-text">
+        <h2>{{ clube.nome }}</h2>
+        <p>{{ clube.descricao }}</p>
+        <div class="club-meta">
+            
+            {% with creation_date=clube.data_criacao|date:"F Y" %}
+                {% blocktrans %}Criado por <strong>{{ fundador_nome }}</strong> em {{ creation_date }}{% endblocktrans %}
+            {% endwith %}
         </div>
-        <div class="club-actions">
-            {% if is_membro %}
-            <form method="post" action="{% url 'principal:sair_clube' clube.id %}">
-                {% csrf_token %}<button type="submit" class="action-button sair-clube-button">{% trans "Sair do Clube" %}</button>
-            </form>
-            {% elif clube.privacidade == PrivacidadeChoices.PUBLICO %}
-            <form method="post" action="{% url 'principal:entrar_clube' clube.id %}">
-                {% csrf_token %}<button type="submit" class="action-button entrar-clube-button">{% trans "Entrar no Clube" %}</button>
-            </form>
-            {% else %}<p class="feedback-text"><em>{% trans "Este clube é privado." %}</em></p>{% endif %}
-        </div>
+      </div>
+      <div class="club-actions">
+        {% if is_membro %}
+          <form method="post" action="{% url 'principal:sair_clube' clube.id %}">
+            {% csrf_token %}
+            <button type="submit" class="action-button sair-clube-button">{% trans "Sair do Clube" %}</button>
+          </form>
+        {% elif clube.privacidade == PrivacidadeChoices.PUBLICO %}
+          <form method="post" action="{% url 'principal:entrar_clube' clube.id %}">
+              {% csrf_token %}
+              <button type="submit" class="action-button entrar-clube-button">{% trans "Entrar no Clube" %}</button>
+          </form>
+        {% else %}
+          <p class="feedback-text"><em>{% trans "Este clube é privado." %}</em></p>
+        {% endif %}
+      </div>
     </div>
 
-    {% if votacao_ativa %}
+    {% if cargo_usuario_atual == CargoChoices.ADMIN %}
+    <div class="admin-section section card-style">
+        <h4>{% trans "Painel do Administrador do Clube" %}</h4>
+        <div class="admin-actions">
+            <a href="{% url 'principal:editar_clube' clube.id %}" class="action-button admin-button">{% trans "Editar Informações do Clube" %}</a>
+            <a href="{% url 'principal:adicionar_livro_estante_clube' clube.id %}" class="action-button admin-button">{% trans "Adicionar Livro à Estante" %}</a>
+            <a href="{% url 'principal:definir_leitura_atual_clube' clube.id %}" class="action-button admin-button">{% trans "Definir Leitura Atual" %}</a>
+            <a href="{% url 'principal:criar_votacao_clube' clube.id %}" class="action-button admin-button">{% trans "Criar Nova Votação" %}</a>
+            <a href="{% url 'principal:criar_reuniao' clube.id %}" class="action-button admin-button">{% trans "Agendar Reunião" %}</a>
+          </div>
+    </div>
+    {% endif %}
+
+    {% if leitura_do_momento_obj %}
+      <div class="featured-book section card-style">
+        <h3 class="section-title">📖 {% trans "Livro do Momento" %}</h3>
+        <div class="book-card">
+          <img src="{% if leitura_do_momento_obj.livro.capa %}{{ leitura_do_momento_obj.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ leitura_do_momento_obj.livro.nome }}" class="book-cover">
+          <div class="book-info">
+            <h4 class="book-title">{{ leitura_do_momento_obj.livro.nome }}</h4>
+            <p><strong>{% trans "Autor:" %}</strong> {{ leitura_do_momento_obj.livro.autor }}</p>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+{% if votacao_ativa %}
       <div class="voting-section section card-style">
-        {# --- CORREÇÃO APLICADA AQUI --- #}
+        <div class="section-header">
+       
         <h3>{% blocktrans %}Votação para Próximo Livro <small>(encerra em {{ data_fim_votacao_formatada }})</small>{% endblocktrans %}</h3>
+        
+        {% if cargo_usuario_atual == CargoChoices.ADMIN %}
+            <div class="header-actions">
+                <a href="{% url 'principal:editar_votacao' clube_id=clube.id votacao_id=votacao_ativa.id %}" class="visit-button">{% trans "Editar" %}</a>
+                <form action="{% url 'principal:fechar_votacao' votacao_ativa.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="visit-button" onclick="return confirm('{% trans 'Tem certeza que deseja fechar esta votação?' %}')">{% trans "Fechar" %}</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
         <form method="post" action="{% url 'principal:registrar_voto' clube_id=clube.id votacao_id=votacao_ativa.id %}">
           {% csrf_token %}
           {% for opcao in opcoes_votacao_com_votos %}
@@ -56,12 +106,7 @@
                     <div class="progress-bar" style="width: {{ opcao.percentual }}%;">{{ opcao.percentual }}%</div>
                   </div>
                   <small class="vote-count">{{ opcao.votos }} {% trans "voto(s) de" %} {{ total_votos_na_votacao }}</small>
-                  {% if is_membro and not usuario_ja_votou %}
-                    <span class="vote-radio">
-                        <input type="radio" name="livro_votado" value="{{ opcao.livro.id }}" id="livro_{{opcao.livro.id}}">
-                        <label for="livro_{{opcao.livro.id}}">{% trans "Votar neste" %}</label>
-                    </span>
-                  {% endif %}
+                  {% if is_membro and not usuario_ja_votou %}<span class="vote-radio"><input type="radio" name="livro_votado" value="{{ opcao.livro.id }}" id="livro_{{opcao.livro.id}}"><label for="livro_{{opcao.livro.id}}">{% trans "Votar neste" %}</label></span>{% endif %}
                 </div>
               </div>
             </div>
@@ -75,5 +120,152 @@
       </div>
     {% endif %}
 
+    {% if not leitura_do_momento_obj and not votacao_ativa and cargo_usuario_atual == CargoChoices.ADMIN %}
+      <div class="section suggestion-box card-style">
+          <p>{% trans "O clube não está lendo nenhum livro e não há votações ativas." %}</p>
+      </div>
+    {% endif %}
+
+    <div class="members-section section card-style">
+      <h3>{% trans "Membros" %} ({{ clube.membros.count }})</h3>
+      <ul class="member-list">
+        {% for membro_cm in membros_do_clube %}
+          <li class="member-item">
+            <img src="{{ default_avatar_url }}" alt="{{ membro_cm.usuario.nome }}" class="member-avatar">
+            <div class="member-info">
+              <span class="member-name {% if membro_cm.cargo == CargoChoices.ADMIN %}leader{% elif membro_cm.cargo == CargoChoices.MODERADOR %}co-leader{% endif %}">
+                {{ membro_cm.usuario.nome }}
+                {% if membro_cm.cargo == CargoChoices.ADMIN %}({% trans "Admin" %}){% elif membro_cm.cargo == CargoChoices.MODERADOR %}({% trans "Mod" %}){% endif %}
+              </span>
+              <div class="member-details">{% trans "Entrou:" %} {{ membro_cm.data_inscricao|date:"d/m/Y" }}</div>
+            </div>
+          </li>
+        {% empty %}
+          <li>{% trans "Este clube ainda não tem membros." %}</li>
+        {% endfor %}
+      </ul>
     </div>
+
+    <!-- <div class="shelf-section section card-style">
+      <h3>{% trans "Livros Já Lidos Pelo Clube" %}</h3>
+      {% if leituras_finalizadas %}
+        <ul class="shelf-list">
+          {% for leitura in leituras_finalizadas %}
+            <li class="shelf-item">
+              <img src="{% if leitura.livro.capa %}{{ leitura.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ leitura.livro.nome }}" class="shelf-book-cover">
+              <div class="shelf-item-info">
+                <strong>{{ leitura.livro.nome }}</strong>
+                {% with final_date=leitura.data_finalizacao|date:"d/m/Y"|default:"N/D" rating=leitura.nota_media_clube|default:"N/A" %}
+                    <span>{% blocktrans %}Finalizado em: {{ final_date }} | Avaliação: {{ rating }}/5{% endblocktrans %}</span>
+                {% endwith %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>{% trans "Nenhum livro finalizado pelo clube ainda." %}</p>
+      {% endif %}
+    </div>
+  </div> -->
+
+  <!-- <div class="card-container">
+    <h2 class="card-title">{% trans "BARRA DE PROGRESSO" %}</h2>
+    <hr />
+    <div class="card">
+      <img src="https://upload.wikimedia.org/wikipedia/en/8/8e/KafkaontheShore.jpg" alt="{% trans 'Kafka à Beira Mar' %}" class="book-cover">
+      <div class="content">
+        <div class="title">{% trans "Kafka à Beira Mar" %}</div>
+        <div class="club">Haruki Murakami</div>
+        <div class="progress-container">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText" data-translation-format="{% trans '{value}% concluído' %}">
+            45% {% trans "concluído" %}
+        </div>
+        <div class="controls">
+          <label for="progressInput">{% trans "Atualizar %:" %}</label>
+          <input type="number" id="progressInput" min="0" max="100">
+          <button onclick="atualizarProgresso()">{% trans "Atualizar" %}</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+ 
+
+  <div class="card-container">
+    <h2 class="card-title">{% trans "VISITAR A ESTANTE DO CLUBE" %}</h2>
+    <hr />
+    <div class="card">
+      <div class="content">
+        <p>{% trans "Explore os livros mais desejados e odiados. Clique abaixo para visitar a estante e conhecer um pouco os gostos do nosso clube." %}</p>
+        <div class="controls">
+          <a href="{% url 'principal:estante' clube.id %}">
+            <button class="visit-button">{% trans "Visitar Estante" %}</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card-container">
+        <h3>🗓️ {% trans "Próximas Reuniões" %}</h3>
+        {% if reunioes_agendadas %}
+            <ul class="meeting-list">
+            {% for reuniao in reunioes_agendadas %}
+                <li class="meeting-item">
+                    <div class="meeting-date">
+                        <span class="month">{{ reuniao.data_horario|date:"M" }}</span>
+                        <span class="day">{{ reuniao.data_horario|date:"d" }}</span>
+                    </div>
+                    <div class="meeting-info">
+                        <strong>{{ reuniao.titulo }}</strong>
+                        <small>{% trans "às" %} {{ reuniao.data_horario|date:"H:i" }}</small>
+                        {% if reuniao.leitura_associada %}<p>{% trans "Sobre o livro:" %} {{ reuniao.leitura_associada.livro.nome }}</p>{% endif %}
+                        {% if reuniao.meta_tipo and reuniao.meta_quantidade %}<p class="meeting-goal">🎯 {% trans "Meta:" %} {% trans "Ler até" %} {{ reuniao.get_meta_tipo_display }} {{ reuniao.meta_quantidade }}</p>{% endif %}
+                        <p>{{ reuniao.descricao|default:"" }}</p>
+                        {% if reuniao.tipo == 'REMOTO' and reuniao.link_reuniao %}<a href="{{ reuniao.link_reuniao }}" target="_blank">{% trans "Link da Reunião" %}</a>
+                        {% elif reuniao.tipo == 'PRESENCIAL' and reuniao.endereco %}<span>📍 {{ reuniao.endereco }}</span>{% endif %}
+                    </div>
+                    {% if cargo_usuario_atual == CargoChoices.ADMIN %}
+                        <a href="{% url 'principal:editar_reuniao' reuniao.id %}" class="edit-link small">{% trans "Editar" %}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>{% trans "Nenhuma reunião agendada." %}</p>
+        {% endif %}
+    </div>
+
+
+<script>
+  function atualizarProgresso() {
+    const input = document.getElementById("progressInput");
+    const valor = Math.max(0, Math.min(100, parseInt(input.value, 10) || 0));
+    
+    const barra = document.getElementById("progressBar");
+    const textoElemento = document.getElementById("progressText");
+
+    const formatoTraduzido = textoElemento.getAttribute('data-translation-format');
+    const textoFinal = formatoTraduzido.replace('{value}', valor);
+
+    barra.style.width = valor + "%";
+    textoElemento.textContent = textoFinal;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const progressBars = document.querySelectorAll('.voting-section .progress-bar');
+    progressBars.forEach(bar => {
+      const finalWidth = bar.style.width;
+      if (finalWidth) {
+        bar.style.width = '0%';
+        setTimeout(() => {
+          bar.style.width = finalWidth;
+        }, 300);
+      }
+    });
+  });
+</script>
 {% endblock %}

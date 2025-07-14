@@ -6,7 +6,9 @@ import re
 from django.db import IntegrityError
 from datetime import datetime, date
 from .models import Usuario
-from django.utils.translation import gettext as _ # IMPORTADO PARA TRADUÇÃO
+from django.utils.translation import gettext as _ 
+from inicial.models import Clube, ClubeMembro, LeituraClube 
+from django.db.models import Q, Subquery, OuterRef, Count, CharField, Value
 
 # Create your views here.
 
@@ -133,4 +135,48 @@ def logout_usuario(request: HttpRequest):
 
 
 def inicial_busca_view(request):
-    return render(request, 'inicial/inicial_busca.html')
+  
+    query = request.GET.get('q', '').strip()
+    resultados_finais = []
+
+    if query:
+       
+        criador_subquery = ClubeMembro.objects.filter(
+            clube=OuterRef('pk'), 
+            cargo=ClubeMembro.Cargo.ADMIN
+        ).order_by('data_inscricao').values('usuario__nome')[:1]
+
+        
+        livro_atual_subquery = LeituraClube.objects.filter(
+            clube=OuterRef('pk'),
+            status=LeituraClube.StatusClube.LENDO_ATUALMENTE
+        ).values('livro__nome')[:1]
+
+       
+        clubes_por_nome = Clube.objects.filter(nome__icontains=query)
+
+      
+        clubes_por_livro = Clube.objects.filter(
+            leituraclube__livro__nome__icontains=query,
+            leituraclube__status__in=[
+                LeituraClube.StatusClube.LENDO_ATUALMENTE,
+                LeituraClube.StatusClube.PROXIMO
+            ]
+        )
+
+        
+        todos_os_clubes_encontrados = (clubes_por_nome | clubes_por_livro).distinct()
+
+       
+        resultados_finais = todos_os_clubes_encontrados.annotate(
+            membros_count=Count('membros'),
+            criado_por=Subquery(criador_subquery, output_field=CharField()),
+            livro_atual=Subquery(livro_atual_subquery, output_field=CharField())
+        )
+
+    contexto = {
+        'query': query,
+        'resultados': resultados_finais,
+    }
+
+    return render(request, 'inicial/inicial_busca.html', contexto)

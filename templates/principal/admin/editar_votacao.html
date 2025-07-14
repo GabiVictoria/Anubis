@@ -1,0 +1,29 @@
+{% extends 'principal/base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="main-container admin-form-page">
+    <h2 class="form-title">{% trans "Editar Votação" %}</h2>
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        <div class="form-field">
+            {{ form.data_fim.label_tag }}
+            {{ form.data_fim }}
+            {% if form.data_fim.errors %}<div class="error-message">{{ form.data_fim.errors }}</div>{% endif %}
+        </div>
+        <div class="form-field">
+            {{ form.livros_opcoes.label_tag }}
+            <ul class="checkbox-list">
+            {% for checkbox in form.livros_opcoes %}
+                <li><label for="{{ checkbox.id_for_label }}">{{ checkbox.tag }} {{ checkbox.choice_label.livro.nome }}</label></li>
+            {% endfor %}
+            </ul>
+            {% if form.livros_opcoes.errors %}<div class="error-message">{{ form.livros_opcoes.errors }}</div>{% endif %}
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="action-button">{% trans "Salvar Alterações" %}</button>
+            <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">{% trans "Cancelar" %}</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

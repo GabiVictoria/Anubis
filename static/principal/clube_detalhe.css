@@ -177,6 +177,12 @@ h2, h3, h4 { /* Títulos dentro das seções */
 .admin-actions { display: flex; flex-wrap: wrap; gap: 0.8rem; }
 .admin-button { font-size: 0.85rem; padding: 0.5rem 0.8rem; background-color: #6c757d; } /* Cor diferente para botões admin */
 .admin-button:hover { background-color: #5a6268; }
+.admin-section a {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 /* --- Livro do Momento (.featured-book) --- */
@@ -449,9 +455,24 @@ h2, h3, h4 { /* Títulos dentro das seções */
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s ease;
+  text-decoration: none;
 }
 
 .visit-button:hover {
   background-color: #4a2a1d;
 }
+
+.section-header{
+  display: flex;
+  justify-content: space-between;
+}
+.header-actions{
+  width: 200px;
+  height: 40px;
+  gap: 10px;
+  display: flex;
+  justify-content: end;
+
+}
+.header-actions button{  height: 100%;}
 

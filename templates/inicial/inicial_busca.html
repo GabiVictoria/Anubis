@@ -1,29 +1,19 @@
 {% load static %}
-{% load i18n %} {# Carrega a biblioteca de internacionalização #}
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <title>{% trans "Anúbis" %}</title>
+  <title>Anúbis</title>
   <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'inicial/busca.css' %}" />
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
 </head>
 <body>
-
-  {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li class="{{ message.tags }}">
-          {{ message }}
-        </li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-
+  
   <header>
     <div class="branding">
       <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo da Anúbis' %}" class="logo" />
@@ -42,10 +32,11 @@
     <div class="search-bar-container">
       <form action="{% url 'inicial:inicial_busca' %}" method="GET"> 
         <input
-        type="text"
-        name="q"
-        placeholder="{% trans 'Buscar livros, clubes...' %}"
-        class="search-input"
+          type="text"
+          name="q"
+          placeholder="{% trans 'Buscar novamente...' %}"
+          class="search-input"
+          value="{{ query }}"
         />
         <button type="submit" class="search-button">
             <i class="fas fa-search search-icon"></i>
@@ -54,26 +45,47 @@
     </div>
   </section>
 
-  <div class="club-card">
-    <img src="https://via.placeholder.com/150x200" alt="{% trans 'Capa do Livro' %}" class="club-image" />
-    <div class="club-info">
-      <h2 class="club-name">Clube Mistérios da Agatha</h2>
-      <p><strong>{% trans "Membros:" %}</strong> 35</p>
-      <p><strong>{% trans "Data de criação:" %}</strong> 10/08/2025</p>
-      <p><strong>{% trans "Livro atual:" %}</strong> "Só sobrou um" - Agatha Christie</p>
-      <p><strong>{% trans "Criado por:" %}</strong> Carlos Ricardo</p>
-    </div>
-  </div>
-  <div class="club-card">
-    <img src="https://via.placeholder.com/150x200" alt="{% trans 'Capa do Livro' %}" class="club-image" />
-    <div class="club-info">
-      <h2 class="club-name">Clube Mistérios da noite</h2>
-      <p><strong>{% trans "Membros:" %}</strong> 35</p>
-      <p><strong>{% trans "Data de criação:" %}</strong> 23/06/2025</p>
-      <p><strong>{% trans "Livro atual:" %}</strong> "O Nome do Vento" - Patrick Rothfuss</p>
-      <p><strong>{% trans "Criado por:" %}</strong> Ana Souza</p>
-    </div>
-  </div>
+  <main class="results-container">
+    {% for clube in resultados %}
+      <div class="club-card">
+        
+        {% if clube.capa_clube %}
+          <img src="{{ clube.capa_clube.url }}" alt="{% trans 'Capa do clube' %} {{ clube.nome }}" class="club-image">
+        {% elif clube.capa_recomendada %}
+          <img src="{% static clube.capa_recomendada %}" alt="{% trans 'Capa do clube' %} {{ clube.nome }}" class="club-image">
+        {% else %}
+          <img src="{% static 'img/imgideal.png' %}" alt="{% trans 'Capa padrão' %}" class="club-image">
+        {% endif %}
+
+        <div class="club-info">
+          <h2 class="club-name">{{ clube.nome }}</h2>
+          <p><strong>{% trans "Membros:" %}</strong> {{ clube.membros_count }}</p>
+          <p><strong>{% trans "Data de criação:" %}</strong> {{ clube.data_criacao|date:"d/m/Y" }}</p>
+          <p>
+            <strong>{% trans "Livro atual:" %}</strong> 
+            {% if clube.livro_atual %}
+              {{ clube.livro_atual }}
+            {% else %}
+              {% trans "Nenhum" %}
+            {% endif %}
+          </p>
+          <p>
+            <strong>{% trans "Criado por:" %}</strong> 
+            {% if clube.criado_por %}
+              {{ clube.criado_por }}
+            {% else %}
+              {% trans "Não informado" %}
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    {% empty %}
+      <div class="no-results">
+        <p>{% blocktrans %}Nenhum clube encontrado para a busca "{{ query }}".{% endblocktrans %}</p>
+        <p>{% trans "Tente buscar por outro termo ou explore os clubes após criar sua conta!" %}</p>
+      </div>
+    {% endfor %}
+  </main>
 
   <footer>
     © 2025 Anúbis. {% trans "Todos os direitos reservados." %}

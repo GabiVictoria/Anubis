@@ -286,7 +286,7 @@ nav a:hover {
 
 /* clubes recentes */
 .clube-card {
-  width: 180px;
+  width: 230px;
   border-radius: 8px;
   background: #f9f9f9;
   padding: 10px;
@@ -338,9 +338,9 @@ nav a:hover {
 
 .clubes-galeria {
   display: flex;
-  gap: 20px;
+  gap: 40px;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 /* caixa da descrição */

@@ -5,7 +5,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% trans "Clube do Livro" %}</title>
+  <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
+  <title>Anúbis</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'principal/estante.css' %}">
   <script src="{% static 'principal/js/estante.js' %}"></script>
@@ -32,7 +33,7 @@
   <div class="card-central">
     <div class="clube-header">
       <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo do Clube' %}">
-      <h1>{% trans "Clube dos Leitores Fantásticos" %}</h1>
+      <h1> {{ clube.nome }}</h1>
     </div>
 
     <p class="descricao-clube">
@@ -40,7 +41,7 @@
     </p>
 
     <div class="botoes">
-      <a href="{% url 'principal:estante' %}" class="botoes">{% trans "Lendo" %}</a>
+      <a href="{% url 'principal:estante' clube.id %}" class="botoes">{% trans "Lendo" %}</a>
       <a href="{% url 'principal:lidos' %}" class="botoes">{% trans "Lidos" %}</a>
       <a href="{% url 'principal:abandonados' %}" class="botoes">{% trans "Abandonados" %}</a>
       <a href="{% url 'principal:proximo_livro' %}" class="botoes">{% trans "Próximo Livro" %}</a>
@@ -48,16 +49,56 @@
       <a href="{% url 'principal:releitura' %}" class="botoes">{% trans "Releitura" %}</a>
     </div>
 
-    <div class="livro-card">
-      <img src="{% static 'img/5d49c55e-9356-44cb-9384-b6bfcb9074e5.png' %}" alt="{% trans 'Capa do livro' %}" class="livro-img" />
-      <div class="livro-info">
-        <h3><span>A Biblioteca da Meia-Noite</span></h3>
-        <p><strong>{% trans "Autor:" %}</strong> Matt Haig</p>
-        <p><strong>{% trans "Data de Início:" %}</strong> 10/07/2025</p>
-        <p><strong>{% trans "Próxima Reunião:" %}</strong> 25/07/2025</p>
+   
+
+{% block content %}
+<div class="estante-container">
+  
+  
+  {% if leitura_atual %}
+    <div class="estante-grid-single">
+      <div class="livro-card">
+        
+        {# Bloco da Capa do Livro #}
+        {% with livro=leitura_atual.livro %} {# Criando um atalho para o livro #}
+          {% if livro.capa.url %}
+            <img src="{{ livro.capa.url }}" alt="{% trans 'Capa do livro' %} {{ livro.nome }}" class="livro-img" />
+          {% else %}
+            <img src="{% static 'img/sem_capa.png' %}" alt="{% trans 'Capa do livro não disponível' %}" class="livro-img" />
+          {% endif %}
+
+          {# Bloco de Informações do Livro #}
+          <div class="livro-info">
+            <h3><span>{{ livro.nome }}</span></h3>
+            <p><strong>{% trans "Autor:" %}</strong> {{ livro.autor }}</p>
+            
+            {% if leitura_atual.data_inicio %}
+              <p><strong>{% trans "Data de Início:" %}</strong> {{ leitura_atual.data_inicio|date:"d/m/Y" }}</p>
+            {% endif %}
+
+            <p>
+              <strong>{% trans "Próxima Reunião:" %}</strong>
+              {% if proxima_reuniao %}
+                {{ proxima_reuniao.data_horario|date:"d/m/Y \à\s H:i" }}
+              {% else %}
+                <span class="text-muted">{% trans "A definir" %}</span>
+              {% endif %}
+            </p>
+          </div>
+        {% endwith %}
       </div>
     </div>
-  </div>
+  
+  {% else %}
+    {# Mensagem exibida se não houver leitura atual para este clube #}
+    <div class="card-vazio">
+      <p>{% blocktrans with clube_nome=clube.nome %}O clube '{{ clube_nome }}' não tem uma leitura definida como "lendo atualmente".{% endblocktrans %}</p>
+  
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}
 
 </body>
 </html>

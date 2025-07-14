@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 21:31-0300\n"
+"POT-Creation-Date: 2025-07-14 18:02-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English <LL@li.org>\n"
@@ -30,240 +30,416 @@ msgstr "English"
 msgid "Espanhol"
 msgstr "Spanish"
 
-#: .\inicial\views.py:41 .\inicial\views.py:102
+#: .\inicial\models.py:38 .\templates\principal\criar_clube.html:66
+msgid "Público"
+msgstr "Public"
+
+#: .\inicial\models.py:39 .\templates\principal\criar_clube.html:67
+msgid "Privado"
+msgstr "Private"
+
+#: .\inicial\models.py:42 .\templates\principal\criar_clube.html:50
+msgid "Até 10 membros"
+msgstr "Up to 10 members"
+
+#: .\inicial\models.py:43 .\templates\principal\criar_clube.html:51
+msgid "Até 20 membros"
+msgstr "Up to 20 members"
+
+#: .\inicial\models.py:44 .\templates\principal\criar_clube.html:52
+msgid "Até 50 membros"
+msgstr "Up to 50 members"
+
+#: .\inicial\models.py:79
+msgid "Administrador"
+msgstr "Administrator"
+
+#: .\inicial\models.py:80
+msgid "Moderador"
+msgstr "Moderator"
+
+#: .\inicial\models.py:81
+#, fuzzy
+#| msgid "Membros:"
+msgid "Membro"
+msgstr "Member"
+
+#: .\inicial\models.py:135
+msgid "A Ler (Lista de Desejos)"
+msgstr "To Read (Wishlist)"
+
+#: .\inicial\models.py:136
+#, fuzzy
+#| msgid "Próximo Livro"
+msgid "Próximo a Ser Lido"
+msgstr "Next to Be Read"
+
+#: .\inicial\models.py:137
+msgid "Lendo Atualmente"
+msgstr "Currently Reading"
+
+#: .\inicial\models.py:138
+msgid "Finalizado"
+msgstr "Finished"
+
+#: .\inicial\models.py:157
+msgid "Remoto"
+msgstr "Remote"
+
+#: .\inicial\models.py:158
+msgid "Presencial"
+msgstr "In Person"
+
+#: .\inicial\models.py:162
+msgid "Capítulos"
+msgstr "Chapters"
+
+#: .\inicial\models.py:163
+#: .\templates\principal\admin\adicionar_livro_estante.html:73
+msgid "Páginas"
+msgstr "Pages"
+
+#: .\inicial\models.py:167
+msgid "Reunião de Discussão"
+msgstr "Discussion Meeting"
+
+#: .\inicial\models.py:172
+msgid "Detalhes, pauta ou o que será discutido na reunião."
+msgstr "Details, agenda, or what will be discussed at the meeting."
+
+#: .\inicial\models.py:186 .\templates\principal\abandonados.html:43
+#: .\templates\principal\estante.html:43 .\templates\principal\lidos.html:43
+#: .\templates\principal\proximo_livro.html:43
+#: .\templates\principal\queremos_ler.html:43
+#: .\templates\principal\releitura.html:43
+msgid "Lendo"
+msgstr "Reading"
+
+#: .\inicial\models.py:187
+#, fuzzy
+#| msgid "Lidos"
+msgid "Lido"
+msgstr "Read"
+
+#: .\inicial\models.py:188
+#, fuzzy
+#| msgid "Abandonados"
+msgid "Abandonado"
+msgstr "Abandoned"
+
+#: .\inicial\views.py:43 .\inicial\views.py:104
 msgid "Todos os campos são obrigatórios."
 msgstr "All fields are required."
 
-#: .\inicial\views.py:49
+#: .\inicial\views.py:51
 msgid "Você deve ter pelo menos 13 anos para se cadastrar."
 msgstr "You must be at least 13 years old to register."
 
-#: .\inicial\views.py:53
+#: .\inicial\views.py:55
 msgid "As senhas não coincidem."
 msgstr "The passwords do not match."
 
-#: .\inicial\views.py:66
+#: .\inicial\views.py:68
 msgid "A senha não atende aos critérios de segurança. "
 msgstr "The password does not meet the security criteria. "
 
-#: .\inicial\views.py:67
+#: .\inicial\views.py:69
 #, python-format
 msgid "Ela deve conter: pelo menos %(min_tamanho)s caracteres, "
 msgstr "It must contain: at least %(min_tamanho)s characters, "
 
-#: .\inicial\views.py:68
+#: .\inicial\views.py:70
 msgid "uma letra maiúscula (A-Z), uma letra minúscula (a-z), "
 msgstr "one uppercase letter (A-Z), one lowercase letter (a-z), "
 
-#: .\inicial\views.py:69
+#: .\inicial\views.py:71
 msgid "um número (0-9), e um caractere especial (ex: !@#$%&*)."
 msgstr "one number (0-9), and one special character (e.g., !@#$%&*)."
 
-#: .\inicial\views.py:75
+#: .\inicial\views.py:77
 msgid "Este endereço de e-mail já está cadastrado."
 msgstr "This email address is already registered."
 
-#: .\inicial\views.py:83
+#: .\inicial\views.py:85
 msgid "Cadastro realizado com sucesso! Por favor, faça o login."
 msgstr "Registration successful! Please log in."
 
-#: .\inicial\views.py:86
+#: .\inicial\views.py:88
 msgid "Este endereço de e-mail já está cadastrado. Por favor, utilize outro."
 msgstr "This email address is already registered. Please use another one."
 
-#: .\inicial\views.py:91
+#: .\inicial\views.py:93
 msgid "Ocorreu um erro inesperado durante o cadastro. Tente novamente."
 msgstr "An unexpected error occurred during registration. Please try again."
 
-#: .\inicial\views.py:113 .\inicial\views.py:118
+#: .\inicial\views.py:115 .\inicial\views.py:120
 msgid "E-mail ou senha inválidos."
 msgstr "Invalid email or password."
 
-#: .\inicial\views.py:123
+#: .\inicial\views.py:125
 #, python-format
 msgid "Ocorreu um erro inesperado: %(error)s"
 msgstr "An unexpected error occurred: %(error)s"
 
-#: .\inicial\views.py:131
+#: .\inicial\views.py:133
 msgid "Você foi desconectado com sucesso."
 msgstr "You have been successfully logged out."
 
-#: .\principal\views.py:44
+#: .\principal\forms.py:131
+msgid "Ex: 50 ou 5"
+msgstr "Ex: 50 or 5"
+
+#: .\principal\forms.py:133
+msgid "Ex: Rua Fictícia, 123, Bairro"
+msgstr "Ex: Fictional Street, 123, Neighborhood"
+
+#: .\principal\forms.py:134
+msgid "Livro em Discussão (opcional)"
+msgstr "Book in Discussion (optional)"
+
+#: .\principal\forms.py:135
+msgid "Tipo de Meta (opcional)"
+msgstr "Goal Type (optional)"
+
+#: .\principal\forms.py:136
+msgid "Quantidade da Meta (opcional)"
+msgstr "Goal Quantity (optional)"
+
+#: .\principal\views.py:45
 msgid "(a definir)"
 msgstr "(to be defined)"
 
-#: .\principal\views.py:90
+#: .\principal\views.py:91
 msgid "O nome e a descrição do clube são obrigatórios."
 msgstr "The club name and description are required."
 
-#: .\principal\views.py:94
+#: .\principal\views.py:95
 msgid "O limite de membros é obrigatório."
 msgstr "The member limit is required."
 
-#: .\principal\views.py:100
+#: .\principal\views.py:101
 msgid "Valor inválido para limite de membros."
 msgstr "Invalid value for member limit."
 
-#: .\principal\views.py:104
+#: .\principal\views.py:105
 msgid "Opção de privacidade inválida."
 msgstr "Invalid privacy option."
 
-#: .\principal\views.py:108
+#: .\principal\views.py:109
 #, python-format
-msgid "Já existe um clube com o nome '%(nome_clube)s'. Por favor, escolha outro nome."
-msgstr "A club with the name '%(nome_clube)s' already exists. Please choose another name."
+msgid ""
+"Já existe um clube com o nome '%(nome_clube)s'. Por favor, escolha outro "
+"nome."
+msgstr ""
+"A club with the name '%(nome_clube)s' already exists. Please choose another "
+"name."
 
-#: .\principal\views.py:136
+#: .\principal\views.py:137
 #, python-format
 msgid "Clube '%(nome_clube)s' criado com sucesso!"
 msgstr "Club '%(nome_clube)s' created successfully!"
 
-#: .\principal\views.py:140
+#: .\principal\views.py:141
 #, python-format
 msgid "Ocorreu um erro inesperado ao criar o clube: %(error)s"
 msgstr "An unexpected error occurred while creating the club: %(error)s"
 
-#: .\principal\views.py:171 .\principal\views.py:172 .\principal\views.py:205
+#: .\principal\views.py:172 .\principal\views.py:173 .\principal\views.py:206
+#: .\principal\views.py:626 .\templates\principal\perfil.html:123
 msgid "N/D"
 msgstr "N/A"
 
-#: .\principal\views.py:174
+#: .\principal\views.py:175
 msgid "Nenhuma leitura atual"
 msgstr "No current reading"
 
-#: .\principal\views.py:179
+#: .\principal\views.py:180
 #, python-format
 msgid "Nome do clube corresponde a '%(query)s'"
 msgstr "Club name matches '%(query)s'"
 
-#: .\principal\views.py:182
+#: .\principal\views.py:183
 #, python-format
 msgid "Livro '%(livro_nome)s' corresponde a '%(query)s'"
 msgstr "Book '%(livro_nome)s' matches '%(query)s'"
 
-#: .\principal\views.py:272
+#: .\principal\views.py:285
 msgid "Nenhum livro selecionado para votar."
 msgstr "No book selected to vote."
 
-#: .\principal\views.py:278
+#: .\principal\views.py:291
 msgid "Você precisa ser membro do clube para votar."
 msgstr "You must be a member of the club to vote."
 
-#: .\principal\views.py:282 .\templates\principal\detalhes_clube.html:111
+#: .\principal\views.py:295 .\templates\principal\detalhes_clube.html:115
 msgid "Você já votou nesta votação."
 msgstr "You have already voted in this poll."
 
-#: .\principal\views.py:284
+#: .\principal\views.py:297
 msgid "Esta votação não está mais ativa."
 msgstr "This poll is no longer active."
 
-#: .\principal\views.py:286
+#: .\principal\views.py:299
 msgid "Este livro não é uma opção válida para esta votação."
 msgstr "This book is not a valid option for this poll."
 
-#: .\principal\views.py:289
+#: .\principal\views.py:302
 #, python-format
 msgid "Seu voto em '%(livro_nome)s' foi registrado!"
 msgstr "Your vote for '%(livro_nome)s' has been registered!"
 
-#: .\principal\views.py:293
+#: .\principal\views.py:306
 msgid "Método inválido para registrar voto."
 msgstr "Invalid method to register vote."
 
-#: .\principal\views.py:305
+#: .\principal\views.py:318
 #, python-format
 msgid "Você entrou no clube '%(nome_clube)s'!"
 msgstr "You have joined the club '%(nome_clube)s'!"
 
-#: .\principal\views.py:307
+#: .\principal\views.py:320
 #, python-format
 msgid "O clube '%(nome_clube)s' atingiu o limite de membros."
 msgstr "The club '%(nome_clube)s' has reached the member limit."
 
-#: .\principal\views.py:309
+#: .\principal\views.py:322
 msgid "Você já é membro deste clube."
 msgstr "You are already a member of this club."
 
-#: .\principal\views.py:311
+#: .\principal\views.py:324
 msgid "Este clube é privado. A entrada precisa de aprovação."
 msgstr "This club is private. Entry requires approval."
 
-#: .\principal\views.py:323
-msgid "Você é o único administrador. Promova outro membro antes de sair ou exclua o clube."
-msgstr "You are the only administrator. Promote another member before leaving or delete the club."
+#: .\principal\views.py:336
+msgid ""
+"Você é o único administrador. Promova outro membro antes de sair ou exclua o "
+"clube."
+msgstr ""
+"You are the only administrator. Promote another member before leaving or "
+"delete the club."
 
-#: .\principal\views.py:326
+#: .\principal\views.py:339
 #, python-format
 msgid "Você saiu do clube '%(nome_clube)s'."
 msgstr "You have left the club '%(nome_clube)s'."
 
-#: .\principal\views.py:328
+#: .\principal\views.py:341
 msgid "Você não é membro deste clube."
 msgstr "You are not a member of this club."
 
-#: .\principal\views.py:350
+#: .\principal\views.py:363
 #, python-format
 msgid "O clube '%(nome_clube)s' foi atualizado com sucesso!"
 msgstr "The club '%(nome_clube)s' has been updated successfully!"
 
-#: .\principal\views.py:353
+#: .\principal\views.py:366
 msgid "Houve um erro no formulário. Por favor, verifique os dados."
 msgstr "There was an error in the form. Please check the data."
 
-#: .\principal\views.py:369
+#: .\principal\views.py:382
 #, python-format
 msgid "O clube '%(nome_clube)s' foi excluído permanentemente."
 msgstr "The club '%(nome_clube)s' has been permanently deleted."
 
-#: .\principal\views.py:372
+#: .\principal\views.py:385
 msgid "Ação inválida."
 msgstr "Invalid action."
 
-#: .\principal\views.py:382
+#: .\principal\views.py:395
 msgid "Forneça um título ou autor para a busca."
 msgstr "Please provide a title or author for the search."
 
-#: .\principal\views.py:419 .\principal\views.py:456
+#: .\principal\views.py:432 .\principal\views.py:469
 msgid "Título indisponível"
 msgstr "Title unavailable"
 
-#: .\principal\views.py:420 .\principal\views.py:457
+#: .\principal\views.py:433 .\principal\views.py:470
 #: .\templates\principal\admin\adicionar_livro_estante.html:72
 msgid "Autor desconhecido"
 msgstr "Author unknown"
 
-#: .\principal\views.py:497
+#: .\principal\views.py:510
 msgid "Dados do livro incompletos (ISBN obrigatório)."
 msgstr "Incomplete book data (ISBN required)."
 
-#: .\principal\views.py:516
+#: .\principal\views.py:529
 #, python-format
 msgid "O livro '%(livro_nome)s' já está na estante do clube."
 msgstr "The book '%(livro_nome)s' is already on the club's shelf."
 
-#: .\principal\views.py:519
+#: .\principal\views.py:532
 #, python-format
 msgid "Livro '%(livro_nome)s' adicionado à estante com sucesso!"
 msgstr "Book '%(livro_nome)s' added to the shelf successfully!"
 
-#: .\principal\views.py:546
+#: .\principal\views.py:559
 #, python-format
 msgid "'%(livro_nome)s' definido como leitura atual do clube."
 msgstr "'%(livro_nome)s' set as the club's current reading."
 
-#: .\principal\views.py:549
+#: .\principal\views.py:562
 msgid "Erro ao definir leitura atual. Verifique os dados do formulário."
 msgstr "Error setting current reading. Please check the form data."
 
-#: .\principal\views.py:575
+#: .\principal\views.py:588
 msgid "Nova votação criada com sucesso!"
 msgstr "New poll created successfully!"
 
-#: .\principal\views.py:578
+#: .\principal\views.py:591
 msgid "Erro ao criar votação. Verifique os campos."
 msgstr "Error creating poll. Please check the fields."
 
-#: .\templates\inicial\cadastro.html:8 .\templates\inicial\inicial.html:9 ...
+#: .\principal\views.py:707
+#, fuzzy
+#| msgid "Nova votação criada com sucesso!"
+msgid "Reunião agendada com sucesso!"
+msgstr "Meeting scheduled successfully!"
+
+#: .\principal\views.py:711
+msgid "Agendar Nova Reunião"
+msgstr "Schedule New Meeting"
+
+#: .\principal\views.py:720
+#, fuzzy
+#| msgid "Nova votação criada com sucesso!"
+msgid "Reunião atualizada com sucesso!"
+msgstr "Meeting updated successfully!"
+
+#: .\principal\views.py:724
+#, fuzzy
+#| msgid "Próxima Reunião:"
+msgid "Editar Reunião"
+msgstr "Edit Meeting"
+
+#: .\principal\views.py:733
+#, fuzzy
+#| msgid "Nova votação criada com sucesso!"
+msgid "Votação atualizada com sucesso!"
+msgstr "Poll updated successfully!"
+
+#: .\principal\views.py:746
+msgid "A votação foi fechada manualmente."
+msgstr "The poll was closed manually."
+
+#: .\templates\inicial\cadastro.html:8 .\templates\inicial\inicial.html:9
+#: .\templates\inicial\inicial.html:31
+#: .\templates\inicial\inicial_busca.html:20
+#: .\templates\inicial\listagemInicial.html:9
+#: .\templates\inicial\listagemInicial.html:31 .\templates\inicial\login.html:8
+#: .\templates\principal\abandonados.html:18
+#: .\templates\principal\abandonados.html:19 .\templates\principal\base.html:8
+#: .\templates\principal\base.html:27 .\templates\principal\base.html:28
+#: .\templates\principal\estante.html:18 .\templates\principal\estante.html:19
+#: .\templates\principal\home.html:8 .\templates\principal\home.html:26
+#: .\templates\principal\home.html:27 .\templates\principal\lidos.html:18
+#: .\templates\principal\lidos.html:19 .\templates\principal\perfil.html:18
+#: .\templates\principal\perfil.html:19
+#: .\templates\principal\proximo_livro.html:18
+#: .\templates\principal\proximo_livro.html:19
+#: .\templates\principal\queremos_ler.html:18
+#: .\templates\principal\queremos_ler.html:19
+#: .\templates\principal\releitura.html:18
+#: .\templates\principal\releitura.html:19
 msgid "Anúbis"
 msgstr "Anubis"
 
@@ -303,23 +479,34 @@ msgstr "Confirm your password"
 msgid "Já tem uma conta? Faça login"
 msgstr "Already have an account? Log in"
 
-#: .\templates\inicial\inicial.html:30 ...
+#: .\templates\inicial\inicial.html:30
+#: .\templates\inicial\inicial_busca.html:19
+#: .\templates\inicial\listagemInicial.html:30
 msgid "Logo da Anúbis"
 msgstr "Anubis Logo"
 
-#: .\templates\inicial\inicial.html:33 ...
+#: .\templates\inicial\inicial.html:33
+#: .\templates\inicial\inicial_busca.html:22
+#: .\templates\inicial\listagemInicial.html:33
 msgid "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro"
 msgstr "Gather. Read. Renew. Live with Anubis, your book club platform"
 
-#: .\templates\inicial\inicial.html:34 ...
+#: .\templates\inicial\inicial.html:34
+#: .\templates\inicial\inicial_busca.html:23
+#: .\templates\inicial\listagemInicial.html:34
 msgid "Conecte-se com leitores como você. Leia junto. Compartilhe ideias."
 msgstr "Connect with readers like you. Read together. Share ideas."
 
-#: .\templates\inicial\inicial.html:36 ...
+#: .\templates\inicial\inicial.html:36
+#: .\templates\inicial\inicial_busca.html:25
+#: .\templates\inicial\listagemInicial.html:36
+#: .\templates\inicial\login.html:42
 msgid "Entrar"
 msgstr "Log In"
 
-#: .\templates\inicial\inicial.html:37 ...
+#: .\templates\inicial\inicial.html:37
+#: .\templates\inicial\inicial_busca.html:26
+#: .\templates\inicial\listagemInicial.html:37
 msgid "Criar Conta"
 msgstr "Create Account"
 
@@ -327,7 +514,7 @@ msgstr "Create Account"
 msgid "Que tal procurar o clube ideal para você? Dá um clique"
 msgstr "How about finding the ideal club for you? Give it a click"
 
-#: .\templates\inicial\inicial.html:48 ...
+#: .\templates\inicial\inicial.html:48 .\templates\principal\home.html:41
 msgid "Buscar livros, clubes..."
 msgstr "Search for books, clubs..."
 
@@ -376,42 +563,91 @@ msgstr "Book 5"
 msgid "Noites Brancas"
 msgstr "White Nights"
 
-#: .\templates\inicial\inicial.html:85 ...
+#: .\templates\inicial\inicial.html:85
+#: .\templates\inicial\inicial_busca.html:91
+#: .\templates\inicial\listagemInicial.html:42
 msgid "Todos os direitos reservados."
 msgstr "All rights reserved."
 
-#: .\templates\inicial\inicial.html:86 ...
+#: .\templates\inicial\inicial.html:86
+#: .\templates\inicial\inicial_busca.html:92
+#: .\templates\inicial\listagemInicial.html:43
 msgid "Plataforma criada no Instituto Federal de São Paulo"
 msgstr "Platform created at the Federal Institute of São Paulo"
 
-#: .\templates\inicial\inicial_busca.html:41
+#: .\templates\inicial\inicial_busca.html:9
+#, fuzzy
+#| msgid "Resultados para: %(query)s"
+msgid "Resultados da Busca"
+msgstr "Search Results"
+
+#: .\templates\inicial\inicial_busca.html:31
 #, python-format
 msgid "Resultados para: %(query)s"
 msgstr "Results for: %(query)s"
 
-#: .\templates\inicial\inicial_busca.html:58 ...
-msgid "Capa do Livro"
-msgstr "Book Cover"
+#: .\templates\inicial\inicial_busca.html:37
+#: .\templates\principal\listagem_resultados.html:15
+msgid "Buscar novamente..."
+msgstr "Search again..."
 
-#: .\templates\inicial\inicial_busca.html:61 ...
+#: .\templates\inicial\inicial_busca.html:53
+#: .\templates\inicial\inicial_busca.html:55
+#: .\templates\principal\perfil.html:114 .\templates\principal\perfil.html:116
+#, fuzzy
+#| msgid "Capa de"
+msgid "Capa do clube"
+msgstr "Club cover"
+
+#: .\templates\inicial\inicial_busca.html:57
+#: .\templates\principal\admin\editar_clube.html:22
+#: .\templates\principal\home.html:112
+#: .\templates\principal\listagem_resultados.html:35
+#: .\templates\principal\perfil.html:118
+msgid "Capa padrão"
+msgstr "Default cover"
+
+#: .\templates\inicial\inicial_busca.html:62
+#: .\templates\principal\home.html:118 .\templates\principal\home.html:152
+#: .\templates\principal\home.html:161 .\templates\principal\home.html:170
+#: .\templates\principal\listagem_resultados.html:43
 msgid "Membros:"
 msgstr "Members:"
 
-#: .\templates\inicial\inicial_busca.html:62 ...
+#: .\templates\inicial\inicial_busca.html:63
 msgid "Data de criação:"
 msgstr "Creation date:"
 
-#: .\templates\inicial\inicial_busca.html:63 ...
+#: .\templates\inicial\inicial_busca.html:65
+#: .\templates\principal\perfil.html:127
 msgid "Livro atual:"
 msgstr "Current book:"
 
-#: .\templates\inicial\inicial_busca.html:64 ...
+#: .\templates\inicial\inicial_busca.html:69
+msgid "Nenhum"
+msgstr "None"
+
+#: .\templates\inicial\inicial_busca.html:73
 msgid "Criado por:"
 msgstr "Created by:"
 
+#: .\templates\inicial\inicial_busca.html:77
+msgid "Não informado"
+msgstr "Not informed"
+
+#: .\templates\inicial\inicial_busca.html:84
+#, fuzzy, python-format
+#| msgid "Nenhum clube encontrado para \"%(query)s\"."
+msgid "Nenhum clube encontrado para a busca \"%(query)s\"."
+msgstr "No club found for \"%(query)s\"."
+
+#: .\templates\inicial\inicial_busca.html:85
+msgid "Tente buscar por outro termo ou explore os clubes após criar sua conta!"
+msgstr "Try searching for another term or explore clubs after creating your account!"
+
 #: .\templates\inicial\login.html:33
 msgid "REALIZE SEU LOGIN"
-msgstr "PERFORM YOUR LOGIN"
+msgstr "LOG IN"
 
 #: .\templates\inicial\login.html:39
 msgid "Senha"
@@ -425,83 +661,186 @@ msgstr "Forgot my password"
 msgid "Cadastre-se"
 msgstr "Sign up"
 
-#: .\templates\principal\abandonados.html:8 ...
+#: .\templates\principal\abandonados.html:8
+#: .\templates\principal\estante.html:8 .\templates\principal\lidos.html:8
+#: .\templates\principal\proximo_livro.html:8
+#: .\templates\principal\queremos_ler.html:8
+#: .\templates\principal\releitura.html:8
 msgid "Clube do Livro"
 msgstr "Book Club"
 
-#: .\templates\principal\abandonados.html:22 ...
+#: .\templates\principal\abandonados.html:22 .\templates\principal\base.html:31
+#: .\templates\principal\estante.html:22 .\templates\principal\home.html:30
+#: .\templates\principal\lidos.html:22 .\templates\principal\perfil.html:22
+#: .\templates\principal\proximo_livro.html:22
+#: .\templates\principal\queremos_ler.html:22
+#: .\templates\principal\releitura.html:22
 msgid "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro."
 msgstr "Gather. Read. Renew. Live with Anubis, your book club platform."
 
-#: .\templates\principal\abandonados.html:25 ...
+#: .\templates\principal\abandonados.html:25 .\templates\principal\base.html:34
+#: .\templates\principal\estante.html:25 .\templates\principal\home.html:33
+#: .\templates\principal\lidos.html:25 .\templates\principal\perfil.html:25
+#: .\templates\principal\proximo_livro.html:25
+#: .\templates\principal\queremos_ler.html:25
+#: .\templates\principal\releitura.html:25
 msgid "Home"
 msgstr "Home"
 
-#: .\templates\principal\abandonados.html:26 ...
+#: .\templates\principal\abandonados.html:26 .\templates\principal\base.html:35
+#: .\templates\principal\estante.html:26 .\templates\principal\home.html:34
+#: .\templates\principal\lidos.html:26 .\templates\principal\perfil.html:8
+#: .\templates\principal\perfil.html:27
+#: .\templates\principal\proximo_livro.html:26
+#: .\templates\principal\queremos_ler.html:26
+#: .\templates\principal\releitura.html:26
 msgid "Criar"
 msgstr "Create"
 
-#: .\templates\principal\abandonados.html:27 ...
+#: .\templates\principal\abandonados.html:27 .\templates\principal\base.html:36
+#: .\templates\principal\estante.html:27 .\templates\principal\home.html:35
+#: .\templates\principal\lidos.html:27 .\templates\principal\perfil.html:8
+#: .\templates\principal\perfil.html:27
+#: .\templates\principal\proximo_livro.html:27
+#: .\templates\principal\queremos_ler.html:27
+#: .\templates\principal\releitura.html:27
 msgid "Perfil"
 msgstr "Profile"
 
-#: .\templates\principal\abandonados.html:28 ...
+#: .\templates\principal\abandonados.html:28 .\templates\principal\base.html:37
+#: .\templates\principal\estante.html:28 .\templates\principal\home.html:36
+#: .\templates\principal\lidos.html:28 .\templates\principal\perfil.html:28
+#: .\templates\principal\proximo_livro.html:28
+#: .\templates\principal\queremos_ler.html:28
+#: .\templates\principal\releitura.html:28
 msgid "Sair"
 msgstr "Log Out"
 
-#: .\templates\principal\abandonados.html:34 ...
+#: .\templates\principal\abandonados.html:34
+#: .\templates\principal\estante.html:34 .\templates\principal\lidos.html:34
+#: .\templates\principal\proximo_livro.html:34
+#: .\templates\principal\queremos_ler.html:34
+#: .\templates\principal\releitura.html:34
 msgid "Logo do Clube"
 msgstr "Club Logo"
 
-#: .\templates\principal\abandonados.html:35 ...
+#: .\templates\principal\abandonados.html:35
+#: .\templates\principal\lidos.html:35
+#: .\templates\principal\proximo_livro.html:35
+#: .\templates\principal\queremos_ler.html:35
+#: .\templates\principal\releitura.html:35
 msgid "Clube dos Leitores Fantásticos"
 msgstr "Fantastic Readers Club"
 
-#: .\templates\principal\abandonados.html:39 ...
-msgid "Um grupo apaixonado por literatura fantástica, onde discutimos obras, autores e universos que nos transportam além da realidade."
-msgstr "A group passionate about fantasy literature, where we discuss works, authors, and universes that transport us beyond reality."
+#: .\templates\principal\abandonados.html:39
+#: .\templates\principal\estante.html:39 .\templates\principal\lidos.html:39
+#: .\templates\principal\proximo_livro.html:39
+#: .\templates\principal\queremos_ler.html:39
+#: .\templates\principal\releitura.html:39
+msgid ""
+"Um grupo apaixonado por literatura fantástica, onde discutimos obras, "
+"autores e universos que nos transportam além da realidade."
+msgstr ""
+"A group passionate about fantasy literature, where we discuss works, "
+"authors, and universes that transport us beyond reality."
 
-#: .\templates\principal\abandonados.html:43 ...
-msgid "Lendo"
-msgstr "Reading"
-
-#: .\templates\principal\abandonados.html:44 ...
+#: .\templates\principal\abandonados.html:44
+#: .\templates\principal\estante.html:44 .\templates\principal\lidos.html:44
+#: .\templates\principal\proximo_livro.html:44
+#: .\templates\principal\queremos_ler.html:44
+#: .\templates\principal\releitura.html:44
 msgid "Lidos"
 msgstr "Read"
 
-#: .\templates\principal\abandonados.html:45 ...
+#: .\templates\principal\abandonados.html:45
+#: .\templates\principal\estante.html:45 .\templates\principal\lidos.html:45
+#: .\templates\principal\perfil.html:69
+#: .\templates\principal\proximo_livro.html:45
+#: .\templates\principal\queremos_ler.html:45
+#: .\templates\principal\releitura.html:45
 msgid "Abandonados"
 msgstr "Abandoned"
 
-#: .\templates\principal\abandonados.html:46 ...
+#: .\templates\principal\abandonados.html:46
+#: .\templates\principal\estante.html:46 .\templates\principal\lidos.html:46
+#: .\templates\principal\proximo_livro.html:46
+#: .\templates\principal\queremos_ler.html:46
+#: .\templates\principal\releitura.html:46
 msgid "Próximo Livro"
 msgstr "Next Book"
 
-#: .\templates\principal\abandonados.html:47 ...
+#: .\templates\principal\abandonados.html:47
+#: .\templates\principal\estante.html:47 .\templates\principal\lidos.html:47
+#: .\templates\principal\proximo_livro.html:47
+#: .\templates\principal\queremos_ler.html:47
+#: .\templates\principal\releitura.html:47
 msgid "Queremos Ler"
 msgstr "Want to Read"
 
-#: .\templates\principal\abandonados.html:48 ...
+#: .\templates\principal\abandonados.html:48
+#: .\templates\principal\estante.html:48 .\templates\principal\lidos.html:48
+#: .\templates\principal\proximo_livro.html:48
+#: .\templates\principal\queremos_ler.html:48
+#: .\templates\principal\releitura.html:48
 msgid "Releitura"
 msgstr "Reread"
 
-#: .\templates\principal\abandonados.html:52 ...
+#: .\templates\principal\abandonados.html:52
+#: .\templates\principal\lidos.html:52
+#: .\templates\principal\proximo_livro.html:52
+#: .\templates\principal\queremos_ler.html:52
+#: .\templates\principal\releitura.html:52
 msgid "Filtrar por ano:"
 msgstr "Filter by year:"
 
-#: .\templates\principal\abandonados.html:54 ...
+#: .\templates\principal\abandonados.html:54
+#: .\templates\principal\lidos.html:54
+#: .\templates\principal\proximo_livro.html:54
+#: .\templates\principal\queremos_ler.html:54
+#: .\templates\principal\releitura.html:54
 msgid "Todos"
 msgstr "All"
 
-#: .\templates\principal\abandonados.html:65 ...
+#: .\templates\principal\abandonados.html:62
+#: .\templates\principal\lidos.html:62 .\templates\principal\lidos.html:72
+#: .\templates\principal\lidos.html:82 .\templates\principal\lidos.html:92
+#: .\templates\principal\lidos.html:102
+#: .\templates\principal\proximo_livro.html:62
+#: .\templates\principal\queremos_ler.html:62
+#: .\templates\principal\queremos_ler.html:73
+#: .\templates\principal\releitura.html:61
+msgid "Capa do Livro"
+msgstr "Book Cover"
+
+#: .\templates\principal\abandonados.html:65
+#: .\templates\principal\admin\adicionar_livro_estante.html:37
+#: .\templates\principal\detalhes_clube.html:75
+#: .\templates\principal\estante.html:72 .\templates\principal\lidos.html:65
+#: .\templates\principal\lidos.html:75 .\templates\principal\lidos.html:85
+#: .\templates\principal\lidos.html:95 .\templates\principal\lidos.html:105
+#: .\templates\principal\proximo_livro.html:65
+#: .\templates\principal\queremos_ler.html:65
+#: .\templates\principal\queremos_ler.html:76
+#: .\templates\principal\releitura.html:64
 msgid "Autor:"
 msgstr "Author:"
 
-#: .\templates\principal\abandonados.html:66 ...
+#: .\templates\principal\abandonados.html:66
+#: .\templates\principal\lidos.html:66 .\templates\principal\lidos.html:76
+#: .\templates\principal\lidos.html:86 .\templates\principal\lidos.html:96
+#: .\templates\principal\lidos.html:106 .\templates\principal\releitura.html:65
 msgid "Última leitura:"
 msgstr "Last read:"
 
-#: .\templates\principal\abandonados.html:67 ...
+#: .\templates\principal\abandonados.html:67
+#: .\templates\principal\lidos.html:67 .\templates\principal\lidos.html:77
+#: .\templates\principal\lidos.html:87 .\templates\principal\lidos.html:97
+#: .\templates\principal\lidos.html:107 .\templates\principal\perfil.html:87
+#: .\templates\principal\perfil.html:94 .\templates\principal\perfil.html:101
+#: .\templates\principal\proximo_livro.html:67
+#: .\templates\principal\queremos_ler.html:67
+#: .\templates\principal\queremos_ler.html:78
+#: .\templates\principal\releitura.html:66
 msgid "Nota média:"
 msgstr "Average rating:"
 
@@ -534,14 +873,16 @@ msgstr "Search"
 msgid "Voltar para o Clube"
 msgstr "Back to Club"
 
+#: .\templates\principal\admin\adicionar_livro_estante.html:52
+#, fuzzy
+#| msgid "Preencha um ou ambos os campos abaixo para buscar."
+msgid "Preencha um ou ambos os campos acima para buscar."
+msgstr "Fill one or both of the fields above to search."
+
 #: .\templates\principal\admin\adicionar_livro_estante.html:56
 #: .\templates\principal\admin\adicionar_livro_estante.html:81
 msgid "Carregar Mais"
 msgstr "Load More"
-
-#: .\templates\principal\admin\adicionar_livro_estante.html:73
-msgid "Páginas"
-msgstr "Pages"
 
 #: .\templates\principal\admin\adicionar_livro_estante.html:74
 msgid "N/A"
@@ -584,7 +925,12 @@ msgstr "Create New Poll for: %(clube.nome)s"
 msgid "Criar Votação"
 msgstr "Create Poll"
 
-#: .\templates\principal\admin\criarvotacao.html:34 ...
+#: .\templates\principal\admin\criarvotacao.html:34
+#: .\templates\principal\admin\definir_leitura_atual.html:28
+#: .\templates\principal\admin\editar_clube.html:76
+#: .\templates\principal\admin\editar_votacao.html:25
+#: .\templates\principal\admin\gerenciar_reuniao.html:12
+#: .\templates\principal\criar_clube.html:73
 msgid "Cancelar"
 msgstr "Cancel"
 
@@ -592,11 +938,13 @@ msgstr "Cancel"
 msgid "Não há livros suficientes ou adequados na estante do clube (status \\"
 msgstr "There are not enough or suitable books on the club's shelf (status \\"
 
-#: .\templates\principal\admin\criarvotacao.html:39 ...
+#: .\templates\principal\admin\criarvotacao.html:39
+#: .\templates\principal\admin\definir_leitura_atual.html:33
 msgid "Adicionar Livros à Estante"
 msgstr "Add Books to Shelf"
 
-#: .\templates\principal\admin\criarvotacao.html:41 ...
+#: .\templates\principal\admin\criarvotacao.html:41
+#: .\templates\principal\admin\definir_leitura_atual.html:35
 msgid "Voltar"
 msgstr "Back"
 
@@ -610,23 +958,25 @@ msgid "Definir como Leitura Atual"
 msgstr "Set as Current Reading"
 
 #: .\templates\principal\admin\definir_leitura_atual.html:32
-msgid "Não há livros na estante do clube com status \"Quero Ler\" ou \"Próximo a Ser Lido\" para definir como leitura atual."
-msgstr "There are no books on the club's shelf with \"Want to Read\" or \"Next to Read\" status to set as current reading."
-
-#: .\templates\principal\admin\editar_clube.html:22 ...
-msgid "Capa padrão"
-msgstr "Default cover"
+msgid ""
+"Não há livros na estante do clube com status \"Quero Ler\" ou \"Próximo a "
+"Ser Lido\" para definir como leitura atual."
+msgstr ""
+"There are no books on the club's shelf with \"Want to Read\" or \"Next to "
+"Be Read\" status to set as current reading."
 
 #: .\templates\principal\admin\editar_clube.html:25
 #, python-format
 msgid "Editando o clube: %(clube.nome)s"
 msgstr "Editing club: %(clube.nome)s"
 
-#: .\templates\principal\admin\editar_clube.html:26 ...
+#: .\templates\principal\admin\editar_clube.html:26
+#: .\templates\principal\criar_clube.html:22
 msgid "Nome do Clube:"
 msgstr "Club Name:"
 
-#: .\templates\principal\admin\editar_clube.html:34 ...
+#: .\templates\principal\admin\editar_clube.html:34
+#: .\templates\principal\criar_clube.html:27
 msgid "Descrição do clube:"
 msgstr "Club description:"
 
@@ -634,7 +984,14 @@ msgstr "Club description:"
 msgid "Escolha uma nova imagem recomendada:"
 msgstr "Choose a new recommended image:"
 
-#: .\templates\principal\admin\editar_clube.html:43 ...
+#: .\templates\principal\admin\editar_clube.html:43
+#: .\templates\principal\admin\editar_clube.html:44
+#: .\templates\principal\admin\editar_clube.html:45
+#: .\templates\principal\admin\editar_clube.html:46
+#: .\templates\principal\admin\editar_clube.html:47
+#: .\templates\principal\admin\editar_clube.html:48
+#: .\templates\principal\admin\editar_clube.html:49
+#: .\templates\principal\admin\editar_clube.html:50
 msgid "Imagem"
 msgstr "Image"
 
@@ -642,15 +999,18 @@ msgstr "Image"
 msgid "Ou envie uma imagem personalizada (substitui a atual e a recomendada):"
 msgstr "Or upload a custom image (replaces the current and recommended one):"
 
-#: .\templates\principal\admin\editar_clube.html:61 ...
+#: .\templates\principal\admin\editar_clube.html:61
+#: .\templates\principal\criar_clube.html:48
 msgid "Quantidade de membros:"
 msgstr "Number of members:"
 
-#: .\templates\principal\admin\editar_clube.html:67 ...
+#: .\templates\principal\admin\editar_clube.html:67
+#: .\templates\principal\criar_clube.html:64
 msgid "Público ou Privado:"
 msgstr "Public or Private:"
 
 #: .\templates\principal\admin\editar_clube.html:75
+#: .\templates\principal\admin\editar_votacao.html:24
 msgid "Salvar Alterações"
 msgstr "Save Changes"
 
@@ -660,11 +1020,15 @@ msgstr "Delete club"
 
 #: .\templates\principal\admin\editar_clube.html:82
 msgid "Atenção !"
-msgstr "Warning!"
+msgstr "Attention!"
 
 #: .\templates\principal\admin\editar_clube.html:83
-msgid "A exclusão de um clube é permanente e não pode ser desfeita. Todos os dados, membros e leituras associadas serão perdidos."
-msgstr "Deleting a club is permanent and cannot be undone. All associated data, members, and readings will be lost."
+msgid ""
+"A exclusão de um clube é permanente e não pode ser desfeita. Todos os dados, "
+"membros e leituras associadas serão perdidos."
+msgstr ""
+"Deleting a club is permanent and cannot be undone. All associated data, "
+"members, and readings will be lost."
 
 #: .\templates\principal\admin\editar_clube.html:90
 msgid "Tem certeza que deseja excluir este clube? Esta ação é irreversível."
@@ -673,6 +1037,16 @@ msgstr "Are you sure you want to delete this club? This action is irreversible."
 #: .\templates\principal\admin\editar_clube.html:93
 msgid "Excluir Clube"
 msgstr "Delete Club"
+
+#: .\templates\principal\admin\editar_votacao.html:6
+#, fuzzy
+#| msgid "Criar Votação"
+msgid "Editar Votação"
+msgstr "Edit Poll"
+
+#: .\templates\principal\admin\gerenciar_reuniao.html:11
+msgid "Salvar"
+msgstr "Save"
 
 #: .\templates\principal\criar_clube.html:14 .\templates\principal\home.html:50
 msgid "Slide 1"
@@ -730,18 +1104,6 @@ msgstr "Recommended Image 7"
 msgid "Imagem Recomendada 8"
 msgstr "Recommended Image 8"
 
-#: .\templates\principal\criar_clube.html:50
-msgid "Até 10 membros"
-msgstr "Up to 10 members"
-
-#: .\templates\principal\criar_clube.html:51
-msgid "Até 20 membros"
-msgstr "Up to 20 members"
-
-#: .\templates\principal\criar_clube.html:52
-msgid "Até 50 membros"
-msgstr "Up to 50 members"
-
 #: .\templates\principal\criar_clube.html:55
 msgid "Recomendações de limite:"
 msgstr "Limit recommendations:"
@@ -750,30 +1112,22 @@ msgstr "Limit recommendations:"
 msgid "10 membros: intimista"
 msgstr "10 members: intimate"
 
-#: .\templates\principal\criar_clube.html:66
-msgid "Público"
-msgstr "Public"
-
-#: .\templates\principal\criar_clube.html:67
-msgid "Privado"
-msgstr "Private"
-
 #: .\templates\principal\criar_clube.html:72
 msgid "Criar Clube"
 msgstr "Create Club"
 
-#: .\templates\principal\detalhes_clube.html:14
+#: .\templates\principal\detalhes_clube.html:13
 msgid "Buscar em Anúbis..."
 msgstr "Search in Anubis..."
 
-#: .\templates\principal\detalhes_clube.html:27
+#: .\templates\principal\detalhes_clube.html:26
 msgid "Capa Padrão"
 msgstr "Default Cover"
 
 #: .\templates\principal\detalhes_clube.html:34
 #, python-format
 msgid "Criado por <strong>%(fundador_nome)s</strong> em %(creation_date)s"
-msgstr "Created by <strong>%(fundador_nome)s</strong> in %(creation_date)s"
+msgstr "Created by <strong>%(fundador_nome)s</strong> on %(creation_date)s"
 
 #: .\templates\principal\detalhes_clube.html:42
 msgid "Sair do Clube"
@@ -807,135 +1161,220 @@ msgstr "Set Current Reading"
 msgid "Criar Nova Votação"
 msgstr "Create New Poll"
 
-#: .\templates\principal\detalhes_clube.html:69
+#: .\templates\principal\detalhes_clube.html:63
+msgid "Agendar Reunião"
+msgstr "Schedule Meeting"
+
+#: .\templates\principal\detalhes_clube.html:70
 msgid "Livro do Momento"
 msgstr "Book of the Moment"
 
-#: .\templates\principal\detalhes_clube.html:82
-#, python-format
-msgid "Votação para Próximo Livro <small>(encerra em %(end_date)s)</small>"
-msgstr "Poll for Next Book <small>(ends on %(end_date)s)</small>"
+#: .\templates\principal\detalhes_clube.html:85
+#, fuzzy, python-format
+#| msgid "Votação para Próximo Livro <small>(encerra em %(end_date)s)</small>"
+msgid ""
+"Votação para Próximo Livro <small>(encerra em "
+"%(data_fim_votacao_formatada)s)</small>"
+msgstr "Poll for Next Book <small>(ends on %(data_fim_votacao_formatada)s)</small>"
 
-#: .\templates\principal\detalhes_clube.html:90
+#: .\templates\principal\detalhes_clube.html:89
+#: .\templates\principal\detalhes_clube.html:232
+#, fuzzy
+#| msgid "Editar perfil"
+msgid "Editar"
+msgstr "Edit"
+
+#: .\templates\principal\detalhes_clube.html:92
+#, fuzzy
+#| msgid "Tem certeza que deseja excluir este clube? Esta ação é irreversível."
+msgid "Tem certeza que deseja fechar esta votação?"
+msgstr "Are you sure you want to close this poll?"
+
+#: .\templates\principal\detalhes_clube.html:92
+msgid "Fechar"
+msgstr "Close"
+
+#: .\templates\principal\detalhes_clube.html:104
 msgid "por"
 msgstr "by"
 
-#: .\templates\principal\detalhes_clube.html:91
-#, python-format
-msgid "%(percent)s%% dos votos"
-msgstr "%(percent)s%% of votes"
+#: .\templates\principal\detalhes_clube.html:105
+msgid "dos votos"
+msgstr "of votes"
 
-#: .\templates\principal\detalhes_clube.html:96
+#: .\templates\principal\detalhes_clube.html:108
 msgid "voto(s) de"
-msgstr "vote(s) of"
+msgstr "vote(s) from"
 
-#: .\templates\principal\detalhes_clube.html:100
+#: .\templates\principal\detalhes_clube.html:109
 msgid "Votar neste"
 msgstr "Vote for this"
 
-#: .\templates\principal\detalhes_clube.html:109
+#: .\templates\principal\detalhes_clube.html:114
 msgid "Confirmar Voto"
 msgstr "Confirm Vote"
 
-#: .\templates\principal\detalhes_clube.html:113
+#: .\templates\principal\detalhes_clube.html:116
 msgid "Você precisa ser membro para votar."
 msgstr "You need to be a member to vote."
 
-#: .\templates\principal\detalhes_clube.html:115
+#: .\templates\principal\detalhes_clube.html:117
 msgid "Nenhuma opção de livro nesta votação ainda."
 msgstr "No book options in this poll yet."
 
-#: .\templates\principal\detalhes_clube.html:123
+#: .\templates\principal\detalhes_clube.html:125
 msgid "O clube não está lendo nenhum livro e não há votações ativas."
 msgstr "The club is not reading any books and there are no active polls."
 
-#: .\templates\principal\detalhes_clube.html:128
-#, python-format
-msgid "Membro (%(count)s)"
-msgid_plural "Membros (%(count)s)"
-msgstr[0] "Member (%(count)s)"
-msgstr[1] "Members (%(count)s)"
+#: .\templates\principal\detalhes_clube.html:130
+#, fuzzy
+#| msgid "Membros:"
+msgid "Membros"
+msgstr "Members"
 
-#: .\templates\principal\detalhes_clube.html:136
+#: .\templates\principal\detalhes_clube.html:138
 msgid "Admin"
 msgstr "Admin"
 
-#: .\templates\principal\detalhes_clube.html:136
+#: .\templates\principal\detalhes_clube.html:138
 msgid "Mod"
 msgstr "Mod"
 
-#: .\templates\principal\detalhes_clube.html:138
+#: .\templates\principal\detalhes_clube.html:140
 msgid "Entrou:"
 msgstr "Joined:"
 
-#: .\templates\principal\detalhes_clube.html:142
+#: .\templates\principal\detalhes_clube.html:144
 msgid "Este clube ainda não tem membros."
 msgstr "This club has no members yet."
 
-#: .\templates\principal\detalhes_clube.html:148
+#: .\templates\principal\detalhes_clube.html:150
 msgid "Livros Já Lidos Pelo Clube"
 msgstr "Books Already Read by the Club"
 
-#: .\templates\principal\detalhes_clube.html:156
-#, python-format
-msgid "Finalizado em: %(date)s | Avaliação: %(rating)s/5"
-msgstr "Finished on: %(date)s | Rating: %(rating)s/5"
+#: .\templates\principal\detalhes_clube.html:159
+#, fuzzy, python-format
+#| msgid "Finalizado em: %(date)s | Avaliação: %(rating)s/5"
+msgid "Finalizado em: %(final_date)s | Avaliação: %(rating)s/5"
+msgstr "Finished on: %(final_date)s | Rating: %(rating)s/5"
 
-#: .\templates\principal\detalhes_clube.html:162
+#: .\templates\principal\detalhes_clube.html:166
 msgid "Nenhum livro finalizado pelo clube ainda."
 msgstr "No books finished by the club yet."
 
-#: .\templates\principal\detalhes_clube.html:169
+#: .\templates\principal\detalhes_clube.html:172
 msgid "BARRA DE PROGRESSO"
 msgstr "PROGRESS BAR"
 
-#: .\templates\principal\detalhes_clube.html:172
-#: .\templates\principal\detalhes_clube.html:174
+#: .\templates\principal\detalhes_clube.html:175
+#: .\templates\principal\detalhes_clube.html:177
 #: .\templates\principal\home.html:67
 msgid "Kafka à Beira Mar"
 msgstr "Kafka on the Shore"
 
-#: .\templates\principal\detalhes_clube.html:180
-#, python-brace-format
+#: .\templates\principal\detalhes_clube.html:182
+#, fuzzy, python-format, python-brace-format
+#| msgid "{value}%% concluído"
 msgid "{value}%% concluído"
 msgstr "{value}% complete"
 
-#: .\templates\principal\detalhes_clube.html:181
+#: .\templates\principal\detalhes_clube.html:183
 msgid "concluído"
 msgstr "complete"
 
-#: .\templates\principal\detalhes_clube.html:185
-#, python-format
-msgid "Atualizar %:"
+#: .\templates\principal\detalhes_clube.html:186
+#, fuzzy, python-format
+#| msgid "Atualizar %:"
+msgid "Atualizar %%:"
 msgstr "Update %:"
 
-#: .\templates\principal\detalhes_clube.html:187
+#: .\templates\principal\detalhes_clube.html:188
 msgid "Atualizar"
 msgstr "Update"
 
-#: .\templates\principal\detalhes_clube.html:194
+#: .\templates\principal\detalhes_clube.html:197
 msgid "VISITAR A ESTANTE DO CLUBE"
 msgstr "VISIT THE CLUB'S SHELF"
 
-#: .\templates\principal\detalhes_clube.html:198
-msgid "Explore os livros mais desejados e odiados. Clique abaixo para visitar a estante e conhecer um pouco os gostos do nosso clube."
-msgstr "Explore the most desired and hated books. Click below to visit the shelf and get to know our club's tastes a little."
+#: .\templates\principal\detalhes_clube.html:201
+msgid ""
+"Explore os livros mais desejados e odiados. Clique abaixo para visitar a "
+"estante e conhecer um pouco os gostos do nosso clube."
+msgstr ""
+"Explore the most desired and hated books. Click below to visit the shelf and "
+"get to know our club's tastes a little."
 
-#: .\templates\principal\detalhes_clube.html:202
+#: .\templates\principal\detalhes_clube.html:204
 msgid "Visitar Estante"
 msgstr "Visit Shelf"
 
-#: .\templates\principal\estante.html:52
+#: .\templates\principal\detalhes_clube.html:213
+#, fuzzy
+#| msgid "Próxima Reunião:"
+msgid "Próximas Reuniões"
+msgstr "Upcoming Meetings"
+
+#: .\templates\principal\detalhes_clube.html:224
+msgid "às"
+msgstr "at"
+
+#: .\templates\principal\detalhes_clube.html:225
+#, fuzzy
+#| msgid "Clube do Livro"
+msgid "Sobre o livro:"
+msgstr "About the book:"
+
+#: .\templates\principal\detalhes_clube.html:226
+msgid "Meta:"
+msgstr "Goal:"
+
+#: .\templates\principal\detalhes_clube.html:226
+msgid "Ler até"
+msgstr "Read until"
+
+#: .\templates\principal\detalhes_clube.html:228
+#, fuzzy
+#| msgid "Próxima Reunião:"
+msgid "Link da Reunião"
+msgstr "Meeting Link"
+
+#: .\templates\principal\detalhes_clube.html:238
+msgid "Nenhuma reunião agendada."
+msgstr "No meetings scheduled."
+
+#: .\templates\principal\estante.html:64
 msgid "Capa do livro"
 msgstr "Book cover"
 
-#: .\templates\principal\estante.html:56
+#: .\templates\principal\estante.html:66
+#, fuzzy
+#| msgid "Capa do livro"
+msgid "Capa do livro não disponível"
+msgstr "Book cover not available"
+
+#: .\templates\principal\estante.html:75
 msgid "Data de Início:"
 msgstr "Start Date:"
 
-#: .\templates\principal\estante.html:57
+#: .\templates\principal\estante.html:79
 msgid "Próxima Reunião:"
 msgstr "Next Meeting:"
+
+#: .\templates\principal\estante.html:83
+#: .\templates\principal\proximo_livro.html:67
+#: .\templates\principal\queremos_ler.html:67
+#: .\templates\principal\queremos_ler.html:78
+msgid "A definir"
+msgstr "To be defined"
+
+#: .\templates\principal\estante.html:94
+#, python-format
+msgid ""
+"O clube '%(clube_nome)s' não tem uma leitura definida como \"lendo "
+"atualmente\"."
+msgstr ""
+"The club '%(clube_nome)s' does not have a book defined as \"currently "
+"reading\"."
 
 #: .\templates\principal\home.html:62
 msgid "Leituras Atuais"
@@ -950,7 +1389,9 @@ msgid "Clube Haruki"
 msgstr "Haruki Club"
 
 #: .\templates\principal\home.html:72
-msgid "45% concluído"
+#, fuzzy, python-format
+#| msgid "45% concluído"
+msgid "45%% concluído"
 msgstr "45% complete"
 
 #: .\templates\principal\home.html:79
@@ -958,7 +1399,9 @@ msgid "Clube Dostoiévski"
 msgstr "Dostoyevsky Club"
 
 #: .\templates\principal\home.html:83
-msgid "70% concluído"
+#, fuzzy, python-format
+#| msgid "70% concluído"
+msgid "70%% concluído"
 msgstr "70% complete"
 
 #: .\templates\principal\home.html:90
@@ -966,7 +1409,9 @@ msgid "Clube Orwell"
 msgstr "Orwell Club"
 
 #: .\templates\principal\home.html:94
-msgid "35% concluído"
+#, fuzzy, python-format
+#| msgid "35% concluído"
+msgid "35%% concluído"
 msgstr "35% complete"
 
 #: .\templates\principal\home.html:101
@@ -1013,7 +1458,7 @@ msgstr "Epic Fantasy"
 
 #: .\templates\principal\home.html:150
 msgid "Fundado por Júlia Ramos"
-msgstr "Founded by Júlia Ramos"
+msgstr "Founded by Julia Ramos"
 
 #: .\templates\principal\home.html:151
 msgid "Desde Fev 2024"
@@ -1048,10 +1493,6 @@ msgstr "Since Jan 2024"
 msgid "Resultados da Pesquisa para: \"%(query|default_if_none:'')s\""
 msgstr "Search Results for: \"%(query|default_if_none:'')s\""
 
-#: .\templates\principal\listagem_resultados.html:15
-msgid "Buscar novamente..."
-msgstr "Search again..."
-
 #: .\templates\principal\listagem_resultados.html:44
 msgid "Fundado em:"
 msgstr "Founded on:"
@@ -1069,86 +1510,86 @@ msgstr "View Club"
 msgid "Nenhum clube encontrado para \"%(query)s\"."
 msgstr "No club found for \"%(query)s\"."
 
-#: .\templates\principal\perfil.html:39
+#: .\templates\principal\perfil.html:43
 msgid "Foto de perfil"
 msgstr "Profile picture"
 
-#: .\templates\principal\perfil.html:43
+#: .\templates\principal\perfil.html:66
 msgid "Amo ler, compartihar e socializar! Gosto de ler durante as noites!•"
-msgstr "I love to read, share and socialize! I like to read at night!•"
+msgstr "I love to read, share, and socialize! I like to read at night!•"
 
-#: .\templates\principal\perfil.html:45
+#: .\templates\principal\perfil.html:68
 msgid "livros lidos"
-msgstr "read books"
+msgstr "books read"
 
-#: .\templates\principal\perfil.html:47
+#: .\templates\principal\perfil.html:70
 msgid "Quero ler"
 msgstr "Want to read"
 
-#: .\templates\principal\perfil.html:48
+#: .\templates\principal\perfil.html:71
 msgid "Relendo"
 msgstr "Rereading"
 
-#: .\templates\principal\perfil.html:49
+#: .\templates\principal\perfil.html:72
 msgid "Meus clubes"
 msgstr "My clubs"
 
-#: .\templates\principal\perfil.html:50
+#: .\templates\principal\perfil.html:73
 msgid "Editar perfil"
 msgstr "Edit profile"
 
-#: .\templates\principal\perfil.html:57
+#: .\templates\principal\perfil.html:80
 msgid "Livros lidos recentemente"
 msgstr "Recently read books"
 
-#: .\templates\principal\perfil.html:63 .\templates\principal\perfil.html:71
-#: .\templates\principal\perfil.html:79
+#: .\templates\principal\perfil.html:86 .\templates\principal\perfil.html:93
+#: .\templates\principal\perfil.html:100
 msgid "Clube:"
 msgstr "Club:"
 
-#: .\templates\principal\perfil.html:63 .\templates\principal\perfil.html:90
+#: .\templates\principal\perfil.html:86
 msgid "Terror dos Clássicos"
 msgstr "Classics of Horror"
 
-#: .\templates\principal\perfil.html:71 .\templates\principal\perfil.html:100
+#: .\templates\principal\perfil.html:93
 msgid "Lendas Góticas"
 msgstr "Gothic Legends"
 
-#: .\templates\principal\perfil.html:79
+#: .\templates\principal\perfil.html:100
 msgid "Noites de Mistério"
 msgstr "Mystery Nights"
 
-#: .\templates\principal\perfil.html:86
-msgid "Clubes Recentes"
-msgstr "Recent Clubs"
+#: .\templates\principal\perfil.html:107
+msgid "Clubes Que Você Entrou Recentemente"
+msgstr "Clubs You've Recently Joined"
 
-#: .\templates\principal\perfil.html:89
-msgid "Capa do clube Terror dos Clássicos"
-msgstr "Cover of the Classics of Horror club"
-
-#: .\templates\principal\perfil.html:91 .\templates\principal\perfil.html:101
+#: .\templates\principal\perfil.html:123
 msgid "Admin:"
 msgstr "Admin:"
 
-#: .\templates\principal\perfil.html:92 .\templates\principal\perfil.html:102
+#: .\templates\principal\perfil.html:124
 msgid "Criado em:"
 msgstr "Created on:"
 
-#: .\templates\principal\perfil.html:93 .\templates\principal\perfil.html:103
+#: .\templates\principal\perfil.html:125
 msgid "Você entrou em:"
 msgstr "You joined on:"
 
-#: .\templates\principal\perfil.html:95 .\templates\principal\perfil.html:105
+#: .\templates\principal\perfil.html:127 .\templates\principal\perfil.html:128
+#, fuzzy
+#| msgid "A definir"
+msgid "Não definido"
+msgstr "Not defined"
+
+#: .\templates\principal\perfil.html:128
 msgid "Próximo livro:"
 msgstr "Next book:"
 
-#: .\templates\principal\perfil.html:99
-msgid "Capa do clube Lendas Góticas"
-msgstr "Cover of the Gothic Legends club"
-
-#: .\templates\principal\perfil.html:105
-msgid "O Retrato de Dorian Gray"
-msgstr "The Picture of Dorian Gray"
+#: .\templates\principal\perfil.html:132
+#, fuzzy
+#| msgid "Olá, %(nome_usuario)s! Você ainda não faz parte de nenhum clube."
+msgid "Você ainda não faz parte de nenhum clube. Que tal explorar alguns?"
+msgstr "You are not yet part of any club. How about exploring some?"
 
 #: .\templates\principal\proximo_livro.html:66
 #: .\templates\principal\queremos_ler.html:66
@@ -1156,16 +1597,10 @@ msgstr "The Picture of Dorian Gray"
 msgid "Início Previsto:"
 msgstr "Scheduled Start:"
 
-#: .\templates\principal\proximo_livro.html:67
-#: .\templates\principal\queremos_ler.html:67
-#: .\templates\principal\queremos_ler.html:78
-msgid "A definir"
-msgstr "To be defined"
-
 #: .\templates\principal\queremos_ler.html:66
 #: .\templates\principal\queremos_ler.html:77
 msgid "sem data prevista"
-msgstr "no date scheduled"
+msgstr "no scheduled date"
 
 #: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
 msgid "Messages"
@@ -1224,12 +1659,18 @@ msgstr "Enter a valid email address."
 
 #. Translators: "letters" means latin letters: a-z and A-Z.
 #: .\venv\Lib\site-packages\django\core\validators.py:289
-msgid "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
-msgstr "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:297
-msgid "Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or hyphens."
-msgstr "Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or hyphens."
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:309
 #: .\venv\Lib\site-packages\django\core\validators.py:318
@@ -1278,22 +1719,42 @@ msgstr "Ensure this value is a multiple of step size %(limit_value)s."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:441
 #, python-format
-msgid "Ensure this value is a multiple of step size %(limit_value)s, starting from %(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
-msgstr "Ensure this value is a multiple of step size %(limit_value)s, starting from %(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgid ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr ""
+"Ensure this value is a multiple of step size %(limit_value)s, starting from "
+"%(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:473
 #, python-format
-msgid "Ensure this value has at least %(limit_value)d character (it has %(show_value)d)."
-msgid_plural "Ensure this value has at least %(limit_value)d characters (it has %(show_value)d)."
-msgstr[0] "Ensure this value has at least %(limit_value)d character (it has %(show_value)d)."
-msgstr[1] "Ensure this value has at least %(limit_value)d characters (it has %(show_value)d)."
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgstr[1] ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:491
 #, python-format
-msgid "Ensure this value has at most %(limit_value)d character (it has %(show_value)d)."
-msgid_plural "Ensure this value has at most %(limit_value)d characters (it has %(show_value)d)."
-msgstr[0] "Ensure this value has at most %(limit_value)d character (it has %(show_value)d)."
-msgstr[1] "Ensure this value has at most %(limit_value)d characters (it has %(show_value)d)."
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgstr[1] ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:514
 #: .\venv\Lib\site-packages\django\forms\fields.py:366
@@ -1317,15 +1778,23 @@ msgstr[1] "Ensure that there are no more than %(max)s decimal places."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:526
 #, python-format
-msgid "Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural "Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] "Ensure that there are no more than %(max)s digit before the decimal point."
-msgstr[1] "Ensure that there are no more than %(max)s digits before the decimal point."
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgstr[1] ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:597
 #, python-format
-msgid "File extension “%(extension)s” is not allowed. Allowed extensions are: %(allowed_extensions)s."
-msgstr "File extension “%(extension)s” is not allowed. Allowed extensions are: %(allowed_extensions)s."
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
 
 #: .\venv\Lib\site-packages\django\core\validators.py:659
 msgid "Null characters are not allowed."
@@ -1368,8 +1837,10 @@ msgstr "%(model_name)s with this %(field_label)s already exists."
 #. 'month'. Eg: "Title must be unique for pub_date year"
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:141
 #, python-format
-msgid "%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
-msgstr "%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:180
 #, python-format
@@ -1405,32 +1876,24 @@ msgstr "Comma-separated integers"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1427
 #, python-format
-msgid "“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD format."
-msgstr "“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD format."
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1431
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1566
 #, python-format
-msgid "“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid date."
-msgstr "“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid date."
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
 
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1435
-msgid "Date (without time)"
-msgstr "Date (without time)"
 
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1562
-#, python-format
-msgid "“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ] format."
-msgstr "“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ] format."
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1570
-#, python-format
-msgid "“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ]) but it is an invalid date/time."
-msgstr "“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ]) but it is an invalid date/time."
-
-#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1575
-msgid "Date (with time)"
-msgstr "Date (with time)"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1702
 #, python-format
@@ -1443,8 +1906,12 @@ msgstr "Decimal number"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1864
 #, python-format
-msgid "“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[.uuuuuu] format."
-msgstr "“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[.uuuuuu] format."
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] "
+"[[HH:]MM:]ss[.uuuuuu] format."
+msgstr ""
+"“%(value)s” value has an invalid format. It must be in [DD] "
+"[[HH:]MM:]ss[.uuuuuu] format."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1868
 msgid "Duration"
@@ -1525,13 +1992,21 @@ msgstr "Text"
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2526
 #, python-format
-msgid "“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] format."
-msgstr "“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] format."
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2530
 #, python-format
-msgid "“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an invalid time."
-msgstr "“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an invalid time."
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
 
 #: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2534
 msgid "Time"
@@ -1649,17 +2124,24 @@ msgstr "The submitted file is empty."
 #: .\venv\Lib\site-packages\django\forms\fields.py:644
 #, python-format
 msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural "Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgstr[1] "Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+"Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgstr[1] ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
 
 #: .\venv\Lib\site-packages\django\forms\fields.py:649
 msgid "Please either submit a file or check the clear checkbox, not both."
 msgstr "Please either submit a file or check the clear checkbox, not both."
 
 #: .\venv\Lib\site-packages\django\forms\fields.py:717
-msgid "Upload a valid image. The file you uploaded was either not an image or a corrupted image."
-msgstr "Upload a valid image. The file you uploaded was either not an image or a corrupted image."
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
 
 #: .\venv\Lib\site-packages\django\forms\fields.py:889
 #: .\venv\Lib\site-packages\django\forms\fields.py:975
@@ -1698,8 +2180,12 @@ msgstr "(Hidden field %(name)s) %(error)s"
 
 #: .\venv\Lib\site-packages\django\forms\formsets.py:61
 #, python-format
-msgid "ManagementForm data is missing or has been tampered with. Missing fields: %(field_names)s. You may need to file a bug report if the issue persists."
-msgstr "ManagementForm data is missing or has been tampered with. Missing fields: %(field_names)s. You may need to file a bug report if the issue persists."
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
 
 #: .\venv\Lib\site-packages\django\forms\formsets.py:65
 #, python-format
@@ -1736,8 +2222,12 @@ msgstr "Please correct the duplicate data for %(field)s, which must be unique."
 
 #: .\venv\Lib\site-packages\django\forms\models.py:913
 #, python-format
-msgid "Please correct the duplicate data for %(field_name)s which must be unique for the %(lookup)s in %(date_field)s."
-msgstr "Please correct the duplicate data for %(field_name)s which must be unique for the %(lookup)s in %(date_field)s."
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
 
 #: .\venv\Lib\site-packages\django\forms\models.py:922
 msgid "Please correct the duplicate values below."
@@ -1749,7 +2239,8 @@ msgstr "The inline value did not match the parent instance."
 
 #: .\venv\Lib\site-packages\django\forms\models.py:1450
 msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+"Select a valid choice. That choice is not one of the available choices."
 
 #: .\venv\Lib\site-packages\django\forms\models.py:1594
 #, python-format
@@ -1758,8 +2249,12 @@ msgstr "“%(pk)s” is not a valid value."
 
 #: .\venv\Lib\site-packages\django\forms\utils.py:229
 #, python-format
-msgid "%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it may be ambiguous or it may not exist."
-msgstr "%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it may be ambiguous or it may not exist."
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
 
 #: .\venv\Lib\site-packages\django\forms\widgets.py:527
 msgid "Clear"
@@ -2190,24 +2685,58 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF verification failed. Request aborted."
 
 #: .\venv\Lib\site-packages\django\views\csrf.py:34
-msgid "You are seeing this message because this HTTPS site requires a “Referer header” to be sent by your web browser, but none was sent. This header is required for security reasons, to ensure that your browser is not being hijacked by third parties."
-msgstr "You are seeing this message because this HTTPS site requires a “Referer header” to be sent by your web browser, but none was sent. This header is required for security reasons, to ensure that your browser is not being hijacked by third parties."
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
 
 #: .\venv\Lib\site-packages\django\views\csrf.py:40
-msgid "If you have configured your browser to disable “Referer” headers, please re-enable them, at least for this site, or for HTTPS connections, or for “same-origin” requests."
-msgstr "If you have configured your browser to disable “Referer” headers, please re-enable them, at least for this site, or for HTTPS connections, or for “same-origin” requests."
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
 
 #: .\venv\Lib\site-packages\django\views\csrf.py:45
-msgid "If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or including the “Referrer-Policy: no-referrer” header, please remove them. The CSRF protection requires the “Referer” header to do strict referer checking. If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer\" …> for links to third-party sites."
-msgstr "If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or including the “Referrer-Policy: no-referrer” header, please remove them. The CSRF protection requires the “Referer” header to do strict referer checking. If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer\" …> for links to third-party sites."
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
+msgstr ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a "
+"rel=\"noreferrer\" …> for links to third-party sites."
 
 #: .\venv\Lib\site-packages\django\views\csrf.py:54
-msgid "You are seeing this message because this site requires a CSRF cookie when submitting forms. This cookie is required for security reasons, to ensure that your browser is not being hijacked by third parties."
-msgstr "You are seeing this message because this site requires a CSRF cookie when submitting forms. This cookie is required for security reasons, to ensure that your browser is not being hijacked by third parties."
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
 
 #: .\venv\Lib\site-packages\django\views\csrf.py:60
-msgid "If you have configured your browser to disable cookies, please re-enable them, at least for this site, or for “same-origin” requests."
-msgstr "If you have configured your browser to disable cookies, please re-enable them, at least for this site, or for “same-origin” requests."
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
 
 #: .\venv\Lib\site-packages\django\views\csrf.py:66
 msgid "More information is available with DEBUG=True."
@@ -2243,8 +2772,12 @@ msgstr "No %(verbose_name_plural)s available"
 
 #: .\venv\Lib\site-packages\django\views\generic\dates.py:680
 #, python-format
-msgid "Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False."
-msgstr "Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False."
+msgid ""
+"Future %(verbose_name_plural)s not available because "
+"%(class_name)s.allow_future is False."
+msgstr ""
+"Future %(verbose_name_plural)s not available because "
+"%(class_name)s.allow_future is False."
 
 #: .\venv\Lib\site-packages\django\views\generic\dates.py:720
 #, python-format
@@ -2293,13 +2826,25 @@ msgstr "The install worked successfully! Congratulations!"
 
 #: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
 #, python-format
-msgid "View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr "View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
 
 #: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:208
 #, python-format
-msgid "You are seeing this page because <a href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not configured any URLs."
-msgstr "You are seeing this page because <a href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not configured any URLs."
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
+msgstr ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
+"configured any URLs."
 
 #: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:217
 msgid "Django Documentation"

@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         return `
             <div class="livro-card">
-                <img src="${capaUrl}" alt="{% trans 'Capa de' %} ${livro.titulo}" onerror="this.onerror=null;this.src='{% static 'img/default_book_cover.png' %}';">
+                <img src="${capaUrl}" alt="{% trans 'Capa de' %} ${livro.titulo}" onerror="this.onerror=null;this.src='{% static 'img/sem_capa.png' %}';">
                 <div class="livro-info">
                     <h4>${livro.titulo}</h4>
                     <p>${autores}</p>

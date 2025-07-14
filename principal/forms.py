@@ -1,8 +1,9 @@
 # anubis/principal/forms.py
 from django import forms
-from inicial.models import Clube, Livro, LeituraClube, Votacao, ClubeMembro
+from inicial.models import Clube, Livro, LeituraClube, Votacao, ClubeMembro, Reuniao
 from django.utils import timezone
 from datetime import timedelta
+from django.utils.translation import gettext as _ 
 
 class ClubeEditForm(forms.ModelForm):
     # Definimos explicitamente o widget para o campo da capa
@@ -103,4 +104,55 @@ class CriarVotacaoForm(forms.Form):
         return livros_selecionados
 
 
+class DateTimePickerInput(forms.DateTimeInput):
+    input_type = 'datetime-local'
 
+class ReuniaoForm(forms.ModelForm):
+    """Formulário para criar e editar uma Reunião."""
+    class Meta:
+        model = Reuniao
+        fields = [
+            'titulo', 'leitura_associada', 'data_horario', 'tipo', 
+            'link_reuniao', 'endereco', 'descricao', 
+            'meta_tipo', 'meta_quantidade'
+        ]
+        widgets = {
+            'data_horario': DateTimePickerInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        clube = kwargs.pop('clube', None)
+        super().__init__(*args, **kwargs)
+        if clube:
+            # Mostra apenas os livros da estante do clube como opções
+            self.fields['leitura_associada'].queryset = LeituraClube.objects.filter(clube=clube)
+        
+        # Adiciona placeholders para ajudar o usuário
+        self.fields['meta_quantidade'].widget.attrs.update({'placeholder': _('Ex: 50 ou 5')})
+        self.fields['link_reuniao'].widget.attrs.update({'placeholder': 'https://...'})
+        self.fields['endereco'].widget.attrs.update({'placeholder': _('Ex: Rua Fictícia, 123, Bairro')})
+        self.fields['leitura_associada'].label = _("Livro em Discussão (opcional)")
+        self.fields['meta_tipo'].label = _("Tipo de Meta (opcional)")
+        self.fields['meta_quantidade'].label = _("Quantidade da Meta (opcional)")
+
+
+class VotacaoEditForm(forms.ModelForm):
+    """Formulário para editar uma Votação existente."""
+    class Meta:
+        model = Votacao
+        fields = ['data_fim', 'livros_opcoes']
+        widgets = {
+            'data_fim': DateTimePickerInput(),
+            'livros_opcoes': forms.CheckboxSelectMultiple
+        }
+
+    def __init__(self, *args, **kwargs):
+        clube = kwargs.pop('clube', None)
+        super().__init__(*args, **kwargs)
+        if clube:
+            # Mostra apenas os livros elegíveis do clube como opções
+            livros_elegiveis = LeituraClube.objects.filter(
+                clube=clube, 
+                status__in=[LeituraClube.StatusClube.A_LER, LeituraClube.StatusClube.PROXIMO]
+            ).values_list('livro__id', flat=True)
+            self.fields['livros_opcoes'].queryset = Livro.objects.filter(id__in=livros_elegiveis)

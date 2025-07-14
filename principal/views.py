@@ -5,14 +5,14 @@ from django.http import HttpRequest, HttpResponseForbidden, JsonResponse
 from django.contrib import messages
 from django.utils import timezone
 from .decorators import login_obrigatorio, admin_clube_obrigatorio
-from inicial.models import Clube, ClubeMembro, LeituraClube, Livro, Votacao, VotoUsuario, Mensagem, Usuario
+from inicial.models import Clube, ClubeMembro, LeituraClube, Livro, Votacao, VotoUsuario, Mensagem, Usuario, Reuniao
 from django.db import IntegrityError
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.files.base import ContentFile
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.db.models import Q
-from .forms import ClubeEditForm, DefinirLeituraAtualForm, CriarVotacaoForm
+from .forms import ClubeEditForm, DefinirLeituraAtualForm, CriarVotacaoForm,  ReuniaoForm, VotacaoEditForm 
 import os
 import requests
 import urllib.parse
@@ -245,7 +245,11 @@ def detalhes_clube(request: HttpRequest, clube_id):
     # Usa a função do Django que respeita o idioma ativo
     data_criacao_formatada = formats.date_format(clube.data_criacao, "F Y") if clube.data_criacao else ""
     data_fim_votacao_formatada = formats.date_format(votacao_ativa.data_fim, "d/m/Y H:i") if votacao_ativa else ""
-
+    reunioes_agendadas = Reuniao.objects.filter(
+        clube=clube, 
+        data_horario__gte=timezone.now()
+    ).order_by('data_horario')
+    
     contexto = {
         'clube': clube,
         'fundador_nome': fundador_nome,
@@ -258,7 +262,7 @@ def detalhes_clube(request: HttpRequest, clube_id):
         'usuario_ja_votou': usuario_ja_votou,
         'membros_do_clube': membros_do_clube_obj,
         'leituras_finalizadas': leituras_finalizadas_obj,
-        'mensagens_chat': mensagens_chat,
+        'reunioes_agendadas': reunioes_agendadas, # <-- Adicionado ao contexto
         'nome_usuario': usuario_atual.nome,
         'default_avatar_url': staticfiles_storage.url('img/default_avatar.png'),
         'PrivacidadeChoices': Clube.Privacidade,
@@ -267,6 +271,7 @@ def detalhes_clube(request: HttpRequest, clube_id):
         'data_fim_votacao_formatada': data_fim_votacao_formatada,
     }
     return render(request, 'principal/detalhes_clube.html', contexto)
+
 
 @login_obrigatorio
 def registrar_voto(request: HttpRequest, clube_id, votacao_id):
@@ -594,11 +599,86 @@ def criar_votacao_clube(request: HttpRequest, clube_id, clube, **kwargs):
     }
     return render(request, 'principal/admin/criarvotacao.html', contexto)
 
-def perfil(request): 
-    return render(request, 'principal/perfil.html') 
+@login_obrigatorio
+def perfil(request):
 
-def estante(request): 
-    return render(request, 'principal/estante.html') 
+    usuario_logado = request.usuario_logado_obj 
+
+    ultimas_adesoes = ClubeMembro.objects.filter(
+        usuario=usuario_logado
+    ).select_related('clube').order_by('-data_inscricao')[:3]
+
+   
+    clubes = [adesao.clube for adesao in ultimas_adesoes]
+
+    leituras_qs = LeituraClube.objects.filter(
+        clube__in=clubes,
+        status__in=[LeituraClube.StatusClube.LENDO_ATUALMENTE, LeituraClube.StatusClube.PROXIMO]
+    ).select_related('livro')
+    
+    admins_qs = ClubeMembro.objects.filter(
+        clube__in=clubes,
+        cargo=ClubeMembro.Cargo.ADMIN
+    ).select_related('usuario')
+
+    dados_extras_clubes = {}
+    for clube in clubes:
+        dados_extras_clubes[clube.id] = {'livro_atual': None, 'proximo_livro': None, 'admin_nome': _("N/D")}
+
+    for leitura in leituras_qs:
+        if leitura.status == LeituraClube.StatusClube.LENDO_ATUALMENTE:
+            dados_extras_clubes[leitura.clube_id]['livro_atual'] = leitura.livro.nome
+        elif leitura.status == LeituraClube.StatusClube.PROXIMO:
+            dados_extras_clubes[leitura.clube_id]['proximo_livro'] = leitura.livro.nome
+    
+    for admin in admins_qs:
+        dados_extras_clubes[admin.clube_id]['admin_nome'] = admin.usuario.nome
+
+    clubes_para_template = []
+    for adesao in ultimas_adesoes:
+        clube = adesao.clube
+        dados_extras = dados_extras_clubes[clube.id]
+        clubes_para_template.append({
+            'clube_obj': clube,
+            'data_entrada': adesao.data_inscricao,
+            'admin_nome': dados_extras['admin_nome'],
+            'livro_atual': dados_extras['livro_atual'],
+            'proximo_livro': dados_extras['proximo_livro'],
+        })
+
+    contexto = {
+        'nome_usuario': usuario_logado.nome,
+        'clubes_recentes': clubes_para_template
+        
+    }
+    
+    return render(request, 'principal/perfil.html', contexto)
+
+
+@login_obrigatorio
+def estante(request, clube_id):
+  
+    clube = get_object_or_404(Clube, id=clube_id)
+    leitura_atual = LeituraClube.objects.filter(
+        clube=clube, 
+        status=LeituraClube.StatusClube.LENDO_ATUALMENTE
+    ).select_related('livro').first()
+
+    proxima_reuniao = None
+
+    if leitura_atual:
+        proxima_reuniao = Reuniao.objects.filter(
+            clube=clube,
+            data_horario__gte=timezone.now() 
+        ).order_by('data_horario').first() 
+
+    contexto = {
+        'clube': clube,
+        'leitura_atual': leitura_atual, 
+        'proxima_reuniao': proxima_reuniao 
+    }
+    
+    return render(request, 'principal/estante.html', contexto)
 
 def lidos_view(request):
     return render(request, 'principal/lidos.html') 
@@ -614,3 +694,55 @@ def queremos_ler_view(request):
 
 def releitura_view(request):
     return render(request, 'principal/releitura.html')
+
+
+@admin_clube_obrigatorio
+def criar_reuniao(request: HttpRequest, clube_id, clube, **kwargs):
+    if request.method == 'POST':
+        form = ReuniaoForm(request.POST, clube=clube)
+        if form.is_valid():
+            reuniao = form.save(commit=False)
+            reuniao.clube = clube
+            reuniao.save()
+            messages.success(request, _("Reunião agendada com sucesso!"))
+            return redirect('principal:detalhes_clube', clube_id=clube.id)
+    else:
+        form = ReuniaoForm(clube=clube)
+    return render(request, 'principal/admin/gerenciar_reuniao.html', {'form': form, 'clube': clube, 'form_title': _('Agendar Nova Reunião')})
+
+@admin_clube_obrigatorio
+def editar_reuniao(request: HttpRequest, reuniao_id, clube, **kwargs):
+    reuniao = get_object_or_404(Reuniao, id=reuniao_id, clube=clube)
+    if request.method == 'POST':
+        form = ReuniaoForm(request.POST, instance=reuniao, clube=clube)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Reunião atualizada com sucesso!"))
+            return redirect('principal:detalhes_clube', clube_id=clube.id)
+    else:
+        form = ReuniaoForm(instance=reuniao, clube=clube)
+    return render(request, 'principal/admin/gerenciar_reuniao.html', {'form': form, 'clube': clube, 'reuniao': reuniao, 'form_title': _('Editar Reunião')})
+
+@admin_clube_obrigatorio
+def editar_votacao(request: HttpRequest, *, votacao_id, clube, **kwargs): # <-- Adicione um '*'
+    votacao = get_object_or_404(Votacao, id=votacao_id, clube=clube)
+    if request.method == 'POST':
+        form = VotacaoEditForm(request.POST, instance=votacao, clube=clube)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Votação atualizada com sucesso!"))
+            return redirect('principal:detalhes_clube', clube_id=clube.id)
+    else:
+        form = VotacaoEditForm(instance=votacao, clube=clube)
+    return render(request, 'principal/admin/editar_votacao.html', {'form': form, 'clube': clube, 'votacao': votacao})
+
+@admin_clube_obrigatorio
+def fechar_votacao(request: HttpRequest, votacao_id, clube, **kwargs):
+    if request.method == 'POST':
+        votacao = get_object_or_404(Votacao, id=votacao_id, clube=clube)
+        votacao.is_ativa = False
+        votacao.data_fim = timezone.now() # Atualiza a data de fim para agora
+        votacao.save()
+        messages.success(request, _("A votação foi fechada manualmente."))
+        return redirect('principal:detalhes_clube', clube_id=clube.id)
+    return redirect('principal:detalhes_clube', clube_id=clube.id)
