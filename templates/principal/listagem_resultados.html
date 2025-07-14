@@ -1,16 +1,18 @@
-
 {% extends 'principal/base.html' %}
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
+
 {% block styles %}
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'principal/listagem.css' %}">
 {% endblock %}
+
  {% block content %}
 
   <section class="search-section">
-    <h2>Resultados da Pesquisa para: "{{ query|default_if_none:'' }}"</h2>
+    <h2>{% blocktrans %}Resultados da Pesquisa para: "{{ query|default_if_none:'' }}"{% endblocktrans %}</h2>
     <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container">
-      <input class="search-bar-input" type="text" name="q" placeholder="Buscar novamente..." value="{{ query|default_if_none:'' }}">
+      <input class="search-bar-input" type="text" name="q" placeholder="{% trans 'Buscar novamente...' %}" value="{{ query|default_if_none:'' }}">
       <button class="search-bar-button" type="submit">
         <i class="fas fa-search"></i>
       </button>
@@ -22,29 +24,27 @@
       <div id="club-list-grid">
         {% for clube_res in resultados %}
           <div class="club-card">
-         {% if clube_res.capa_clube %}
-    {# Se existe uma imagem upada pelo usuário, use-a #}
-    <img src="{{ clube_res.capa_clube.url }}" alt="{{ clube_res.nome }}" class="club-image">
-
-{% elif clube_res.capa_recomendada %}
-    {# Senão, se existe uma imagem de recomendação, use o caminho estático #}
-    <img src="{% static clube_res.capa_recomendada %}" alt="{{ clube_res.nome }}" class="club-image">
-
-{% else %}
-    {# Senão, use a imagem padrão #}
-    <img src="{% static 'img/imgideal.png' %}" alt="Capa padrão" class="club-image">
-{% endif %}
+          {% if clube_res.capa_clube %}
+            {# Se existe uma imagem upada pelo usuário, use-a #}
+            <img src="{{ clube_res.capa_clube.url }}" alt="{{ clube_res.nome }}" class="club-image">
+          {% elif clube_res.capa_recomendada %}
+            {# Senão, se existe uma imagem de recomendação, use o caminho estático #}
+            <img src="{% static clube_res.capa_recomendada %}" alt="{{ clube_res.nome }}" class="club-image">
+          {% else %}
+            {# Senão, use a imagem padrão #}
+            <img src="{% static 'img/imgideal.png' %}" alt="{% trans 'Capa padrão' %}" class="club-image">
+          {% endif %}
             <div class="club-card-content-wrapper">
                 <h3 class="club-title">{{ clube_res.nome }}</h3>
                 <p class="club-description club-content-fixed-item">{{ clube_res.descricao|truncatewords:15|default:"&nbsp;" }}</p>
                 <div class="founder club-content-fixed-item">
-                  <span>Fundado por: {{ clube_res.fundador_nome|default:"&nbsp;" }}</span>
+                  <span>{% trans "Fundado por:" %} {{ clube_res.fundador_nome|default:"&nbsp;" }}</span>
                 </div>
-                <p class="club-meta club-content-fixed-item">Membros: {{ clube_res.membros_count|default:"&nbsp;" }}</p>
-                <p class="club-meta club-content-fixed-item">Fundado em: {{ clube_res.data_fundacao_formatada|default:"&nbsp;" }}</p>
+                <p class="club-meta club-content-fixed-item">{% trans "Membros:" %} {{ clube_res.membros_count|default:"&nbsp;" }}</p>
+                <p class="club-meta club-content-fixed-item">{% trans "Fundado em:" %} {{ clube_res.data_fundacao_formatada|default:"&nbsp;" }}</p>
                 <div class="current-book club-content-fixed-item">
                     {% if clube_res.leitura_atual_nome and clube_res.leitura_atual_nome != "Nenhuma leitura atual" %}
-                        📖 Lendo: {{ clube_res.leitura_atual_nome }}
+                        📖 {% trans "Lendo:" %} {{ clube_res.leitura_atual_nome }}
                     {% else %}
                         &nbsp;
                     {% endif %}
@@ -57,16 +57,15 @@
 
                 {# BOTÃO VER CLUBE ADICIONADO #}
                 <div class="card-actions" style="margin-top: auto; padding-top: 0.5rem;"> {# Empurra o botão para baixo #}
-                   <a href="{% url 'principal:detalhes_clube' clube_res.id %}" class="view-club-button">Ver Clube</a>
+                   <a href="{% url 'principal:detalhes_clube' clube_res.id %}" class="view-club-button">{% trans "Ver Clube" %}</a>
                 </div>
             </div>
           </div>
         {% endfor %}
       </div>
     {% else %}
-      <p style="text-align:center; margin-top: 40px; width:100%; font-size: 1.2rem;">Nenhum clube encontrado para "{{ query }}".</p>
+      <p style="text-align:center; margin-top: 40px; width:100%; font-size: 1.2rem;">{% blocktrans %}Nenhum clube encontrado para "{{ query }}".{% endblocktrans %}</p>
     {% endif %}
   </main>
-
 
 {% endblock %}

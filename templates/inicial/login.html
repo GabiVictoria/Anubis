@@ -1,52 +1,52 @@
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anúbis</title>
+  <title>{% trans "Anúbis" %}</title>
   <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
-  <link rel="stylesheet" href="{% static 'inicial/login.css' %}"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
+   <link rel="stylesheet" href="{% static 'inicial/login.css' %}"/>
  <script defer src="{% static 'inicial/messages.js' %}"></script> 
 </head>
 <body>
     {% if messages %}
-          <ul class="messages"> 
-            {% for message in messages %}
-              <li class="{{ message.tags }}"> 
-                {{ message }}
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
+        <ul class="messages"> 
+          {% for message in messages %}
+            <li class="{{ message.tags }}"> 
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
   <div class="container">
     <div class="image-section">
-      <img src="{% static 'img/Logo..png' %}" alt="Imagem de fundo" />
+      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Imagem de fundo' %}" />
     </div>
-
-    
 
     <div class="login-section">
       <div class="login-box">
 
-        <h2>REALIZE SEU LOGIN</h2>
+        <h2>{% trans "REALIZE SEU LOGIN" %}</h2>
 
         <form method="post" action="{% url 'inicial:login' %}">
           {% csrf_token %}
           <div class="input-group">
-            <input type="email" name="email_usuario" placeholder="E-mail" value="{{ form_data.email_usuario | default:'' }}" required />
-            <input type="password" name="senha_usuario" placeholder="Senha" required />
+            <input type="email" name="email_usuario" placeholder="{% trans 'E-mail' %}" value="{{ form_data.email_usuario | default:'' }}" required />
+            <input type="password" name="senha_usuario" placeholder="{% trans 'Senha' %}" required />
           </div>
 
-          <button type="submit">Entrar</button>
+          <button type="submit">{% trans "Entrar" %}</button>
           
           <div class="links">
-            <a href="#">Esqueci minha senha</a>
+            <a href="#">{% trans "Esqueci minha senha" %}</a>
           </div>
 
           <div class="signup">
-            <a href="{% url 'inicial:cadastro' %}">Cadastre-se</a>
+            <a href="{% url 'inicial:cadastro' %}">{% trans "Cadastre-se" %}</a>
           </div> 
         </form>
       </div>

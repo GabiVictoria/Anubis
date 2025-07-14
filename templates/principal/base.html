@@ -1,19 +1,20 @@
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
-    <title>Anúbis</title>
+    <title>{% trans "Anúbis" %}</title>
     <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
-     <link rel="stylesheet" href="{% static 'principal/base.css' %}"/>
+    <link rel="stylesheet" href="{% static 'principal/base.css' %}"/>
     
     {% block styles %}{% endblock %}
 </head>
 <body>
-   {% if messages %}
+    {% if messages %}
     <ul class="messages">
       {% for message in messages %}
         <li class="{{ message.tags }}">{{ message }}</li>
@@ -23,23 +24,22 @@
 
     <header>
         <div class="logo-container">
-            <img src="{% static 'img/Logo..png' %}" alt="Anúbis">
-            <h1>Anúbis</h1>
+            <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Anúbis' %}">
+            <h1>{% trans "Anúbis" %}</h1>
         </div>
         <div class="slogan">
-            Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro.
+            {% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro." %}
         </div>
         <nav>
-            <a href="{% url 'principal:home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Home</a>
-            <a href="{% url 'principal:criar_clube' %}" {% if request.resolver_match.url_name == 'criar_clube' %}class="active"{% endif %}>Criar</a>
-            <a href="{% url 'principal:perfil' %}">Perfil</a>
-            <a href="{% url 'inicial:logout' %}">Sair</a>
-        </nav>
+    <a href="{% url 'principal:home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>{% trans "Home" %}</a>
+    <a href="{% url 'principal:criar_clube' %}" {% if request.resolver_match.url_name == 'criar_clube' %}class="active"{% endif %}>{% trans "Criar" %}</a>
+    <a href="{% url 'principal:perfil' %}">{% trans "Perfil" %}</a>
+    <a href="{% url 'inicial:logout' %}">{% trans "Sair" %}</a>
+
+</nav>
     </header>
 
-  
-        {% block content %}{% endblock %}
-  
+    {% block content %}{% endblock %}
     
     <script defer src="{% static 'inicial/messages.js' %}"></script>
     {% block scripts %}{% endblock %}

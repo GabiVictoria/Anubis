@@ -1,0 +1,2326 @@
+# English translations for Anubis project.
+# Copyright (C) 2025 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-13 21:31-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: English <LL@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\anubis\settings.py:144
+msgid "Português do Brasil"
+msgstr "Brazilian Portuguese"
+
+#: .\anubis\settings.py:145
+msgid "Inglês"
+msgstr "English"
+
+#: .\anubis\settings.py:146
+msgid "Espanhol"
+msgstr "Spanish"
+
+#: .\inicial\views.py:41 .\inicial\views.py:102
+msgid "Todos os campos são obrigatórios."
+msgstr "All fields are required."
+
+#: .\inicial\views.py:49
+msgid "Você deve ter pelo menos 13 anos para se cadastrar."
+msgstr "You must be at least 13 years old to register."
+
+#: .\inicial\views.py:53
+msgid "As senhas não coincidem."
+msgstr "The passwords do not match."
+
+#: .\inicial\views.py:66
+msgid "A senha não atende aos critérios de segurança. "
+msgstr "The password does not meet the security criteria. "
+
+#: .\inicial\views.py:67
+#, python-format
+msgid "Ela deve conter: pelo menos %(min_tamanho)s caracteres, "
+msgstr "It must contain: at least %(min_tamanho)s characters, "
+
+#: .\inicial\views.py:68
+msgid "uma letra maiúscula (A-Z), uma letra minúscula (a-z), "
+msgstr "one uppercase letter (A-Z), one lowercase letter (a-z), "
+
+#: .\inicial\views.py:69
+msgid "um número (0-9), e um caractere especial (ex: !@#$%&*)."
+msgstr "one number (0-9), and one special character (e.g., !@#$%&*)."
+
+#: .\inicial\views.py:75
+msgid "Este endereço de e-mail já está cadastrado."
+msgstr "This email address is already registered."
+
+#: .\inicial\views.py:83
+msgid "Cadastro realizado com sucesso! Por favor, faça o login."
+msgstr "Registration successful! Please log in."
+
+#: .\inicial\views.py:86
+msgid "Este endereço de e-mail já está cadastrado. Por favor, utilize outro."
+msgstr "This email address is already registered. Please use another one."
+
+#: .\inicial\views.py:91
+msgid "Ocorreu um erro inesperado durante o cadastro. Tente novamente."
+msgstr "An unexpected error occurred during registration. Please try again."
+
+#: .\inicial\views.py:113 .\inicial\views.py:118
+msgid "E-mail ou senha inválidos."
+msgstr "Invalid email or password."
+
+#: .\inicial\views.py:123
+#, python-format
+msgid "Ocorreu um erro inesperado: %(error)s"
+msgstr "An unexpected error occurred: %(error)s"
+
+#: .\inicial\views.py:131
+msgid "Você foi desconectado com sucesso."
+msgstr "You have been successfully logged out."
+
+#: .\principal\views.py:44
+msgid "(a definir)"
+msgstr "(to be defined)"
+
+#: .\principal\views.py:90
+msgid "O nome e a descrição do clube são obrigatórios."
+msgstr "The club name and description are required."
+
+#: .\principal\views.py:94
+msgid "O limite de membros é obrigatório."
+msgstr "The member limit is required."
+
+#: .\principal\views.py:100
+msgid "Valor inválido para limite de membros."
+msgstr "Invalid value for member limit."
+
+#: .\principal\views.py:104
+msgid "Opção de privacidade inválida."
+msgstr "Invalid privacy option."
+
+#: .\principal\views.py:108
+#, python-format
+msgid "Já existe um clube com o nome '%(nome_clube)s'. Por favor, escolha outro nome."
+msgstr "A club with the name '%(nome_clube)s' already exists. Please choose another name."
+
+#: .\principal\views.py:136
+#, python-format
+msgid "Clube '%(nome_clube)s' criado com sucesso!"
+msgstr "Club '%(nome_clube)s' created successfully!"
+
+#: .\principal\views.py:140
+#, python-format
+msgid "Ocorreu um erro inesperado ao criar o clube: %(error)s"
+msgstr "An unexpected error occurred while creating the club: %(error)s"
+
+#: .\principal\views.py:171 .\principal\views.py:172 .\principal\views.py:205
+msgid "N/D"
+msgstr "N/A"
+
+#: .\principal\views.py:174
+msgid "Nenhuma leitura atual"
+msgstr "No current reading"
+
+#: .\principal\views.py:179
+#, python-format
+msgid "Nome do clube corresponde a '%(query)s'"
+msgstr "Club name matches '%(query)s'"
+
+#: .\principal\views.py:182
+#, python-format
+msgid "Livro '%(livro_nome)s' corresponde a '%(query)s'"
+msgstr "Book '%(livro_nome)s' matches '%(query)s'"
+
+#: .\principal\views.py:272
+msgid "Nenhum livro selecionado para votar."
+msgstr "No book selected to vote."
+
+#: .\principal\views.py:278
+msgid "Você precisa ser membro do clube para votar."
+msgstr "You must be a member of the club to vote."
+
+#: .\principal\views.py:282 .\templates\principal\detalhes_clube.html:111
+msgid "Você já votou nesta votação."
+msgstr "You have already voted in this poll."
+
+#: .\principal\views.py:284
+msgid "Esta votação não está mais ativa."
+msgstr "This poll is no longer active."
+
+#: .\principal\views.py:286
+msgid "Este livro não é uma opção válida para esta votação."
+msgstr "This book is not a valid option for this poll."
+
+#: .\principal\views.py:289
+#, python-format
+msgid "Seu voto em '%(livro_nome)s' foi registrado!"
+msgstr "Your vote for '%(livro_nome)s' has been registered!"
+
+#: .\principal\views.py:293
+msgid "Método inválido para registrar voto."
+msgstr "Invalid method to register vote."
+
+#: .\principal\views.py:305
+#, python-format
+msgid "Você entrou no clube '%(nome_clube)s'!"
+msgstr "You have joined the club '%(nome_clube)s'!"
+
+#: .\principal\views.py:307
+#, python-format
+msgid "O clube '%(nome_clube)s' atingiu o limite de membros."
+msgstr "The club '%(nome_clube)s' has reached the member limit."
+
+#: .\principal\views.py:309
+msgid "Você já é membro deste clube."
+msgstr "You are already a member of this club."
+
+#: .\principal\views.py:311
+msgid "Este clube é privado. A entrada precisa de aprovação."
+msgstr "This club is private. Entry requires approval."
+
+#: .\principal\views.py:323
+msgid "Você é o único administrador. Promova outro membro antes de sair ou exclua o clube."
+msgstr "You are the only administrator. Promote another member before leaving or delete the club."
+
+#: .\principal\views.py:326
+#, python-format
+msgid "Você saiu do clube '%(nome_clube)s'."
+msgstr "You have left the club '%(nome_clube)s'."
+
+#: .\principal\views.py:328
+msgid "Você não é membro deste clube."
+msgstr "You are not a member of this club."
+
+#: .\principal\views.py:350
+#, python-format
+msgid "O clube '%(nome_clube)s' foi atualizado com sucesso!"
+msgstr "The club '%(nome_clube)s' has been updated successfully!"
+
+#: .\principal\views.py:353
+msgid "Houve um erro no formulário. Por favor, verifique os dados."
+msgstr "There was an error in the form. Please check the data."
+
+#: .\principal\views.py:369
+#, python-format
+msgid "O clube '%(nome_clube)s' foi excluído permanentemente."
+msgstr "The club '%(nome_clube)s' has been permanently deleted."
+
+#: .\principal\views.py:372
+msgid "Ação inválida."
+msgstr "Invalid action."
+
+#: .\principal\views.py:382
+msgid "Forneça um título ou autor para a busca."
+msgstr "Please provide a title or author for the search."
+
+#: .\principal\views.py:419 .\principal\views.py:456
+msgid "Título indisponível"
+msgstr "Title unavailable"
+
+#: .\principal\views.py:420 .\principal\views.py:457
+#: .\templates\principal\admin\adicionar_livro_estante.html:72
+msgid "Autor desconhecido"
+msgstr "Author unknown"
+
+#: .\principal\views.py:497
+msgid "Dados do livro incompletos (ISBN obrigatório)."
+msgstr "Incomplete book data (ISBN required)."
+
+#: .\principal\views.py:516
+#, python-format
+msgid "O livro '%(livro_nome)s' já está na estante do clube."
+msgstr "The book '%(livro_nome)s' is already on the club's shelf."
+
+#: .\principal\views.py:519
+#, python-format
+msgid "Livro '%(livro_nome)s' adicionado à estante com sucesso!"
+msgstr "Book '%(livro_nome)s' added to the shelf successfully!"
+
+#: .\principal\views.py:546
+#, python-format
+msgid "'%(livro_nome)s' definido como leitura atual do clube."
+msgstr "'%(livro_nome)s' set as the club's current reading."
+
+#: .\principal\views.py:549
+msgid "Erro ao definir leitura atual. Verifique os dados do formulário."
+msgstr "Error setting current reading. Please check the form data."
+
+#: .\principal\views.py:575
+msgid "Nova votação criada com sucesso!"
+msgstr "New poll created successfully!"
+
+#: .\principal\views.py:578
+msgid "Erro ao criar votação. Verifique os campos."
+msgstr "Error creating poll. Please check the fields."
+
+#: .\templates\inicial\cadastro.html:8 .\templates\inicial\inicial.html:9 ...
+msgid "Anúbis"
+msgstr "Anubis"
+
+#: .\templates\inicial\cadastro.html:27 .\templates\inicial\login.html:27
+msgid "Imagem de fundo"
+msgstr "Background image"
+
+#: .\templates\inicial\cadastro.html:33
+msgid "Logo"
+msgstr "Logo"
+
+#: .\templates\inicial\cadastro.html:35 .\templates\inicial\cadastro.html:60
+msgid "CRIAR CONTA"
+msgstr "CREATE ACCOUNT"
+
+#: .\templates\inicial\cadastro.html:41
+msgid "Nome completo"
+msgstr "Full name"
+
+#: .\templates\inicial\cadastro.html:45 .\templates\inicial\login.html:38
+msgid "E-mail"
+msgstr "E-mail"
+
+#: .\templates\inicial\cadastro.html:49
+msgid "Data de nascimento"
+msgstr "Date of birth"
+
+#: .\templates\inicial\cadastro.html:53
+msgid "Crie uma senha"
+msgstr "Create a password"
+
+#: .\templates\inicial\cadastro.html:57
+msgid "Confirme sua senha"
+msgstr "Confirm your password"
+
+#: .\templates\inicial\cadastro.html:63
+msgid "Já tem uma conta? Faça login"
+msgstr "Already have an account? Log in"
+
+#: .\templates\inicial\inicial.html:30 ...
+msgid "Logo da Anúbis"
+msgstr "Anubis Logo"
+
+#: .\templates\inicial\inicial.html:33 ...
+msgid "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro"
+msgstr "Gather. Read. Renew. Live with Anubis, your book club platform"
+
+#: .\templates\inicial\inicial.html:34 ...
+msgid "Conecte-se com leitores como você. Leia junto. Compartilhe ideias."
+msgstr "Connect with readers like you. Read together. Share ideas."
+
+#: .\templates\inicial\inicial.html:36 ...
+msgid "Entrar"
+msgstr "Log In"
+
+#: .\templates\inicial\inicial.html:37 ...
+msgid "Criar Conta"
+msgstr "Create Account"
+
+#: .\templates\inicial\inicial.html:42
+msgid "Que tal procurar o clube ideal para você? Dá um clique"
+msgstr "How about finding the ideal club for you? Give it a click"
+
+#: .\templates\inicial\inicial.html:48 ...
+msgid "Buscar livros, clubes..."
+msgstr "Search for books, clubs..."
+
+#: .\templates\inicial\inicial.html:59
+msgid "Livros que os clubes estão lendo agora"
+msgstr "Books that clubs are reading now"
+
+#: .\templates\inicial\inicial.html:62
+msgid "Livro 1"
+msgstr "Book 1"
+
+#: .\templates\inicial\inicial.html:63
+msgid "É Assim que Acaba"
+msgstr "It Ends with Us"
+
+#: .\templates\inicial\inicial.html:66
+msgid "Livro 2"
+msgstr "Book 2"
+
+#: .\templates\inicial\inicial.html:67
+msgid "Opúscolo Humanitário"
+msgstr "Humanitarian Opuscule"
+
+#: .\templates\inicial\inicial.html:70
+msgid "Livro 3"
+msgstr "Book 3"
+
+#: .\templates\inicial\inicial.html:71
+msgid "O Sol é para Todos"
+msgstr "To Kill a Mockingbird"
+
+#: .\templates\inicial\inicial.html:74
+msgid "Livro 4"
+msgstr "Book 4"
+
+#: .\templates\inicial\inicial.html:75
+msgid "Norwegian Wood"
+msgstr "Norwegian Wood"
+
+#: .\templates\inicial\inicial.html:78
+msgid "Livro 5"
+msgstr "Book 5"
+
+#: .\templates\inicial\inicial.html:79 .\templates\principal\home.html:76
+#: .\templates\principal\home.html:78
+msgid "Noites Brancas"
+msgstr "White Nights"
+
+#: .\templates\inicial\inicial.html:85 ...
+msgid "Todos os direitos reservados."
+msgstr "All rights reserved."
+
+#: .\templates\inicial\inicial.html:86 ...
+msgid "Plataforma criada no Instituto Federal de São Paulo"
+msgstr "Platform created at the Federal Institute of São Paulo"
+
+#: .\templates\inicial\inicial_busca.html:41
+#, python-format
+msgid "Resultados para: %(query)s"
+msgstr "Results for: %(query)s"
+
+#: .\templates\inicial\inicial_busca.html:58 ...
+msgid "Capa do Livro"
+msgstr "Book Cover"
+
+#: .\templates\inicial\inicial_busca.html:61 ...
+msgid "Membros:"
+msgstr "Members:"
+
+#: .\templates\inicial\inicial_busca.html:62 ...
+msgid "Data de criação:"
+msgstr "Creation date:"
+
+#: .\templates\inicial\inicial_busca.html:63 ...
+msgid "Livro atual:"
+msgstr "Current book:"
+
+#: .\templates\inicial\inicial_busca.html:64 ...
+msgid "Criado por:"
+msgstr "Created by:"
+
+#: .\templates\inicial\login.html:33
+msgid "REALIZE SEU LOGIN"
+msgstr "PERFORM YOUR LOGIN"
+
+#: .\templates\inicial\login.html:39
+msgid "Senha"
+msgstr "Password"
+
+#: .\templates\inicial\login.html:45
+msgid "Esqueci minha senha"
+msgstr "Forgot my password"
+
+#: .\templates\inicial\login.html:49
+msgid "Cadastre-se"
+msgstr "Sign up"
+
+#: .\templates\principal\abandonados.html:8 ...
+msgid "Clube do Livro"
+msgstr "Book Club"
+
+#: .\templates\principal\abandonados.html:22 ...
+msgid "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro."
+msgstr "Gather. Read. Renew. Live with Anubis, your book club platform."
+
+#: .\templates\principal\abandonados.html:25 ...
+msgid "Home"
+msgstr "Home"
+
+#: .\templates\principal\abandonados.html:26 ...
+msgid "Criar"
+msgstr "Create"
+
+#: .\templates\principal\abandonados.html:27 ...
+msgid "Perfil"
+msgstr "Profile"
+
+#: .\templates\principal\abandonados.html:28 ...
+msgid "Sair"
+msgstr "Log Out"
+
+#: .\templates\principal\abandonados.html:34 ...
+msgid "Logo do Clube"
+msgstr "Club Logo"
+
+#: .\templates\principal\abandonados.html:35 ...
+msgid "Clube dos Leitores Fantásticos"
+msgstr "Fantastic Readers Club"
+
+#: .\templates\principal\abandonados.html:39 ...
+msgid "Um grupo apaixonado por literatura fantástica, onde discutimos obras, autores e universos que nos transportam além da realidade."
+msgstr "A group passionate about fantasy literature, where we discuss works, authors, and universes that transport us beyond reality."
+
+#: .\templates\principal\abandonados.html:43 ...
+msgid "Lendo"
+msgstr "Reading"
+
+#: .\templates\principal\abandonados.html:44 ...
+msgid "Lidos"
+msgstr "Read"
+
+#: .\templates\principal\abandonados.html:45 ...
+msgid "Abandonados"
+msgstr "Abandoned"
+
+#: .\templates\principal\abandonados.html:46 ...
+msgid "Próximo Livro"
+msgstr "Next Book"
+
+#: .\templates\principal\abandonados.html:47 ...
+msgid "Queremos Ler"
+msgstr "Want to Read"
+
+#: .\templates\principal\abandonados.html:48 ...
+msgid "Releitura"
+msgstr "Reread"
+
+#: .\templates\principal\abandonados.html:52 ...
+msgid "Filtrar por ano:"
+msgstr "Filter by year:"
+
+#: .\templates\principal\abandonados.html:54 ...
+msgid "Todos"
+msgstr "All"
+
+#: .\templates\principal\abandonados.html:65 ...
+msgid "Autor:"
+msgstr "Author:"
+
+#: .\templates\principal\abandonados.html:66 ...
+msgid "Última leitura:"
+msgstr "Last read:"
+
+#: .\templates\principal\abandonados.html:67 ...
+msgid "Nota média:"
+msgstr "Average rating:"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:24
+#, python-format
+msgid "Adicionar Livro à Estante: %(clube.nome)s"
+msgstr "Add Book to Shelf: %(clube.nome)s"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:28
+msgid "Preencha um ou ambos os campos abaixo para buscar."
+msgstr "Fill one or both of the fields below to search."
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:32
+msgid "Título do Livro:"
+msgstr "Book Title:"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:33
+msgid "Ex: O Pequeno Príncipe"
+msgstr "Ex: The Little Prince"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:38
+msgid "Ex: Antoine de Saint-Exupéry"
+msgstr "Ex: Antoine de Saint-Exupéry"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:43
+msgid "Buscar"
+msgstr "Search"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:46
+msgid "Voltar para o Clube"
+msgstr "Back to Club"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:56
+#: .\templates\principal\admin\adicionar_livro_estante.html:81
+msgid "Carregar Mais"
+msgstr "Load More"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:73
+msgid "Páginas"
+msgstr "Pages"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:74
+msgid "N/A"
+msgstr "N/A"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:75
+msgid "Adicionar à Estante"
+msgstr "Add to Shelf"
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:76
+msgid "Buscando..."
+msgstr "Searching..."
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:77
+msgid "Por favor, preencha o título ou o autor."
+msgstr "Please fill in the title or author."
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:78
+msgid "Carregando..."
+msgstr "Loading..."
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:79
+msgid "Nenhum livro encontrado para esta busca."
+msgstr "No books found for this search."
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:80
+msgid "Ocorreu um erro ao buscar. Tente novamente."
+msgstr "An error occurred while searching. Please try again."
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:97
+msgid "Capa de"
+msgstr "Cover of"
+
+#: .\templates\principal\admin\criarvotacao.html:11
+#, python-format
+msgid "Criar Nova Votação para: %(clube.nome)s"
+msgstr "Create New Poll for: %(clube.nome)s"
+
+#: .\templates\principal\admin\criarvotacao.html:33
+msgid "Criar Votação"
+msgstr "Create Poll"
+
+#: .\templates\principal\admin\criarvotacao.html:34 ...
+msgid "Cancelar"
+msgstr "Cancel"
+
+#: .\templates\principal\admin\criarvotacao.html:38
+msgid "Não há livros suficientes ou adequados na estante do clube (status \\"
+msgstr "There are not enough or suitable books on the club's shelf (status \\"
+
+#: .\templates\principal\admin\criarvotacao.html:39 ...
+msgid "Adicionar Livros à Estante"
+msgstr "Add Books to Shelf"
+
+#: .\templates\principal\admin\criarvotacao.html:41 ...
+msgid "Voltar"
+msgstr "Back"
+
+#: .\templates\principal\admin\definir_leitura_atual.html:11
+#, python-format
+msgid "Definir Leitura Atual para: %(clube.nome)s"
+msgstr "Set Current Reading for: %(clube.nome)s"
+
+#: .\templates\principal\admin\definir_leitura_atual.html:27
+msgid "Definir como Leitura Atual"
+msgstr "Set as Current Reading"
+
+#: .\templates\principal\admin\definir_leitura_atual.html:32
+msgid "Não há livros na estante do clube com status \"Quero Ler\" ou \"Próximo a Ser Lido\" para definir como leitura atual."
+msgstr "There are no books on the club's shelf with \"Want to Read\" or \"Next to Read\" status to set as current reading."
+
+#: .\templates\principal\admin\editar_clube.html:22 ...
+msgid "Capa padrão"
+msgstr "Default cover"
+
+#: .\templates\principal\admin\editar_clube.html:25
+#, python-format
+msgid "Editando o clube: %(clube.nome)s"
+msgstr "Editing club: %(clube.nome)s"
+
+#: .\templates\principal\admin\editar_clube.html:26 ...
+msgid "Nome do Clube:"
+msgstr "Club Name:"
+
+#: .\templates\principal\admin\editar_clube.html:34 ...
+msgid "Descrição do clube:"
+msgstr "Club description:"
+
+#: .\templates\principal\admin\editar_clube.html:41
+msgid "Escolha uma nova imagem recomendada:"
+msgstr "Choose a new recommended image:"
+
+#: .\templates\principal\admin\editar_clube.html:43 ...
+msgid "Imagem"
+msgstr "Image"
+
+#: .\templates\principal\admin\editar_clube.html:55
+msgid "Ou envie uma imagem personalizada (substitui a atual e a recomendada):"
+msgstr "Or upload a custom image (replaces the current and recommended one):"
+
+#: .\templates\principal\admin\editar_clube.html:61 ...
+msgid "Quantidade de membros:"
+msgstr "Number of members:"
+
+#: .\templates\principal\admin\editar_clube.html:67 ...
+msgid "Público ou Privado:"
+msgstr "Public or Private:"
+
+#: .\templates\principal\admin\editar_clube.html:75
+msgid "Salvar Alterações"
+msgstr "Save Changes"
+
+#: .\templates\principal\admin\editar_clube.html:81
+msgid "Excluir clube"
+msgstr "Delete club"
+
+#: .\templates\principal\admin\editar_clube.html:82
+msgid "Atenção !"
+msgstr "Warning!"
+
+#: .\templates\principal\admin\editar_clube.html:83
+msgid "A exclusão de um clube é permanente e não pode ser desfeita. Todos os dados, membros e leituras associadas serão perdidos."
+msgstr "Deleting a club is permanent and cannot be undone. All associated data, members, and readings will be lost."
+
+#: .\templates\principal\admin\editar_clube.html:90
+msgid "Tem certeza que deseja excluir este clube? Esta ação é irreversível."
+msgstr "Are you sure you want to delete this club? This action is irreversible."
+
+#: .\templates\principal\admin\editar_clube.html:93
+msgid "Excluir Clube"
+msgstr "Delete Club"
+
+#: .\templates\principal\criar_clube.html:14 .\templates\principal\home.html:50
+msgid "Slide 1"
+msgstr "Slide 1"
+
+#: .\templates\principal\criar_clube.html:15 .\templates\principal\home.html:53
+msgid "Slide 2"
+msgstr "Slide 2"
+
+#: .\templates\principal\criar_clube.html:16 .\templates\principal\home.html:56
+msgid "Slide 3"
+msgstr "Slide 3"
+
+#: .\templates\principal\criar_clube.html:23
+msgid "Dê um nome incrível ao seu clube!"
+msgstr "Give your club an amazing name!"
+
+#: .\templates\principal\criar_clube.html:28
+msgid "Conte um pouco sobre o seu clube..."
+msgstr "Tell us a little about your club..."
+
+#: .\templates\principal\criar_clube.html:34
+msgid "Escolha uma imagem recomendada para seu clube:"
+msgstr "Choose a recommended image for your club:"
+
+#: .\templates\principal\criar_clube.html:36
+msgid "Imagem Recomendada 1"
+msgstr "Recommended Image 1"
+
+#: .\templates\principal\criar_clube.html:37
+msgid "Imagem Recomendada 2"
+msgstr "Recommended Image 2"
+
+#: .\templates\principal\criar_clube.html:38
+msgid "Imagem Recomendada 3"
+msgstr "Recommended Image 3"
+
+#: .\templates\principal\criar_clube.html:39
+msgid "Imagem Recomendada 4"
+msgstr "Recommended Image 4"
+
+#: .\templates\principal\criar_clube.html:40
+msgid "Imagem Recomendada 5"
+msgstr "Recommended Image 5"
+
+#: .\templates\principal\criar_clube.html:41
+msgid "Imagem Recomendada 6"
+msgstr "Recommended Image 6"
+
+#: .\templates\principal\criar_clube.html:42
+msgid "Imagem Recomendada 7"
+msgstr "Recommended Image 7"
+
+#: .\templates\principal\criar_clube.html:43
+msgid "Imagem Recomendada 8"
+msgstr "Recommended Image 8"
+
+#: .\templates\principal\criar_clube.html:50
+msgid "Até 10 membros"
+msgstr "Up to 10 members"
+
+#: .\templates\principal\criar_clube.html:51
+msgid "Até 20 membros"
+msgstr "Up to 20 members"
+
+#: .\templates\principal\criar_clube.html:52
+msgid "Até 50 membros"
+msgstr "Up to 50 members"
+
+#: .\templates\principal\criar_clube.html:55
+msgid "Recomendações de limite:"
+msgstr "Limit recommendations:"
+
+#: .\templates\principal\criar_clube.html:57
+msgid "10 membros: intimista"
+msgstr "10 members: intimate"
+
+#: .\templates\principal\criar_clube.html:66
+msgid "Público"
+msgstr "Public"
+
+#: .\templates\principal\criar_clube.html:67
+msgid "Privado"
+msgstr "Private"
+
+#: .\templates\principal\criar_clube.html:72
+msgid "Criar Clube"
+msgstr "Create Club"
+
+#: .\templates\principal\detalhes_clube.html:14
+msgid "Buscar em Anúbis..."
+msgstr "Search in Anubis..."
+
+#: .\templates\principal\detalhes_clube.html:27
+msgid "Capa Padrão"
+msgstr "Default Cover"
+
+#: .\templates\principal\detalhes_clube.html:34
+#, python-format
+msgid "Criado por <strong>%(fundador_nome)s</strong> em %(creation_date)s"
+msgstr "Created by <strong>%(fundador_nome)s</strong> in %(creation_date)s"
+
+#: .\templates\principal\detalhes_clube.html:42
+msgid "Sair do Clube"
+msgstr "Leave Club"
+
+#: .\templates\principal\detalhes_clube.html:47
+msgid "Entrar no Clube"
+msgstr "Join Club"
+
+#: .\templates\principal\detalhes_clube.html:50
+msgid "Este clube é privado."
+msgstr "This club is private."
+
+#: .\templates\principal\detalhes_clube.html:57
+msgid "Painel do Administrador do Clube"
+msgstr "Club Administrator Panel"
+
+#: .\templates\principal\detalhes_clube.html:59
+msgid "Editar Informações do Clube"
+msgstr "Edit Club Information"
+
+#: .\templates\principal\detalhes_clube.html:60
+msgid "Adicionar Livro à Estante"
+msgstr "Add Book to Shelf"
+
+#: .\templates\principal\detalhes_clube.html:61
+msgid "Definir Leitura Atual"
+msgstr "Set Current Reading"
+
+#: .\templates\principal\detalhes_clube.html:62
+msgid "Criar Nova Votação"
+msgstr "Create New Poll"
+
+#: .\templates\principal\detalhes_clube.html:69
+msgid "Livro do Momento"
+msgstr "Book of the Moment"
+
+#: .\templates\principal\detalhes_clube.html:82
+#, python-format
+msgid "Votação para Próximo Livro <small>(encerra em %(end_date)s)</small>"
+msgstr "Poll for Next Book <small>(ends on %(end_date)s)</small>"
+
+#: .\templates\principal\detalhes_clube.html:90
+msgid "por"
+msgstr "by"
+
+#: .\templates\principal\detalhes_clube.html:91
+#, python-format
+msgid "%(percent)s%% dos votos"
+msgstr "%(percent)s%% of votes"
+
+#: .\templates\principal\detalhes_clube.html:96
+msgid "voto(s) de"
+msgstr "vote(s) of"
+
+#: .\templates\principal\detalhes_clube.html:100
+msgid "Votar neste"
+msgstr "Vote for this"
+
+#: .\templates\principal\detalhes_clube.html:109
+msgid "Confirmar Voto"
+msgstr "Confirm Vote"
+
+#: .\templates\principal\detalhes_clube.html:113
+msgid "Você precisa ser membro para votar."
+msgstr "You need to be a member to vote."
+
+#: .\templates\principal\detalhes_clube.html:115
+msgid "Nenhuma opção de livro nesta votação ainda."
+msgstr "No book options in this poll yet."
+
+#: .\templates\principal\detalhes_clube.html:123
+msgid "O clube não está lendo nenhum livro e não há votações ativas."
+msgstr "The club is not reading any books and there are no active polls."
+
+#: .\templates\principal\detalhes_clube.html:128
+#, python-format
+msgid "Membro (%(count)s)"
+msgid_plural "Membros (%(count)s)"
+msgstr[0] "Member (%(count)s)"
+msgstr[1] "Members (%(count)s)"
+
+#: .\templates\principal\detalhes_clube.html:136
+msgid "Admin"
+msgstr "Admin"
+
+#: .\templates\principal\detalhes_clube.html:136
+msgid "Mod"
+msgstr "Mod"
+
+#: .\templates\principal\detalhes_clube.html:138
+msgid "Entrou:"
+msgstr "Joined:"
+
+#: .\templates\principal\detalhes_clube.html:142
+msgid "Este clube ainda não tem membros."
+msgstr "This club has no members yet."
+
+#: .\templates\principal\detalhes_clube.html:148
+msgid "Livros Já Lidos Pelo Clube"
+msgstr "Books Already Read by the Club"
+
+#: .\templates\principal\detalhes_clube.html:156
+#, python-format
+msgid "Finalizado em: %(date)s | Avaliação: %(rating)s/5"
+msgstr "Finished on: %(date)s | Rating: %(rating)s/5"
+
+#: .\templates\principal\detalhes_clube.html:162
+msgid "Nenhum livro finalizado pelo clube ainda."
+msgstr "No books finished by the club yet."
+
+#: .\templates\principal\detalhes_clube.html:169
+msgid "BARRA DE PROGRESSO"
+msgstr "PROGRESS BAR"
+
+#: .\templates\principal\detalhes_clube.html:172
+#: .\templates\principal\detalhes_clube.html:174
+#: .\templates\principal\home.html:67
+msgid "Kafka à Beira Mar"
+msgstr "Kafka on the Shore"
+
+#: .\templates\principal\detalhes_clube.html:180
+#, python-brace-format
+msgid "{value}%% concluído"
+msgstr "{value}% complete"
+
+#: .\templates\principal\detalhes_clube.html:181
+msgid "concluído"
+msgstr "complete"
+
+#: .\templates\principal\detalhes_clube.html:185
+#, python-format
+msgid "Atualizar %:"
+msgstr "Update %:"
+
+#: .\templates\principal\detalhes_clube.html:187
+msgid "Atualizar"
+msgstr "Update"
+
+#: .\templates\principal\detalhes_clube.html:194
+msgid "VISITAR A ESTANTE DO CLUBE"
+msgstr "VISIT THE CLUB'S SHELF"
+
+#: .\templates\principal\detalhes_clube.html:198
+msgid "Explore os livros mais desejados e odiados. Clique abaixo para visitar a estante e conhecer um pouco os gostos do nosso clube."
+msgstr "Explore the most desired and hated books. Click below to visit the shelf and get to know our club's tastes a little."
+
+#: .\templates\principal\detalhes_clube.html:202
+msgid "Visitar Estante"
+msgstr "Visit Shelf"
+
+#: .\templates\principal\estante.html:52
+msgid "Capa do livro"
+msgstr "Book cover"
+
+#: .\templates\principal\estante.html:56
+msgid "Data de Início:"
+msgstr "Start Date:"
+
+#: .\templates\principal\estante.html:57
+msgid "Próxima Reunião:"
+msgstr "Next Meeting:"
+
+#: .\templates\principal\home.html:62
+msgid "Leituras Atuais"
+msgstr "Current Readings"
+
+#: .\templates\principal\home.html:65
+msgid "Kafka"
+msgstr "Kafka"
+
+#: .\templates\principal\home.html:68
+msgid "Clube Haruki"
+msgstr "Haruki Club"
+
+#: .\templates\principal\home.html:72
+msgid "45% concluído"
+msgstr "45% complete"
+
+#: .\templates\principal\home.html:79
+msgid "Clube Dostoiévski"
+msgstr "Dostoyevsky Club"
+
+#: .\templates\principal\home.html:83
+msgid "70% concluído"
+msgstr "70% complete"
+
+#: .\templates\principal\home.html:90
+msgid "Clube Orwell"
+msgstr "Orwell Club"
+
+#: .\templates\principal\home.html:94
+msgid "35% concluído"
+msgstr "35% complete"
+
+#: .\templates\principal\home.html:101
+msgid "Meus Clubes do Livro"
+msgstr "My Book Clubs"
+
+#: .\templates\principal\home.html:116
+#: .\templates\principal\listagem_resultados.html:41
+msgid "Fundado por:"
+msgstr "Founded by:"
+
+#: .\templates\principal\home.html:117
+msgid "Desde:"
+msgstr "Since:"
+
+#: .\templates\principal\home.html:120
+msgid "Lendo agora:"
+msgstr "Reading now:"
+
+#: .\templates\principal\home.html:129
+#, python-format
+msgid "Olá, %(nome_usuario)s! Você ainda não faz parte de nenhum clube."
+msgstr "Hello, %(nome_usuario)s! You are not yet part of any club."
+
+#: .\templates\principal\home.html:133
+msgid "Que tal"
+msgstr "How about"
+
+#: .\templates\principal\home.html:134
+msgid "criar um novo clube"
+msgstr "creating a new club"
+
+#: .\templates\principal\home.html:135
+msgid "ou explorar clubes existentes?"
+msgstr "or exploring existing clubs?"
+
+#: .\templates\principal\home.html:144
+msgid "Recomendações de Clubes"
+msgstr "Club Recommendations"
+
+#: .\templates\principal\home.html:147 .\templates\principal\home.html:149
+msgid "Fantasia Épica"
+msgstr "Epic Fantasy"
+
+#: .\templates\principal\home.html:150
+msgid "Fundado por Júlia Ramos"
+msgstr "Founded by Júlia Ramos"
+
+#: .\templates\principal\home.html:151
+msgid "Desde Fev 2024"
+msgstr "Since Feb 2024"
+
+#: .\templates\principal\home.html:156 .\templates\principal\home.html:158
+msgid "Literatura Brasileira"
+msgstr "Brazilian Literature"
+
+#: .\templates\principal\home.html:159
+msgid "Fundado por Pedro Souza"
+msgstr "Founded by Pedro Souza"
+
+#: .\templates\principal\home.html:160
+msgid "Desde Abr 2024"
+msgstr "Since Apr 2024"
+
+#: .\templates\principal\home.html:165 .\templates\principal\home.html:167
+msgid "Sci-Fi e Futuro"
+msgstr "Sci-Fi and Future"
+
+#: .\templates\principal\home.html:168
+msgid "Fundado por Renan Costa"
+msgstr "Founded by Renan Costa"
+
+#: .\templates\principal\home.html:169
+msgid "Desde Jan 2024"
+msgstr "Since Jan 2024"
+
+#: .\templates\principal\listagem_resultados.html:13
+#, python-format
+msgid "Resultados da Pesquisa para: \"%(query|default_if_none:'')s\""
+msgstr "Search Results for: \"%(query|default_if_none:'')s\""
+
+#: .\templates\principal\listagem_resultados.html:15
+msgid "Buscar novamente..."
+msgstr "Search again..."
+
+#: .\templates\principal\listagem_resultados.html:44
+msgid "Fundado em:"
+msgstr "Founded on:"
+
+#: .\templates\principal\listagem_resultados.html:47
+msgid "Lendo:"
+msgstr "Reading:"
+
+#: .\templates\principal\listagem_resultados.html:60
+msgid "Ver Clube"
+msgstr "View Club"
+
+#: .\templates\principal\listagem_resultados.html:67
+#, python-format
+msgid "Nenhum clube encontrado para \"%(query)s\"."
+msgstr "No club found for \"%(query)s\"."
+
+#: .\templates\principal\perfil.html:39
+msgid "Foto de perfil"
+msgstr "Profile picture"
+
+#: .\templates\principal\perfil.html:43
+msgid "Amo ler, compartihar e socializar! Gosto de ler durante as noites!•"
+msgstr "I love to read, share and socialize! I like to read at night!•"
+
+#: .\templates\principal\perfil.html:45
+msgid "livros lidos"
+msgstr "read books"
+
+#: .\templates\principal\perfil.html:47
+msgid "Quero ler"
+msgstr "Want to read"
+
+#: .\templates\principal\perfil.html:48
+msgid "Relendo"
+msgstr "Rereading"
+
+#: .\templates\principal\perfil.html:49
+msgid "Meus clubes"
+msgstr "My clubs"
+
+#: .\templates\principal\perfil.html:50
+msgid "Editar perfil"
+msgstr "Edit profile"
+
+#: .\templates\principal\perfil.html:57
+msgid "Livros lidos recentemente"
+msgstr "Recently read books"
+
+#: .\templates\principal\perfil.html:63 .\templates\principal\perfil.html:71
+#: .\templates\principal\perfil.html:79
+msgid "Clube:"
+msgstr "Club:"
+
+#: .\templates\principal\perfil.html:63 .\templates\principal\perfil.html:90
+msgid "Terror dos Clássicos"
+msgstr "Classics of Horror"
+
+#: .\templates\principal\perfil.html:71 .\templates\principal\perfil.html:100
+msgid "Lendas Góticas"
+msgstr "Gothic Legends"
+
+#: .\templates\principal\perfil.html:79
+msgid "Noites de Mistério"
+msgstr "Mystery Nights"
+
+#: .\templates\principal\perfil.html:86
+msgid "Clubes Recentes"
+msgstr "Recent Clubs"
+
+#: .\templates\principal\perfil.html:89
+msgid "Capa do clube Terror dos Clássicos"
+msgstr "Cover of the Classics of Horror club"
+
+#: .\templates\principal\perfil.html:91 .\templates\principal\perfil.html:101
+msgid "Admin:"
+msgstr "Admin:"
+
+#: .\templates\principal\perfil.html:92 .\templates\principal\perfil.html:102
+msgid "Criado em:"
+msgstr "Created on:"
+
+#: .\templates\principal\perfil.html:93 .\templates\principal\perfil.html:103
+msgid "Você entrou em:"
+msgstr "You joined on:"
+
+#: .\templates\principal\perfil.html:95 .\templates\principal\perfil.html:105
+msgid "Próximo livro:"
+msgstr "Next book:"
+
+#: .\templates\principal\perfil.html:99
+msgid "Capa do clube Lendas Góticas"
+msgstr "Cover of the Gothic Legends club"
+
+#: .\templates\principal\perfil.html:105
+msgid "O Retrato de Dorian Gray"
+msgstr "The Picture of Dorian Gray"
+
+#: .\templates\principal\proximo_livro.html:66
+#: .\templates\principal\queremos_ler.html:66
+#: .\templates\principal\queremos_ler.html:77
+msgid "Início Previsto:"
+msgstr "Scheduled Start:"
+
+#: .\templates\principal\proximo_livro.html:67
+#: .\templates\principal\queremos_ler.html:67
+#: .\templates\principal\queremos_ler.html:78
+msgid "A definir"
+msgstr "To be defined"
+
+#: .\templates\principal\queremos_ler.html:66
+#: .\templates\principal\queremos_ler.html:77
+msgid "sem data prevista"
+msgstr "no date scheduled"
+
+#: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
+msgid "Messages"
+msgstr "Messages"
+
+#: .\venv\Lib\site-packages\django\contrib\sitemaps\apps.py:8
+msgid "Site Maps"
+msgstr "Site Maps"
+
+#: .\venv\Lib\site-packages\django\contrib\staticfiles\apps.py:9
+msgid "Static Files"
+msgstr "Static Files"
+
+#: .\venv\Lib\site-packages\django\contrib\syndication\apps.py:7
+msgid "Syndication"
+msgstr "Syndication"
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: .\venv\Lib\site-packages\django\core\paginator.py:30
+msgid "…"
+msgstr "…"
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:32
+msgid "That page number is not an integer"
+msgstr "That page number is not an integer"
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:33
+msgid "That page number is less than 1"
+msgstr "That page number is less than 1"
+
+#: .\venv\Lib\site-packages\django\core\paginator.py:34
+msgid "That page contains no results"
+msgstr "That page contains no results"
+
+#: .\venv\Lib\site-packages\django\core\validators.py:22
+msgid "Enter a valid value."
+msgstr "Enter a valid value."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:70
+msgid "Enter a valid domain name."
+msgstr "Enter a valid domain name."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:153
+#: .\venv\Lib\site-packages\django\forms\fields.py:775
+msgid "Enter a valid URL."
+msgstr "Enter a valid URL."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:200
+msgid "Enter a valid integer."
+msgstr "Enter a valid integer."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:211
+msgid "Enter a valid email address."
+msgstr "Enter a valid email address."
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: .\venv\Lib\site-packages\django\core\validators.py:289
+msgid "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:297
+msgid "Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or hyphens."
+msgstr "Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or hyphens."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:309
+#: .\venv\Lib\site-packages\django\core\validators.py:318
+#: .\venv\Lib\site-packages\django\core\validators.py:332
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2220
+#, python-format
+msgid "Enter a valid %(protocol)s address."
+msgstr "Enter a valid %(protocol)s address."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:311
+msgid "IPv4"
+msgstr "IPv4"
+
+#: .\venv\Lib\site-packages\django\core\validators.py:320
+#: .\venv\Lib\site-packages\django\utils\ipv6.py:43
+msgid "IPv6"
+msgstr "IPv6"
+
+#: .\venv\Lib\site-packages\django\core\validators.py:334
+msgid "IPv4 or IPv6"
+msgstr "IPv4 or IPv6"
+
+#: .\venv\Lib\site-packages\django\core\validators.py:375
+msgid "Enter only digits separated by commas."
+msgstr "Enter only digits separated by commas."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:381
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:416
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr "Ensure this value is less than or equal to %(limit_value)s."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:425
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr "Ensure this value is greater than or equal to %(limit_value)s."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:434
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr "Ensure this value is a multiple of step size %(limit_value)s."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:441
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s, starting from %(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+msgstr "Ensure this value is a multiple of step size %(limit_value)s, starting from %(offset)s, e.g. %(offset)s, %(valid_value1)s, %(valid_value2)s, and so on."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:473
+#, python-format
+msgid "Ensure this value has at least %(limit_value)d character (it has %(show_value)d)."
+msgid_plural "Ensure this value has at least %(limit_value)d characters (it has %(show_value)d)."
+msgstr[0] "Ensure this value has at least %(limit_value)d character (it has %(show_value)d)."
+msgstr[1] "Ensure this value has at least %(limit_value)d characters (it has %(show_value)d)."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:491
+#, python-format
+msgid "Ensure this value has at most %(limit_value)d character (it has %(show_value)d)."
+msgid_plural "Ensure this value has at most %(limit_value)d characters (it has %(show_value)d)."
+msgstr[0] "Ensure this value has at most %(limit_value)d character (it has %(show_value)d)."
+msgstr[1] "Ensure this value has at most %(limit_value)d characters (it has %(show_value)d)."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:514
+#: .\venv\Lib\site-packages\django\forms\fields.py:366
+#: .\venv\Lib\site-packages\django\forms\fields.py:405
+msgid "Enter a number."
+msgstr "Enter a number."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:516
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] "Ensure that there are no more than %(max)s digit in total."
+msgstr[1] "Ensure that there are no more than %(max)s digits in total."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:521
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] "Ensure that there are no more than %(max)s decimal place."
+msgstr[1] "Ensure that there are no more than %(max)s decimal places."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:526
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural "Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] "Ensure that there are no more than %(max)s digit before the decimal point."
+msgstr[1] "Ensure that there are no more than %(max)s digits before the decimal point."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:597
+#, python-format
+msgid "File extension “%(extension)s” is not allowed. Allowed extensions are: %(allowed_extensions)s."
+msgstr "File extension “%(extension)s” is not allowed. Allowed extensions are: %(allowed_extensions)s."
+
+#: .\venv\Lib\site-packages\django\core\validators.py:659
+msgid "Null characters are not allowed."
+msgstr "Null characters are not allowed."
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1600
+#: .\venv\Lib\site-packages\django\forms\models.py:908
+msgid "and"
+msgstr "and"
+
+#: .\venv\Lib\site-packages\django\db\models\base.py:1602
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr "%(model_name)s with this %(field_labels)s already exists."
+
+#: .\venv\Lib\site-packages\django\db\models\constraints.py:22
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr "Constraint “%(name)s” is violated."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:134
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr "Value %(value)r is not a valid choice."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:135
+msgid "This field cannot be null."
+msgstr "This field cannot be null."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:136
+msgid "This field cannot be blank."
+msgstr "This field cannot be blank."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:137
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr "%(model_name)s with this %(field_label)s already exists."
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:141
+#, python-format
+msgid "%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr "%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:180
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr "Field of type: %(field_type)s"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1162
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr "“%(value)s” value must be either True or False."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1163
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr "“%(value)s” value must be either True, False, or None."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1165
+msgid "Boolean (Either True or False)"
+msgstr "Boolean (Either True or False)"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1215
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr "String (up to %(max_length)s)"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1217
+msgid "String (unlimited)"
+msgstr "String (unlimited)"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1326
+msgid "Comma-separated integers"
+msgstr "Comma-separated integers"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1427
+#, python-format
+msgid "“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD format."
+msgstr "“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD format."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1431
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1566
+#, python-format
+msgid "“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid date."
+msgstr "“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid date."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1435
+msgid "Date (without time)"
+msgstr "Date (without time)"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1562
+#, python-format
+msgid "“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ] format."
+msgstr "“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ] format."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1570
+#, python-format
+msgid "“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ]) but it is an invalid date/time."
+msgstr "“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ]) but it is an invalid date/time."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1575
+msgid "Date (with time)"
+msgstr "Date (with time)"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1702
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr "“%(value)s” value must be a decimal number."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1704
+msgid "Decimal number"
+msgstr "Decimal number"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1864
+#, python-format
+msgid "“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[.uuuuuu] format."
+msgstr "“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[.uuuuuu] format."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1868
+msgid "Duration"
+msgstr "Duration"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1920
+msgid "Email address"
+msgstr "Email address"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:1945
+msgid "File path"
+msgstr "File path"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2023
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr "“%(value)s” value must be a float."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2025
+msgid "Floating point number"
+msgstr "Floating point number"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2065
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr "“%(value)s” value must be an integer."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2067
+msgid "Integer"
+msgstr "Integer"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2163
+msgid "Big (8 byte) integer"
+msgstr "Big (8 byte) integer"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2180
+msgid "Small integer"
+msgstr "Small integer"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2188
+msgid "IPv4 address"
+msgstr "IPv4 address"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2219
+msgid "IP address"
+msgstr "IP address"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2310
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2311
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr "“%(value)s” value must be either None, True or False."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2313
+msgid "Boolean (Either True, False or None)"
+msgstr "Boolean (Either True, False or None)"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2364
+msgid "Positive big integer"
+msgstr "Positive big integer"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2379
+msgid "Positive integer"
+msgstr "Positive integer"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2394
+msgid "Positive small integer"
+msgstr "Positive small integer"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2410
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr "Slug (up to %(max_length)s)"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2446
+msgid "Text"
+msgstr "Text"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2526
+#, python-format
+msgid "“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] format."
+msgstr "“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] format."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2530
+#, python-format
+msgid "“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an invalid time."
+msgstr "“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an invalid time."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2534
+msgid "Time"
+msgstr "Time"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2642
+msgid "URL"
+msgstr "URL"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2666
+msgid "Raw binary data"
+msgstr "Raw binary data"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2731
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr "“%(value)s” is not a valid UUID."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\__init__.py:2733
+msgid "Universally unique identifier"
+msgstr "Universally unique identifier"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:244
+msgid "File"
+msgstr "File"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\files.py:420
+msgid "Image"
+msgstr "Image"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:24
+msgid "A JSON object"
+msgstr "A JSON object"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\json.py:26
+msgid "Value must be valid JSON."
+msgstr "Value must be valid JSON."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:978
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r is not a valid choice."
+msgstr "%(model)s instance with %(field)s %(value)r is not a valid choice."
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:981
+msgid "Foreign Key (type determined by related field)"
+msgstr "Foreign Key (type determined by related field)"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1275
+msgid "One-to-one relationship"
+msgstr "One-to-one relationship"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1332
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr "%(from)s-%(to)s relationship"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1334
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr "%(from)s-%(to)s relationships"
+
+#: .\venv\Lib\site-packages\django\db\models\fields\related.py:1382
+msgid "Many-to-many relationship"
+msgstr "Many-to-many relationship"
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: .\venv\Lib\site-packages\django\forms\boundfield.py:185
+msgid ":?.!"
+msgstr ":?.!"
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:95
+msgid "This field is required."
+msgstr "This field is required."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:315
+msgid "Enter a whole number."
+msgstr "Enter a whole number."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:486
+#: .\venv\Lib\site-packages\django\forms\fields.py:1267
+msgid "Enter a valid date."
+msgstr "Enter a valid date."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:509
+#: .\venv\Lib\site-packages\django\forms\fields.py:1268
+msgid "Enter a valid time."
+msgstr "Enter a valid time."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:536
+msgid "Enter a valid date/time."
+msgstr "Enter a valid date/time."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:570
+msgid "Enter a valid duration."
+msgstr "Enter a valid duration."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:571
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr "The number of days must be between {min_days} and {max_days}."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:640
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr "No file was submitted. Check the encoding type on the form."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:641
+msgid "No file was submitted."
+msgstr "No file was submitted."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:642
+msgid "The submitted file is empty."
+msgstr "The submitted file is empty."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:644
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural "Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgstr[1] "Ensure this filename has at most %(max)d characters (it has %(length)d)."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:649
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr "Please either submit a file or check the clear checkbox, not both."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:717
+msgid "Upload a valid image. The file you uploaded was either not an image or a corrupted image."
+msgstr "Upload a valid image. The file you uploaded was either not an image or a corrupted image."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:889
+#: .\venv\Lib\site-packages\django\forms\fields.py:975
+#: .\venv\Lib\site-packages\django\forms\models.py:1592
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr "Select a valid choice. %(value)s is not one of the available choices."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:977
+#: .\venv\Lib\site-packages\django\forms\fields.py:1096
+#: .\venv\Lib\site-packages\django\forms\models.py:1590
+msgid "Enter a list of values."
+msgstr "Enter a list of values."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1097
+msgid "Enter a complete value."
+msgstr "Enter a complete value."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1339
+msgid "Enter a valid UUID."
+msgstr "Enter a valid UUID."
+
+#: .\venv\Lib\site-packages\django\forms\fields.py:1369
+msgid "Enter a valid JSON."
+msgstr "Enter a valid JSON."
+
+#. Translators: This is the default suffix added to form field labels
+#: .\venv\Lib\site-packages\django\forms\forms.py:97
+msgid ":"
+msgstr ":"
+
+#: .\venv\Lib\site-packages\django\forms\forms.py:239
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr "(Hidden field %(name)s) %(error)s"
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:61
+#, python-format
+msgid "ManagementForm data is missing or has been tampered with. Missing fields: %(field_names)s. You may need to file a bug report if the issue persists."
+msgstr "ManagementForm data is missing or has been tampered with. Missing fields: %(field_names)s. You may need to file a bug report if the issue persists."
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:65
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] "Please submit at most %(num)d form."
+msgstr[1] "Please submit at most %(num)d forms."
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:70
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] "Please submit at least %(num)d form."
+msgstr[1] "Please submit at least %(num)d forms."
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:484
+#: .\venv\Lib\site-packages\django\forms\formsets.py:491
+msgid "Order"
+msgstr "Order"
+
+#: .\venv\Lib\site-packages\django\forms\formsets.py:499
+msgid "Delete"
+msgstr "Delete"
+
+#: .\venv\Lib\site-packages\django\forms\models.py:901
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr "Please correct the duplicate data for %(field)s."
+
+#: .\venv\Lib\site-packages\django\forms\models.py:906
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr "Please correct the duplicate data for %(field)s, which must be unique."
+
+#: .\venv\Lib\site-packages\django\forms\models.py:913
+#, python-format
+msgid "Please correct the duplicate data for %(field_name)s which must be unique for the %(lookup)s in %(date_field)s."
+msgstr "Please correct the duplicate data for %(field_name)s which must be unique for the %(lookup)s in %(date_field)s."
+
+#: .\venv\Lib\site-packages\django\forms\models.py:922
+msgid "Please correct the duplicate values below."
+msgstr "Please correct the duplicate values below."
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1359
+msgid "The inline value did not match the parent instance."
+msgstr "The inline value did not match the parent instance."
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1450
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr "Select a valid choice. That choice is not one of the available choices."
+
+#: .\venv\Lib\site-packages\django\forms\models.py:1594
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr "“%(pk)s” is not a valid value."
+
+#: .\venv\Lib\site-packages\django\forms\utils.py:229
+#, python-format
+msgid "%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it may be ambiguous or it may not exist."
+msgstr "%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it may be ambiguous or it may not exist."
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:527
+msgid "Clear"
+msgstr "Clear"
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:528
+msgid "Currently"
+msgstr "Currently"
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:529
+msgid "Change"
+msgstr "Change"
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:866
+msgid "Unknown"
+msgstr "Unknown"
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:867
+msgid "Yes"
+msgstr "Yes"
+
+#: .\venv\Lib\site-packages\django\forms\widgets.py:868
+msgid "No"
+msgstr "No"
+
+#. Translators: Please do not add spaces around commas.
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:873
+msgid "yes,no,maybe"
+msgstr "yes,no,maybe"
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:903
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:920
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] "%(size)d byte"
+msgstr[1] "%(size)d bytes"
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:922
+#, python-format
+msgid "%s KB"
+msgstr "%s KB"
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:924
+#, python-format
+msgid "%s MB"
+msgstr "%s MB"
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:926
+#, python-format
+msgid "%s GB"
+msgstr "%s GB"
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:928
+#, python-format
+msgid "%s TB"
+msgstr "%s TB"
+
+#: .\venv\Lib\site-packages\django\template\defaultfilters.py:930
+#, python-format
+msgid "%s PB"
+msgstr "%s PB"
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:74
+msgid "p.m."
+msgstr "p.m."
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:75
+msgid "a.m."
+msgstr "a.m."
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:80
+msgid "PM"
+msgstr "PM"
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:81
+msgid "AM"
+msgstr "AM"
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:153
+msgid "midnight"
+msgstr "midnight"
+
+#: .\venv\Lib\site-packages\django\utils\dateformat.py:155
+msgid "noon"
+msgstr "noon"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:7
+msgid "Monday"
+msgstr "Monday"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:8
+msgid "Tuesday"
+msgstr "Tuesday"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:9
+msgid "Wednesday"
+msgstr "Wednesday"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:10
+msgid "Thursday"
+msgstr "Thursday"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:11
+msgid "Friday"
+msgstr "Friday"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:12
+msgid "Saturday"
+msgstr "Saturday"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:13
+msgid "Sunday"
+msgstr "Sunday"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:16
+msgid "Mon"
+msgstr "Mon"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:17
+msgid "Tue"
+msgstr "Tue"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:18
+msgid "Wed"
+msgstr "Wed"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:19
+msgid "Thu"
+msgstr "Thu"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:20
+msgid "Fri"
+msgstr "Fri"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:21
+msgid "Sat"
+msgstr "Sat"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:22
+msgid "Sun"
+msgstr "Sun"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:25
+msgid "January"
+msgstr "January"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:26
+msgid "February"
+msgstr "February"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:27
+msgid "March"
+msgstr "March"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:28
+msgid "April"
+msgstr "April"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:29
+msgid "May"
+msgstr "May"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:30
+msgid "June"
+msgstr "June"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:31
+msgid "July"
+msgstr "July"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:32
+msgid "August"
+msgstr "August"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:33
+msgid "September"
+msgstr "September"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:34
+msgid "October"
+msgstr "October"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:35
+msgid "November"
+msgstr "November"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:36
+msgid "December"
+msgstr "December"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:39
+msgid "jan"
+msgstr "jan"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:40
+msgid "feb"
+msgstr "feb"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:41
+msgid "mar"
+msgstr "mar"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:42
+msgid "apr"
+msgstr "apr"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:43
+msgid "may"
+msgstr "may"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:44
+msgid "jun"
+msgstr "jun"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:45
+msgid "jul"
+msgstr "jul"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:46
+msgid "aug"
+msgstr "aug"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:47
+msgid "sep"
+msgstr "sep"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:48
+msgid "oct"
+msgstr "oct"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:49
+msgid "nov"
+msgstr "nov"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:50
+msgid "dec"
+msgstr "dec"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr "Jan."
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr "Feb."
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr "March"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr "April"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr "May"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr "June"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr "July"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr "Aug."
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr "Sept."
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr "Oct."
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr "Nov."
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr "Dec."
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr "January"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr "February"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr "March"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr "April"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr "May"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr "June"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr "July"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr "August"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr "September"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr "October"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr "November"
+
+#: .\venv\Lib\site-packages\django\utils\dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr "December"
+
+#: .\venv\Lib\site-packages\django\utils\ipv6.py:20
+msgid "This is not a valid IPv6 address."
+msgstr "This is not a valid IPv6 address."
+
+#: .\venv\Lib\site-packages\django\utils\text.py:76
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr "%(truncated_text)s…"
+
+#: .\venv\Lib\site-packages\django\utils\text.py:287
+msgid "or"
+msgstr "or"
+
+#. Translators: This string is used as a separator between list elements
+#: .\venv\Lib\site-packages\django\utils\text.py:306
+#: .\venv\Lib\site-packages\django\utils\timesince.py:135
+msgid ", "
+msgstr ", "
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:8
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] "%(num)d year"
+msgstr[1] "%(num)d years"
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:9
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] "%(num)d month"
+msgstr[1] "%(num)d months"
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:10
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] "%(num)d week"
+msgstr[1] "%(num)d weeks"
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:11
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] "%(num)d day"
+msgstr[1] "%(num)d days"
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:12
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] "%(num)d hour"
+msgstr[1] "%(num)d hours"
+
+#: .\venv\Lib\site-packages\django\utils\timesince.py:13
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] "%(num)d minute"
+msgstr[1] "%(num)d minutes"
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:29
+msgid "Forbidden"
+msgstr "Forbidden"
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:30
+msgid "CSRF verification failed. Request aborted."
+msgstr "CSRF verification failed. Request aborted."
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:34
+msgid "You are seeing this message because this HTTPS site requires a “Referer header” to be sent by your web browser, but none was sent. This header is required for security reasons, to ensure that your browser is not being hijacked by third parties."
+msgstr "You are seeing this message because this HTTPS site requires a “Referer header” to be sent by your web browser, but none was sent. This header is required for security reasons, to ensure that your browser is not being hijacked by third parties."
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:40
+msgid "If you have configured your browser to disable “Referer” headers, please re-enable them, at least for this site, or for HTTPS connections, or for “same-origin” requests."
+msgstr "If you have configured your browser to disable “Referer” headers, please re-enable them, at least for this site, or for HTTPS connections, or for “same-origin” requests."
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:45
+msgid "If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or including the “Referrer-Policy: no-referrer” header, please remove them. The CSRF protection requires the “Referer” header to do strict referer checking. If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer\" …> for links to third-party sites."
+msgstr "If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or including the “Referrer-Policy: no-referrer” header, please remove them. The CSRF protection requires the “Referer” header to do strict referer checking. If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer\" …> for links to third-party sites."
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:54
+msgid "You are seeing this message because this site requires a CSRF cookie when submitting forms. This cookie is required for security reasons, to ensure that your browser is not being hijacked by third parties."
+msgstr "You are seeing this message because this site requires a CSRF cookie when submitting forms. This cookie is required for security reasons, to ensure that your browser is not being hijacked by third parties."
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:60
+msgid "If you have configured your browser to disable cookies, please re-enable them, at least for this site, or for “same-origin” requests."
+msgstr "If you have configured your browser to disable cookies, please re-enable them, at least for this site, or for “same-origin” requests."
+
+#: .\venv\Lib\site-packages\django\views\csrf.py:66
+msgid "More information is available with DEBUG=True."
+msgstr "More information is available with DEBUG=True."
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:44
+msgid "No year specified"
+msgstr "No year specified"
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:64
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:115
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:214
+msgid "Date out of range"
+msgstr "Date out of range"
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:94
+msgid "No month specified"
+msgstr "No month specified"
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:147
+msgid "No day specified"
+msgstr "No day specified"
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:194
+msgid "No week specified"
+msgstr "No week specified"
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:353
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:384
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr "No %(verbose_name_plural)s available"
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:680
+#, python-format
+msgid "Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False."
+msgstr "Future %(verbose_name_plural)s not available because %(class_name)s.allow_future is False."
+
+#: .\venv\Lib\site-packages\django\views\generic\dates.py:720
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr "Invalid date string “%(datestr)s” given format “%(format)s”"
+
+#: .\venv\Lib\site-packages\django\views\generic\detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr "No %(verbose_name)s found matching the query"
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr "Page is not “last”, nor can it be converted to an int."
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr "Invalid page (%(page_number)s): %(message)s"
+
+#: .\venv\Lib\site-packages\django\views\generic\list.py:173
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr "Empty list and “%(class_name)s.allow_empty” is False."
+
+#: .\venv\Lib\site-packages\django\views\static.py:49
+msgid "Directory indexes are not allowed here."
+msgstr "Directory indexes are not allowed here."
+
+#: .\venv\Lib\site-packages\django\views\static.py:51
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr "“%(path)s” does not exist"
+
+#: .\venv\Lib\site-packages\django\views\static.py:68
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:8
+#: .\venv\Lib\site-packages\django\views\templates\directory_index.html:11
+#, python-format
+msgid "Index of %(directory)s"
+msgstr "Index of %(directory)s"
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:7
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:204
+msgid "The install worked successfully! Congratulations!"
+msgstr "The install worked successfully! Congratulations!"
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:206
+#, python-format
+msgid "View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr "View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:208
+#, python-format
+msgid "You are seeing this page because <a href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not configured any URLs."
+msgstr "You are seeing this page because <a href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not configured any URLs."
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:217
+msgid "Django Documentation"
+msgstr "Django Documentation"
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:218
+msgid "Topics, references, &amp; how-to’s"
+msgstr "Topics, references, &amp; how-to’s"
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:226
+msgid "Tutorial: A Polling App"
+msgstr "Tutorial: A Polling App"
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:227
+msgid "Get started with Django"
+msgstr "Get started with Django"
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:235
+msgid "Django Community"
+msgstr "Django Community"
+
+#: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:236
+msgid "Connect, get help, or contribute"
+msgstr "Connect, get help, or contribute"

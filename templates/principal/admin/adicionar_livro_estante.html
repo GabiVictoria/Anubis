@@ -1,9 +1,12 @@
 {% extends 'principal/base.html' %}
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
+
 {% block styles %}
   <link rel="stylesheet" href="{% static 'principal/admin.css' %}">
 
   <style>
+    /* Seu CSS permanece o mesmo */
     .results-container { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
     .livro-card { border: 1px solid var(--border-color-light); border-radius: var(--border-radius); padding: 1rem; display: flex; flex-direction: column; align-items: center; text-align: center; background-color: #f9f9f9; }
     .livro-card img { width: 100px; height: 150px; object-fit: cover; border-radius: 5px; margin-bottom: 0.8rem; background-color: #e0e0e0; }
@@ -15,43 +18,44 @@
     .search-form-grid { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: flex-end; }
   </style>
 {% endblock %}
+
 {% block content %}
   <div class="main-container admin-page">
-    <h2 class="form-title">Adicionar Livro à Estante: {{ clube.nome }}</h2>
-<div class="styled-form">
-  <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-secondary);">
-    Preencha um ou ambos os campos abaixo para buscar.
-  </p>
+    <h2 class="form-title">{% blocktrans %}Adicionar Livro à Estante: {{ clube.nome }}{% endblocktrans %}</h2>
+    
+    <div class="styled-form">
+      <p style="text-align: center; margin-bottom: 1.5rem; color: var(--text-secondary);">
+        {% trans "Preencha um ou ambos os campos abaixo para buscar." %}
+      </p>
 
-  <div class="form-field">
-    <label for="livro-title-input">Título do Livro:</label>
-    <input type="text" id="livro-title-input" placeholder="Ex: O Pequeno Príncipe">
-  </div>
+      <div class="form-field">
+        <label for="livro-title-input">{% trans "Título do Livro:" %}</label>
+        <input type="text" id="livro-title-input" placeholder="{% trans 'Ex: O Pequeno Príncipe' %}">
+      </div>
 
-  <div class="form-field">
-    <label for="livro-author-input">Autor:</label>
-    <input type="text" id="livro-author-input" placeholder="Ex: Antoine de Saint-Exupéry">
-  </div>
-<div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
-  <button id="livro-search-btn" class="action-button secondary-action">
-    Buscar
-  </button>
-  <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action" style="font-size: 0.9rem; padding: 0.6rem 1.4rem;">
-    Voltar para o Clube
-  </a>
-</div>
+      <div class="form-field">
+        <label for="livro-author-input">{% trans "Autor:" %}</label>
+        <input type="text" id="livro-author-input" placeholder="{% trans 'Ex: Antoine de Saint-Exupéry' %}">
+      </div>
 
-
+      <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap;">
+        <button id="livro-search-btn" class="action-button secondary-action">
+          {% trans "Buscar" %}
+        </button>
+        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action" style="font-size: 0.9rem; padding: 0.6rem 1.4rem;">
+          {% trans "Voltar para o Clube" %}
+        </a>
+      </div>
+    </div>
 
     <div id="search-results" class="results-container">
-      <p style="color: var(--text-secondary); grid-column: 1 / -1; text-align:center; padding: 1rem;">Preencha um ou ambos os campos acima para buscar.</p>
+      <p style="color: var(--text-secondary); grid-column: 1 / -1; text-align:center; padding: 1rem;">{% trans "Preencha um ou ambos os campos acima para buscar." %}</p>
     </div>
 
     <div id="load-more-container" style="display: none;">
-        <button id="load-more-btn" class="action-button">Carregar Mais</button>
+      <button id="load-more-btn" class="action-button">{% trans "Carregar Mais" %}</button>
     </div>
-    
-
+  </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -63,6 +67,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadMoreBtn = document.getElementById('load-more-btn');
     const csrfToken = "{{ csrf_token }}";
     
+    // Textos traduzidos passados do Django para o JavaScript
+    const textStrings = {
+        authorUnknown: "{% trans 'Autor desconhecido' %}",
+        pages: "{% trans 'Páginas' %}",
+        pagesNotAvailable: "{% trans 'N/A' %}",
+        addToShelf: "{% trans 'Adicionar à Estante' %}",
+        searching: "{% trans 'Buscando...' %}",
+        fillFields: "{% trans 'Por favor, preencha o título ou o autor.' %}",
+        loading: "{% trans 'Carregando...' %}",
+        noBooksFound: "{% trans 'Nenhum livro encontrado para esta busca.' %}",
+        errorFetching: "{% trans 'Ocorreu um erro ao buscar. Tente novamente.' %}",
+        loadMore: "{% trans 'Carregar Mais' %}",
+    };
+    
     let currentTitleQuery = '';
     let currentAuthorQuery = '';
     let currentPage = 1;
@@ -71,17 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const createBookCard = (livro) => {
         const capaUrl = livro.capa || "{% static 'img/sem_capa.png' %}";
-        const autores = Array.isArray(livro.autores) ? livro.autores.join(', ') : (livro.autores || 'Autor desconhecido');
+        const autores = Array.isArray(livro.autores) ? livro.autores.join(', ') : (livro.autores || textStrings.authorUnknown);
         const formActionUrl = `{% url 'principal:adicionar_livro_api_para_estante' clube_id=clube.id %}`;
         
         return `
             <div class="livro-card">
-                <img src="${capaUrl}" alt="Capa de ${livro.titulo}" onerror="this.onerror=null;this.src='{% static 'img/default_book_cover.png' %}';">
+                <img src="${capaUrl}" alt="{% trans 'Capa de' %} ${livro.titulo}" onerror="this.onerror=null;this.src='{% static 'img/default_book_cover.png' %}';">
                 <div class="livro-info">
                     <h4>${livro.titulo}</h4>
                     <p>${autores}</p>
                     <div class="info-extra">
-                        <span>Páginas: ${livro.paginas || 'N/A'}</span>
+                        <span>${textStrings.pages}: ${livro.paginas || textStrings.pagesNotAvailable}</span>
                     </div>
                     <form method="post" action="${formActionUrl}">
                         <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
@@ -91,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <input type="hidden" name="paginas" value="${livro.paginas || ''}">
                         <input type="hidden" name="data_publicacao" value="${livro.data_publicacao || ''}">
                         <input type="hidden" name="capa" value="${livro.capa || ''}">
-                        <button type="submit" class="action-button">Adicionar à Estante</button>
+                        <button type="submit" class="action-button">${textStrings.addToShelf}</button>
                     </form>
                 </div>
             </div>
@@ -102,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isNewSearch) {
             currentPage = 1;
             itemsLoaded = 0;
-            resultsContainer.innerHTML = '<p style="grid-column: 1 / -1;">Buscando...</p>';
+            resultsContainer.innerHTML = `<p style="grid-column: 1 / -1;">${textStrings.searching}</p>`;
             loadMoreContainer.style.display = 'none';
         }
         
@@ -110,12 +128,12 @@ document.addEventListener('DOMContentLoaded', () => {
         currentAuthorQuery = authorInput.value.trim();
 
         if (!currentTitleQuery && !currentAuthorQuery) {
-            resultsContainer.innerHTML = '<p style="grid-column: 1 / -1; text-align:center;">Por favor, preencha o título ou o autor.</p>';
+            resultsContainer.innerHTML = `<p style="grid-column: 1 / -1; text-align:center;">${textStrings.fillFields}</p>`;
             return;
         }
 
         loadMoreBtn.disabled = true;
-        loadMoreBtn.textContent = 'Carregando...';
+        loadMoreBtn.textContent = textStrings.loading;
 
         const params = new URLSearchParams({ page: currentPage });
         if (currentTitleQuery) params.append('title', currentTitleQuery);
@@ -142,18 +160,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         loadMoreContainer.style.display = 'none';
                     }
                 } else if (isNewSearch) {
-                    resultsContainer.innerHTML = '<p style="grid-column: 1 / -1;">Nenhum livro encontrado para esta busca.</p>';
+                    resultsContainer.innerHTML = `<p style="grid-column: 1 / -1;">${textStrings.noBooksFound}</p>`;
                 } else {
                     loadMoreContainer.style.display = 'none';
                 }
             })
             .catch(error => {
                 console.error('Erro ao buscar livros:', error);
-                resultsContainer.innerHTML = `<p style="color:red; grid-column: 1 / -1;">Ocorreu um erro ao buscar. Tente novamente.</p>`;
+                resultsContainer.innerHTML = `<p style="color:red; grid-column: 1 / -1;">${textStrings.errorFetching}</p>`;
             })
             .finally(() => {
                 loadMoreBtn.disabled = false;
-                loadMoreBtn.textContent = 'Carregar Mais';
+                loadMoreBtn.textContent = textStrings.loadMore;
             });
     };
 

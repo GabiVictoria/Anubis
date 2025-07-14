@@ -1,4 +1,4 @@
-# anubis/principal/views.py
+# anubis/principal/views.py com marcações de tradução
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpRequest, HttpResponseForbidden, JsonResponse
@@ -17,6 +17,8 @@ import os
 import requests
 import urllib.parse
 from datetime import datetime
+from django.utils.translation import gettext as _ 
+from django.utils import formats
 
 @login_obrigatorio
 def home(request: HttpRequest):
@@ -40,7 +42,7 @@ def home(request: HttpRequest):
             'capa_recomendada': clube.capa_recomendada,
             'data_criacao': clube.data_criacao,
             'membros_count': clube.membros.count(),
-            'fundador_nome': "(a definir)",
+            'fundador_nome': _("(a definir)"),
             'leitura_atual_nome': None
         }
 
@@ -86,25 +88,25 @@ def criar_clube(request: HttpRequest):
         })
 
         if not nome_clube or not descricao_clube:
-            messages.error(request, "O nome e a descrição do clube são obrigatórios.")
+            messages.error(request, _("O nome e a descrição do clube são obrigatórios."))
             return render(request, 'principal/criar_clube.html', context_form_data)
         
         if not limite_membros_str_selecionado:
-            messages.error(request, "O limite de membros é obrigatório.")
+            messages.error(request, _("O limite de membros é obrigatório."))
             return render(request, 'principal/criar_clube.html', context_form_data)
 
         try:
             limite_membros_int = int(limite_membros_str_selecionado)
         except ValueError:
-            messages.error(request, "Valor inválido para limite de membros.")
+            messages.error(request, _("Valor inválido para limite de membros."))
             return render(request, 'principal/criar_clube.html', context_form_data)
 
         if privacidade_clube_selecionada not in [choice[0] for choice in Clube.Privacidade.choices]:
-            messages.error(request, "Opção de privacidade inválida.")
+            messages.error(request, _("Opção de privacidade inválida."))
             return render(request, 'principal/criar_clube.html', context_form_data)
 
         if Clube.objects.filter(nome__iexact=nome_clube).exists():
-            messages.error(request, f"Já existe um clube com o nome '{nome_clube}'. Por favor, escolha outro nome.")
+            messages.error(request, _("Já existe um clube com o nome '%(nome_clube)s'. Por favor, escolha outro nome.") % {'nome_clube': nome_clube})
             return render(request, 'principal/criar_clube.html', context_form_data)
 
         usuario_criador = request.usuario_logado_obj
@@ -132,11 +134,11 @@ def criar_clube(request: HttpRequest):
                 cargo=ClubeMembro.Cargo.ADMIN
             )
 
-            messages.success(request, f"Clube '{novo_clube.nome}' criado com sucesso!")
+            messages.success(request, _("Clube '%(nome_clube)s' criado com sucesso!") % {'nome_clube': novo_clube.nome})
             return redirect('principal:home')
 
         except Exception as e:
-            messages.error(request, f"Ocorreu um erro inesperado ao criar o clube: {e}")
+            messages.error(request, _("Ocorreu um erro inesperado ao criar o clube: %(error)s") % {'error': e})
             return render(request, 'principal/criar_clube.html', context_form_data)
         
     return render(request, 'principal/criar_clube.html', context_form_data)
@@ -167,18 +169,18 @@ def pagina_de_busca(request: HttpRequest):
                     'descricao': clube.descricao,
                     'capa_clube': clube.capa_clube,
                     'capa_recomendada': clube.capa_recomendada,
-                    'fundador_nome': admin_membro.usuario.nome if admin_membro else "N/D",
-                    'data_fundacao_formatada': clube.data_criacao.strftime("%B %Y") if clube.data_criacao else "N/D",
+                    'fundador_nome': admin_membro.usuario.nome if admin_membro else _("N/D"),
+                    'data_fundacao_formatada': clube.data_criacao.strftime("%B %Y") if clube.data_criacao else _("N/D"),
                     'membros_count': clube.membros.count(),
-                    'leitura_atual_nome': leitura_atual_obj.livro.nome if leitura_atual_obj and leitura_atual_obj.livro else "Nenhuma leitura atual",
+                    'leitura_atual_nome': leitura_atual_obj.livro.nome if leitura_atual_obj and leitura_atual_obj.livro else _("Nenhuma leitura atual"),
                     'match_reason': razao_match
                 })
 
         for clube in clubes_por_nome:
-            processar_clube(clube, f"Nome do clube corresponde a '{query}'")
+            processar_clube(clube, _("Nome do clube corresponde a '%(query)s'") % {'query': query})
 
         for leitura in leituras_com_livro_buscado:
-            processar_clube(leitura.clube, f"Livro '{leitura.livro.nome}' corresponde a '{query}'")
+            processar_clube(leitura.clube, _("Livro '%(livro_nome)s' corresponde a '%(query)s'") % {'livro_nome': leitura.livro.nome, 'query': query})
     
     contexto = {
         'query': query,
@@ -201,7 +203,7 @@ def detalhes_clube(request: HttpRequest, clube_id):
         cargo_usuario_atual = membro_info_obj.cargo
 
     admin_clube_obj = ClubeMembro.objects.filter(clube=clube, cargo=ClubeMembro.Cargo.ADMIN).order_by('data_inscricao').first()
-    fundador_nome = admin_clube_obj.usuario.nome if admin_clube_obj else "N/D"
+    fundador_nome = admin_clube_obj.usuario.nome if admin_clube_obj else _("N/D")
 
     leitura_do_momento_obj = LeituraClube.objects.filter(
         clube=clube, 
@@ -239,6 +241,11 @@ def detalhes_clube(request: HttpRequest, clube_id):
     
     mensagens_chat = []
 
+    # --- CORREÇÃO APLICADA AQUI ---
+    # Usa a função do Django que respeita o idioma ativo
+    data_criacao_formatada = formats.date_format(clube.data_criacao, "F Y") if clube.data_criacao else ""
+    data_fim_votacao_formatada = formats.date_format(votacao_ativa.data_fim, "d/m/Y H:i") if votacao_ativa else ""
+
     contexto = {
         'clube': clube,
         'fundador_nome': fundador_nome,
@@ -256,6 +263,8 @@ def detalhes_clube(request: HttpRequest, clube_id):
         'default_avatar_url': staticfiles_storage.url('img/default_avatar.png'),
         'PrivacidadeChoices': Clube.Privacidade,
         'CargoChoices': ClubeMembro.Cargo,
+        'data_criacao_formatada': data_criacao_formatada,
+        'data_fim_votacao_formatada': data_fim_votacao_formatada,
     }
     return render(request, 'principal/detalhes_clube.html', contexto)
 
@@ -268,28 +277,28 @@ def registrar_voto(request: HttpRequest, clube_id, votacao_id):
     if request.method == 'POST':
         livro_id = request.POST.get('livro_votado')
         if not livro_id:
-            messages.error(request, "Nenhum livro selecionado para votar.")
+            messages.error(request, _("Nenhum livro selecionado para votar."))
             return redirect('principal:detalhes_clube', clube_id=clube_id)
 
         livro = get_object_or_404(Livro, id=livro_id)
 
         if not ClubeMembro.objects.filter(clube=clube, usuario=usuario).exists():
-            messages.error(request, "Você precisa ser membro do clube para votar.")
+            messages.error(request, _("Você precisa ser membro do clube para votar."))
             return redirect('principal:detalhes_clube', clube_id=clube_id)
 
         if VotoUsuario.objects.filter(votacao=votacao, usuario=usuario).exists():
-            messages.error(request, "Você já votou nesta votação.")
+            messages.error(request, _("Você já votou nesta votação."))
         elif not votacao.is_ativa or votacao.data_fim < timezone.now():
-             messages.error(request, "Esta votação não está mais ativa.")
+            messages.error(request, _("Esta votação não está mais ativa."))
         elif not livro in votacao.livros_opcoes.all():
-            messages.error(request, "Este livro não é uma opção válida para esta votação.")
+            messages.error(request, _("Este livro não é uma opção válida para esta votação."))
         else:
             VotoUsuario.objects.create(votacao=votacao, usuario=usuario, livro_votado=livro)
-            messages.success(request, f"Seu voto em '{livro.nome}' foi registrado!")
+            messages.success(request, _("Seu voto em '%(livro_nome)s' foi registrado!") % {'livro_nome': livro.nome})
         
         return redirect('principal:detalhes_clube', clube_id=clube_id)
     
-    messages.error(request, "Método inválido para registrar voto.")
+    messages.error(request, _("Método inválido para registrar voto."))
     return redirect('principal:detalhes_clube', clube_id=clube_id)
 
 @login_obrigatorio
@@ -301,13 +310,13 @@ def entrar_clube(request: HttpRequest, clube_id):
             if not ClubeMembro.objects.filter(clube=clube, usuario=usuario).exists():
                 if clube.membros.count() < clube.limite_membros:
                     ClubeMembro.objects.create(clube=clube, usuario=usuario, cargo=ClubeMembro.Cargo.MEMBRO)
-                    messages.success(request, f"Você entrou no clube '{clube.nome}'!")
+                    messages.success(request, _("Você entrou no clube '%(nome_clube)s'!") % {'nome_clube': clube.nome})
                 else:
-                    messages.error(request, f"O clube '{clube.nome}' atingiu o limite de membros.")
+                    messages.error(request, _("O clube '%(nome_clube)s' atingiu o limite de membros.") % {'nome_clube': clube.nome})
             else:
-                messages.info(request, "Você já é membro deste clube.")
+                messages.info(request, _("Você já é membro deste clube."))
         else:
-            messages.error(request, "Este clube é privado. A entrada precisa de aprovação.")
+            messages.error(request, _("Este clube é privado. A entrada precisa de aprovação."))
         return redirect('principal:detalhes_clube', clube_id=clube_id)
     return redirect('principal:detalhes_clube', clube_id=clube_id)
 
@@ -319,12 +328,12 @@ def sair_clube(request: HttpRequest, clube_id):
         membro = ClubeMembro.objects.filter(clube=clube, usuario=usuario).first()
         if membro:
             if membro.cargo == ClubeMembro.Cargo.ADMIN and ClubeMembro.objects.filter(clube=clube, cargo=ClubeMembro.Cargo.ADMIN).count() == 1:
-                messages.error(request, "Você é o único administrador. Promova outro membro antes de sair ou exclua o clube.")
+                messages.error(request, _("Você é o único administrador. Promova outro membro antes de sair ou exclua o clube."))
             else:
                 membro.delete()
-                messages.success(request, f"Você saiu do clube '{clube.nome}'.")
+                messages.success(request, _("Você saiu do clube '%(nome_clube)s'.") % {'nome_clube': clube.nome})
         else:
-            messages.error(request, "Você não é membro deste clube.")
+            messages.error(request, _("Você não é membro deste clube."))
         return redirect('principal:detalhes_clube', clube_id=clube_id)
     return redirect('principal:detalhes_clube', clube_id=clube_id)
     
@@ -340,18 +349,16 @@ def editar_clube(request: HttpRequest, clube_id, clube, **kwargs):
 
             if capa_clube_file:
                 clube_editado.capa_clube = capa_clube_file
-                clube_editado.capa_recomendada = None # Limpa a referência da recomendada
+                clube_editado.capa_recomendada = None 
             elif capa_recomendada_path:
-                 clube_editado.capa_recomendada = capa_recomendada_path
-                 # Se a capa_clube não for um novo upload, o form.save() já preserva o valor antigo. 
-                 # Mas para garantir que a recomendada seja usada, limpamos o campo de upload.
-                 clube_editado.capa_clube.delete(save=False) # Remove o arquivo antigo, se houver
+                clube_editado.capa_recomendada = capa_recomendada_path
+                clube_editado.capa_clube.delete(save=False)
             
             clube_editado.save()
-            messages.success(request, f"O clube '{clube.nome}' foi atualizado com sucesso!")
+            messages.success(request, _("O clube '%(nome_clube)s' foi atualizado com sucesso!") % {'nome_clube': clube.nome})
             return redirect('principal:detalhes_clube', clube_id=clube.id)
         else:
-            messages.error(request, "Houve um erro no formulário. Por favor, verifique os dados.")
+            messages.error(request, _("Houve um erro no formulário. Por favor, verifique os dados."))
     else:
         form = ClubeEditForm(instance=clube)
     
@@ -367,10 +374,10 @@ def excluir_clube(request: HttpRequest, clube_id, clube, **kwargs):
     if request.method == 'POST':
         nome_clube = clube.nome
         clube.delete()
-        messages.success(request, f"O clube '{nome_clube}' foi excluído permanentemente.")
+        messages.success(request, _("O clube '%(nome_clube)s' foi excluído permanentemente.") % {'nome_clube': nome_clube})
         return redirect('principal:home')
     else:
-        messages.error(request, "Ação inválida.")
+        messages.error(request, _("Ação inválida."))
         return redirect('principal:detalhes_clube', clube_id=clube_id)
 
 @login_obrigatorio
@@ -380,10 +387,10 @@ def buscar_livros_api(request: HttpRequest):
     page = int(request.GET.get('page', '1'))
 
     if not title_query and not author_query:
-        return JsonResponse({'error': 'Forneça um título ou autor para a busca.'}, status=400)
+        return JsonResponse({'error': _('Forneça um título ou autor para a busca.')}, status=400)
 
     livros_encontrados = {}
-    google_total_items = 0  # Variável para armazenar o total de itens do Google
+    google_total_items = 0
 
     # 1. Busca na API do Google Books
     try:
@@ -396,7 +403,7 @@ def buscar_livros_api(request: HttpRequest):
                 query_parts.append(f'inauthor:{author_query}')
             
             google_query = '+'.join(query_parts)
-            start_index = (page - 1) * 15  # Aumentado para 15
+            start_index = (page - 1) * 15
             
             google_url = f"https://www.googleapis.com/books/v1/volumes?q={urllib.parse.quote(google_query)}&orderBy=relevance&maxResults=15&startIndex={start_index}&key={google_api_key}"
             
@@ -404,7 +411,6 @@ def buscar_livros_api(request: HttpRequest):
             response_google.raise_for_status()
             data_google = response_google.json()
             
-            # **CORREÇÃO**: Armazena o total de itens reportado pelo Google
             google_total_items = data_google.get('totalItems', 0)
 
             for item in data_google.get('items', []):
@@ -418,8 +424,8 @@ def buscar_livros_api(request: HttpRequest):
                 if isbn13:
                     livros_encontrados[isbn13] = {
                         'isbn13': isbn13,
-                        'titulo': volume_info.get('title', 'Título indisponível'),
-                        'autores': volume_info.get('authors', ['Autor desconhecido']),
+                        'titulo': volume_info.get('title', _('Título indisponível')),
+                        'autores': volume_info.get('authors', [_('Autor desconhecido')]),
                         'data_publicacao': volume_info.get('publishedDate', '')[:4] if volume_info.get('publishedDate') else None,
                         'paginas': volume_info.get('pageCount', None),
                         'capa': volume_info.get('imageLinks', {}).get('thumbnail', None)
@@ -427,9 +433,9 @@ def buscar_livros_api(request: HttpRequest):
     except requests.exceptions.RequestException as e:
         print(f"AVISO: Erro ao buscar no Google Books API: {e}")
 
-    # 2. Busca na API da Open Library, com lógica de priorização de capa
+    # 2. Busca na API da Open Library
     try:
-        params = {'limit': 15, 'page': page} # Aumentado para 15
+        params = {'limit': 15, 'page': page}
         if title_query:
             params['title'] = title_query
         if author_query:
@@ -455,36 +461,26 @@ def buscar_livros_api(request: HttpRequest):
             if isbn13:
                 livro_novo_ol = {
                     'isbn13': isbn13,
-                    'titulo': doc.get('title', 'Título indisponível'),
-                    'autores': doc.get('author_name', ['Autor desconhecido']),
+                    'titulo': doc.get('title', _('Título indisponível')),
+                    'autores': doc.get('author_name', [_('Autor desconhecido')]),
                     'data_publicacao': doc.get('first_publish_year', None),
                     'paginas': doc.get('number_of_pages_median', None),
                     'capa': f"https://covers.openlibrary.org/b/id/{doc.get('cover_i')}-L.jpg" if doc.get('cover_i') else None
                 }
-
                 livro_existente = livros_encontrados.get(isbn13)
-                
                 if not livro_existente or (livro_novo_ol['capa'] and not livro_existente['capa']):
                     livros_encontrados[isbn13] = livro_novo_ol
-
     except requests.exceptions.RequestException as e:
         print(f"AVISO: Erro ao buscar na Open Library API: {e}")
 
     livros_combinados = list(livros_encontrados.values())
-    
-    livros_formatados = sorted(
-        livros_combinados,
-        key=lambda livro: livro.get('capa') is not None,
-        reverse=True
-    )
+    livros_formatados = sorted(livros_combinados, key=lambda livro: livro.get('capa') is not None, reverse=True)
 
     response_data = {
         'livros': livros_formatados,
-        # **CORREÇÃO**: Usa o total do Google como referência para paginação
         'totalItems': google_total_items,
         'page': page
     }
-
     return JsonResponse(response_data)
 
 @admin_clube_obrigatorio
@@ -506,7 +502,7 @@ def adicionar_livro_api_para_estante(request: HttpRequest, clube_id, clube, **kw
         ano_publicacao = request.POST.get('data_publicacao')
 
         if not all([isbn13, titulo, autores]):
-            messages.error(request, "Dados do livro incompletos (ISBN obrigatório).")
+            messages.error(request, _("Dados do livro incompletos (ISBN obrigatório)."))
             return redirect('principal:adicionar_livro_estante_clube', clube_id=clube.id)
 
         paginas_int = int(paginas) if paginas and paginas.isdigit() else None
@@ -524,14 +520,12 @@ def adicionar_livro_api_para_estante(request: HttpRequest, clube_id, clube, **kw
             }
         )
         
-        # LÓGICA DE ADIÇÃO E DOWNLOAD DA CAPA CORRIGIDA
         if LeituraClube.objects.filter(clube=clube, livro=livro).exists():
-            messages.warning(request, f"O livro '{livro.nome}' já está na estante do clube.")
+            messages.warning(request, _("O livro '%(livro_nome)s' já está na estante do clube.") % {'livro_nome': livro.nome})
         else:
             LeituraClube.objects.create(clube=clube, livro=livro, status=LeituraClube.StatusClube.A_LER)
-            messages.success(request, f"Livro '{livro.nome}' adicionado à estante com sucesso!")
+            messages.success(request, _("Livro '%(livro_nome)s' adicionado à estante com sucesso!") % {'livro_nome': livro.nome})
 
-            # Agora, independentemente de ser novo ou não, verifica a capa
             if not livro.capa and capa_url and 'None' not in capa_url:
                 try:
                     img_response = requests.get(capa_url, timeout=10)
@@ -557,10 +551,10 @@ def definir_leitura_atual_clube(request: HttpRequest, clube_id, clube, **kwargs)
             leitura_clube_item_selecionado.status = LeituraClube.StatusClube.LENDO_ATUALMENTE
             leitura_clube_item_selecionado.save()
             
-            messages.success(request, f"'{leitura_clube_item_selecionado.livro.nome}' definido como leitura atual do clube.")
+            messages.success(request, _("'%(livro_nome)s' definido como leitura atual do clube.") % {'livro_nome': leitura_clube_item_selecionado.livro.nome})
             return redirect('principal:detalhes_clube', clube_id=clube.id)
         else:
-            messages.error(request, "Erro ao definir leitura atual. Verifique os dados do formulário.")
+            messages.error(request, _("Erro ao definir leitura atual. Verifique os dados do formulário."))
     else:
         form = DefinirLeituraAtualForm(clube=clube)
 
@@ -576,7 +570,7 @@ def criar_votacao_clube(request: HttpRequest, clube_id, clube, **kwargs):
     if request.method == 'POST':
         form = CriarVotacaoForm(request.POST, clube=clube)
         if form.is_valid():
-            Votacao.objects.filter(clube=clube, is_ativa=True).update(is_iva=False)
+            Votacao.objects.filter(clube=clube, is_ativa=True).update(is_ativa=False)
 
             nova_votacao = Votacao(
                 clube=clube,
@@ -586,10 +580,10 @@ def criar_votacao_clube(request: HttpRequest, clube_id, clube, **kwargs):
             nova_votacao.save()
             nova_votacao.livros_opcoes.set(form.cleaned_data['livros_opcoes'])
             
-            messages.success(request, "Nova votação criada com sucesso!")
+            messages.success(request, _("Nova votação criada com sucesso!"))
             return redirect('principal:detalhes_clube', clube_id=clube.id)
         else:
-            messages.error(request, "Erro ao criar votação. Verifique os campos.")
+            messages.error(request, _("Erro ao criar votação. Verifique os campos."))
     else:
         form = CriarVotacaoForm(clube=clube)
         
@@ -599,7 +593,6 @@ def criar_votacao_clube(request: HttpRequest, clube_id, clube, **kwargs):
         'nome_usuario': request.usuario_logado_obj.nome,
     }
     return render(request, 'principal/admin/criarvotacao.html', contexto)
-
 
 def perfil(request): 
     return render(request, 'principal/perfil.html') 

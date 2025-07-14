@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Clube do Livro</title>
+  <title>{% trans "Clube do Livro" %}</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'principal/lidos.css' %}">
   <script src="{% static 'principal/js/abandonados.js' %}"></script>
@@ -14,46 +15,43 @@
 
   <header>
     <div class="logo-container">
-      <img src="{% static 'img/Logo..png' %}" alt="Anúbis">
-      <h1>Anúbis</h1>
+      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Anúbis' %}">
+      <h1>{% trans "Anúbis" %}</h1>
     </div>
     <div class="slogan">
-      Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro.
+      {% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro." %}
     </div>
     <nav>
-      <a href="{% url 'principal:home' %}" class="active">Home</a>
-      <a href="{% url 'principal:criar_clube' %}">Criar</a>
-      <a href="{% url 'principal:perfil' %}">Perfil</a>
-      <a href="{% url 'inicial:logout' %}">Sair</a>
+      <a href="{% url 'principal:home' %}" class="active">{% trans "Home" %}</a>
+      <a href="{% url 'principal:criar_clube' %}">{% trans "Criar" %}</a>
+      <a href="{% url 'principal:perfil' %}">{% trans "Perfil" %}</a>
+      <a href="{% url 'inicial:logout' %}">{% trans "Sair" %}</a>
     </nav>
   </header>
 
   <div class="card-central">
     <div class="clube-header">
-      <img src="{% static 'img/Logo..png' %}" alt="Logo do Clube">
-      <h1>Clube dos Leitores Fantásticos</h1>
+      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo do Clube' %}">
+      <h1>{% trans "Clube dos Leitores Fantásticos" %}</h1>
     </div>
 
-
     <p class="descricao-clube">
-      Um grupo apaixonado por literatura fantástica, onde discutimos obras, autores e universos que nos transportam além da realidade.
+      {% trans "Um grupo apaixonado por literatura fantástica, onde discutimos obras, autores e universos que nos transportam além da realidade." %}
     </p>
 
-
     <div class="botoes">
-    <a href="{% url 'principal:estante' %}" class="botoes">Lendo</a>
-    <a href="{% url 'principal:lidos' %}" class="botoes">Lidos</a>
-    <a href="{% url 'principal:abandonados' %}" class="botoes">Abandonados</a>
-    <a href="{% url 'principal:proximo_livro' %}" class="botoes">Próximo Livro</a>
-    <a href="{% url 'principal:queremos_ler' %}" class="botoes">Queremos Ler</a>
-    <a href="{% url 'principal:releitura' %}" class="botoes">Releitura</a>
-</div>
-
+      <a href="{% url 'principal:estante' %}" class="botoes">{% trans "Lendo" %}</a>
+      <a href="{% url 'principal:lidos' %}" class="botoes">{% trans "Lidos" %}</a>
+      <a href="{% url 'principal:abandonados' %}" class="botoes">{% trans "Abandonados" %}</a>
+      <a href="{% url 'principal:proximo_livro' %}" class="botoes">{% trans "Próximo Livro" %}</a>
+      <a href="{% url 'principal:queremos_ler' %}" class="botoes">{% trans "Queremos Ler" %}</a>
+      <a href="{% url 'principal:releitura' %}" class="botoes">{% trans "Releitura" %}</a>
+    </div>
 
     <div class="filtro-ano">
-      <label for="ano">Filtrar por ano: </label>
+      <label for="ano">{% trans "Filtrar por ano:" %} </label>
       <select id="ano">
-        <option>Todos</option>
+        <option>{% trans "Todos" %}</option>
         <option>2025</option>
         <option>2024</option>
       </select>
@@ -61,15 +59,14 @@
 
     <div class="livros-container">
       <div class="livro-card" data-ano="2025">
-        <img src="p4.jpg" alt="Capa do Livro">
+        <img src="p4.jpg" alt="{% trans 'Capa do Livro' %}">
         <div class="livro-info">
           <h3>É assim que acaba</h3>
-          <p><strong>Autor:</strong> Colleen Hoover</p>
-          <p><strong>Última leitura:</strong> 15/01/2025</p>
-          <p><strong>Nota média:</strong> ⭐ 1.0</p>
+          <p><strong>{% trans "Autor:" %}</strong> Colleen Hoover</p>
+          <p><strong>{% trans "Última leitura:" %}</strong> 15/01/2025</p>
+          <p><strong>{% trans "Nota média:" %}</strong> ⭐ 1.0</p>
         </div>
       </div>
-
-    
+    </div>
 </body>
 </html>

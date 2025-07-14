@@ -1,100 +1,77 @@
 {% extends 'principal/base.html' %}
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
+
 {% block styles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'principal/criar.css' %}"/>
   <script defer src="{% static 'principal/js/criar.js' %}"></script>
 {% endblock %}
-{% block content %}
 
+{% block content %}
   <div class="container">
     <div class="carousel">
-        <div class="carousel-item active"><img src="{% static 'img/slide1..png' %}" alt="Slide 1"></div>
-        <div class="carousel-item"><img src="{% static 'img/slide2.png' %}" alt="Slide 2"></div>
-        <div class="carousel-item"><img src="{% static 'img/slide3.png' %}" alt="Slide 3"></div>
+        <div class="carousel-item active"><img src="{% static 'img/slide1..png' %}" alt="{% trans 'Slide 1' %}"></div>
+        <div class="carousel-item"><img src="{% static 'img/slide2.png' %}" alt="{% trans 'Slide 2' %}"></div>
+        <div class="carousel-item"><img src="{% static 'img/slide3.png' %}" alt="{% trans 'Slide 3' %}"></div>
       </div>
     <form method="post" action="{% url 'principal:criar_clube' %}" enctype="multipart/form-data">
       {% csrf_token %}
       
       <div class="card">
-        <label for="id_nome_clube">Nome do Clube:</label>
-        <input type="text" id="id_nome_clube" name="nome_clube" value="{{ nome_clube|default:'' }}" placeholder="Dê um nome incrível ao seu clube!" required>
+        <label for="id_nome_clube">{% trans "Nome do Clube:" %}</label>
+        <input type="text" id="id_nome_clube" name="nome_clube" value="{{ nome_clube|default:'' }}" placeholder="{% trans 'Dê um nome incrível ao seu clube!' %}" required maxlength="100">
       </div>
 
       <div class="card">
-        <label for="id_descricao_clube">Descrição do clube:</label>
-        <textarea id="id_descricao_clube" name="descricao_clube" rows="4" placeholder="Conte um pouco sobre o seu clube..." required>{{ descricao_clube|default:'' }}</textarea>
+        <label for="id_descricao_clube">{% trans "Descrição do clube:" %}</label>
+        <textarea id="id_descricao_clube" name="descricao_clube" rows="4" placeholder="{% trans 'Conte um pouco sobre o seu clube...' %}" required>{{ descricao_clube|default:'' }}</textarea>
       </div>
       
       <input type="hidden" name="capa_recomendada_selecionada" id="id_capa_recomendada_selecionada">
 
       <div class="card">
-        <label>Escolha uma imagem recomendada para seu clube:</label>
+        <label>{% trans "Escolha uma imagem recomendada para seu clube:" %}</label>
         <div class="image-recommendations" id="image-recommendations">
-          <img src="{% static 'img/Suge1.jpg' %}" alt="Imagem Recomendada 1" data-src="img/Suge1.jpg">
-          <img src="{% static 'img/Suge2.jpg' %}" alt="Imagem Recomendada 2" data-src="img/Suge2.jpg">
-          <img src="{% static 'img/Suge3.jpg' %}" alt="Imagem Recomendada 3" data-src="img/Suge3.jpg">
-          <img src="{% static 'img/Suge4.jpg' %}" alt="Imagem Recomendada 4" data-src="img/Suge4.jpg">
-          <img src="{% static 'img/Suge5.jpg' %}" alt="Imagem Recomendada 5" data-src="img/Suge5.jpg">
-          <img src="{% static 'img/Suge6.jpg' %}" alt="Imagem Recomendada 6" data-src="img/Suge6.jpg">
-          <img src="{% static 'img/Suge7.jpg' %}" alt="Imagem Recomendada 7" data-src="img/Suge7.jpg">
-          <img src="{% static 'img/Suge8.jpg' %}" alt="Imagem Recomendada 8" data-src="img/Suge8.jpg">
+          <img src="{% static 'img/Suge1.jpg' %}" alt="{% trans 'Imagem Recomendada 1' %}" data-src="img/Suge1.jpg">
+          <img src="{% static 'img/Suge2.jpg' %}" alt="{% trans 'Imagem Recomendada 2' %}" data-src="img/Suge2.jpg">
+          <img src="{% static 'img/Suge3.jpg' %}" alt="{% trans 'Imagem Recomendada 3' %}" data-src="img/Suge3.jpg">
+          <img src="{% static 'img/Suge4.jpg' %}" alt="{% trans 'Imagem Recomendada 4' %}" data-src="img/Suge4.jpg">
+          <img src="{% static 'img/Suge5.jpg' %}" alt="{% trans 'Imagem Recomendada 5' %}" data-src="img/Suge5.jpg">
+          <img src="{% static 'img/Suge6.jpg' %}" alt="{% trans 'Imagem Recomendada 6' %}" data-src="img/Suge6.jpg">
+          <img src="{% static 'img/Suge7.jpg' %}" alt="{% trans 'Imagem Recomendada 7' %}" data-src="img/Suge7.jpg">
+          <img src="{% static 'img/Suge8.jpg' %}" alt="{% trans 'Imagem Recomendada 8' %}" data-src="img/Suge8.jpg">
         </div>
       </div>
 
-      <!-- <div class="card">
-        <label for="id_capa_clube">Ou envie uma imagem personalizada (irá sobrescrever a recomendada):</label>
-        <input type="file" id="id_capa_clube" name="capa_clube" accept="image/*">
-      </div> -->
-
       <div class="card">
-        <label for="id_limite_membros">Quantidade de membros:</label>
+        <label for="id_limite_membros">{% trans "Quantidade de membros:" %}</label>
         <select id="id_limite_membros" name="limite_membros" required>
-          <option value="10" {% if not limite_selecionado or limite_selecionado == "10" %}selected{% endif %}>Até 10 membros</option>
-          <option value="20" {% if limite_selecionado == "20" %}selected{% endif %}>Até 20 membros</option>
-          <option value="50" {% if limite_selecionado == "50" %}selected{% endif %}>Até 50 membros</option>
+          <option value="10" {% if not limite_selecionado or limite_selecionado == "10" %}selected{% endif %}>{% trans "Até 10 membros" %}</option>
+          <option value="20" {% if limite_selecionado == "20" %}selected{% endif %}>{% trans "Até 20 membros" %}</option>
+          <option value="50" {% if limite_selecionado == "50" %}selected{% endif %}>{% trans "Até 50 membros" %}</option>
         </select>
         <div class="recommendations">
-          <strong>Recomendações de limite:</strong>
+          <strong>{% trans "Recomendações de limite:" %}</strong>
           <ul id="recommendation-list">
-            <li>10 membros: intimista</li>
+            <li>{% trans "10 membros: intimista" %}</li>
             {# O JS irá popular o restante se necessário #}
           </ul>
         </div>
       </div>
 
-      <!-- <div class="card">
-        <label>Tags recomendadas (visual):</label>
-        <div class="tags" id="tag-container">
-          <div class="tag">Terror</div><div class="tag">Clássicos</div><div class="tag">Romance</div>
-          <div class="tag">Ficção Científica</div><div class="tag">Fantasia</div>
-        </div>
-        <label for="new-tag">Adicionar nova tag (visual):</label>
-        <input type="text" id="new-tag" placeholder="Digite uma nova tag e pressione Enter">
-      </div> -->
-
       <div class="card">
-        <label>Público ou Privado:</label>
+        <label>{% trans "Público ou Privado:" %}</label>
         <div class="public-private">
-          <label><input type="radio" name="privacidade_clube" value="PUBLICO" {% if not privacidade_selecionada or privacidade_selecionada == "PUBLICO" %}checked{% endif %}> Público</label>
-          <label><input type="radio" name="privacidade_clube" value="PRIVADO" {% if privacidade_selecionada == "PRIVADO" %}checked{% endif %}> Privado</label>
+          <label><input type="radio" name="privacidade_clube" value="PUBLICO" {% if not privacidade_selecionada or privacidade_selecionada == "PUBLICO" %}checked{% endif %}> {% trans "Público" %}</label>
+          <label><input type="radio" name="privacidade_clube" value="PRIVADO" {% if privacidade_selecionada == "PRIVADO" %}checked{% endif %}> {% trans "Privado" %}</label>
         </div>
       </div>
-
-      <!-- <div class="card">
-        <label for="meeting-link">Link da reunião (visual):</label>
-        <input type="url" id="meeting-link" placeholder="Cole o link do Zoom, Google Meet, etc.">
-        <button type="button" id="save-meeting-link">Salvar Link (visual)</button>
-        <p id="saved-link" style="margin-top: 10px; display: none;">
-          Link salvo: <a href="#" target="_blank" id="meeting-link-display">Abrir reunião</a>
-        </p>
-      </div> -->
       
       <div class="form-actions">
-        <button type="submit" class="btn-submit-clube">Criar Clube</button>
-        <a href="{% url 'principal:home' %}" class="btn-cancel-clube">Cancelar</a>
+        <button type="submit" class="btn-submit-clube">{% trans "Criar Clube" %}</button>
+        <a href="{% url 'principal:home' %}" class="btn-cancel-clube">{% trans "Cancelar" %}</a>
       </div>
     </form>
   </div>
-  
 {% endblock %}

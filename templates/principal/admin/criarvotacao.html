@@ -1,14 +1,14 @@
 {% extends 'principal/base.html' %}
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
 
 {% block styles %}
-
  <link rel="stylesheet" href="{% static 'principal/admin.css' %}">
 {% endblock %}
+
 {% block content %}
   <div class="main-container admin-form-page">
-    <h2 class="form-title">Criar Nova Votação para: {{ clube.nome }}</h2>
-
+    <h2 class="form-title">{% blocktrans %}Criar Nova Votação para: {{ clube.nome }}{% endblocktrans %}</h2>
 
     {% if form.fields.livros_opcoes.queryset %} {# Verifica se há opções de livros no formulário #}
       <form method="post" class="styled-form">
@@ -30,15 +30,15 @@
             </div>
         {% endfor %}
         <div class="form-actions">
-          <button type="submit" class="action-button">Criar Votação</button>
-          <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">Cancelar</a>
+          <button type="submit" class="action-button">{% trans "Criar Votação" %}</button>
+          <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">{% trans "Cancelar" %}</a>
         </div>
       </form>
     {% else %}
-      <p>Não há livros suficientes ou adequados na estante do clube (status "Quero Ler" ou "Próximo a Ser Lido") para criar uma votação. Adicione pelo menos dois livros elegíveis.</p>
-      <p><a href="{% url 'principal:adicionar_livro_estante_clube' clube.id %}" class="action-button">Adicionar Livros à Estante</a></p>
+      <p>{% trans "Não há livros suficientes ou adequados na estante do clube (status \"Quero Ler\" ou \"Próximo a Ser Lido\") para criar uma votação. Adicione pelo menos dois livros elegíveis." %}</p>
+      <p><a href="{% url 'principal:adicionar_livro_estante_clube' clube.id %}" class="action-button">{% trans "Adicionar Livros à Estante" %}</a></p>
       <div class="form-actions">
-        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action" style="margin-left:auto;">Voltar</a>
+        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action" style="margin-left:auto;">{% trans "Voltar" %}</a>
       </div>
     {% endif %}
   </div>

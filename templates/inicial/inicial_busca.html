@@ -1,16 +1,16 @@
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <title>Anúbis</title>
+  <title>{% trans "Anúbis" %}</title>
   <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'inicial/busca.css' %}" />
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
-
 </head>
 <body>
 
@@ -26,60 +26,58 @@
 
   <header>
     <div class="branding">
-      
-      <img src="{% static 'img/Logo..png' %}" alt="Logo da Anúbis" class="logo" />
-      <h1>Anúbis</h1>
+      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo da Anúbis' %}" class="logo" />
+      <h1>{% trans "Anúbis" %}</h1>
     </div>
-    <p>Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro </p>
-    <p>Conecte-se com leitores como você. Leia junto. Compartilhe ideias.</p>
+    <p>{% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro" %}</p>
+    <p>{% trans "Conecte-se com leitores como você. Leia junto. Compartilhe ideias." %}</p>
     <div class="buttons">
-      
-      <a href="{% url 'inicial:login' %}">Entrar</a>
-      <a href="{% url 'inicial:cadastro' %}">Criar Conta</a>
+      <a href="{% url 'inicial:login' %}">{% trans "Entrar" %}</a>
+      <a href="{% url 'inicial:cadastro' %}">{% trans "Criar Conta" %}</a>
     </div>
   </header>
 
   <section class="search-section">
-  <h2>Resultados para: mistérios</h2>
-  <div class="search-bar-container">
-    <form action="{% url 'inicial:inicial_busca' %}" method="GET"> 
+    <h2>{% blocktrans %}Resultados para: {{ query }}{% endblocktrans %}</h2>
+    <div class="search-bar-container">
+      <form action="{% url 'inicial:inicial_busca' %}" method="GET"> 
         <input
         type="text"
         name="q"
-        placeholder="Buscar livros, clubes..."
+        placeholder="{% trans 'Buscar livros, clubes...' %}"
         class="search-input"
         />
         <button type="submit" class="search-button">
             <i class="fas fa-search search-icon"></i>
         </button>
-    </form> </div>
-</section>
+      </form>
+    </div>
+  </section>
 
-<div class="club-card">
-  <img src="https://via.placeholder.com/150x200" alt="Capa do Livro" class="club-image" />
-  <div class="club-info">
-    <h2 class="club-name">Clube Mistérios da Agatha</h2>
-    <p><strong>Membros:</strong> 35</p>
-    <p><strong>Data de criação:</strong> 10/08/2025</p>
-    <p><strong>Livro atual:</strong> "Só sobrou um" - Agatha Christie</p>
-    <p><strong>Criado por:</strong> Carlos Ricardo</p>
+  <div class="club-card">
+    <img src="https://via.placeholder.com/150x200" alt="{% trans 'Capa do Livro' %}" class="club-image" />
+    <div class="club-info">
+      <h2 class="club-name">Clube Mistérios da Agatha</h2>
+      <p><strong>{% trans "Membros:" %}</strong> 35</p>
+      <p><strong>{% trans "Data de criação:" %}</strong> 10/08/2025</p>
+      <p><strong>{% trans "Livro atual:" %}</strong> "Só sobrou um" - Agatha Christie</p>
+      <p><strong>{% trans "Criado por:" %}</strong> Carlos Ricardo</p>
+    </div>
   </div>
-</div>
-<div class="club-card">
-  <img src="https://via.placeholder.com/150x200" alt="Capa do Livro" class="club-image" />
-  <div class="club-info">
-    <h2 class="club-name">Clube Mistérios da noite</h2>
-    <p><strong>Membros:</strong> 35</p>
-    <p><strong>Data de criação:</strong> 23/06/2025</p>
-    <p><strong>Livro atual:</strong> "O Nome do Vento" - Patrick Rothfuss</p>
-    <p><strong>Criado por:</strong> Ana Souza</p>
+  <div class="club-card">
+    <img src="https://via.placeholder.com/150x200" alt="{% trans 'Capa do Livro' %}" class="club-image" />
+    <div class="club-info">
+      <h2 class="club-name">Clube Mistérios da noite</h2>
+      <p><strong>{% trans "Membros:" %}</strong> 35</p>
+      <p><strong>{% trans "Data de criação:" %}</strong> 23/06/2025</p>
+      <p><strong>{% trans "Livro atual:" %}</strong> "O Nome do Vento" - Patrick Rothfuss</p>
+      <p><strong>{% trans "Criado por:" %}</strong> Ana Souza</p>
+    </div>
   </div>
-</div>
-
 
   <footer>
-    © 2025 Anúbis. Todos os direitos reservados.
-    Plaforma criada no Instituto Federal de São Paulo
+    © 2025 Anúbis. {% trans "Todos os direitos reservados." %}
+    {% trans "Plataforma criada no Instituto Federal de São Paulo" %}
   </footer>
 </body>
 </html>

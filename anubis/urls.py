@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls), 
+    path('i18n/', include('django.conf.urls.i18n')),
     path('', inicial_views.root_dispatch_view, name='root_dispatch'),
     path('auth/', include('inicial.urls', namespace='inicial')),
     path('app/', include('principal.urls', namespace='principal')),

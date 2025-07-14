@@ -1,16 +1,17 @@
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <title>Anúbis</title>
+  <title>{% trans "Anúbis" %}</title>
   <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'inicial/inicia.css' %}" />
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
- <script defer src="{% static 'inicial/messages.js' %}"></script> 
+  <script defer src="{% static 'inicial/messages.js' %}"></script> 
 </head>
 <body>
 
@@ -26,24 +27,20 @@
 
   <header>
     <div class="branding">
-     
-      <img src="{% static 'img/Logo..png' %}" alt="Logo da Anúbis" class="logo" />
-      <h1>Anúbis</h1>
+      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo da Anúbis' %}" class="logo" />
+      <h1>{% trans "Anúbis" %}</h1>
     </div>
-    <p>Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro </p>
-    <p>Conecte-se com leitores como você. Leia junto. Compartilhe ideias.</p>
+    <p>{% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro" %}</p>
+    <p>{% trans "Conecte-se com leitores como você. Leia junto. Compartilhe ideias." %}</p>
     <div class="buttons">
-     
-      <a href="{% url 'inicial:login' %}">Entrar</a>
-      <a href="{% url 'inicial:cadastro' %}">Criar Conta</a>
+      <a href="{% url 'inicial:login' %}">{% trans "Entrar" %}</a>
+      <a href="{% url 'inicial:cadastro' %}">{% trans "Criar Conta" %}</a>
     </div>
   </header>
 
-
-
   <footer>
-    © 2025 Anúbis. Todos os direitos reservados.
-    Plaforma criada no Instituto Federal de São Paulo
+    © 2025 Anúbis. {% trans "Todos os direitos reservados." %}
+    {% trans "Plataforma criada no Instituto Federal de São Paulo" %}
   </footer>
 </body>
 </html>

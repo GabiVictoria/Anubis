@@ -1,10 +1,11 @@
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anúbis</title>
+  <title>{% trans "Anúbis" %}</title>
       <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
@@ -22,23 +23,22 @@
 
   <header>
     <div class="logo-container">
-      <img src="{% static 'img/Logo..png' %}" alt="Anúbis">
-      <h1>Anúbis</h1>
+      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Anúbis' %}">
+      <h1>{% trans "Anúbis" %}</h1>
     </div>
     <div class="slogan">
-      Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro.
-     
+      {% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro." %}
     </div>
     <nav>
-      <a href="{% url 'principal:home' %}" class="active">Home</a>
-      <a href="{% url 'principal:criar_clube' %}">Criar</a>
-      <a href="{% url 'principal:perfil' %}">Perfil</a>
-      <a href="{% url 'inicial:logout' %}">Sair</a>
+      <a href="{% url 'principal:home' %}" class="active">{% trans "Home" %}</a>
+      <a href="{% url 'principal:criar_clube' %}">{% trans "Criar" %}</a>
+      <a href="{% url 'principal:perfil' %}">{% trans "Perfil" %}</a>
+      <a href="{% url 'inicial:logout' %}">{% trans "Sair" %}</a>
     </nav>
   </header>
 
   <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container">
-  <input class="search-bar-input" type="text" name="q" placeholder="Buscar livros, clubes..." value="{{ search_query|default:'' }}">
+  <input class="search-bar-input" type="text" name="q" placeholder="{% trans 'Buscar livros, clubes...' %}" value="{{ search_query|default:'' }}">
   <button class="search-bar-button" type="submit">
     <i class="fas fa-search"></i>
   </button>
@@ -47,122 +47,127 @@
   <div class="container">
     <div class="carousel">
       <div class="carousel-item active">
-        <img src="{% static 'img/slide1..png' %}" alt="Slide 1">
+        <img src="{% static 'img/slide1..png' %}" alt="{% trans 'Slide 1' %}">
       </div>
       <div class="carousel-item">
-        <img src="{% static 'img/slide2.png' %}" alt="Slide 2">
+        <img src="{% static 'img/slide2.png' %}" alt="{% trans 'Slide 2' %}">
       </div>
       <div class="carousel-item">
-        <img src="{% static 'img/slide3.png' %}" alt="Slide 3">
+        <img src="{% static 'img/slide3.png' %}" alt="{% trans 'Slide 3' %}">
       </div>
     </div>
   </div>
 
   <div class="section">
-    <h2>Leituras Atuais</h2>
+    <h2>{% trans "Leituras Atuais" %}</h2>
     <div class="cards">
       <div class="card">
-        <img src="{% static 'img/Abeira.jpg' %}" alt="Kafka">
+        <img src="{% static 'img/Abeira.jpg' %}" alt="{% trans 'Kafka' %}">
         <div class="card-content">
-          <h3>Kafka à Beira Mar</h3>
-          <p>Clube Haruki</p>
+          <h3>{% trans "Kafka à Beira Mar" %}</h3>
+          <p>{% trans "Clube Haruki" %}</p>
           <div class="progress-bar">
             <div class="progress" style="width: 45%"></div>
           </div>
-          <div class="progress-info">45% concluído</div>
+          <div class="progress-info">{% trans "45% concluído" %}</div>
         </div>
       </div>
       <div class="card">
-        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="Noites Brancas">
+        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="{% trans 'Noites Brancas' %}">
         <div class="card-content">
-          <h3>Noites Brancas</h3>
-          <p>Clube Dostoiévski</p>
+          <h3>{% trans "Noites Brancas" %}</h3>
+          <p>{% trans "Clube Dostoiévski" %}</p>
           <div class="progress-bar">
             <div class="progress" style="width: 70%"></div>
           </div>
-          <div class="progress-info">70% concluído</div>
+          <div class="progress-info">{% trans "70% concluído" %}</div>
         </div>
       </div>
       <div class="card">
         <img src="{% static 'img/1984.jpg' %}" alt="1984">
         <div class="card-content">
           <h3>1984</h3>
-          <p>Clube Orwell</p>
+          <p>{% trans "Clube Orwell" %}</p>
           <div class="progress-bar">
             <div class="progress" style="width: 35%"></div>
           </div>
-          <div class="progress-info">35% concluído</div>
+          <div class="progress-info">{% trans "35% concluído" %}</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="section">
-    <h2>Meus Clubes do Livro</h2>
+    <h2>{% trans "Meus Clubes do Livro" %}</h2>
     {% if clubes_do_usuario %}
       <div class="cards">
         {% for clube_info in clubes_do_usuario %} 
-  
   <a href="{% url 'principal:detalhes_clube' clube_info.id %}" class="link-card"> 
-    
     <div class="card">
-   {% if clube_info.capa_clube %}
+    {% if clube_info.capa_clube %}
         <img src="{{ clube_info.capa_clube.url }}" alt="{{ clube_info.nome }}">
     {% elif clube_info.capa_recomendada %}
         <img src="{% static clube_info.capa_recomendada %}" alt="{{ clube_info.nome }}">
     {% else %}
-        <img src="{% static 'img/imgideal.png' %}" alt="Capa padrão">
+        <img src="{% static 'img/imgideal.png' %}" alt="{% trans 'Capa padrão' %}">
     {% endif %}
       <div class="card-content">
         <h3 class="texto-truncado">{{ clube_info.nome }}</h3>
-        <p class="info-label">Fundado por: {{ clube_info.fundador_nome|default:"(a definir)" }}</p>
-        <p class="info-label">Desde: {{ clube_info.data_criacao|date:"M Y"|default:"(a definir)" }}</p>
-        <p class="info-label"><strong>Membros:</strong> {{ clube_info.membros_count }}</p>
+        <p class="info-label">{% trans "Fundado por:" %} {{ clube_info.fundador_nome|default:"(a definir)" }}</p>
+        <p class="info-label">{% trans "Desde:" %} {{ clube_info.data_criacao|date:"M Y"|default:"(a definir)" }}</p>
+        <p class="info-label"><strong>{% trans "Membros:" %}</strong> {{ clube_info.membros_count }}</p>
         {% if clube_info.leitura_atual_nome %}
-          <p class="info-label texto-truncado"><strong>Lendo agora:</strong> {{ clube_info.leitura_atual_nome }}</p>
+          <p class="info-label texto-truncado"><strong>{% trans "Lendo agora:" %}</strong> {{ clube_info.leitura_atual_nome }}</p>
         {% endif %}
       </div>
     </div>
-
   </a> 
   {% endfor %}
       </div>
     {% else %}
       <div class="no-clubs-message" style="text-align:center; padding: 20px; margin-top: 20px; background-color: #f0f0f0; border-radius: 8px;">
-        <p>Olá, {{ nome_usuario }}! Você ainda não faz parte de nenhum clube.</p>
-        <p>Que tal <a href="{% url 'principal:criar_clube' %}">criar um novo clube</a> ou explorar clubes existentes?</p>
+        <p>{% blocktrans %}Olá, {{ nome_usuario }}! Você ainda não faz parte de nenhum clube.{% endblocktrans %}</p>
+        
+        {# --- Início da Correção --- #}
+        <p>
+            {% trans "Que tal" %}
+            <a href="{% url 'principal:criar_clube' %}">{% trans "criar um novo clube" %}</a>
+            {% trans "ou explorar clubes existentes?" %}
+        </p>
+        {# --- Fim da Correção --- #}
+        
       </div>
     {% endif %}
   </div>
 
   <div class="section">
-    <h2>Recomendações de Clubes</h2>
+    <h2>{% trans "Recomendações de Clubes" %}</h2>
     <div class="cards">
       <div class="card">
-        <img src="{% static 'img/epico.jpg' %}" alt="Fantasia Épica">
+        <img src="{% static 'img/epico.jpg' %}" alt="{% trans 'Fantasia Épica' %}">
         <div class="card-content">
-          <h3>Fantasia Épica</h3>
-          <p class="info-label">Fundado por Júlia Ramos</p>
-          <p class="info-label">Desde Fev 2024</p>
-          <p class="info-label"><strong>Membros:</strong> 50</p>
+          <h3>{% trans "Fantasia Épica" %}</h3>
+          <p class="info-label">{% trans "Fundado por Júlia Ramos" %}</p>
+          <p class="info-label">{% trans "Desde Fev 2024" %}</p>
+          <p class="info-label"><strong>{% trans "Membros:" %}</strong> 50</p>
         </div>
       </div>
       <div class="card">
-        <img src="{% static 'img/classicos.jpg' %}" alt="Literatura Brasileira">
+        <img src="{% static 'img/classicos.jpg' %}" alt="{% trans 'Literatura Brasileira' %}">
         <div class="card-content">
-          <h3>Literatura Brasileira</h3>
-          <p class="info-label">Fundado por Pedro Souza</p>
-          <p class="info-label">Desde Abr 2024</p>
-          <p class="info-label"><strong>Membros:</strong> 90</p>
+          <h3>{% trans "Literatura Brasileira" %}</h3>
+          <p class="info-label">{% trans "Fundado por Pedro Souza" %}</p>
+          <p class="info-label">{% trans "Desde Abr 2024" %}</p>
+          <p class="info-label"><strong>{% trans "Membros:" %}</strong> 90</p>
         </div>
       </div>
       <div class="card">
-        <img src="{% static 'img/futuro.jpg' %}" alt="Sci-Fi e Futuro">
+        <img src="{% static 'img/futuro.jpg' %}" alt="{% trans 'Sci-Fi e Futuro' %}">
         <div class="card-content">
-          <h3>Sci-Fi e Futuro</h3>
-          <p class="info-label">Fundado por Renan Costa</p>
-          <p class="info-label">Desde Jan 2024</p>
-          <p class="info-label"><strong>Membros:</strong> 77</p>
+          <h3>{% trans "Sci-Fi e Futuro" %}</h3>
+          <p class="info-label">{% trans "Fundado por Renan Costa" %}</p>
+          <p class="info-label">{% trans "Desde Jan 2024" %}</p>
+          <p class="info-label"><strong>{% trans "Membros:" %}</strong> 77</p>
         </div>
       </div>
     </div>

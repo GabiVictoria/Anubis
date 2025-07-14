@@ -8,3 +8,4 @@ function atualizarProgresso() {
     barra.style.width = valor + "%";
     texto.textContent = valor + "% concluído";
   }
+  // mudar depois para tradução

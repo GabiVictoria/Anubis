@@ -1,30 +1,29 @@
 {% extends 'principal/base.html' %}
 {% load static %}
+{% load i18n %}
+
 {% block styles %}
   <link rel="stylesheet" href="{% static 'principal/criar.css' %}"/>
   <script defer src="{% static 'principal/js/criar.js' %}"></script>
 {% endblock %}
+
 {% block content %}
   <div class="container">
     <form method="post" action="{% url 'principal:editar_clube' clube.id %}" enctype="multipart/form-data">
       {% csrf_token %}
 
       <div class="card">
-       
         <div class="titulo-com-imagem">
           {% if clube.capa_clube %}
-                  {# Se existe uma imagem upada pelo usuário, use-a #}
-                  <img class="imagem-edicao" src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" >
-              {% elif clube.capa_recomendada %}
-                  {# Senão, se existe uma imagem de recomendação, use o caminho estático #}
-                  <img class="imagem-edicao" src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" >
-              {% else %}
-                  {# Senão, use a imagem padrão #}
-                  <img class="imagem-edicao" src="{% static 'img/imgideal.png' %}" alt="Capa padrão" >
-              {% endif %}
+              <img class="imagem-edicao" src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" >
+          {% elif clube.capa_recomendada %}
+              <img class="imagem-edicao" src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" >
+          {% else %}
+              <img class="imagem-edicao" src="{% static 'img/imgideal.png' %}" alt="{% trans 'Capa padrão' %}" >
+          {% endif %}
           <div class="cabecalho-edicao">
-            <h2>Editando o clube: {{ clube.nome }}</h2>       
-            <label for="{{ form.nome.id_for_label }}">Nome do Clube:</label>
+            <h2>{% blocktrans %}Editando o clube: {{ clube.nome }}{% endblocktrans %}</h2>
+            <label for="{{ form.nome.id_for_label }}">{% trans "Nome do Clube:" %}</label>
             {{ form.nome }}
             {{ form.nome.errors }}
           </div>
@@ -32,41 +31,40 @@
       </div>
 
       <div class="card">
-        <label for="{{ form.descricao.id_for_label }}">Descrição do clube:</label>
+        <label for="{{ form.descricao.id_for_label }}">{% trans "Descrição do clube:" %}</label>
         {{ form.descricao }}
         {{ form.descricao.errors }}
       </div>
-     
+      
       <input type="hidden" name="capa_recomendada_selecionada" id="id_capa_recomendada_selecionada">
       <div class="card">
-        <label>Escolha uma nova imagem recomendada:</label>
+        <label>{% trans "Escolha uma nova imagem recomendada:" %}</label>
         <div class="image-recommendations" id="image-recommendations">
-          <img src="{% static 'img/Suge1.jpg' %}" alt="Imagem 1" data-src="img/Suge1.jpg">
-          <img src="{% static 'img/Suge2.jpg' %}" alt="Imagem 2" data-src="img/Suge2.jpg">
-          <img src="{% static 'img/Suge3.jpg' %}" alt="Imagem 3" data-src="img/Suge3.jpg">
-          <img src="{% static 'img/Suge4.jpg' %}" alt="Imagem 4" data-src="img/Suge4.jpg">
-          <img src="{% static 'img/Suge5.jpg' %}" alt="Imagem 5" data-src="img/Suge5.jpg">
-          <img src="{% static 'img/Suge6.jpg' %}" alt="Imagem 6" data-src="img/Suge6.jpg">
-          <img src="{% static 'img/Suge7.jpg' %}" alt="Imagem 7" data-src="img/Suge7.jpg">
-          <img src="{% static 'img/Suge8.jpg' %}" alt="Imagem 8" data-src="img/Suge8.jpg">
+          <img src="{% static 'img/Suge1.jpg' %}" alt="{% trans 'Imagem' %} 1" data-src="img/Suge1.jpg">
+          <img src="{% static 'img/Suge2.jpg' %}" alt="{% trans 'Imagem' %} 2" data-src="img/Suge2.jpg">
+          <img src="{% static 'img/Suge3.jpg' %}" alt="{% trans 'Imagem' %} 3" data-src="img/Suge3.jpg">
+          <img src="{% static 'img/Suge4.jpg' %}" alt="{% trans 'Imagem' %} 4" data-src="img/Suge4.jpg">
+          <img src="{% static 'img/Suge5.jpg' %}" alt="{% trans 'Imagem' %} 5" data-src="img/Suge5.jpg">
+          <img src="{% static 'img/Suge6.jpg' %}" alt="{% trans 'Imagem' %} 6" data-src="img/Suge6.jpg">
+          <img src="{% static 'img/Suge7.jpg' %}" alt="{% trans 'Imagem' %} 7" data-src="img/Suge7.jpg">
+          <img src="{% static 'img/Suge8.jpg' %}" alt="{% trans 'Imagem' %} 8" data-src="img/Suge8.jpg">
         </div>
       </div>
 
       <div class="card">
-        <label for="{{ form.capa_clube.id_for_label }}">Ou envie uma imagem personalizada (substitui a atual e a recomendada):</label>
-        
+        <label for="{{ form.capa_clube.id_for_label }}">{% trans "Ou envie uma imagem personalizada (substitui a atual e a recomendada):" %}</label>
         {{ form.capa_clube }}
         {{ form.capa_clube.errors }}
       </div>
 
       <div class="card">
-        <label for="{{ form.limite_membros.id_for_label }}">Quantidade de membros:</label>
+        <label for="{{ form.limite_membros.id_for_label }}">{% trans "Quantidade de membros:" %}</label>
         {{ form.limite_membros }}
         {{ form.limite_membros.errors }}
       </div>
 
       <div class="card">
-        <label>Público ou Privado:</label>
+        <label>{% trans "Público ou Privado:" %}</label>
         <div class="public-private">
             {{ form.privacidade }}
             {{ form.privacidade.errors }}
@@ -74,24 +72,48 @@
       </div>
       
       <div class="form-actions">
-        <button type="submit" class="btn-submit-clube">Salvar Alterações</button>
-        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="btn-cancel-clube">Cancelar</a>
+        <button type="submit" class="btn-submit-clube">{% trans "Salvar Alterações" %}</button>
+        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="btn-cancel-clube">{% trans "Cancelar" %}</a>
       </div>
     </form>
 
-    <div class="card" >
-        <h3>Excluir clube</h3>
-        <h4>Atenção !</h4>
-        <p>A exclusão de um clube é permanente e não pode ser desfeita. Todos os dados, membros e leituras associadas serão perdidos.</p>
-        <form method="post" action="{% url 'principal:excluir_clube' clube.id %}" style="margin-top: 1rem;">
+    <div class="card">
+        <h3>{% trans "Excluir clube" %}</h3>
+        <h4>{% trans "Atenção !" %}</h4>
+        <p>{% trans "A exclusão de um clube é permanente e não pode ser desfeita. Todos os dados, membros e leituras associadas serão perdidos." %}</p>
+        
+        {# --- Início da Correção --- #}
+        <form method="post" 
+              action="{% url 'principal:excluir_clube' clube.id %}" 
+              style="margin-top: 1rem;" 
+              id="form-excluir-clube"
+              data-confirm-message="{% trans 'Tem certeza que deseja excluir este clube? Esta ação é irreversível.' %}">
             {% csrf_token %}
-            <button type="submit" class="sair-clube-button"
-                    onclick="return confirm('Tem certeza que deseja excluir este clube? Esta ação é irreversível.');">
-                Excluir Clube
+            <button type="submit" class="sair-clube-button">
+                {% trans "Excluir Clube" %}
             </button>
         </form>
+        {# --- Fim da Correção --- #}
     </div>
   </div>
 
+{# --- Novo Bloco JavaScript no final --- #}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const formExcluir = document.getElementById('form-excluir-clube');
 
+    if (formExcluir) {
+        formExcluir.addEventListener('submit', function(event) {
+            // Pega a mensagem traduzida do atributo 'data-confirm-message'
+            const message = event.target.getAttribute('data-confirm-message');
+            
+            // Se o usuário clicar em "Cancelar" na caixa de diálogo, a submissão do formulário é prevenida.
+            if (!confirm(message)) {
+                event.preventDefault();
+            }
+            // Se clicar "OK", o formulário é enviado normalmente.
+        });
+    }
+});
+</script>
 {% endblock %}

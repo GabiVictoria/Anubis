@@ -1,11 +1,12 @@
 {% load static %}
+{% load i18n %} {# Carrega a biblioteca de internacionalização #}
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <title>Anúbis</title>
+  <title>{% trans "Anúbis" %}</title>
   <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'inicial/inicia.css' %}" />
@@ -26,66 +27,63 @@
 
   <header>
     <div class="branding">
-      
-      <img src="{% static 'img/Logo..png' %}" alt="Logo da Anúbis" class="logo" />
-      <h1>Anúbis</h1>
+      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo da Anúbis' %}" class="logo" />
+      <h1>{% trans "Anúbis" %}</h1>
     </div>
-    <p>Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro </p>
-    <p>Conecte-se com leitores como você. Leia junto. Compartilhe ideias.</p>
+    <p>{% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro" %}</p>
+    <p>{% trans "Conecte-se com leitores como você. Leia junto. Compartilhe ideias." %}</p>
     <div class="buttons">
-      
-      <a href="{% url 'inicial:login' %}">Entrar</a>
-      <a href="{% url 'inicial:cadastro' %}">Criar Conta</a>
+      <a href="{% url 'inicial:login' %}">{% trans "Entrar" %}</a>
+      <a href="{% url 'inicial:cadastro' %}">{% trans "Criar Conta" %}</a>
     </div>
   </header>
 
   <section class="search-section">
-  <h2>Que tal procurar o clube ideal para você? Dá um clique</h2>
-  <div class="search-bar-container">
-    <form action="{% url 'inicial:inicial_busca' %}" method="GET"> 
+    <h2>{% trans "Que tal procurar o clube ideal para você? Dá um clique" %}</h2>
+    <div class="search-bar-container">
+      <form action="{% url 'inicial:inicial_busca' %}" method="GET"> 
         <input
         type="text"
         name="q"
-        placeholder="Buscar livros, clubes..."
+        placeholder="{% trans 'Buscar livros, clubes...' %}"
         class="search-input"
         />
         <button type="submit" class="search-button">
             <i class="fas fa-search search-icon"></i>
         </button>
-    </form> </div>
-</section>
-
+      </form>
+    </div>
+  </section>
 
   <section class="section">
-    <h2>Livros que os clubes estão lendo agora</h2>
+    <h2>{% trans "Livros que os clubes estão lendo agora" %}</h2>
     <div class="books">
       <div class="book">
-        
-        <img src="{% static 'img/eassimqacaba.jpg' %}" alt="Livro 1" />
-        <p>É Assim que Acaba</p>
+        <img src="{% static 'img/eassimqacaba.jpg' %}" alt="{% trans 'Livro 1' %}" />
+        <p>{% trans "É Assim que Acaba" %}</p>
       </div>
       <div class="book">
-        <img src="{% static 'img/opusculo-humanitario.jpg' %}" alt="Livro 2" />
-        <p>Opúscolo Humanitário</p>
+        <img src="{% static 'img/opusculo-humanitario.jpg' %}" alt="{% trans 'Livro 2' %}" />
+        <p>{% trans "Opúscolo Humanitário" %}</p>
       </div>
       <div class="book">
-        <img src="{% static 'img/osol.jpg' %}" alt="Livro 3" />
-        <p>O Sol é para Todos</p>
+        <img src="{% static 'img/osol.jpg' %}" alt="{% trans 'Livro 3' %}" />
+        <p>{% trans "O Sol é para Todos" %}</p>
       </div>
       <div class="book">
-        <img src="{% static 'img/haruki.jpg' %}" alt="Livro 4" />
-        <p>Norwegian Wood</p>
+        <img src="{% static 'img/haruki.jpg' %}" alt="{% trans 'Livro 4' %}" />
+        <p>{% trans "Norwegian Wood" %}</p>
       </div>
       <div class="book">
-        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="Livro 5" /> 
-        <p>Noites Brancas</p>
+        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="{% trans 'Livro 5' %}" /> 
+        <p>{% trans "Noites Brancas" %}</p>
       </div>
     </div>
   </section>
 
   <footer>
-    © 2025 Anúbis. Todos os direitos reservados.
-    Plaforma criada no Instituto Federal de São Paulo
+    © 2025 Anúbis. {% trans "Todos os direitos reservados." %}
+    {% trans "Plataforma criada no Instituto Federal de São Paulo" %}
   </footer>
 </body>
 </html>
