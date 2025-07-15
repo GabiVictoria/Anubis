@@ -1,6 +1,121 @@
 {% extends 'principal/base.html' %}
 {% load i18n %}
 
+{% block styles %}
+<style>
+    /* --- Estilos Gerais da Página --- */
+    .main-container.admin-form-page {
+        max-width: 700px; /* Largura máxima do formulário */
+        margin: 2rem auto; /* Centraliza na página com margem no topo/baixo */
+        padding: 2rem;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
+    }
+
+    /* --- Título do Formulário --- */
+    .form-title {
+        color: #333;
+        font-size: 1.8rem;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #007bff; /* Linha azul abaixo do título */
+        padding-bottom: 0.5rem;
+    }
+
+    /* --- Estilização do Formulário e Campos --- */
+    .styled-form p {
+        margin-bottom: 1.5rem; /* Espaçamento entre os campos do formulário */
+    }
+
+    .styled-form label {
+        display: block; /* Faz o label ocupar a linha inteira */
+        font-weight: 600;
+        margin-bottom: 0.5rem; /* Espaço entre o label e o campo */
+        color: #555;
+    }
+
+    .styled-form input[type="text"],
+    .styled-form input[type="email"],
+    .styled-form input[type="password"],
+    .styled-form input[type="url"],
+    .styled-form input[type="date"],
+    .styled-form input[type="number"],
+    .styled-form textarea,
+    .styled-form select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        box-sizing: border-box; /* Garante que o padding não afete a largura */
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .styled-form input:focus,
+    .styled-form textarea:focus,
+    .styled-form select:focus {
+        outline: none;
+        border-color: #007bff; /* Cor da borda ao focar */
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Sombra suave ao focar */
+    }
+
+    .styled-form textarea {
+        resize: vertical; /* Permite redimensionamento vertical */
+        min-height: 120px;
+    }
+
+    /* --- Botões de Ação --- */
+    .form-actions {
+        display: flex;
+        justify-content: flex-end; /* Alinha os botões à direita */
+        gap: 1rem; /* Espaço entre os botões */
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e0e0e0; /* Linha separadora */
+    }
+
+    .action-button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        transition: background-color 0.2s, transform 0.1s;
+    }
+
+    /* Botão principal (Salvar) */
+    .action-button {
+        background-color: #007bff; /* Azul primário */
+        color: white;
+    }
+
+    .action-button:hover {
+        background-color: #0056b3; /* Azul mais escuro no hover */
+    }
+
+    .action-button:active {
+        transform: scale(0.98); /* Efeito de clique */
+    }
+
+    /* Botão secundário (Cancelar) */
+    .action-button.secondary-action {
+        background-color: #6c757d; /* Cinza secundário */
+        color: white;
+    }
+
+    .action-button.secondary-action:hover {
+        background-color: #5a6268;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="main-container admin-form-page">
     <h2 class="form-title">{{ form_title }}</h2>
