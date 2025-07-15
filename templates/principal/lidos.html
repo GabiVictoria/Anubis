@@ -40,7 +40,7 @@
     </p>
 
     <div class="botoes">
-      <a href="{% url 'principal:estante' %}" class="botoes">{% trans "Lendo" %}</a>
+      <a href="{% url 'principal:estante' clube.id %}" class="botoes">{% trans "Lendo" %}</a>
       <a href="{% url 'principal:lidos' %}" class="botoes">{% trans "Lidos" %}</a>
       <a href="{% url 'principal:abandonados' %}" class="botoes">{% trans "Abandonados" %}</a>
       <a href="{% url 'principal:proximo_livro' %}" class="botoes">{% trans "Próximo Livro" %}</a>
