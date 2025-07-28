@@ -30,6 +30,8 @@ urlpatterns = [
     path('clube/<int:clube_id>/sair/', views.sair_clube, name='sair_clube'),
     path('clube/<int:clube_id>/entrar/', views.entrar_clube, name='entrar_clube'),
     path('clube/<int:clube_id>/votacao/<int:votacao_id>/votar/', views.registrar_voto, name='registrar_voto'),
+    path('estante_pessoal/<int:estante_pessoal_id>/atualizar_progresso/', views.atualizar_progresso, name='atualizar_progresso'),
+    path('clube/<int:clube_id>/livro/<int:livro_id>/iniciar_leitura/', views.iniciar_leitura, name='iniciar_leitura'),
 
     # Rotas de admin do clube
     path('clube/<int:clube_id>/admin/editar/', views.editar_clube, name='editar_clube'),

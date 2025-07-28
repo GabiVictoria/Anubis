@@ -121,7 +121,7 @@ def login(request:HttpRequest):
             return render(request, 'inicial/login.html', {'form_data': form_data})
         
         except Exception as e:
-            # Trata outros erros inesperados
+        
             messages.error(request, _("Ocorreu um erro inesperado: %(error)s") % {'error': e})
             return render(request, 'inicial/login.html', {'form_data': form_data})
 
@@ -178,5 +178,5 @@ def inicial_busca_view(request):
         'query': query,
         'resultados': resultados_finais,
     }
-
-    return render(request, 'inicial/inicial_busca.html', contexto)
+    message = messages.info(request, _("Entre ou cadastre-se para mais informações sobre os clubes"))
+    return render(request, 'inicial/inicial_busca.html', contexto, message)

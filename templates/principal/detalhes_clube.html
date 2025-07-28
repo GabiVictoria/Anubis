@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block content %}
-  <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container details-page-search">
-    <input class="search-bar-input" type="text" name="q" placeholder="{% trans 'Buscar em Anúbis...' %}" value="{{ query|default_if_none:'' }}">
+ <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container">
+    <input class="search-bar-input" type="text" name="q" placeholder="{% trans 'Buscar livros, clubes...' %}" value="{{ search_query|default:'' }}">
     <button class="search-bar-button" type="submit">
       <i class="fas fa-search"></i>
     </button>
@@ -65,18 +65,28 @@
     </div>
     {% endif %}
 
-    {% if leitura_do_momento_obj %}
-      <div class="featured-book section card-style">
-        <h3 class="section-title">📖 {% trans "Livro do Momento" %}</h3>
-        <div class="book-card">
-          <img src="{% if leitura_do_momento_obj.livro.capa %}{{ leitura_do_momento_obj.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ leitura_do_momento_obj.livro.nome }}" class="book-cover">
-          <div class="book-info">
-            <h4 class="book-title">{{ leitura_do_momento_obj.livro.nome }}</h4>
-            <p><strong>{% trans "Autor:" %}</strong> {{ leitura_do_momento_obj.livro.autor }}</p>
-          </div>
-        </div>
+{% if leitura_do_momento_obj %}
+  <div class="featured-book section card-style">
+    <h3 class="section-title">📖 {% trans "Livro do Momento" %}</h3>
+    <div class="book-card">
+      <img src="{% if leitura_do_momento_obj.livro.capa %}{{ leitura_do_momento_obj.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ leitura_do_momento_obj.livro.nome }}" class="book-cover">
+      <div class="book-info">
+        <h4 class="book-title">{{ leitura_do_momento_obj.livro.nome }}</h4>
+        <p><strong>{% trans "Autor:" %}</strong> {{ leitura_do_momento_obj.livro.autor }}</p>
+        <p><strong>{% trans "Páginas:" %}</strong> {{ leitura_do_momento_obj.livro.paginas }}</p>
+      
+        {% if is_membro and not estante_pessoal_obj %}
+          <form method="post" action="{% url 'principal:iniciar_leitura' clube_id=clube.id livro_id=leitura_do_momento_obj.livro.id %}" style="margin-top: 15px;">
+              {% csrf_token %}
+              <button type="submit" class="btpadrao">{% trans "Iniciar Leitura" %}</button>
+          </form>
+        {% endif %}
+        
+
       </div>
-    {% endif %}
+    </div>
+  </div>
+{% endif %}
 
 {% if votacao_ativa %}
       <div class="voting-section section card-style">
@@ -168,28 +178,35 @@
     </div>
   </div> -->
 
-  <!-- <div class="card-container">
-    <h2 class="card-title">{% trans "BARRA DE PROGRESSO" %}</h2>
-    <hr />
-    <div class="card">
-      <img src="https://upload.wikimedia.org/wikipedia/en/8/8e/KafkaontheShore.jpg" alt="{% trans 'Kafka à Beira Mar' %}" class="book-cover">
-      <div class="content">
-        <div class="title">{% trans "Kafka à Beira Mar" %}</div>
-        <div class="club">Haruki Murakami</div>
-        <div class="progress-container">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="progress-text" id="progressText" data-translation-format="{% trans '{value}% concluído' %}">
-            45% {% trans "concluído" %}
-        </div>
-        <div class="controls">
-          <label for="progressInput">{% trans "Atualizar %:" %}</label>
-          <input type="number" id="progressInput" min="0" max="100">
-          <button onclick="atualizarProgresso()">{% trans "Atualizar" %}</button>
-        </div>
+ {% if estante_pessoal_obj %}
+<div class="card-container">
+  <h2 class="card-title">{% trans "PROGRESSO DE LEITURA" %}</h2>
+  <hr />
+  <div class="card">
+    <img src="{% if estante_pessoal_obj.livro.capa %}{{ estante_pessoal_obj.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ estante_pessoal_obj.livro.nome }}" class="capa-progresso">
+    <div class="content">
+      <h3 class="title">{{ estante_pessoal_obj.livro.nome }}</h3>
+      <p class="club">{{ estante_pessoal_obj.livro.autor }}</p>
+      <div class="progress-container">
+        <div class="progress-bar" id="progressBar" style="width: {{ progresso_percentual }}%;"></div>
+      </div>
+      <div class="progress-text" id="progressText">
+          {{ progresso_percentual }}% {% trans "concluído" %}
+      </div>
+      
+     
+      <div class="controls">
+        <form method="post" action="{% url 'principal:atualizar_progresso' estante_pessoal_obj.id %}">
+            {% csrf_token %}
+            <label for="progressInput">{% trans "Páginas lidas:" %}</label>
+            <input type="number" id="progressInput" name="paginas_lidas" min="0" max="{{ estante_pessoal_obj.livro.paginas|default:'' }}" value="{{ estante_pessoal_obj.progresso_paginas|default:0 }}">
+            <button class="btpadrao" type="submit">{% trans "Atualizar" %}</button>
+        </form>
       </div>
     </div>
-  </div> -->
+  </div>
+</div>
+{% endif %}
 
  
 
@@ -241,31 +258,71 @@
 
 
 <script>
-  function atualizarProgresso() {
-    const input = document.getElementById("progressInput");
-    const valor = Math.max(0, Math.min(100, parseInt(input.value, 10) || 0));
+document.addEventListener('DOMContentLoaded', () => {
     
-    const barra = document.getElementById("progressBar");
-    const textoElemento = document.getElementById("progressText");
+    // --- LÓGICA 1: Animação das barras de progresso da votação ---
+    const animateVotingBars = () => {
+        const progressBars = document.querySelectorAll('.voting-section .progress-bar');
+        progressBars.forEach(bar => {
+            const finalWidth = bar.style.width;
+            if (finalWidth) {
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = finalWidth;
+                }, 300);
+            }
+        });
+    };
 
-    const formatoTraduzido = textoElemento.getAttribute('data-translation-format');
-    const textoFinal = formatoTraduzido.replace('{value}', valor);
+    // --- LÓGICA 2: Atualização do progresso de leitura pessoal ---
+    const handleReadingProgressUpdate = () => {
+        const updateBtn = document.getElementById('updateProgressBtn');
+        if (!updateBtn) return; // Se o botão não existir na página, não faz nada
 
-    barra.style.width = valor + "%";
-    textoElemento.textContent = textoFinal;
-  }
+        updateBtn.addEventListener('click', () => {
+            const input = document.getElementById('progressInput');
+            const paginasLidas = input.value;
+            const estanteId = "{{ estante_pessoal_obj.id }}"; // Django injeta o ID aqui
+            const url = `/app/estante_pessoal/${estanteId}/atualizar_progresso/`;
+            
+            updateBtn.disabled = true;
+            updateBtn.textContent = "{% trans 'Salvando...' %}";
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const progressBars = document.querySelectorAll('.voting-section .progress-bar');
-    progressBars.forEach(bar => {
-      const finalWidth = bar.style.width;
-      if (finalWidth) {
-        bar.style.width = '0%';
-        setTimeout(() => {
-          bar.style.width = finalWidth;
-        }, 300);
-      }
-    });
-  });
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: `paginas_lidas=${paginasLidas}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const progressBar = document.getElementById('progressBar');
+                    const progressText = document.getElementById('progressText');
+                    const formatoTraduzido = progressText.getAttribute('data-translation-format');
+                    
+                    progressBar.style.width = data.percentual + '%';
+                    progressText.textContent = formatoTraduzido.replace('{value}', data.percentual);
+                    input.value = data.paginas_lidas;
+                } else {
+                    alert('{% trans "Erro ao atualizar o progresso." %}');
+                }
+            })
+            .catch(error => console.error('Error:', error))
+            .finally(() => {
+                updateBtn.disabled = false;
+                updateBtn.textContent = "{% trans 'Atualizar' %}";
+            });
+        });
+    };
+
+    // --- INICIALIZAÇÃO ---
+    // Executa as funções quando a página carrega
+    animateVotingBars();
+    handleReadingProgressUpdate();
+
+});
 </script>
 {% endblock %}

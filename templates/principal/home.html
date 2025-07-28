@@ -38,11 +38,11 @@
   </header>
 
   <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container">
-  <input class="search-bar-input" type="text" name="q" placeholder="{% trans 'Buscar livros, clubes...' %}" value="{{ search_query|default:'' }}">
-  <button class="search-bar-button" type="submit">
-    <i class="fas fa-search"></i>
-  </button>
-</form>
+    <input class="search-bar-input" type="text" name="q" placeholder="{% trans 'Buscar livros, clubes...' %}" value="{{ search_query|default:'' }}">
+    <button class="search-bar-button" type="submit">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
 
   <div class="container">
     <div class="carousel">
@@ -128,13 +128,13 @@
       <div class="no-clubs-message" style="text-align:center; padding: 20px; margin-top: 20px; background-color: #f0f0f0; border-radius: 8px;">
         <p>{% blocktrans %}Olá, {{ nome_usuario }}! Você ainda não faz parte de nenhum clube.{% endblocktrans %}</p>
         
-        {# --- Início da Correção --- #}
+    
         <p>
             {% trans "Que tal" %}
             <a href="{% url 'principal:criar_clube' %}">{% trans "criar um novo clube" %}</a>
             {% trans "ou explorar clubes existentes?" %}
         </p>
-        {# --- Fim da Correção --- #}
+       
         
       </div>
     {% endif %}

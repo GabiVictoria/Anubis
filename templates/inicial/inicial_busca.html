@@ -13,6 +13,16 @@
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
 </head>
 <body>
+
+  {% if messages %}
+        <ul class="messages"> 
+          {% for message in messages %}
+            <li class="{{ message.tags }}"> 
+              {{ message }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
   
   <header>
     <div class="branding">
@@ -47,6 +57,7 @@
 
   <main class="results-container">
     {% for clube in resultados %}
+    
       <div class="club-card">
         
         {% if clube.capa_clube %}
@@ -79,6 +90,7 @@
           </p>
         </div>
       </div>
+    
     {% empty %}
       <div class="no-results">
         <p>{% blocktrans %}Nenhum clube encontrado para a busca "{{ query }}".{% endblocktrans %}</p>

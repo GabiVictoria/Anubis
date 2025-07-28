@@ -5,7 +5,7 @@ from django.http import HttpRequest, HttpResponseForbidden, JsonResponse
 from django.contrib import messages
 from django.utils import timezone
 from .decorators import login_obrigatorio, admin_clube_obrigatorio
-from inicial.models import Clube, ClubeMembro, LeituraClube, Livro, Votacao, VotoUsuario, Mensagem, Usuario, Reuniao
+from inicial.models import Clube, ClubeMembro, LeituraClube, Livro, Votacao, VotoUsuario, Mensagem, Usuario, Reuniao, EstantePessoal
 from django.db import IntegrityError
 from django.conf import settings
 from django.contrib.staticfiles import finders
@@ -210,6 +210,26 @@ def detalhes_clube(request: HttpRequest, clube_id):
         status=LeituraClube.StatusClube.LENDO_ATUALMENTE
     ).select_related('livro').first()
 
+    estante_pessoal_obj = None
+    progresso_percentual = 0
+    if leitura_do_momento_obj and is_membro:
+        try:
+            # Tenta encontrar a entrada na estante pessoal do usuário
+            estante_pessoal_obj = EstantePessoal.objects.get(
+                usuario=usuario_atual,
+                livro=leitura_do_momento_obj.livro,
+                clube=clube
+            )
+            # Se encontrar, calcula o progresso
+            if estante_pessoal_obj.progresso_paginas and leitura_do_momento_obj.livro.paginas:
+                progresso_percentual = round((estante_pessoal_obj.progresso_paginas / leitura_do_momento_obj.livro.paginas) * 100)
+        except EstantePessoal.DoesNotExist:
+            # --- CORREÇÃO APLICADA AQUI ---
+            # Se não encontrar a entrada, não faz nada. 
+            # O card de progresso não será exibido no template.
+            pass
+
+
     votacao_ativa = Votacao.objects.filter(
         clube=clube, 
         data_fim__gte=timezone.now(), 
@@ -241,8 +261,7 @@ def detalhes_clube(request: HttpRequest, clube_id):
     
     mensagens_chat = []
 
-    # --- CORREÇÃO APLICADA AQUI ---
-    # Usa a função do Django que respeita o idioma ativo
+   
     data_criacao_formatada = formats.date_format(clube.data_criacao, "F Y") if clube.data_criacao else ""
     data_fim_votacao_formatada = formats.date_format(votacao_ativa.data_fim, "d/m/Y H:i") if votacao_ativa else ""
     reunioes_agendadas = Reuniao.objects.filter(
@@ -262,13 +281,15 @@ def detalhes_clube(request: HttpRequest, clube_id):
         'usuario_ja_votou': usuario_ja_votou,
         'membros_do_clube': membros_do_clube_obj,
         'leituras_finalizadas': leituras_finalizadas_obj,
-        'reunioes_agendadas': reunioes_agendadas, # <-- Adicionado ao contexto
+        'reunioes_agendadas': reunioes_agendadas,
         'nome_usuario': usuario_atual.nome,
         'default_avatar_url': staticfiles_storage.url('img/default_avatar.png'),
         'PrivacidadeChoices': Clube.Privacidade,
         'CargoChoices': ClubeMembro.Cargo,
         'data_criacao_formatada': data_criacao_formatada,
         'data_fim_votacao_formatada': data_fim_votacao_formatada,
+        'estante_pessoal_obj': estante_pessoal_obj,
+        'progresso_percentual': progresso_percentual,
     }
     return render(request, 'principal/detalhes_clube.html', contexto)
 
@@ -746,3 +767,76 @@ def fechar_votacao(request: HttpRequest, votacao_id, clube, **kwargs):
         messages.success(request, _("A votação foi fechada manualmente."))
         return redirect('principal:detalhes_clube', clube_id=clube.id)
     return redirect('principal:detalhes_clube', clube_id=clube.id)
+
+
+@login_obrigatorio
+def atualizar_progresso(request: HttpRequest, estante_pessoal_id):
+    # Busca a entrada na estante pessoal para garantir que pertence ao usuário logado
+    estante_entry = get_object_or_404(
+        EstantePessoal, 
+        id=estante_pessoal_id, 
+        usuario=request.usuario_logado_obj
+    )
+    # Guarda o ID do clube para o redirecionamento
+    clube_id = estante_entry.clube.id
+
+    if request.method == 'POST':
+        try:
+            paginas_lidas_str = request.POST.get('paginas_lidas', '0')
+
+            # Validação para garantir que o input é um número
+            if not paginas_lidas_str.isdigit():
+                 messages.error(request, _("Por favor, insira um número de páginas válido."))
+                 return redirect('principal:detalhes_clube', clube_id=clube_id)
+
+            paginas_lidas = int(paginas_lidas_str)
+
+            # Garante que o progresso não ultrapasse o total de páginas do livro
+            if estante_entry.livro.paginas and paginas_lidas > estante_entry.livro.paginas:
+                paginas_lidas = estante_entry.livro.paginas
+                messages.warning(request, _("O número de páginas foi ajustado para o máximo do livro."))
+
+            estante_entry.progresso_paginas = paginas_lidas
+            estante_entry.save()
+            messages.success(request, _("Progresso de leitura atualizado com sucesso!"))
+
+        except Exception:
+            messages.error(request, _("Ocorreu um erro inesperado ao atualizar o progresso."))
+
+        return redirect('principal:detalhes_clube', clube_id=clube_id)
+
+    # Se o método não for POST, apenas redireciona
+    return redirect('principal:detalhes_clube', clube_id=clube_id)
+
+
+@login_obrigatorio
+def iniciar_leitura(request: HttpRequest, clube_id, livro_id):
+    """
+    Cria uma entrada na EstantePessoal para o usuário, livro e clube atuais.
+    """
+    if request.method == 'POST':
+        clube = get_object_or_404(Clube, id=clube_id)
+        livro = get_object_or_404(Livro, id=livro_id)
+        usuario = request.usuario_logado_obj
+
+        # Verifica se o usuário é membro do clube
+        if not ClubeMembro.objects.filter(clube=clube, usuario=usuario).exists():
+            messages.error(request, _("Você precisa ser membro do clube para iniciar uma leitura."))
+            return redirect('principal:detalhes_clube', clube_id=clube_id)
+
+        # Cria a entrada na estante pessoal, ou apenas a obtém se já existir
+        EstantePessoal.objects.get_or_create(
+            usuario=usuario,
+            livro=livro,
+            clube=clube,
+            defaults={'status': EstantePessoal.StatusLeitura.LENDO, 'progresso_paginas': 0}
+        )
+        
+        messages.success(request, _("Leitura de '%(livro_nome)s' iniciada!") % {'livro_nome': livro.nome})
+        return redirect('principal:detalhes_clube', clube_id=clube_id)
+    
+    # Se não for POST, apenas redireciona
+    return redirect('principal:detalhes_clube', clube_id=clube_id)
+
+
+
