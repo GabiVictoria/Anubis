@@ -25,6 +25,23 @@ def home(request: HttpRequest):
     usuario_atual = request.usuario_logado_obj
     query = request.GET.get('q', None)
 
+    leituras_atuais_pessoais = EstantePessoal.objects.filter(
+        usuario=usuario_atual,
+        status=EstantePessoal.StatusLeitura.LENDO
+    ).select_related('livro', 'clube') 
+
+    leituras_atuais_formatadas = []
+    for leitura in leituras_atuais_pessoais:
+        progresso_percentual = 0
+        if leitura.progresso_paginas is not None and leitura.livro.paginas and leitura.livro.paginas > 0:
+            progresso_percentual = round((leitura.progresso_paginas / leitura.livro.paginas) * 100)
+        
+        leituras_atuais_formatadas.append({
+            'livro': leitura.livro,
+            'clube': leitura.clube,
+            'percentual': progresso_percentual
+        })
+
     clubes_do_usuario_qs = usuario_atual.clubes_participados.all()
 
     if query:
@@ -61,6 +78,7 @@ def home(request: HttpRequest):
         "usuario_logado": True,
         "clubes_do_usuario": clubes_info_list,
         "search_query": query,
+        "leituras_atuais": leituras_atuais_formatadas,
     }
     return render(request, 'principal/home.html', contexto)
 

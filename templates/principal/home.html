@@ -57,46 +57,29 @@
       </div>
     </div>
   </div>
-
-  <div class="section">
+<div class="section">
     <h2>{% trans "Leituras Atuais" %}</h2>
     <div class="cards">
-      <div class="card">
-        <img src="{% static 'img/Abeira.jpg' %}" alt="{% trans 'Kafka' %}">
-        <div class="card-content">
-          <h3>{% trans "Kafka à Beira Mar" %}</h3>
-          <p>{% trans "Clube Haruki" %}</p>
-          <div class="progress-bar">
-            <div class="progress" style="width: 45%"></div>
+        {% for leitura in leituras_atuais %}
+          <div class="card">
+            <img src="{% if leitura.livro.capa %}{{ leitura.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ leitura.livro.nome }}">
+            <div class="card-content">
+              <h3>{{ leitura.livro.nome }}</h3>
+              <p>{{ leitura.clube.nome }}</p>
+              <div class="progress-bar">
+                <div class="progress" style="width: {{ leitura.percentual }}%"></div>
+              </div>
+              <div class="progress-info">{{ leitura.percentual }}% {% trans "concluído" %}</div>
+            </div>
           </div>
-          <div class="progress-info">{% trans "45% concluído" %}</div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="{% trans 'Noites Brancas' %}">
-        <div class="card-content">
-          <h3>{% trans "Noites Brancas" %}</h3>
-          <p>{% trans "Clube Dostoiévski" %}</p>
-          <div class="progress-bar">
-            <div class="progress" style="width: 70%"></div>
-          </div>
-          <div class="progress-info">{% trans "70% concluído" %}</div>
-        </div>
-      </div>
-      <div class="card">
-        <img src="{% static 'img/1984.jpg' %}" alt="1984">
-        <div class="card-content">
-          <h3>1984</h3>
-          <p>{% trans "Clube Orwell" %}</p>
-          <div class="progress-bar">
-            <div class="progress" style="width: 35%"></div>
-          </div>
-          <div class="progress-info">{% trans "35% concluído" %}</div>
-        </div>
-      </div>
+        {% empty %}
+          {# Mensagem que aparece se o usuário não estiver lendo nenhum livro #}
+          <p style="grid-column: 1 / -1; text-align: center; padding: 20px;">
+            {% trans "Você ainda não iniciou a leitura de nenhum livro nos seus clubes." %}
+          </p>
+        {% endfor %}
     </div>
-  </div>
-
+</div>
   <div class="section">
     <h2>{% trans "Meus Clubes do Livro" %}</h2>
     {% if clubes_do_usuario %}
