@@ -13,14 +13,15 @@ urlpatterns = [
     path("busca/", views.pagina_de_busca, name="pagina_de_busca"),
     path('clube/<int:clube_id>/', views.detalhes_clube, name='detalhes_clube'),
     path("perfil/", views.perfil, name="perfil"), 
-    path('clube/<int:clube_id>/estante/', views.estante, name='estante'),
+    
 
      # Rotas da estante aninhadas sob 'estante/'
-    path('estante/lidos/', views.lidos_view, name='lidos'), 
-    path('estante/abandonados/', views.abandonados_view, name='abandonados'),
-    path('estante/proximo/', views.proximo_livro_view, name='proximo_livro'), 
-    path('estante/queremos/', views.queremos_ler_view, name='queremos_ler'), 
-    path('estante/releitura/', views.releitura_view, name='releitura'), 
+    path('estante/<int:clube_id>/', views.estante, name='estante'),
+    path('estante/<int:clube_id>/lidos/', views.lidos_view, name='lidos'), 
+    path('estante/<int:clube_id>/abandonados/', views.abandonados_view, name='abandonados'),
+    path('estante/<int:clube_id>/proximo/', views.proximo_livro_view, name='proximo_livro'), 
+    path('estante/<int:clube_id>/queremos/', views.queremos_ler_view, name='queremos_ler'), 
+    path('estante/<int:clube_id>/releitura/', views.releitura_view, name='releitura'), 
    
 
 

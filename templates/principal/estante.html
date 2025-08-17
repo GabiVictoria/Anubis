@@ -40,14 +40,15 @@
       {% trans "Um grupo apaixonado por literatura fantástica, onde discutimos obras, autores e universos que nos transportam além da realidade." %}
     </p>
 
-    <div class="botoes">
-      <a href="{% url 'principal:estante' clube.id %}" class="botoes">{% trans "Lendo" %}</a>
-      <a href="{% url 'principal:lidos' %}" class="botoes">{% trans "Lidos" %}</a>
-      <a href="{% url 'principal:abandonados' %}" class="botoes">{% trans "Abandonados" %}</a>
-      <a href="{% url 'principal:proximo_livro' %}" class="botoes">{% trans "Próximo Livro" %}</a>
-      <a href="{% url 'principal:queremos_ler' %}" class="botoes">{% trans "Queremos Ler" %}</a>
-      <a href="{% url 'principal:releitura' %}" class="botoes">{% trans "Releitura" %}</a>
+   <div class="botoes">
+      <a href="{% url 'principal:estante' clube.id %}" class="botoes" id="bt_lendo">{% trans "Lendo" %}</a>
+      <a href="{% url 'principal:lidos' clube.id %}" class="botoes">{% trans "Lidos" %}</a>
+      <a href="{% url 'principal:abandonados' clube.id %}" class="botoes">{% trans "Abandonados" %}</a>
+      <a href="{% url 'principal:proximo_livro' clube.id %}" class="botoes">{% trans "Próximo Livro" %}</a>
+      <a href="{% url 'principal:queremos_ler' clube.id %}" class="botoes">{% trans "Queremos Ler" %}</a>
+      <a href="{% url 'principal:releitura' clube.id %}" class="botoes">{% trans "Releitura" %}</a>
     </div>
+
 
    
 

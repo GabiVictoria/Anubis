@@ -693,7 +693,7 @@ def perfil(request):
     
     return render(request, 'principal/perfil.html', contexto)
 
-
+# a página estante corresponde a página dos livros que estão sendo lidos atualmente no clube/estante
 @login_obrigatorio
 def estante(request, clube_id):
   
@@ -719,20 +719,41 @@ def estante(request, clube_id):
     
     return render(request, 'principal/estante.html', contexto)
 
-def lidos_view(request):
-    return render(request, 'principal/lidos.html') 
+@login_obrigatorio
+def lidos_view(request, clube_id):
+    clube = get_object_or_404(Clube, id=clube_id)
+    contexto = {
+        'clube': clube
+    }
+    return render(request, 'principal/lidos.html', contexto) 
 
-def abandonados_view(request):
-    return render(request, 'principal/abandonados.html') 
+def abandonados_view(request, clube_id):
+    clube = get_object_or_404(Clube, id=clube_id)
+    contexto = {
+        'clube': clube
+    }
+    return render(request, 'principal/abandonados.html', contexto) 
 
-def proximo_livro_view(request):
-    return render(request, 'principal/proximo_livro.html')
+def proximo_livro_view(request, clube_id):
+    clube = get_object_or_404(Clube, id=clube_id)
+    contexto = {
+        'clube': clube
+    }
+    return render(request, 'principal/proximo_livro.html', contexto)
 
-def queremos_ler_view(request):
-    return render(request, 'principal/queremos_ler.html')
+def queremos_ler_view(request, clube_id):
+    clube = get_object_or_404(Clube, id=clube_id)
+    contexto = {
+        'clube': clube
+    }
+    return render(request, 'principal/queremos_ler.html', contexto)
 
-def releitura_view(request):
-    return render(request, 'principal/releitura.html')
+def releitura_view(request, clube_id):
+    clube = get_object_or_404(Clube, id=clube_id)
+    contexto = {
+        'clube': clube
+    }
+    return render(request, 'principal/releitura.html', contexto)
 
 
 @admin_clube_obrigatorio
