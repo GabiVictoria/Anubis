@@ -124,7 +124,8 @@ def login(request:HttpRequest):
         try:        
             usuario = Usuario.objects.get(email=email)
             if not usuario.is_active:
-                messages.error(request, _("Sua conta ainda não foi ativada. Por favor, verifique seu e-mail."))
+                send_validation_email(request, usuario) 
+                messages.error(request, _("Sua conta ainda não foi ativada. Um novo e-mail de validação foi enviado para sua caixa de entrada. Por favor, verifique."))
                 return render(request, 'inicial/login.html', {'form_data': form_data})
             if check_password(senha, usuario.senha):
                 # Senha correta - config da sessão
@@ -260,7 +261,7 @@ def reset_password_view(request, token):
 
         if senha != confirma_senha:
             messages.error(request, _('As senhas não coincidem.'))
-            return render(request, 'inicial/reset_password_form.html', {'token': token})
+            return render(request, 'inicial/form_senha.html', {'token': token})
         
         # Aqui você pode adicionar a mesma lógica de validação de força da senha do cadastro
         
