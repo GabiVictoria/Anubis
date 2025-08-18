@@ -108,6 +108,11 @@ def cadastrar_usuario(request:HttpRequest):
             form_data_sem_email.pop('email_usuario', None)
             return render(request, 'inicial/cadastro.html', {'form_data': form_data_sem_email})
         except Exception as e:
+            print("-----------------------------------------")
+            print(f"ERRO INESPERADO NA VIEW cadastrar_usuario: {e}")
+            print(f"TIPO DO ERRO: {type(e)}")
+            print("-----------------------------------------")
+            
             messages.error(request, _('Ocorreu um erro inesperado durante o cadastro. Tente novamente.'))
             return render(request, 'inicial/cadastro.html', {'form_data': form_data})
 
