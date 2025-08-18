@@ -1,20 +1,20 @@
+
 {% load static %}
-{% load i18n %}
+{% load i18n %} 
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
+<html lang="{{ LANGUAGE_CODE }}"> 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Anúbis</title>
   <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
- 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
+   <link rel="stylesheet" href="{% static 'inicial/login.css' %}"/>
+ <script defer src="{% static 'inicial/messages.js' %}"></script> 
 </head>
 <body>
-
-  {% if messages %}
+    {% if messages %}
         <ul class="messages"> 
           {% for message in messages %}
             <li class="{{ message.tags }}"> 
@@ -23,21 +23,28 @@
           {% endfor %}
         </ul>
       {% endif %}
-<div class="container mt-5">
-    <h2>Recuperar Senha</h2>
-    <p>Por favor, insira seu endereço de e-mail. Enviaremos um link para você redefinir sua senha.</p>
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="email_usuario">E-mail</label>
-            <input type="email" class="form-control" name="email_usuario" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
-</div>
-  <footer>
-    © 2025 Anúbis. {% trans "Todos os direitos reservados." %}
-    {% trans "Plataforma criada no Instituto Federal de São Paulo" %}
-  </footer>
+  <div class="container">
+    <div class="image-section">
+      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Imagem de fundo' %}" />
+    </div>
+
+    <div class="login-section">
+      <div class="login-box">
+
+        <h2>{% trans "RECUPERAR SENHA" %}</h2>
+        <p>{% trans "Enviaremos um link no seu e-mail para você redefinir sua senha. "%}</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <label for="email_usuario">{% trans "E-mail" %}</label>
+                <input type="email" name="email_usuario" placeholder="{% trans 'E-mail' %}" required />
+            </div>
+            <button type="submit">{% trans "Enviar"%}</button>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
 </body>
 </html>
