@@ -11,6 +11,8 @@ from django.utils.translation import gettext as _
 from inicial.models import Clube, ClubeMembro, LeituraClube 
 from django.db.models import Q, Subquery, OuterRef, Count, CharField, Value
 from .user_validator import send_validation_email, send_password_reset_email
+from django.core.validators import EmailValidator
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 
@@ -45,6 +47,15 @@ def cadastrar_usuario(request:HttpRequest):
             messages.error(request, _('Todos os campos são obrigatórios.'))
             return render(request, 'inicial/cadastro.html', {'form_data': form_data})
         
+        try:
+            validator = EmailValidator()
+            validator(email) 
+        except ValidationError:
+            messages.error(request, _('Por favor, insira um endereço de e-mail válido.'))
+            form_data_sem_email = form_data.copy()
+            form_data_sem_email.pop('email_usuario', None)
+            return render(request, 'inicial/cadastro.html', {'form_data': form_data_sem_email})
+
         data_nascimento_obj = datetime.strptime(data_nasc_str, '%Y-%m-%d').date()
         hoje = date.today()
         idade = hoje.year - data_nascimento_obj.year - \

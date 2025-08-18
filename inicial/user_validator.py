@@ -20,7 +20,7 @@ def send_validation_email(request, user):
 
     # Renderiza o template de e-mail
     subject = 'Validação de Cadastro - Seu Clube do Livro'
-    html_message = render_to_string('/app/inicial/validation_email.html', {
+    html_message = render_to_string('inicial/validation_email.html', {
         'user': user,
         'validation_url': validation_url
     })
