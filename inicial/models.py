@@ -1,7 +1,7 @@
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.utils import timezone # para manipulação de data/hora
+from django.utils import timezone 
 from django.utils.translation import gettext_lazy as _ 
 
 # ==============================================================================
@@ -12,6 +12,11 @@ class Usuario(models.Model):
     email = models.EmailField(unique=True)
     senha = models.CharField(max_length=128)
     data_nasc = models.DateField()
+
+    is_active = models.BooleanField(default=False)
+    auth_token = models.CharField(max_length=100, blank=True)
+    reset_token = models.CharField(max_length=100, blank=True)
+    reset_token_expires = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.email

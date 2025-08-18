@@ -5,10 +5,12 @@ from django.contrib import messages
 import re
 from django.db import IntegrityError
 from datetime import datetime, date
+from django.utils import timezone
 from .models import Usuario
 from django.utils.translation import gettext as _ 
 from inicial.models import Clube, ClubeMembro, LeituraClube 
 from django.db.models import Q, Subquery, OuterRef, Count, CharField, Value
+from .user_validator import send_validation_email, send_password_reset_email
 
 # Create your views here.
 
@@ -81,9 +83,25 @@ def cadastrar_usuario(request:HttpRequest):
 
         senha_hashed = make_password(senha)
         try:
-            Usuario.objects.create(nome=nome, email=email, senha=senha_hashed, data_nasc=data_nasc_str) # Corrigido para salvar a string
-            messages.success(request, _('Cadastro realizado com sucesso! Por favor, faça o login.'))
-            return redirect("inicial:login")
+            # Cria o usuário mas com is_active=False
+            novo_usuario = Usuario.objects.create(
+                nome=nome, 
+                email=email, 
+                senha=senha_hashed, 
+                data_nasc=data_nasc_str,
+                is_active=False # O usuário começa inativo
+            )
+            
+            # Envia o e-mail de validação
+            if send_validation_email(request, novo_usuario):
+                messages.success(request, _('Cadastro realizado com sucesso! Um e-mail de validação foi enviado para sua caixa de entrada.'))
+                return redirect("inicial:login")
+            else:
+                # Se o e-mail falhar, podemos deletar o usuário ou permitir que ele peça um novo e-mail
+                novo_usuario.delete() # Simples abordagem: deleta o usuário
+                messages.error(request, _('Não foi possível enviar o e-mail de validação. Tente novamente mais tarde.'))
+                return render(request, 'inicial/cadastro.html', {'form_data': form_data})
+
         except IntegrityError:
             messages.error(request, _('Este endereço de e-mail já está cadastrado. Por favor, utilize outro.'))
             form_data_sem_email = form_data.copy()
@@ -105,6 +123,9 @@ def login(request:HttpRequest):
             return render(request, 'inicial/login.html', {'form_data': form_data})
         try:        
             usuario = Usuario.objects.get(email=email)
+            if not usuario.is_active:
+                messages.error(request, _("Sua conta ainda não foi ativada. Por favor, verifique seu e-mail."))
+                return render(request, 'inicial/login.html', {'form_data': form_data})
             if check_password(senha, usuario.senha):
                 # Senha correta - config da sessão
                 request.session['usuario_id'] = usuario.id
@@ -126,6 +147,22 @@ def login(request:HttpRequest):
             return render(request, 'inicial/login.html', {'form_data': form_data})
 
     return render(request, 'inicial/login.html')
+
+
+def validate_email_view(request, token):
+    """
+    View para ativar a conta do usuário a partir do link no e-mail.
+    """
+    try:
+        user = Usuario.objects.get(auth_token=token)
+        user.is_active = True
+        user.auth_token = "" # Limpa o token para não ser usado novamente
+        user.save()
+        messages.success(request, _('Seu e-mail foi validado com sucesso! Agora você pode fazer o login.'))
+    except Usuario.DoesNotExist:
+        messages.error(request, _('Token de validação inválido ou expirado.'))
+    
+    return redirect('inicial:login')
 
 def logout_usuario(request: HttpRequest):
     if request.session.items(): # Verifica se tem algo na sessão para limpar
@@ -180,3 +217,59 @@ def inicial_busca_view(request):
     }
     message = messages.info(request, _("Entre ou cadastre-se para mais informações sobre os clubes"))
     return render(request, 'inicial/inicial_busca.html', contexto, message)
+
+
+def request_password_reset(request):
+    """
+    Página onde o usuário insere o e-mail para pedir a recuperação.
+    """
+    if request.method == 'POST':
+        email = request.POST.get('email_usuario')
+        try:
+            user = Usuario.objects.get(email=email)
+            if send_password_reset_email(request, user):
+                messages.success(request, _('Um e-mail com instruções para redefinir sua senha foi enviado.'))
+                return redirect('inicial:login')
+            else:
+                messages.error(request, _('Não foi possível enviar o e-mail. Tente novamente mais tarde.'))
+        except Usuario.DoesNotExist:
+            # Não informe ao usuário se o e-mail existe ou não por segurança
+            messages.success(request, _('Se este e-mail estiver cadastrado, um link de recuperação será enviado.'))
+            return redirect('inicial:login')
+            
+    return render(request, 'inicial/reseta_senha.html')
+
+
+def reset_password_view(request, token):
+    """
+    Página onde o usuário define a nova senha.
+    """
+    try:
+        # Verifica se o token é válido e não expirou
+        user = Usuario.objects.get(
+            reset_token=token, 
+            reset_token_expires__gt=timezone.now()
+        )
+    except Usuario.DoesNotExist:
+        messages.error(request, _('O link para redefinição de senha é inválido ou já expirou.'))
+        return redirect('inicial:request_password_reset')
+
+    if request.method == 'POST':
+        senha = request.POST.get('senha')
+        confirma_senha = request.POST.get('confirma_senha')
+
+        if senha != confirma_senha:
+            messages.error(request, _('As senhas não coincidem.'))
+            return render(request, 'inicial/reset_password_form.html', {'token': token})
+        
+        # Aqui você pode adicionar a mesma lógica de validação de força da senha do cadastro
+        
+        user.senha = make_password(senha)
+        user.reset_token = "" # Limpa o token
+        user.reset_token_expires = None
+        user.save()
+        
+        messages.success(request, _('Sua senha foi redefinida com sucesso!'))
+        return redirect('inicial:login')
+
+    return render(request, 'inicial/form_senha.html', {'token': token})

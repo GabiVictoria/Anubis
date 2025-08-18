@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirme seu E-mail</title>
+</head>
+<body>
+    <h2>Olá, {{ user.nome }}!</h2>
+    <p>Obrigado por se cadastrar no Anúbis. Por favor, clique no link abaixo para validar seu endereço de e-mail e ativar sua conta:</p>
+    <p>
+        <a href="{{ validation_url }}">Validar meu E-mail</a>
+    </p>
+    <p>Se você não se cadastrou, por favor, ignore este e-mail.</p>
+    <br>
+    <p>Atenciosamente,</p>
+    <p>Equipe Anúbis</p>
+</body>
+</html>

@@ -27,9 +27,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # rodar local
-# DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 # rodar deploy
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'false'
+# DEBUG = os.environ.get('DEBUG', 'False').lower() == 'false'
 
 ALLOWED_HOSTS = [
     '.railway.app',
@@ -185,5 +185,14 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale'),
 ]
 
-# Em anubis/settings.py
-GOOGLE_BOOKS_API_KEY = 'AIzaSyDJgFMhemAAZGYvIO4m6xpBQCg00i034F4'
+GOOGLE_BOOKS_API_KEY = os.environ.get('GOOGLE_BOOKS_API_KEY')
+# Para produção (exemplo com Gmail - requer "permitir apps menos seguros" na sua conta Google)
+# ATENÇÃO: Nunca coloque senhas diretamente no código em produção. Use variáveis de ambiente.
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'anubis.clubes.literarios@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
