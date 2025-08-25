@@ -37,6 +37,7 @@ urlpatterns = [
     # Rotas de admin do clube
     path('clube/<int:clube_id>/admin/editar/', views.editar_clube, name='editar_clube'),
     path('clube/<int:clube_id>/admin/excluir/', views.excluir_clube, name='excluir_clube'),
+    path('clube/<int:clube_id>/transferir-admin/', views.transferir_admin_clube, name='transferir_admin_clube'),
     path('clube/<int:clube_id>/admin/definir-leitura-atual/', views.definir_leitura_atual_clube, name='definir_leitura_atual_clube'),
     path('clube/<int:clube_id>/admin/criar-votacao/', views.criar_votacao_clube, name='criar_votacao_clube'),
     path('clube/<int:clube_id>/criar_reuniao/', views.criar_reuniao, name='criar_reuniao'),

@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.utils import timezone
 from .decorators import login_obrigatorio, admin_clube_obrigatorio
 from inicial.models import Clube, ClubeMembro, LeituraClube, Livro, Votacao, VotoUsuario, Mensagem, Usuario, Reuniao, EstantePessoal
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.files.base import ContentFile
@@ -406,10 +406,17 @@ def editar_clube(request: HttpRequest, clube_id, clube, **kwargs):
     else:
         form = ClubeEditForm(instance=clube)
     
+    membros_candidatos = ClubeMembro.objects.filter(
+        clube=clube
+    ).exclude(
+        usuario=request.usuario_logado_obj
+    ).select_related('usuario')
+
     contexto = {
         'form': form,
         'clube': clube,
         'nome_usuario': request.usuario_logado_obj.nome,
+        'membros_candidatos': membros_candidatos, # Passa a lista de candidatos para o template
     }
     return render(request, 'principal/admin/editar_clube.html', contexto)
 
@@ -417,12 +424,55 @@ def editar_clube(request: HttpRequest, clube_id, clube, **kwargs):
 def excluir_clube(request: HttpRequest, clube_id, clube, **kwargs):
     if request.method == 'POST':
         nome_clube = clube.nome
-        clube.delete()
+        clube.is_active = False
+        clube.save()
         messages.success(request, _("O clube '%(nome_clube)s' foi excluído permanentemente.") % {'nome_clube': nome_clube})
         return redirect('principal:home')
     else:
         messages.error(request, _("Ação inválida."))
         return redirect('principal:detalhes_clube', clube_id=clube_id)
+
+@login_obrigatorio
+@transaction.atomic # Garante que as duas alterações no banco de dados ocorram juntas
+def transferir_admin_clube(request: HttpRequest, clube_id):
+    if request.method != 'POST':
+        messages.error(request, _("Ação inválida."))
+        return redirect('principal:detalhes_clube', clube_id=clube_id)
+
+    clube = get_object_or_404(Clube, id=clube_id)
+    usuario_atual = request.usuario_logado_obj
+
+    
+    try:
+        membro_atual_admin = ClubeMembro.objects.get(clube=clube, usuario=usuario_atual, cargo=ClubeMembro.Cargo.ADMIN)
+    except ClubeMembro.DoesNotExist:
+        messages.error(request, _("Você não tem permissão para realizar esta ação."))
+        return redirect('principal:detalhes_clube', clube_id=clube_id)
+
+    
+    novo_admin_id = request.POST.get('novo_admin_id')
+    if not novo_admin_id:
+        messages.error(request, _("Você deve selecionar um membro para ser o novo administrador."))
+        return redirect('principal:editar_clube', clube_id=clube.id)
+
+    
+    try:
+        membro_novo_admin = ClubeMembro.objects.get(clube=clube, usuario_id=novo_admin_id)
+    except ClubeMembro.DoesNotExist:
+        messages.error(request, _("O membro selecionado não é válido."))
+        return redirect('principal:editar_clube', clube_id=clube.id)
+
+   
+    membro_novo_admin.cargo = ClubeMembro.Cargo.ADMIN
+    membro_novo_admin.save()
+
+    
+    membro_atual_admin.cargo = ClubeMembro.Cargo.MEMBRO
+    membro_atual_admin.save()
+
+    messages.success(request, _("Cargo de administrador transferido com sucesso para %(nome_usuario)s. Você agora é um membro comum.") % {'nome_usuario': membro_novo_admin.usuario.nome})
+    return redirect('principal:detalhes_clube', clube_id=clube.id)
+
 
 @login_obrigatorio
 def buscar_livros_api(request: HttpRequest):

@@ -38,11 +38,15 @@ class Livro(models.Model):
 # ==============================================================================
 # 3. MODELO DE CLUBE E MEMBROS
 # ==============================================================================
+class ClubeManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)
+
 class Clube(models.Model):
     class Privacidade(models.TextChoices):
         PUBLICO = 'PUBLICO', _('Público')
         PRIVADO = 'PRIVADO', _('Privado')
-        
+
     LIMITE_MEMBROS_OPCOES = [
         (10, _('Até 10 membros')),
         (20, _('Até 20 membros')),
@@ -65,17 +69,19 @@ class Clube(models.Model):
         through='ClubeMembro',
         related_name='clubes_participados'
     )
-    
-    # NOVO CAMPO: Data de Criação
     data_criacao = models.DateTimeField(auto_now_add=True)
-
-    # NOVO CAMPO: Capa do Clube
     capa_clube = models.ImageField(
-        upload_to='clubes_capas/', # Define o subdiretório dentro de MEDIA_ROOT
-        null=True,                 # Permite que o campo seja nulo no banco de dados
-        blank=True                 # Permite que o campo seja vazio em formulários
+        upload_to='clubes_capas/',
+        null=True,
+        blank=True
     )
     capa_recomendada = models.CharField(max_length=100, null=True, blank=True)
+
+    is_active = models.BooleanField(default=True, verbose_name=_('Ativo'))
+
+    objects = ClubeManager()  
+    all_objects = models.Manager() 
+
     def __str__(self):
         return self.nome
 

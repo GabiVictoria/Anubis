@@ -77,12 +77,40 @@
       </div>
     </form>
 
+{% if membros_candidatos %}
+    <div class="card">
+        <h3>{% trans "Renunciar cargo de Administrador" %}</h3>
+        <p>{% trans "Ao transferir o cargo, você se tornará um membro comum. Esta ação não pode ser desfeita." %}</p>
+
+        <form method="post" action="{% url 'principal:transferir_admin_clube' clube.id %}" style="margin-top: 1rem;">
+            {% csrf_token %}
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="id_novo_admin" style="display: block; margin-bottom: 0.5rem;"><strong>{% trans "Escolha o novo administrador:" %}</strong></label>
+                <select name="novo_admin_id" id="id_novo_admin" required class="form-control" style="width: 100%; padding: 8px;">
+                    <option value="" selected disabled>{% trans "Selecione um membro..." %}</option>
+                    {% for membro in membros_candidatos %}
+                        <option value="{{ membro.usuario.id }}">{{ membro.usuario.nome }} ({{ membro.get_cargo_display }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="sair-clube-button" style="background-color: #fca130; border-color: #fca130;">
+                {% trans "Transferir Cargo e Renunciar" %}
+            </button>
+        </form>
+    </div>
+    {% else %}
+    <div class="card">
+         <h3>{% trans "Renunciar cargo de Administrador" %}</h3>
+         <p>{% trans "Não há outros membros no clube para quem você possa transferir o cargo de administrador." %}</p>
+    </div>
+    {% endif %}
+
+
     <div class="card">
         <h3>{% trans "Excluir clube" %}</h3>
         <h4>{% trans "Atenção !" %}</h4>
         <p>{% trans "A exclusão de um clube é permanente e não pode ser desfeita. Todos os dados, membros e leituras associadas serão perdidos." %}</p>
         
-        {# --- Início da Correção --- #}
         <form method="post" 
               action="{% url 'principal:excluir_clube' clube.id %}" 
               style="margin-top: 1rem;" 
@@ -93,11 +121,11 @@
                 {% trans "Excluir Clube" %}
             </button>
         </form>
-        {# --- Fim da Correção --- #}
+        
     </div>
   </div>
 
-{# --- Novo Bloco JavaScript no final --- #}
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const formExcluir = document.getElementById('form-excluir-clube');
