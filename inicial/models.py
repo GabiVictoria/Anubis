@@ -103,7 +103,7 @@ class ClubeMembro(models.Model):
         return f"{self.usuario.email} no clube {self.clube.nome} como {self.get_cargo_display()}"
 
 
-# MUDANÇA: Novos modelos para o sistema de votação.
+
 # ==============================================================================
 # 4. MODELOS DO SISTEMA DE VOTAÇÃO
 # ==============================================================================
@@ -137,7 +137,7 @@ class VotoUsuario(models.Model):
         return f"Voto de {self.usuario.email} em '{self.livro_votado.nome}'"
 
 
-# Os modelos abaixo foram renumerados.
+
 # ==============================================================================
 # 5. MODELO DA ESTANTE DO CLUBE
 # ==============================================================================
@@ -167,6 +167,7 @@ class Reuniao(models.Model):
     class TipoReuniao(models.TextChoices):
         REMOTO = 'REMOTO', _('Remoto')
         PRESENCIAL = 'PRESENCIAL', _('Presencial')
+        HIBRIDO = 'HIBRIDO', _('Híbrido')
 
   
     class TipoMeta(models.TextChoices):

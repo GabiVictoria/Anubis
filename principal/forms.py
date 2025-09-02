@@ -4,18 +4,19 @@ from inicial.models import Clube, Livro, LeituraClube, Votacao, ClubeMembro, Reu
 from django.utils import timezone
 from datetime import timedelta
 from django.utils.translation import gettext as _ 
+from django.utils.safestring import mark_safe
 
 class ClubeEditForm(forms.ModelForm):
-    # Definimos explicitamente o widget para o campo da capa
+   
     capa_clube = forms.ImageField(
         label="Nova Imagem de Capa (opcional)", 
         required=False, 
-        widget=forms.FileInput  # <--- Esta é a mudança principal!
+        widget=forms.FileInput   
     )
 
     class Meta:
         model = Clube
-        # O campo 'capa_clube' já foi definido acima, então podemos listá-lo aqui
+       
         fields = ['nome', 'descricao', 'privacidade', 'limite_membros', 'capa_clube']
         widgets = {
             'descricao': forms.Textarea(attrs={'rows': 3}),
@@ -68,30 +69,34 @@ class DefinirLeituraAtualForm(forms.Form):
             ).select_related('livro').order_by('livro__nome')
             self.fields['leitura_clube_item'].label_from_instance = lambda obj: f"{obj.livro.nome} (Status atual: {obj.get_status_display()})"
 
-
 class CriarVotacaoForm(forms.Form):
     livros_opcoes = forms.ModelMultipleChoiceField(
-        queryset=None, # Será definido na view
+        queryset=None,
         widget=forms.CheckboxSelectMultiple,
-        label="Selecione os Livros para a Votação (mínimo 2)"
+      
+        label=mark_safe(
+            _('Selecione os Livros para a Votação') + 
+            ' <span class="info-tooltip" data-tooltip="' + _('Selecione entre dois e três livros para a votação.') + '">'
+            '<i class="fas fa-info-circle"></i>'
+            '</span>'
+        )
     )
-    # Adiciona um campo para o título da votação
     titulo_votacao = forms.CharField(
-        label="Título da Votação (opcional)", 
+        label=_("Título da Votação"), 
         max_length=200, 
-        required=False,
-        help_text="Ex: Votação para livro de Julho"
+        required=True,
+        help_text=_("Ex: Votação para livro de Julho")
     )
     data_fim = forms.DateTimeField(
-        label="Data e Hora de Término da Votação",
+        label=_("Data e Hora de Término da Votação"),
         widget=forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
-        initial=timezone.now() + timedelta(days=7) # Sugestão: 7 dias a partir de agora
+        required=True,
+        initial=timezone.now() + timedelta(days=7)
     )
 
     def __init__(self, *args, clube=None, **kwargs):
         super().__init__(*args, **kwargs)
         if clube:
-            # Opções de livros: aqueles na estante do clube como "A LER" ou "PROXIMO"
             self.fields['livros_opcoes'].queryset = Livro.objects.filter(
                 leituraclube__clube=clube, 
                 leituraclube__status__in=[LeituraClube.StatusClube.A_LER, LeituraClube.StatusClube.PROXIMO]
@@ -100,13 +105,22 @@ class CriarVotacaoForm(forms.Form):
     def clean_livros_opcoes(self):
         livros_selecionados = self.cleaned_data.get('livros_opcoes')
         if livros_selecionados and len(livros_selecionados) < 2:
-            raise forms.ValidationError("Selecione pelo menos dois livros para a votação.")
+            raise forms.ValidationError(_("Selecione pelo menos dois livros para a votação."))
         return livros_selecionados
 
-
+    def clean_data_fim(self):
+        data_fim_inserida = self.cleaned_data.get('data_fim')
+        if data_fim_inserida:
+            agora = timezone.now()
+            tempo_minimo_permitido = agora + timedelta(hours=1)
+            if data_fim_inserida < tempo_minimo_permitido:
+                raise forms.ValidationError(
+                    _("A votação deve durar pelo menos 1 hora. Por favor, escolha um horário futuro.")
+                )
+        return data_fim_inserida
 class DateTimePickerInput(forms.DateTimeInput):
     input_type = 'datetime-local'
-
+    
 class ReuniaoForm(forms.ModelForm):
     """Formulário para criar e editar uma Reunião."""
     class Meta:
@@ -124,10 +138,10 @@ class ReuniaoForm(forms.ModelForm):
         clube = kwargs.pop('clube', None)
         super().__init__(*args, **kwargs)
         if clube:
-            # Mostra apenas os livros da estante do clube como opções
+            
             self.fields['leitura_associada'].queryset = LeituraClube.objects.filter(clube=clube)
         
-        # Adiciona placeholders para ajudar o usuário
+       
         self.fields['meta_quantidade'].widget.attrs.update({'placeholder': _('Ex: 50 ou 5')})
         self.fields['link_reuniao'].widget.attrs.update({'placeholder': 'https://...'})
         self.fields['endereco'].widget.attrs.update({'placeholder': _('Ex: Rua Fictícia, 123, Bairro')})
@@ -135,7 +149,45 @@ class ReuniaoForm(forms.ModelForm):
         self.fields['meta_tipo'].label = _("Tipo de Meta (opcional)")
         self.fields['meta_quantidade'].label = _("Quantidade da Meta (opcional)")
 
+   
+    def clean_data_horario(self):
+        data_horario_inserida = self.cleaned_data.get('data_horario')
+        if data_horario_inserida:
+            agora = timezone.now()
+            tempo_minimo_permitido = agora + timedelta(hours=4)
+            if data_horario_inserida < tempo_minimo_permitido:
+                raise forms.ValidationError(
+                    _("A reunião deve ser agendada com pelo menos 4 horas de antecedência.")
+                )
+        return data_horario_inserida
 
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        
+        tipo_reuniao = cleaned_data.get('tipo')
+        link_reuniao = cleaned_data.get('link_reuniao')
+        endereco = cleaned_data.get('endereco')
+
+      
+        if tipo_reuniao == Reuniao.TipoReuniao.REMOTO and not link_reuniao:
+           
+            self.add_error('link_reuniao', _("Para reuniões remotas, o link da reunião é obrigatório."))
+
+      
+        if tipo_reuniao == Reuniao.TipoReuniao.PRESENCIAL and not endereco:
+            
+            self.add_error('endereco', _("Para reuniões presenciais, o endereço é obrigatório."))
+
+   
+        if tipo_reuniao == Reuniao.TipoReuniao.HIBRIDO:
+            if not link_reuniao:
+                self.add_error('link_reuniao', _("Para reuniões híbridas, o link da reunião é obrigatório."))
+            if not endereco:
+                self.add_error('endereco', _("Para reuniões híbridas, o endereço é obrigatório."))
+                
+        return cleaned_data
+    
 class VotacaoEditForm(forms.ModelForm):
     """Formulário para editar uma Votação existente."""
     class Meta:

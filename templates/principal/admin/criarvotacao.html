@@ -1,14 +1,16 @@
 {% extends 'principal/base.html' %}
 {% load static %}
-{% load i18n %} {# Carrega a biblioteca de internacionalização #}
+{% load i18n %} 
 
 {% block styles %}
  <link rel="stylesheet" href="{% static 'principal/admin.css' %}">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
   <div class="main-container admin-form-page">
-    <h2 class="form-title">{% blocktrans %}Criar Nova Votação para: {{ clube.nome }}{% endblocktrans %}</h2>
+    <h2 class="form-title">{% blocktrans %}Criar Nova Votação {% endblocktrans %}</h2>
+   
 
     {% if form.fields.livros_opcoes.queryset %} {# Verifica se há opções de livros no formulário #}
       <form method="post" class="styled-form">
@@ -26,7 +28,7 @@
                     {{ field }}
                 {% endif %}
                 {% if field.help_text %}<small class="helptext">{{ field.help_text }}</small>{% endif %}
-                {% for error in field.errors %}<div class="error-message" style="color:var(--danger-color); font-size:0.85rem; margin-top:0.2rem;">{{ error }}</div>{% endfor %}
+               
             </div>
         {% endfor %}
         <div class="form-actions">

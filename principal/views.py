@@ -486,7 +486,7 @@ def buscar_livros_api(request: HttpRequest):
     livros_encontrados = {}
     google_total_items = 0
 
-    # 1. Busca na API do Google Books
+    #  Busca na API do Google Books
     try:
         google_api_key = getattr(settings, 'GOOGLE_BOOKS_API_KEY', None)
         if google_api_key:
@@ -509,6 +509,10 @@ def buscar_livros_api(request: HttpRequest):
 
             for item in data_google.get('items', []):
                 volume_info = item.get('volumeInfo', {})
+               
+                if not volume_info.get('pageCount') or volume_info.get('pageCount') <= 0:
+                    continue
+
                 isbn13 = None
                 for identifier in volume_info.get('industryIdentifiers', []):
                     if identifier.get('type') == 'ISBN_13':
@@ -521,13 +525,13 @@ def buscar_livros_api(request: HttpRequest):
                         'titulo': volume_info.get('title', _('Título indisponível')),
                         'autores': volume_info.get('authors', [_('Autor desconhecido')]),
                         'data_publicacao': volume_info.get('publishedDate', '')[:4] if volume_info.get('publishedDate') else None,
-                        'paginas': volume_info.get('pageCount', None),
+                        'paginas': volume_info.get('pageCount'), 
                         'capa': volume_info.get('imageLinks', {}).get('thumbnail', None)
                     }
     except requests.exceptions.RequestException as e:
         print(f"AVISO: Erro ao buscar no Google Books API: {e}")
 
-    # 2. Busca na API da Open Library
+    #  Busca na API da Open Library
     try:
         params = {'limit': 15, 'page': page}
         if title_query:
@@ -545,6 +549,10 @@ def buscar_livros_api(request: HttpRequest):
         data_ol = response_ol.json()
 
         for doc in data_ol.get('docs', []):
+            
+            if not doc.get('number_of_pages_median') or doc.get('number_of_pages_median') <= 0:
+                continue
+
             isbn13 = None
             if doc.get('isbn'):
                 for i in doc.get('isbn', []):
@@ -558,10 +566,11 @@ def buscar_livros_api(request: HttpRequest):
                     'titulo': doc.get('title', _('Título indisponível')),
                     'autores': doc.get('author_name', [_('Autor desconhecido')]),
                     'data_publicacao': doc.get('first_publish_year', None),
-                    'paginas': doc.get('number_of_pages_median', None),
+                    'paginas': doc.get('number_of_pages_median'), 
                     'capa': f"https://covers.openlibrary.org/b/id/{doc.get('cover_i')}-L.jpg" if doc.get('cover_i') else None
                 }
                 livro_existente = livros_encontrados.get(isbn13)
+                
                 if not livro_existente or (livro_novo_ol['capa'] and not livro_existente['capa']):
                     livros_encontrados[isbn13] = livro_novo_ol
     except requests.exceptions.RequestException as e:
@@ -576,6 +585,7 @@ def buscar_livros_api(request: HttpRequest):
         'page': page
     }
     return JsonResponse(response_data)
+
 
 @admin_clube_obrigatorio
 def adicionar_livro_estante_clube(request: HttpRequest, clube_id, clube, **kwargs):
@@ -677,7 +687,9 @@ def criar_votacao_clube(request: HttpRequest, clube_id, clube, **kwargs):
             messages.success(request, _("Nova votação criada com sucesso!"))
             return redirect('principal:detalhes_clube', clube_id=clube.id)
         else:
-            messages.error(request, _("Erro ao criar votação. Verifique os campos."))
+            for field, error_list in form.errors.items():
+                for error in error_list:
+                    messages.error(request, error)
     else:
         form = CriarVotacaoForm(clube=clube)
         
@@ -816,10 +828,22 @@ def criar_reuniao(request: HttpRequest, clube_id, clube, **kwargs):
             reuniao.save()
             messages.success(request, _("Reunião agendada com sucesso!"))
             return redirect('principal:detalhes_clube', clube_id=clube.id)
+        else:
+        
+            for field, error_list in form.errors.items():
+                for error in error_list:
+                    messages.error(request, error)
+           
     else:
+       
         form = ReuniaoForm(clube=clube)
-    return render(request, 'principal/admin/gerenciar_reuniao.html', {'form': form, 'clube': clube, 'form_title': _('Agendar Nova Reunião')})
 
+    contexto = {
+        'form': form, 
+        'clube': clube, 
+        'form_title': _('Agendar Nova Reunião')
+    }
+    return render(request, 'principal/admin/gerenciar_reuniao.html', contexto)
 @admin_clube_obrigatorio
 def editar_reuniao(request: HttpRequest, reuniao_id, clube, **kwargs):
     reuniao = get_object_or_404(Reuniao, id=reuniao_id, clube=clube)
@@ -834,7 +858,7 @@ def editar_reuniao(request: HttpRequest, reuniao_id, clube, **kwargs):
     return render(request, 'principal/admin/gerenciar_reuniao.html', {'form': form, 'clube': clube, 'reuniao': reuniao, 'form_title': _('Editar Reunião')})
 
 @admin_clube_obrigatorio
-def editar_votacao(request: HttpRequest, *, votacao_id, clube, **kwargs): # <-- Adicione um '*'
+def editar_votacao(request: HttpRequest, clube, votacao_id, **kwargs): 
     votacao = get_object_or_404(Votacao, id=votacao_id, clube=clube)
     if request.method == 'POST':
         form = VotacaoEditForm(request.POST, instance=votacao, clube=clube)

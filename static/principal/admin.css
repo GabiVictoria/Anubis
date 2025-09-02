@@ -320,9 +320,47 @@ ul.messages li.info { color: #055160; background-color: #cff4fc; border-color: #
   color: #333;
 }
 input[type="datetime-local"] {
-  color: #5a5a5a; /* marrom escuro */
+  color: #5a5a5a; 
 }
 
 
+.info-tooltip {
+    position: relative; 
+    display: inline-block;
+    cursor: help; 
+}
+
+.info-tooltip .fa-info-circle {
+    color: #324457; 
+    font-size: 0.9rem; 
+}
+
+.info-tooltip::after {
+    content: attr(data-tooltip); 
+    position: absolute;
+    bottom: 125%; 
+    left: 50%;
+    transform: translateX(-50%);
+    
+    
+    background-color: #333;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    font-weight: normal;
+
+   
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+    z-index: 10;
+}
+
+.info-tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+}
 
 

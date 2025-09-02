@@ -97,7 +97,7 @@
         {% if cargo_usuario_atual == CargoChoices.ADMIN %}
             <div class="header-actions">
                 <a href="{% url 'principal:editar_votacao' clube_id=clube.id votacao_id=votacao_ativa.id %}" class="visit-button">{% trans "Editar" %}</a>
-                <form action="{% url 'principal:fechar_votacao' votacao_ativa.id %}" method="post" style="display:inline;">
+                <form action="{% url 'principal:fechar_votacao' clube.id votacao_ativa.id %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="visit-button" onclick="return confirm('{% trans 'Tem certeza que deseja fechar esta votação?' %}')">{% trans "Fechar" %}</button>
                 </form>
@@ -113,7 +113,7 @@
                 <div class="book-option-details">
                   <strong class="book-option-title">{{ opcao.livro.nome }}</strong> <small class="book-option-author">{% trans "por" %} {{ opcao.livro.autor }}</small>
                   <div class="progress" title="{{ opcao.percentual }}% {% trans 'dos votos' %}">
-                    <div class="progress-bar" style="width: {{ opcao.percentual }}%;">{{ opcao.percentual }}%</div>
+                    <div class="progressbar" style="width: {{ opcao.percentual }}%;">{{ opcao.percentual }}%</div>
                   </div>
                   <small class="vote-count">{{ opcao.votos }} {% trans "voto(s) de" %} {{ total_votos_na_votacao }}</small>
                   {% if is_membro and not usuario_ja_votou %}<span class="vote-radio"><input type="radio" name="livro_votado" value="{{ opcao.livro.id }}" id="livro_{{opcao.livro.id}}"><label for="livro_{{opcao.livro.id}}">{% trans "Votar neste" %}</label></span>{% endif %}
@@ -246,7 +246,7 @@
                         {% elif reuniao.tipo == 'PRESENCIAL' and reuniao.endereco %}<span>📍 {{ reuniao.endereco }}</span>{% endif %}
                     </div>
                     {% if cargo_usuario_atual == CargoChoices.ADMIN %}
-                        <a href="{% url 'principal:editar_reuniao' reuniao.id %}" class="edit-link small">{% trans "Editar" %}</a>
+                        <a href="{% url 'principal:editar_reuniao' clube.id reuniao.id %}" class="edit-link small">{% trans "Editar" %}</a>
                     {% endif %}
                 </li>
             {% endfor %}
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- LÓGICA 2: Atualização do progresso de leitura pessoal ---
+    
     const handleReadingProgressUpdate = () => {
         const updateBtn = document.getElementById('updateProgressBtn');
         if (!updateBtn) return; // Se o botão não existir na página, não faz nada
@@ -318,8 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- INICIALIZAÇÃO ---
-    // Executa as funções quando a página carrega
+    
     animateVotingBars();
     handleReadingProgressUpdate();
 

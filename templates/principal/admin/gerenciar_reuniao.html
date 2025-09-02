@@ -1,5 +1,6 @@
 {% extends 'principal/base.html' %}
-{% load i18n %}
+{% load static %}
+{% load i18n %} 
 
 {% block styles %}
 <style>
@@ -120,12 +121,62 @@
 <div class="main-container admin-form-page">
     <h2 class="form-title">{{ form_title }}</h2>
     <form method="post" class="styled-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="form-actions">
-            <button type="submit" class="action-button">{% trans "Salvar" %}</button>
-            <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">{% trans "Cancelar" %}</a>
-        </div>
-    </form>
+    {% csrf_token %}
+
+    
+    {% for field in form %}
+        <p>
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.help_text %}
+                <small style="display: block; margin-top: 5px; color: #666;">{{ field.help_text }}</small>
+            {% endif %}
+            
+        </p>
+    {% endfor %}
+
+    <div class="form-actions">
+        <button type="submit" class="action-button">{% trans "Salvar" %}</button>
+        <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">{% trans "Cancelar" %}</a>
+    </div>
+</form>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const tipoSelect = document.querySelector('#id_tipo');
+    const linkReuniaoField = document.querySelector('#id_link_reuniao');
+    const enderecoField = document.querySelector('#id_endereco');
+
+    
+    const linkContainer = linkReuniaoField.closest('p');
+    const enderecoContainer = enderecoField.closest('p');
+
+    
+    function toggleFields() {
+        const tipoSelecionado = tipoSelect.value;
+
+       
+        if (tipoSelecionado === 'REMOTO') {
+            linkContainer.style.display = 'block';
+            enderecoContainer.style.display = 'none';
+        } else if (tipoSelecionado === 'PRESENCIAL') {
+            linkContainer.style.display = 'none';
+            enderecoContainer.style.display = 'block';
+        } else if (tipoSelecionado === 'HIBRIDO') {
+            linkContainer.style.display = 'block';
+            enderecoContainer.style.display = 'block';
+        }
+    }
+
+    
+    toggleFields();
+
+    
+    tipoSelect.addEventListener('change', toggleFields);
+});
+</script>
 {% endblock %}
