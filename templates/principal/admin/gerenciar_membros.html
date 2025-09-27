@@ -1,0 +1,131 @@
+{% extends 'principal/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block styles %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'principal/clube_detalhe.css' %}">
+  
+  <link rel="stylesheet" href="{% static 'principal/membros.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main-container management-panel">
+    <a href="{% url 'principal:detalhes_clube' clube.id %}" class="back-link">&larr; {% trans "Voltar para" %} {{ clube.nome }}</a>
+    <h1>{% trans "Gerenciar Membros do Clube" %}</h1>
+
+    <div class="tab-navigation">
+        <button class="tab-link active" onclick="openTab(event, 'solicitacoes')">
+            {% trans "Solicitações" %} 
+            {% if solicitacoes_pendentes %}<span class="badge">{{ solicitacoes_pendentes|length }}</span>{% endif %}
+        </button>
+        <button class="tab-link" onclick="openTab(event, 'equipe')">{% trans "Equipe" %}</button>
+        <button class="tab-link" onclick="openTab(event, 'membros')">{% trans "Membros" %}</button>
+        <button class="tab-link" onclick="openTab(event, 'banidos')">{% trans "Banidos" %}</button>
+        <button class="tab-link" onclick="openTab(event, 'convidar')">{% trans "Convidar" %}</button>
+    </div>
+
+    <div id="solicitacoes" class="tab-content active">
+        <h2>{% trans "Solicitações de Entrada Pendentes" %}</h2>
+        {% if solicitacoes_pendentes %}
+            <ul class="member-list">
+                {% for membro in solicitacoes_pendentes %}
+                <li class="member-item">
+                    <span class="member-name">{{ membro.usuario.nome }} ({{ membro.usuario.unique_id }})</span>
+                    <div class="member-actions">
+                        <form method="post" action="{% url 'principal:aprovar_membro' clube.id membro.id %}">{% csrf_token %}<button type="submit" class="action-button approve">{% trans "Aprovar" %}</button></form>
+                        <form method="post" action="{% url 'principal:rejeitar_membro' clube.id membro.id %}">{% csrf_token %}<button type="submit" class="action-button reject">{% trans "Rejeitar" %}</button></form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{% trans "Não há solicitações de entrada pendentes." %}</p>
+        {% endif %}
+    </div>
+
+    <div id="equipe" class="tab-content">
+        <h2>{% trans "Equipe de Moderação" %}</h2>
+        <ul class="member-list">
+            {% for membro in moderadores %}
+            <li class="member-item">
+                <span class="member-name">{{ membro.usuario.nome }} ({{ membro.usuario.unique_id }})</span>
+                <div class="member-actions">
+                    <form method="post" action="{% url 'principal:rebaixar_membro' clube.id membro.id %}">{% csrf_token %}<button type="submit" class="action-button demote">{% trans "Rebaixar para Membro" %}</button></form>
+                </div>
+            </li>
+            {% empty %}
+            <li>{% trans "Nenhum moderador no clube." %}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="membros" class="tab-content">
+        <h2>{% trans "Membros do Clube" %}</h2>
+        <ul class="member-list">
+            {% for membro in membros_comuns %}
+            <li class="member-item">
+                <span class="member-name">{{ membro.usuario.nome }} ({{ membro.usuario.unique_id }})</span>
+                <div class="member-actions">
+                    <form method="post" action="{% url 'principal:promover_membro' clube.id membro.id %}">{% csrf_token %}<button type="submit" class="action-button promote">{% trans "Promover a Moderador" %}</button></form>
+                    <form method="post" action="{% url 'principal:remover_membro' clube.id membro.id %}">{% csrf_token %}<button type="submit" class="action-button demote" onclick="return confirm('{% trans 'Tem certeza que deseja remover este membro? Ele poderá solicitar entrada novamente.' %}')">{% trans "Remover" %}</button></form>
+                    <form method="post" action="{% url 'principal:banir_membro' clube.id membro.id %}">{% csrf_token %}<button type="submit" class="action-button reject" onclick="return confirm('{% trans 'ATENÇÃO: Banir este membro o impedirá de entrar no clube novamente. Deseja continuar?' %}')">{% trans "Banir" %}</button></form>
+                </div>
+            </li>
+            {% empty %}
+            <li>{% trans "Nenhum membro comum no clube." %}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div id="banidos" class="tab-content">
+        <h2>{% trans "Membros Banidos" %}</h2>
+        {% if membros_banidos %}
+            <ul class="member-list">
+                {% for membro in membros_banidos %}
+                <li class="member-item">
+                    <span class="member-name">{{ membro.usuario.nome }} ({{ membro.usuario.unique_id }})</span>
+                    <div class="member-actions">
+                        <form method="post" action="{% url 'principal:desbanir_membro' clube.id membro.id %}">{% csrf_token %}<button type="submit" class="action-button approve">{% trans "Desbanir" %}</button></form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{% trans "Não há membros banidos neste clube." %}</p>
+        {% endif %}
+    </div>
+
+    <div id="convidar" class="tab-content">
+        <h2>{% trans "Convidar Novo Membro" %}</h2>
+        <form method="post" action="{% url 'principal:convidar_membro' clube.id %}">
+            {% csrf_token %}
+            {{ form_convite.as_p }}
+            <button type="submit" class="action-button admin-button">{% trans "Convidar" %}</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-link");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+    // Garante que a primeira aba esteja visível ao carregar a página
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.tab-link.active').click();
+    });
+</script>
+{% endblock %}

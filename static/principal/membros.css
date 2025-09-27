@@ -1,0 +1,126 @@
+/* Paleta de Cores:
+   Fundo da Página: #F5F5F5 (Cinza bem claro)
+   Cards: #FFFFFF (Branco)
+   Cor Principal (Ocre/Mostarda): #B8860B
+   Texto/Bordas (Marrom): #6D4C41
+*/
+
+.management-panel {
+    max-width: 900px;
+    margin: auto;
+}
+
+.back-link { 
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color:#4A3636;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* --- ESTILO DAS ABAS DE NAVEGAÇÃO --- */
+.tab-navigation {
+    display: flex;
+    border-bottom: 2px solid #e0e0e0; /* Borda marrom bem clara */
+    margin-bottom: 1.5rem;
+}
+
+.tab-link {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6D4C41; /* Marrom */
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px; 
+}
+
+.tab-link.active {
+    color:#6B4C3B;/* Ocre */
+    border-color: #6B4C3B; /* Ocre */
+}
+
+.tab-content {
+    display: none;
+    /* Efeito de card branco */
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* --- ESTILO DAS LISTAS DE MEMBROS --- */
+.member-list { 
+    list-style: none; 
+    padding: 0; 
+}
+
+.member-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.member-item:last-child { 
+    border-bottom: none; 
+}
+
+.member-actions { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+
+.member-actions form { 
+    margin: 0; 
+}
+
+/* --- ESTILO DOS BOTÕES DE AÇÃO --- */
+.action-button, .btpadrao {
+    border-radius: 5px;
+    padding: 8px 15px;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.action-button.admin-button, .action-button.promote {
+    background-color: #6B4C3B; /* Ocre */
+}
+.action-button.admin-button:hover, .action-button.promote:hover {
+    background-color: #4A3636; /* Ocre mais escuro */
+}
+
+.action-button.approve { background-color: #28a745; } /* Verde para Aprovar (boa UX) */
+.action-button.approve:hover { background-color: #218838; }
+
+.action-button.reject { background-color: #dc3545; } /* Vermelho para Rejeitar/Banir (boa UX) */
+.action-button.reject:hover { background-color: #c82333; }
+
+.action-button.demote { background-color: #6D4C41; color: #FFFFFF; } /* Marrom para Rebaixar/Remover */
+.action-button.demote:hover { background-color: #4e342e; }
+
+/* Contador de notificações nas abas */
+.tab-link .badge {
+    background-color: #6D4C41; /* Marrom */
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    margin-left: 5px;
+    vertical-align: top;
+}

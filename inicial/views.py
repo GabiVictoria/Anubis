@@ -6,7 +6,7 @@ import re
 from django.db import IntegrityError
 from datetime import datetime, date
 from django.utils import timezone
-from .models import Usuario
+from .models import Usuario, generate_unique_id
 from django.utils.translation import gettext as _ 
 from inicial.models import Clube, ClubeMembro, LeituraClube 
 from django.db.models import Q, Subquery, OuterRef, Count, CharField, Value
@@ -139,32 +139,36 @@ def login(request:HttpRequest):
             return render(request, 'inicial/login.html', {'form_data': form_data})
         try:        
             usuario = Usuario.objects.get(email=email)
+            
             if not usuario.is_active:
                 send_validation_email(request, usuario) 
                 messages.error(request, _("Sua conta ainda não foi ativada. Um novo e-mail de validação foi enviado para sua caixa de entrada. Por favor, verifique."))
                 return render(request, 'inicial/login.html', {'form_data': form_data})
+
             if check_password(senha, usuario.senha):
-                # Senha correta - config da sessão
+  
+                if not usuario.unique_id:
+                    usuario.unique_id = generate_unique_id(prefix='@')
+                    usuario.save()
+            
                 request.session['usuario_id'] = usuario.id
                 request.session['usuario_nome'] = usuario.nome
                 return redirect("principal:home") 
             else:
-                # Senha incorreta
+            
                 messages.error(request, _("E-mail ou senha inválidos."))
                 return render(request, 'inicial/login.html', {'form_data': form_data})
 
         except Usuario.DoesNotExist:
-            # Usuário não encontrado com o email fornecido
+           
             messages.error(request, _("E-mail ou senha inválidos."))
             return render(request, 'inicial/login.html', {'form_data': form_data})
         
         except Exception as e:
-        
             messages.error(request, _("Ocorreu um erro inesperado: %(error)s") % {'error': e})
             return render(request, 'inicial/login.html', {'form_data': form_data})
 
     return render(request, 'inicial/login.html')
-
 
 def validate_email_view(request, token):
     """

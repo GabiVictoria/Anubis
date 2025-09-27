@@ -28,9 +28,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # rodar local
-# DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 # rodar deploy
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'false'
+# DEBUG = os.environ.get('DEBUG', 'False').lower() == 'false'
 
 ALLOWED_HOSTS = [
     '.railway.app',
@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',  
     'django.contrib.staticfiles',
+    'safedelete',
     'inicial',
     'principal'
 ]

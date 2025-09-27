@@ -35,21 +35,51 @@
             {% endwith %}
         </div>
       </div>
+
       <div class="club-actions">
         {% if is_membro %}
+          
           <form method="post" action="{% url 'principal:sair_clube' clube.id %}">
             {% csrf_token %}
             <button type="submit" class="action-button sair-clube-button">{% trans "Sair do Clube" %}</button>
           </form>
-        {% elif clube.privacidade == PrivacidadeChoices.PUBLICO %}
-          <form method="post" action="{% url 'principal:entrar_clube' clube.id %}">
+
+        {% elif membro and membro.cargo == CargoChoices.PENDENTE %}
+          <p class="feedback-text"><em>{% trans "Sua solicitação está pendente de aprovação." %}</em></p>
+
+        {% elif membro and membro.cargo == CargoChoices.BANIDO %}
+          <p class="feedback-text text-danger"><em>{% trans "Você foi banido deste clube." %}</em></p>
+
+        {% elif membro and membro.deleted %}
+          
+          {% if clube.privacidade == PrivacidadeChoices.PUBLICO %}
+            <form method="post" action="{% url 'principal:entrar_clube' clube.id %}">
               {% csrf_token %}
               <button type="submit" class="action-button entrar-clube-button">{% trans "Entrar no Clube" %}</button>
-          </form>
+            </form>
+          {% else %}
+            <form method="post" action="{% url 'principal:solicitar_entrada_privado' clube.id %}">
+              {% csrf_token %}
+              <button type="submit" class="action-button entrar-clube-button">{% trans "Solicitar Entrada" %}</button>
+            </form>
+          {% endif %}
+
         {% else %}
-          <p class="feedback-text"><em>{% trans "Este clube é privado." %}</em></p>
+          
+          {% if clube.privacidade == PrivacidadeChoices.PUBLICO %}
+            <form method="post" action="{% url 'principal:entrar_clube' clube.id %}">
+              {% csrf_token %}
+              <button type="submit" class="action-button entrar-clube-button">{% trans "Entrar no Clube" %}</button>
+            </form>
+          {% else %}
+            <form method="post" action="{% url 'principal:solicitar_entrada_privado' clube.id %}">
+              {% csrf_token %}
+              <button type="submit" class="action-button entrar-clube-button">{% trans "Solicitar Entrada" %}</button>
+            </form>
+          {% endif %}
         {% endif %}
       </div>
+
     </div>
 
     {% if cargo_usuario_atual == CargoChoices.ADMIN %}
@@ -61,6 +91,7 @@
             <a href="{% url 'principal:definir_leitura_atual_clube' clube.id %}" class="action-button admin-button">{% trans "Definir Leitura Atual" %}</a>
             <a href="{% url 'principal:criar_votacao_clube' clube.id %}" class="action-button admin-button">{% trans "Criar Nova Votação" %}</a>
             <a href="{% url 'principal:criar_reuniao' clube.id %}" class="action-button admin-button">{% trans "Agendar Reunião" %}</a>
+            <a href="{% url 'principal:gerenciar_membros' clube.id %}" class="action-button admin-button">{% trans "Gerenciar Membros" %}</a>
           </div>
     </div>
     {% endif %}
@@ -137,7 +168,7 @@
     {% endif %}
 
     <div class="members-section section card-style">
-      <h3>{% trans "Membros" %} ({{ clube.membros.count }})</h3>
+      <h3>{% trans "Membros" %} ({{ contagem_membros_ativos }})</h3>
       <ul class="member-list">
         {% for membro_cm in membros_do_clube %}
           <li class="member-item">

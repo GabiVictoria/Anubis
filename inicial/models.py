@@ -1,13 +1,34 @@
+# inicial/models.py
 
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone 
 from django.utils.translation import gettext_lazy as _ 
+import random
+import string
 
+# --- E-X-P-L-I-C-A-Ç-Ã-O ---
+# 1. Importamos as classes necessárias da biblioteca safedelete.
+# SafeDeleteModel é a classe base que usaremos em vez de models.Model.
+# SOFT_DELETE_CASCADE define que, ao deletar um objeto, seus dependentes também serão "soft deleted".
+from safedelete.models import SafeDeleteModel, SOFT_DELETE_CASCADE
+
+
+def generate_unique_id(prefix, length=8):
+    """Gera um ID aleatório único com um prefixo, garantindo que não exista no banco."""
+    Model = Clube if prefix == '#' else Usuario
+    while True:
+        random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+        unique_id = f"{prefix}{random_part}"
+        if not Model.all_objects.filter(unique_id=unique_id).exists(): # Usamos all_objects para garantir unicidade mesmo com deletados
+            return unique_id
+        
 # ==============================================================================
 # 1. MODELO DE USUÁRIO
 # ==============================================================================
-class Usuario(models.Model):
+class Usuario(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+
     nome = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
     senha = models.CharField(max_length=128)
@@ -17,6 +38,7 @@ class Usuario(models.Model):
     auth_token = models.CharField(max_length=100, blank=True)
     reset_token = models.CharField(max_length=100, blank=True)
     reset_token_expires = models.DateTimeField(null=True, blank=True)
+    unique_id = models.CharField(max_length=15, unique=True, null=True, blank=True, verbose_name=_("ID de Usuário"))
 
     def __str__(self):
         return self.email
@@ -24,7 +46,9 @@ class Usuario(models.Model):
 # ==============================================================================
 # 2. MODELO DE LIVRO
 # ==============================================================================
-class Livro(models.Model):
+class Livro(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+
     isbn13 = models.CharField(max_length=13, unique=True, null=True, blank=True)
     nome = models.CharField(max_length=200)
     autor = models.CharField(max_length=200)
@@ -38,11 +62,15 @@ class Livro(models.Model):
 # ==============================================================================
 # 3. MODELO DE CLUBE E MEMBROS
 # ==============================================================================
-class ClubeManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(is_active=True)
+# --- E-X-P-L-I-C-A-Ç-Ã-O ---
+# O ClubeManager customizado e o campo 'is_active' foram removidos do Clube.
+# A biblioteca safedelete já faz esse trabalho: por padrão, Clube.objects.all()
+# retornará apenas os clubes não deletados. Para ver todos (incluindo os deletados),
+# você usaria Clube.all_objects.all().
 
-class Clube(models.Model):
+class Clube(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    
     class Privacidade(models.TextChoices):
         PUBLICO = 'PUBLICO', _('Público')
         PRIVADO = 'PRIVADO', _('Privado')
@@ -76,20 +104,25 @@ class Clube(models.Model):
         blank=True
     )
     capa_recomendada = models.CharField(max_length=100, null=True, blank=True)
+    unique_id = models.CharField(max_length=15, unique=True, null=True, blank=True, verbose_name=_("ID do Clube"))
 
-    is_active = models.BooleanField(default=True, verbose_name=_('Ativo'))
-
-    objects = ClubeManager()  
-    all_objects = models.Manager() 
+    def save(self, *args, **kwargs):
+        if not self.pk and not self.unique_id:
+            self.unique_id = generate_unique_id(prefix='#')
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.nome
 
-class ClubeMembro(models.Model):
+class ClubeMembro(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    
     class Cargo(models.TextChoices):
         ADMIN = 'ADMIN', _('Administrador')
         MODERADOR = 'MODERADOR', _('Moderador')
         MEMBRO = 'MEMBRO', _('Membro')
+        PENDENTE = 'PENDENTE', _('Pendente')
+        BANIDO = 'BANIDO', _('Banido')
 
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
@@ -102,15 +135,12 @@ class ClubeMembro(models.Model):
     def __str__(self):
         return f"{self.usuario.email} no clube {self.clube.nome} como {self.get_cargo_display()}"
 
-
-
 # ==============================================================================
 # 4. MODELOS DO SISTEMA DE VOTAÇÃO
 # ==============================================================================
-class Votacao(models.Model):
-    """
-    Representa uma sessão de votação para escolher o próximo livro de um clube.
-    """
+class Votacao(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    
     clube = models.ForeignKey(Clube, on_delete=models.CASCADE, related_name='votacoes')
     livros_opcoes = models.ManyToManyField(Livro)
     data_inicio = models.DateTimeField(auto_now_add=True)
@@ -120,28 +150,26 @@ class Votacao(models.Model):
     def __str__(self):
         return f"Votação para o clube '{self.clube.nome}' (termina em {self.data_fim.strftime('%d/%m/%Y')})"
 
-class VotoUsuario(models.Model):
-    """
-    Registra o voto de um usuário em um livro dentro de uma votação específica.
-    """
+class VotoUsuario(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    
     votacao = models.ForeignKey(Votacao, on_delete=models.CASCADE, related_name='votos')
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     livro_votado = models.ForeignKey(Livro, on_delete=models.CASCADE)
     data_voto = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        # Garante que um usuário só pode votar uma vez por votação.
         unique_together = ('votacao', 'usuario')
 
     def __str__(self):
         return f"Voto de {self.usuario.email} em '{self.livro_votado.nome}'"
 
-
-
 # ==============================================================================
 # 5. MODELO DA ESTANTE DO CLUBE
 # ==============================================================================
-class LeituraClube(models.Model):
+class LeituraClube(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    
     class StatusClube(models.TextChoices):
         A_LER = 'A_LER', _('A Ler (Lista de Desejos)')
         PROXIMO = 'PROXIMO', _('Próximo a Ser Lido')
@@ -163,13 +191,14 @@ class LeituraClube(models.Model):
 # ==============================================================================
 # 6. MODELO DE REUNIÃO
 # ==============================================================================
-class Reuniao(models.Model):
+class Reuniao(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+    
     class TipoReuniao(models.TextChoices):
         REMOTO = 'REMOTO', _('Remoto')
         PRESENCIAL = 'PRESENCIAL', _('Presencial')
         HIBRIDO = 'HIBRIDO', _('Híbrido')
 
-  
     class TipoMeta(models.TextChoices):
         CAPITULOS = 'CAPITULOS', _('Capítulos')
         PAGINAS = 'PAGINAS', _('Páginas')
@@ -183,7 +212,6 @@ class Reuniao(models.Model):
     endereco = models.TextField(null=True, blank=True)
     descricao = models.TextField(null=True, blank=True, help_text=_("Detalhes, pauta ou o que será discutido na reunião."))
     
-   
     meta_tipo = models.CharField(max_length=15, choices=TipoMeta.choices, null=True, blank=True)
     meta_quantidade = models.PositiveIntegerField(null=True, blank=True)
 
@@ -193,7 +221,9 @@ class Reuniao(models.Model):
 # ==============================================================================
 # 7. MODELO DA ESTANTE PESSOAL
 # ==============================================================================
-class EstantePessoal(models.Model):
+class EstantePessoal(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+
     class StatusLeitura(models.TextChoices):
         LENDO = 'LENDO', _('Lendo')
         LIDO = 'LIDO', _('Lido')
@@ -220,7 +250,9 @@ class EstantePessoal(models.Model):
 # ==============================================================================
 # 8. MODELO DE MENSAGENS DO FÓRUM
 # ==============================================================================
-class Mensagem(models.Model):
+class Mensagem(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+
     clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
     autor = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     texto = models.TextField()
