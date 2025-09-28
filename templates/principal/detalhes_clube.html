@@ -1,6 +1,7 @@
 {% extends 'principal/base.html' %}
 {% load static %}
 {% load i18n %}
+{% load tz %}
 
 {% block styles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -31,7 +32,7 @@
         <div class="club-meta">
             
             {% with creation_date=clube.data_criacao|date:"F Y" %}
-                {% blocktrans %}Criado por <strong>{{ fundador_nome }}</strong> em {{ creation_date }}{% endblocktrans %}
+                {% blocktrans %}Criado por <strong><p class="texto-truncado">{{ fundador_nome }}</p></strong> em {{ creation_date }}{% endblocktrans %}
             {% endwith %}
         </div>
       </div>
@@ -175,7 +176,7 @@
             <img src="{{ default_avatar_url }}" alt="{{ membro_cm.usuario.nome }}" class="member-avatar">
             <div class="member-info">
               <span class="member-name {% if membro_cm.cargo == CargoChoices.ADMIN %}leader{% elif membro_cm.cargo == CargoChoices.MODERADOR %}co-leader{% endif %}">
-                {{ membro_cm.usuario.nome }}
+                <p class="texto-truncado">{{ membro_cm.usuario.nome }}</p>
                 {% if membro_cm.cargo == CargoChoices.ADMIN %}({% trans "Admin" %}){% elif membro_cm.cargo == CargoChoices.MODERADOR %}({% trans "Mod" %}){% endif %}
               </span>
               <div class="member-details">{% trans "Entrou:" %} {{ membro_cm.data_inscricao|date:"d/m/Y" }}</div>

@@ -1,37 +1,51 @@
-/* anubis/static/principal/css/admin_styles.css */
+/* anubis/static/principal/css/admin.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-/* --- Container Principal para Páginas de Admin --- */
-.main-container.admin-page {
-  max-width: 750px; /* Largura para formulários */
-  margin: 30px auto;
-  padding: 25px;
-  background-color: var(--card-bg);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
+:root {
+  --font-family: 'Poppins', sans-serif;
+  --accent-color: #6b4c3b;
+  --accent-hover: #4a3636;
+  --primary-color: #333;
+  --text-secondary: #666;
+  --card-bg: #fff;
+  --border-color-light: #ddd;
+  --border-radius: 8px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* Container */
+.main-container.admin-form-page {
+  max-width: 650px;
+  margin: 40px auto;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 35px 30px;
+  box-shadow: var(--shadow);
+  font-family: var(--font-family);
+}
+
+/* Título */
 .form-title {
-  font-size: 1.6rem;
-  margin-bottom: 1.5rem;
-  color: var(--accent-color);
-  text-align: center;
+  font-size: 1.7rem;
   font-weight: 600;
+  color: var(--accent-color);
+  margin-bottom: 25px;
+  text-align: center;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border-color-light);
 }
 
-/* --- Estilos para Formulários --- */
-.styled-form .form-field { /* Use esta classe para envolver cada label + input + erros + help_text */
-  margin-bottom: 1.2rem;
+/* Campos do formulário */
+.styled-form .form-field {
+  margin-bottom: 20px;
 }
 
 .styled-form label {
+  font-size: 0.95rem;
   font-weight: 500;
-  display: block;
-  margin-bottom: 0.4rem;
-  font-size: 0.9rem;
   color: var(--primary-color);
+  display: block;
+  margin-bottom: 6px;
 }
 
 .styled-form input[type="text"],
@@ -40,327 +54,117 @@
 .styled-form input[type="file"],
 .styled-form input[type="date"],
 .styled-form input[type="datetime-local"],
-.styled-form input[type="url"],
 .styled-form textarea,
 .styled-form select {
   width: 100%;
-  padding: 0.75rem; /* Padding aumentado para melhor toque */
-  border: 1px solid var(--border-color-light);
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  border: 1.5px solid var(--border-color-light);
   border-radius: var(--border-radius);
-  box-sizing: border-box;
-  font-size: 0.9rem;
   font-family: var(--font-family);
+  box-sizing: border-box;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.styled-form input[type="datetime-local"] {
-  border: 2px solid #6b4c3b;  /* mesma cor usada no foco */
-  border-radius: 6px;
-  color: #5a5a5a;
+.styled-form input:focus,
+.styled-form textarea:focus,
+.styled-form select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 6px rgba(107, 76, 59, 0.35);
+  outline: none;
 }
-.styled-form input[type="text"] {
-  border: 2px solid #6b4c3b;  /* mesma cor usada no foco do datetime-local */
-  border-radius: 6px;
-  color: #5a5a5a;
-  padding: 8px; /* para ficar visualmente melhor */
-  font-size: 1rem;
-}
-
 
 .styled-form textarea {
   min-height: 100px;
   resize: vertical;
 }
 
-/* Estilização para RadioSelect e CheckboxSelectMultiple (ul/li) */
-.styled-form ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-.styled-form ul[id*="privacidade"] li, /* Para privacidade em linha */
-.styled-form ul[id*="id_status"] li { /* Para status em AdicionarLivroEstanteForm */
-  display: inline-block;
-  margin-right: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-.styled-form ul[id*="id_leitura_clube_item"] li, /* Para definir leitura atual (RadioSelect) */
-.styled-form ul[id*="id_livros_opcoes"] li { /* Para criar votação (CheckboxSelectMultiple) */
-  display: block; /* Um por linha para melhor legibilidade */
-  margin-bottom: 0.5rem;
-  padding: 0.3rem 0;
-}
-
-.styled-form input[type="radio"],
-.styled-form input[type="checkbox"] {
-  width: auto;
-  margin-right: 0.5rem;
-  vertical-align: middle;
-}
-.styled-form ul li label,
-.styled-form .radio-label, /* Para labels de radio/checkbox não geradas pelo {{form.as_p}} */
-.styled-form .checkbox-label {
-  font-weight: normal;
-  font-size: 0.9rem;
-  vertical-align: middle;
-  cursor: pointer;
-}
-
-.current-image-preview {
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-}
-.current-image-preview p {
+/* Erros */
+.form-error {
+  color: #d93025;
   font-size: 0.85rem;
-  margin-bottom: 0.3rem;
+  margin-top: 5px;
 }
-.form-image-preview {
-  max-width: 180px;
-  height: auto;
-  margin-bottom: 5px;
+
+.general-errors p {
+  margin: 4px 0;
+}
+
+/* Mensagens Django */
+ul.messages {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+ul.messages li {
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border: 1px solid transparent;
   border-radius: var(--border-radius);
-  border: 1px solid var(--border-color-light);
+  font-size: 0.9rem;
+}
+ul.messages li.success { color: #0f5132; background-color: #d1e7dd; border-color: #badbcc; }
+ul.messages li.error { color: #842029; background-color: #f8d7da; border-color: #f5c2c7; }
+ul.messages li.warning { color: #664d03; background-color: #fff3cd; border-color: #ffecb5; }
+ul.messages li.info { color: #055160; background-color: #cff4fc; border-color: #b6effb; }
+
+/* Helptext */
+.helptext {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
   display: block;
 }
-.form-image-preview + p > small {
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-}
 
-
-/* --- Ações do Formulário (Botões) --- */
+/* Botões */
 .form-actions {
-  margin-top: 2rem;
   display: flex;
-  gap: 1rem;
-  justify-content: flex-end; /* Alinha botões à direita */
-  padding-top: 1rem;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 25px;
+  padding-top: 15px;
   border-top: 1px solid var(--border-color-light);
 }
 
 .action-button {
-  padding: 0.7rem 1.3rem;
-  text-decoration: none;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
   font-weight: 500;
-  font-size: 0.9rem;
-  border: none;
-  transition: background-color 0.2s, opacity 0.2s;
-}
-
-.action-button[type="submit"] {
-  background-color: var(--accent-color);
-  color: white;
-}
-.action-button[type="submit"]:hover {
-  background-color: #4a3636; /* Mais escuro */
-}
-
-.secondary-action { /* Para botões de "Cancelar" ou links */
-  background-color: #6b4c3b; /* Cinza */
-  color: white;
-  text-align: center; /* Para o <a> */
-}
-.secondary-action:hover {
-  background-color: #4a3636;
-}
-
-/* --- Mensagens Django --- */
-ul.messages {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1.5rem 0;
-}
-ul.messages li {
-  padding: 0.8rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: var(--border-radius);
-  text-align: left; /* Geralmente melhor para mensagens de erro/sucesso */
-  font-size: 0.9rem;
-}
-ul.messages li.success { color: #0f5132; background-color: #d1e7dd; border-color: #badbcc;}
-ul.messages li.error { color: #842029; background-color: #f8d7da; border-color: #f5c2c7;}
-ul.messages li.warning { color: #664d03; background-color: #fff3cd; border-color: #ffecb5;}
-ul.messages li.info { color: #055160; background-color: #cff4fc; border-color: #b6effb;}
-
-/* Adicionar algum estilo para o help_text dos formulários, se usar */
-.helptext, .styled-form small.form-text {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    display: block;
-    margin-top: -0.8rem; /* Puxa para perto do input */
-    margin-bottom: 0.8rem;
-}
-#livro-title-input,
-#livro-author-input {
-  font-size: 1rem;
-  padding: 1rem;
-  border: 2px solid #7a6053;     /* Cor visível da borda */
-  border-radius: 6px;            /* Borda arredondada */
-  background-color: #fff;        /* Fundo branco */
-  color: #333;                   /* Cor do texto */
-}
-
-/* Container do formulário */
-.main-container.admin-form-page {
-  max-width: 600px;
-  margin: 50px auto;
-  background: #fff;
-  padding: 30px 40px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Título */
-.form-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-/* Formulário e campos */
-.styled-form .form-field {
-  margin-bottom: 25px;
-}
-
-.styled-form ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.styled-form li {
-  margin-bottom: 12px;
-}
-
-.styled-form label {
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-/* Botões */
-/* Botões - versão menor */
-.action-button {
-  background-color: #4caf50;
-  color: white;
-  padding: 8px 14px;         /* menor que os 12px 20px anteriores */
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;         /* levemente menor */
   text-decoration: none;
-  display: inline-block;
-  transition: background-color 0.3s;
+  transition: background-color 0.25s ease;
 }
 
-.action-button:hover {
-  background-color: #45a049;
+.action-button[type="submit"],
+.action-button:not(.secondary-action) {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.action-button[type="submit"]:hover,
+.action-button:not(.secondary-action):hover {
+  background-color: var(--accent-hover);
 }
 
 .secondary-action {
   background-color: #ccc;
   color: #333;
-  margin-left: 10px;
+  text-align: center;
 }
-
 .secondary-action:hover {
   background-color: #bbb;
 }
 
-
-/* Texto de ajuda e erros */
-.helptext {
-  display: block;
-  color: #666;
-  font-size: 0.9rem;
-  margin-top: 5px;
+/* Responsividade */
+@media (max-width: 600px) {
+  .form-actions {
+    flex-direction: column;
+  }
+  .form-actions .action-button,
+  .form-actions .secondary-action {
+    width: 100%;
+    text-align: center;
+  }
 }
-
-.error-message {
-  color: #d93025;
-  font-size: 0.9rem;
-  margin-top: 5px;
-}
-
-/* Ações alinhadas */
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 30px;
-  gap: 10px;
-}
-
-
-.livro-opcao {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.livro-opcao label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-}
-
-.capa-livro {
-  width: 50px;
-  height: auto;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.titulo-livro {
-  font-size: 1rem;
-  color: #333;
-}
-input[type="datetime-local"] {
-  color: #5a5a5a; 
-}
-
-
-.info-tooltip {
-    position: relative; 
-    display: inline-block;
-    cursor: help; 
-}
-
-.info-tooltip .fa-info-circle {
-    color: #324457; 
-    font-size: 0.9rem; 
-}
-
-.info-tooltip::after {
-    content: attr(data-tooltip); 
-    position: absolute;
-    bottom: 125%; 
-    left: 50%;
-    transform: translateX(-50%);
-    
-    
-    background-color: #333;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 5px;
-    white-space: nowrap;
-    font-size: 0.85rem;
-    font-weight: normal;
-
-   
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
-    z-index: 10;
-}
-
-.info-tooltip:hover::after {
-    opacity: 1;
-    visibility: visible;
-}
-
-

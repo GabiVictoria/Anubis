@@ -1,6 +1,6 @@
 {% extends 'principal/base.html' %}
 {% load static %}
-{% load i18n %} {# Carrega a biblioteca de internacionalização #}
+{% load i18n %} 
 
 {% block styles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -20,12 +20,12 @@
       
       <div class="card">
         <label for="id_nome_clube">{% trans "Nome do Clube:" %}</label>
-        <input type="text" id="id_nome_clube" name="nome_clube" value="{{ nome_clube|default:'' }}" placeholder="{% trans 'Dê um nome incrível ao seu clube!' %}" required maxlength="100">
+        <input type="text" id="id_nome_clube" name="nome_clube" value="{{ nome_clube|default:'' }}" placeholder="{% trans 'Dê um nome incrível ao seu clube!' %}" required minlength="4" maxlength="100">
       </div>
 
       <div class="card">
         <label for="id_descricao_clube">{% trans "Descrição do clube:" %}</label>
-        <textarea id="id_descricao_clube" name="descricao_clube" rows="4" placeholder="{% trans 'Conte um pouco sobre o seu clube...' %}" required>{{ descricao_clube|default:'' }}</textarea>
+        <textarea id="id_descricao_clube" name="descricao_clube" rows="4" placeholder="{% trans 'Conte um pouco sobre o seu clube...' %}" required maxlength="50" maxlength="300">{{ descricao_clube|default:'' }}</textarea>
       </div>
       
       <input type="hidden" name="capa_recomendada_selecionada" id="id_capa_recomendada_selecionada">

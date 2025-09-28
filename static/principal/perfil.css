@@ -1,122 +1,5 @@
- @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
- 
-/* COR FUNDO */
-:root {
-  --bg-color: #b48e68;
-  --primary-color: #222;
-  --accent-color: #6b4c3b;
-  --card-bg: #fff;
-  --border-radius: 10px;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --font-family: 'Poppins', sans-serif;
-  --leader-color: #97131e;
-  --co-leader-color: #795548;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family);
-  background-color: var(--bg-color);
-  color: var(--primary-color);
-  line-height: 1.6;
-}
-
-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-}
-
-h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-h3 {
-  font-size: 1.6rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-p {
-  margin-bottom: 1rem;
-  font-size: 1rem;  
-}     
-
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.8rem 1.5rem; /* ALTERADO: menu menor */
-  background-color: var(--card-bg);
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-}
-
-.header-left img {
-  height: 80px; /* ALTERADO: imagem maior */
-  width: 80px;  /* ALTERADO: imagem maior */
-  margin-right: 1rem;
-}
-
-.header-left h1 {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.slogan {
-  font-size: 1.3rem; 
-  color: #555;
-  text-align: center;
-  max-width: 100%;        /* ALTERADO: permite ocupar mais espaço */
-  white-space: nowrap;    /* ADICIONADO: impede quebra de linha */
-  overflow: hidden;       /* OPCIONAL: esconde se passar do limite */
-  text-overflow: ellipsis;/* OPCIONAL: adiciona "..." se cortar */
-}
 
 
-nav {
-  display: flex;
-  gap: 0.5rem; /* ALTERADO: espaçamento menor entre botões */
-  flex-wrap: wrap;
-}
-
-nav a {
-  text-decoration: none;
-  color: var(--primary-color);
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  transition: background 0.3s, color 0.3s;
-  font-weight: 500;
-  border: 2px solid var(--accent-color); /* ADICIONADO: borda nos botões */
-}
-
-nav a:hover {
-  background: var(--accent-color);
-  color: #fff;
-}
-
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
-.logo-container img {
-  height: 80px; /* ALTERADO: imagem maior */
-  margin-right: 10px;
-}
-/* até aqui deveria ser o menu */
 
 .perfil-container {
   background-color: white;
@@ -129,12 +12,18 @@ nav a:hover {
 }
 
 .capa {
-  height: 180px;
+  height: 200px;
   background: #b0c4cd;
   position: relative;
   z-index: 1;
+  border-radius: 8px;
 }
-
+.capa img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;   
+  border-radius: 8px;
+}
 
 .icone-camera {
   position: absolute;
@@ -171,14 +60,29 @@ nav a:hover {
 .dados-perfil h1 {
   margin: 0;
   font-size: 2rem;
+  
+}
+.dados-perfil{
+   flex: 1;  
+  min-width: 0; 
 }
 
-/* BOTOES */
-.botoes {
+.nome {
+  font-size: 1.5rem;
+  font-weight: bold;
+  max-width: 600px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+
+    .botoes {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 20px;
+      height: min-content;
     }
 
     .botoes button {
@@ -189,6 +93,17 @@ nav a:hover {
       color: white;
       cursor: pointer;
       transition: background 0.3s;
+    }
+
+    .botoes a {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background-color: #6B4C3B;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
     }
 
     .botoes button:hover {
@@ -206,7 +121,7 @@ nav a:hover {
     .botoes .borda:hover {
     background-color: #eee;    /* efeito hover sutil */
     color: #4A3636;
-}
+    }
 
 
     
@@ -343,16 +258,108 @@ nav a:hover {
   justify-content: center;
 }
 
-/* caixa da descrição */
-.descricao{
-  background-color: #f0f0f0; /* cor de fundo clara */
-  border: 1.5px solid #a67c52; /* borda marrom, por exemplo */
-  border-radius: 8px; /* borda arredondada */
-  padding: 9px 16px; /* espaçamento interno */
-  max-width: 600px; /* largura máxima */
-  margin-top: 10px; /* espaço acima da caixa */
+.descricao {
+  background-color: #f0f0f0;
+  border: 1.5px solid #a67c52;
+  border-radius: 8px;
+  padding: 9px 16px;
+  max-width: 600px;
+  margin-top: 10px;
   font-size: 1rem;
-  color: #333; /* cor do texto */
-  box-shadow: 1px 1px 6px rgba(0,0,0,0.1); /* sombra leve opcional */
+  color: #333;
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1);
+
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 }
 
+
+.titulo-drop {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-right: 4px;
+    }
+    .language-dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    .language-globe-button {
+        background: none;
+        border: none;
+        color: #333; /* Cor escura para ser visível */
+        font-size: 1.8em;
+        cursor: pointer;
+        padding: 0;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        right: 0;
+    }
+    .dropdown-content .language-form button {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1em;
+        font-family: inherit;
+    }
+    .dropdown-content .language-form button:hover {
+        background-color: #f1f1f1;
+    }
+    .show {
+        display: block;
+    }
+
+
+
+.clube-card h3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    min-height: calc(1rem * 1.4 * 2);
+}
+
+.clube-card .admin-info {
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+}
+
+.clube-card .admin-info strong {
+    flex-shrink: 0;
+    margin-right: 5px;
+}
+
+.clube-card .admin-info span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.clube-card .book-info {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    min-height: calc(0.85rem * 1.4 * 2);
+}

@@ -1,0 +1,96 @@
+.form-container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px 25px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-container h1 {
+  font-size: 1.8rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.form-container label {
+  font-weight: 600;
+  color: #444;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"],
+.form-container input[type="file"],
+.form-container textarea,
+.form-container select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 18px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+.form-container input:focus,
+.form-container textarea:focus,
+.form-container select:focus {
+  border-color: #6B4C3B;
+  outline: none;
+  box-shadow: 0 0 5px rgba(107, 76, 59, 0.4);
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.form-actions .action-button,
+.form-actions .link-cancelar {
+  flex: 1;
+  text-align: center;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-button {
+  background-color: #6B4C3B;
+  color: #fff;
+  border: none;
+}
+
+.action-button:hover {
+  background-color: #4A3636;
+}
+
+.link-cancelar {
+  border: 1.5px solid #6B4C3B;
+  text-decoration: none;
+  color: #6B4C3B;
+  background-color: transparent;
+}
+
+.link-cancelar:hover {
+  background-color: #f4f4f4;
+  color: #4A3636;
+}
+
+@media (max-width: 600px) {
+  .form-actions {
+    flex-direction: column;
+  }
+  .form-actions .action-button,
+  .form-actions .link-cancelar {
+    width: 100%;
+  }
+}

@@ -33,6 +33,9 @@ class Usuario(SafeDeleteModel):
     email = models.EmailField(unique=True)
     senha = models.CharField(max_length=128)
     data_nasc = models.DateField()
+    bio = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Bio"))
+    foto_perfil = models.ImageField(upload_to='perfil/fotos/', null=True, blank=True, verbose_name=_("Foto de Perfil"))
+    foto_capa = models.ImageField(upload_to='perfil/capas/', null=True, blank=True, verbose_name=_("Foto de Capa"))
 
     is_active = models.BooleanField(default=False)
     auth_token = models.CharField(max_length=100, blank=True)
@@ -62,11 +65,9 @@ class Livro(SafeDeleteModel):
 # ==============================================================================
 # 3. MODELO DE CLUBE E MEMBROS
 # ==============================================================================
-# --- E-X-P-L-I-C-A-Ç-Ã-O ---
 # O ClubeManager customizado e o campo 'is_active' foram removidos do Clube.
 # A biblioteca safedelete já faz esse trabalho: por padrão, Clube.objects.all()
-# retornará apenas os clubes não deletados. Para ver todos (incluindo os deletados),
-# você usaria Clube.all_objects.all().
+# retornará apenas os clubes não deletados. Para ver todos (incluindo os deletados), Clube.all_objects.all().
 
 class Clube(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
@@ -82,7 +83,7 @@ class Clube(SafeDeleteModel):
     ]
 
     nome = models.CharField(max_length=100)
-    descricao = models.TextField()
+    descricao = models.TextField(max_length=300)
     privacidade = models.CharField(
         max_length=10,
         choices=Privacidade.choices,
@@ -140,7 +141,7 @@ class ClubeMembro(SafeDeleteModel):
 # ==============================================================================
 class Votacao(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
-    
+    titulo = models.CharField(max_length=50)
     clube = models.ForeignKey(Clube, on_delete=models.CASCADE, related_name='votacoes')
     livros_opcoes = models.ManyToManyField(Livro)
     data_inicio = models.DateTimeField(auto_now_add=True)

@@ -1,41 +1,10 @@
+{% extends 'principal/base.html' %}
 {% load static %}
-{% load i18n %} {# Carrega a biblioteca de internacionalização #}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% trans "Anúbis" %}</title>
-      <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
-   <link rel="stylesheet" href="{% static 'principal/home.css' %}">
- <script defer src="{% static 'inicial/messages.js' %}"></script> 
-</head>
-<body>
-  {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+{% load i18n %} 
 
-  <header>
-    <div class="logo-container">
-      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Anúbis' %}">
-      <h1>{% trans "Anúbis" %}</h1>
-    </div>
-    <div class="slogan">
-      {% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro." %}
-    </div>
-    <nav>
-      <a href="{% url 'principal:home' %}" class="active">{% trans "Home" %}</a>
-      <a href="{% url 'principal:criar_clube' %}">{% trans "Criar" %}</a>
-      <a href="{% url 'principal:perfil' %}">{% trans "Perfil" %}</a>
-      <a href="{% url 'inicial:logout' %}">{% trans "Sair" %}</a>
-    </nav>
-  </header>
+{% block styles %}<link rel="stylesheet" href="{% static 'principal/home.css' %}">{% endblock %}
+   
+{% block content %}
 
   <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container">
     <input class="search-bar-input" type="text" name="q" placeholder="{% trans 'Buscar livros, clubes...' %}" value="{{ search_query|default:'' }}">
@@ -66,7 +35,7 @@
             <img src="{% if leitura.livro.capa %}{{ leitura.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ leitura.livro.nome }}">
             <div class="card-content">
               <h3>{{ leitura.livro.nome }}</h3>
-              <p>{{ leitura.clube.nome }}</p>
+              <p class="texto-truncado">{{ leitura.clube.nome }}</p>
               <div class="progress-bar">
                 <div class="progress" style="width: {{ leitura.percentual }}%"></div>
               </div>
@@ -97,7 +66,7 @@
     {% endif %}
       <div class="card-content">
         <h3 class="texto-truncado">{{ clube_info.nome }}</h3>
-        <p class="info-label">{% trans "Fundado por:" %} {{ clube_info.fundador_nome|default:"(a definir)" }}</p>
+        <p class="info-label texto-truncado">{% trans "Fundado por:" %} {{ clube_info.fundador_nome|default:"(a definir)" }}</p>
         <p class="info-label">{% trans "Desde:" %} {{ clube_info.data_criacao|date:"M Y"|default:"(a definir)" }}</p>
         <p class="info-label"><strong>{% trans "Membros:" %}</strong> {{ clube_info.membros_count }}</p>
         {% if clube_info.leitura_atual_nome %}
@@ -156,6 +125,6 @@
       </div>
     </div>
   </div>
-  <script defer src="{% static 'principal/js/home.js' %}"></script>
-</body>
-</html>
+  {% block scripts %}<script defer src="{% static 'principal/js/home.js' %}"></script>{% endblock %}
+  
+{% endblock %}

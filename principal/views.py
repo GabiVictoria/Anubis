@@ -12,7 +12,7 @@ from django.contrib.staticfiles import finders
 from django.core.files.base import ContentFile
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.db.models import Q
-from .forms import ClubeEditForm, DefinirLeituraAtualForm, CriarVotacaoForm,  ReuniaoForm, VotacaoEditForm, ConvidarUsuarioForm
+from .forms import ClubeEditForm, DefinirLeituraAtualForm, CriarVotacaoForm,  ReuniaoForm, VotacaoEditForm, ConvidarUsuarioForm, PerfilEditForm
 import os
 import requests
 import urllib.parse
@@ -22,34 +22,19 @@ from django.utils import formats
 
 @login_obrigatorio
 def home(request: HttpRequest):
- 
     usuario_atual = request.usuario_logado_obj
     query = request.GET.get('q', None)
-
-    leituras_atuais_pessoais = EstantePessoal.objects.filter(
-        usuario=usuario_atual,
-        status=EstantePessoal.StatusLeitura.LENDO
-    ).select_related('livro', 'clube') 
-
+    leituras_atuais_pessoais = EstantePessoal.objects.filter(usuario=usuario_atual, status=EstantePessoal.StatusLeitura.LENDO).select_related('livro', 'clube') 
     leituras_atuais_formatadas = []
     for leitura in leituras_atuais_pessoais:
         progresso_percentual = 0
         if leitura.progresso_paginas is not None and leitura.livro.paginas and leitura.livro.paginas > 0:
             progresso_percentual = round((leitura.progresso_paginas / leitura.livro.paginas) * 100)
-        
-        leituras_atuais_formatadas.append({
-            'livro': leitura.livro,
-            'clube': leitura.clube,
-            'percentual': progresso_percentual
-        })
-
+        leituras_atuais_formatadas.append({'livro': leitura.livro, 'clube': leitura.clube, 'percentual': progresso_percentual})
     clubes_do_usuario_qs = usuario_atual.clubes_participados.all()
-
     if query:
         clubes_do_usuario_qs = clubes_do_usuario_qs.filter(nome__icontains=query)
-    
     clubes_do_usuario_qs = clubes_do_usuario_qs.order_by('nome')
-
     clubes_info_list = []
     for clube in clubes_do_usuario_qs:
         clube_info = {
@@ -63,17 +48,13 @@ def home(request: HttpRequest):
             'fundador_nome': _("(a definir)"),
             'leitura_atual_nome': None
         }
-
         admin_membro = ClubeMembro.objects.filter(clube=clube, cargo=ClubeMembro.Cargo.ADMIN).order_by('data_inscricao').first()
         if admin_membro:
             clube_info['fundador_nome'] = admin_membro.usuario.nome
-
         leitura_atual = LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.LENDO_ATUALMENTE).select_related('livro').first()
         if leitura_atual and leitura_atual.livro:
             clube_info['leitura_atual_nome'] = leitura_atual.livro.nome
-        
         clubes_info_list.append(clube_info)
-
     contexto = {
         "nome_usuario": usuario_atual.nome,
         "usuario_logado": True,
@@ -85,226 +66,133 @@ def home(request: HttpRequest):
 
 @login_obrigatorio
 def criar_clube(request: HttpRequest):
-    context_form_data = {
-        'opcoes_privacidade': Clube.Privacidade.choices,
-        'opcoes_limite_membros': Clube.LIMITE_MEMBROS_OPCOES,
-    }
-
+    context_form_data = {'opcoes_privacidade': Clube.Privacidade.choices, 'opcoes_limite_membros': Clube.LIMITE_MEMBROS_OPCOES}
     if request.method == "POST":
         nome_clube = request.POST.get('nome_clube', '').strip()
         descricao_clube = request.POST.get('descricao_clube', '').strip()
         privacidade_clube_selecionada = request.POST.get('privacidade_clube')
         limite_membros_str_selecionado = request.POST.get('limite_membros')
-        
         capa_clube_file = request.FILES.get('capa_clube')
         capa_recomendada_path_relativo = request.POST.get('capa_recomendada_selecionada')
-
-        context_form_data.update({
-            'nome_clube': nome_clube,
-            'descricao_clube': descricao_clube,
-            'privacidade_selecionada': privacidade_clube_selecionada,
-            'limite_selecionado': limite_membros_str_selecionado,
-        })
-
+        context_form_data.update({'nome_clube': nome_clube, 'descricao_clube': descricao_clube, 'privacidade_selecionada': privacidade_clube_selecionada, 'limite_selecionado': limite_membros_str_selecionado})
         if not nome_clube or not descricao_clube:
             messages.error(request, _("O nome e a descrição do clube são obrigatórios."))
             return render(request, 'principal/criar_clube.html', context_form_data)
-        
         if not limite_membros_str_selecionado:
             messages.error(request, _("O limite de membros é obrigatório."))
             return render(request, 'principal/criar_clube.html', context_form_data)
-
         try:
             limite_membros_int = int(limite_membros_str_selecionado)
         except ValueError:
             messages.error(request, _("Valor inválido para limite de membros."))
             return render(request, 'principal/criar_clube.html', context_form_data)
-
         if privacidade_clube_selecionada not in [choice[0] for choice in Clube.Privacidade.choices]:
             messages.error(request, _("Opção de privacidade inválida."))
             return render(request, 'principal/criar_clube.html', context_form_data)
-
         if Clube.objects.filter(nome__iexact=nome_clube).exists():
             messages.error(request, _("Já existe um clube com o nome '%(nome_clube)s'. Por favor, escolha outro nome.") % {'nome_clube': nome_clube})
             return render(request, 'principal/criar_clube.html', context_form_data)
-
         usuario_criador = request.usuario_logado_obj
-
         try:
-            novo_clube = Clube(
-                nome=nome_clube,
-                descricao=descricao_clube,
-                privacidade=privacidade_clube_selecionada,
-                limite_membros=limite_membros_int
-            )
-
+            novo_clube = Clube(nome=nome_clube, descricao=descricao_clube, privacidade=privacidade_clube_selecionada, limite_membros=limite_membros_int)
             if capa_clube_file:
                 novo_clube.capa_clube = capa_clube_file
                 novo_clube.capa_recomendada = None
             elif capa_recomendada_path_relativo:
                 novo_clube.capa_recomendada = capa_recomendada_path_relativo
                 novo_clube.capa_clube = None
-            
             novo_clube.save()
-
-            ClubeMembro.objects.create(
-                usuario=usuario_criador,
-                clube=novo_clube,
-                cargo=ClubeMembro.Cargo.ADMIN
-            )
-
+            ClubeMembro.objects.create(usuario=usuario_criador, clube=novo_clube, cargo=ClubeMembro.Cargo.ADMIN)
             messages.success(request, _("Clube '%(nome_clube)s' criado com sucesso!") % {'nome_clube': novo_clube.nome})
             return redirect('principal:home')
-
         except Exception as e:
             messages.error(request, _("Ocorreu um erro inesperado ao criar o clube: %(error)s") % {'error': e})
             return render(request, 'principal/criar_clube.html', context_form_data)
-        
     return render(request, 'principal/criar_clube.html', context_form_data)
 
 @login_obrigatorio
 def pagina_de_busca(request: HttpRequest):
     query = request.GET.get('q', '').strip()
     resultados_finais = []
-
     if query:
         clubes_por_nome = Clube.objects.filter(nome__icontains=query)
-        leituras_com_livro_buscado = LeituraClube.objects.filter(
-            Q(livro__nome__icontains=query) &
-            (Q(status=LeituraClube.StatusClube.LENDO_ATUALMENTE) | Q(status=LeituraClube.StatusClube.PROXIMO))
-        ).select_related('clube', 'livro')
-
+        leituras_com_livro_buscado = LeituraClube.objects.filter(Q(livro__nome__icontains=query) & (Q(status=LeituraClube.StatusClube.LENDO_ATUALMENTE) | Q(status=LeituraClube.StatusClube.PROXIMO))).select_related('clube', 'livro')
         clubes_encontrados_ids = set()
-
         def processar_clube(clube, razao_match):
             if clube.id not in clubes_encontrados_ids:
                 clubes_encontrados_ids.add(clube.id)
                 admin_membro = ClubeMembro.objects.filter(clube=clube, cargo=ClubeMembro.Cargo.ADMIN).order_by('data_inscricao').first()
                 leitura_atual_obj = LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.LENDO_ATUALMENTE).select_related('livro').first()
-                
                 resultados_finais.append({
-                    'id': clube.id,
-                    'nome': clube.nome,
-                    'descricao': clube.descricao,
-                    'capa_clube': clube.capa_clube,
-                    'capa_recomendada': clube.capa_recomendada,
-                    'fundador_nome': admin_membro.usuario.nome if admin_membro else _("N/D"),
-                    'data_fundacao_formatada': clube.data_criacao.strftime("%B %Y") if clube.data_criacao else _("N/D"),
+                    'id': clube.id, 'nome': clube.nome, 'descricao': clube.descricao, 'capa_clube': clube.capa_clube,
+                    'capa_recomendada': clube.capa_recomendada, 'fundador_nome': admin_membro.usuario.nome if admin_membro else _("N/D"),
+                    'data_fundacao_formatada': formats.date_format(clube.data_criacao, "F Y") if clube.data_criacao else "",
                     'membros_count': ClubeMembro.objects.filter(clube=clube).count(),
                     'leitura_atual_nome': leitura_atual_obj.livro.nome if leitura_atual_obj and leitura_atual_obj.livro else _("Nenhuma leitura atual"),
                     'match_reason': razao_match
                 })
-
         for clube in clubes_por_nome:
             processar_clube(clube, _("Nome do clube corresponde a '%(query)s'") % {'query': query})
-
         for leitura in leituras_com_livro_buscado:
             processar_clube(leitura.clube, _("Livro '%(livro_nome)s' corresponde a '%(query)s'") % {'livro_nome': leitura.livro.nome, 'query': query})
-    
-    contexto = {
-        'query': query,
-        'resultados': resultados_finais,
-        'nome_usuario': request.usuario_logado_obj.nome,
-    }
+    contexto = {'query': query, 'resultados': resultados_finais, 'nome_usuario': request.usuario_logado_obj.nome}
     return render(request, 'principal/listagem_resultados.html', contexto)
 
 @login_obrigatorio
 def detalhes_clube(request: HttpRequest, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
     usuario_atual = request.usuario_logado_obj
-    
     is_membro = False
     cargo_usuario_atual = None
     membro_info_obj = ClubeMembro.objects.filter(clube=clube, usuario=usuario_atual).first()
-
     if membro_info_obj:
         is_membro = True
         cargo_usuario_atual = membro_info_obj.cargo
-
     admin_clube_obj = ClubeMembro.objects.filter(clube=clube, cargo=ClubeMembro.Cargo.ADMIN).order_by('data_inscricao').first()
     fundador_nome = admin_clube_obj.usuario.nome if admin_clube_obj else _("N/D")
-
-    leitura_do_momento_obj = LeituraClube.objects.filter(
-        clube=clube, 
-        status=LeituraClube.StatusClube.LENDO_ATUALMENTE
-    ).select_related('livro').first()
-
+    leitura_do_momento_obj = LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.LENDO_ATUALMENTE).select_related('livro').first()
     estante_pessoal_obj = None
     progresso_percentual = 0
     if leitura_do_momento_obj and is_membro:
         try:
-            estante_pessoal_obj = EstantePessoal.objects.get(
-                usuario=usuario_atual,
-                livro=leitura_do_momento_obj.livro,
-                clube=clube
-            )
+            estante_pessoal_obj = EstantePessoal.objects.get(usuario=usuario_atual, livro=leitura_do_momento_obj.livro, clube=clube)
             if estante_pessoal_obj.progresso_paginas and leitura_do_momento_obj.livro.paginas:
                 progresso_percentual = round((estante_pessoal_obj.progresso_paginas / leitura_do_momento_obj.livro.paginas) * 100)
         except EstantePessoal.DoesNotExist:
             pass
-
-    votacao_ativa = Votacao.objects.filter(
-        clube=clube, 
-        data_fim__gte=timezone.now(), 
-        is_ativa=True
-    ).select_related('clube').prefetch_related('livros_opcoes').order_by('-data_inicio').first()
-    
+    votacao_ativa = Votacao.objects.filter(clube=clube, data_fim__gte=timezone.now(), is_ativa=True).select_related('clube').prefetch_related('livros_opcoes').order_by('-data_inicio').first()
     opcoes_votacao_com_votos = []
     total_votos_na_votacao = 0
     usuario_ja_votou = False
-
+    data_fim_votacao_formatada = ""
     if votacao_ativa:
+        data_fim_local = timezone.localtime(votacao_ativa.data_fim)
+        data_fim_votacao_formatada = formats.date_format(data_fim_local, "d/m/Y H:i")
         votos_da_votacao = list(VotoUsuario.objects.filter(votacao=votacao_ativa).values_list('livro_votado_id', flat=True))
         total_votos_na_votacao = len(votos_da_votacao)
-
         for livro_opcao in votacao_ativa.livros_opcoes.all():
             votos_neste_livro = votos_da_votacao.count(livro_opcao.id)
             percentual = (votos_neste_livro / total_votos_na_votacao * 100) if total_votos_na_votacao > 0 else 0
-            opcoes_votacao_com_votos.append({
-                'livro': livro_opcao,
-                'votos': votos_neste_livro,
-                'percentual': round(percentual),
-                'id': livro_opcao.id 
-            })
+            opcoes_votacao_com_votos.append({'livro': livro_opcao, 'votos': votos_neste_livro, 'percentual': round(percentual), 'id': livro_opcao.id})
         if is_membro:
             usuario_ja_votou = VotoUsuario.objects.filter(votacao=votacao_ativa, usuario=usuario_atual).exists()
-
     membros_do_clube_obj = ClubeMembro.objects.filter(clube=clube).select_related('usuario').order_by('cargo', 'usuario__nome')
     contagem_membros_ativos = membros_do_clube_obj.count()
     leituras_finalizadas_obj = LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.FINALIZADO).select_related('livro').order_by('-data_finalizacao')
-    
     membro = ClubeMembro.all_objects.filter(clube=clube, usuario=usuario_atual).first()
-
     data_criacao_formatada = formats.date_format(clube.data_criacao, "F Y") if clube.data_criacao else ""
-    data_fim_votacao_formatada = formats.date_format(votacao_ativa.data_fim, "d/m/Y H:i") if votacao_ativa else ""
-    reunioes_agendadas = Reuniao.objects.filter(
-        clube=clube, 
-        data_horario__gte=timezone.now()
-    ).order_by('data_horario')
-    
+    reunioes_agendadas = Reuniao.objects.filter(clube=clube, data_horario__gte=timezone.now()).order_by('data_horario')
     contexto = {
-        'clube': clube,
-        'fundador_nome': fundador_nome,
-        'is_membro': is_membro,
-        'cargo_usuario_atual': cargo_usuario_atual,
-        'leitura_do_momento_obj': leitura_do_momento_obj,
-        'votacao_ativa': votacao_ativa,
-        'opcoes_votacao_com_votos': opcoes_votacao_com_votos,
-        'total_votos_na_votacao': total_votos_na_votacao,
-        'usuario_ja_votou': usuario_ja_votou,
-        'membros_do_clube': membros_do_clube_obj,
-        'contagem_membros_ativos': contagem_membros_ativos,
-        'leituras_finalizadas': leituras_finalizadas_obj,
-        'reunioes_agendadas': reunioes_agendadas,
-        'nome_usuario': usuario_atual.nome,
-        'default_avatar_url': staticfiles_storage.url('img/default_avatar.png'),
-        'PrivacidadeChoices': Clube.Privacidade,
-        'CargoChoices': ClubeMembro.Cargo,
-        'data_criacao_formatada': data_criacao_formatada,
-        'data_fim_votacao_formatada': data_fim_votacao_formatada,
-        'estante_pessoal_obj': estante_pessoal_obj,
-        'progresso_percentual': progresso_percentual,
-        "membro": membro,
+        'clube': clube, 'fundador_nome': fundador_nome, 'is_membro': is_membro, 'cargo_usuario_atual': cargo_usuario_atual,
+        'contagem_membros_ativos': contagem_membros_ativos, 'leitura_do_momento_obj': leitura_do_momento_obj,
+        'votacao_ativa': votacao_ativa, 'opcoes_votacao_com_votos': opcoes_votacao_com_votos,
+        'total_votos_na_votacao': total_votos_na_votacao, 'usuario_ja_votou': usuario_ja_votou,
+        'membros_do_clube': membros_do_clube_obj, 'leituras_finalizadas': leituras_finalizadas_obj,
+        'reunioes_agendadas': reunioes_agendadas, 'nome_usuario': usuario_atual.nome,
+        'default_avatar_url': staticfiles_storage.url('img/default_avatar.png'), 'PrivacidadeChoices': Clube.Privacidade,
+        'CargoChoices': ClubeMembro.Cargo, 'data_criacao_formatada': data_criacao_formatada,
+        'data_fim_votacao_formatada': data_fim_votacao_formatada, 'estante_pessoal_obj': estante_pessoal_obj,
+        'progresso_percentual': progresso_percentual, "membro": membro,
     }
     return render(request, 'principal/detalhes_clube.html', contexto)
 
@@ -313,19 +201,15 @@ def registrar_voto(request: HttpRequest, clube_id, votacao_id):
     clube = get_object_or_404(Clube, id=clube_id)
     votacao = get_object_or_404(Votacao, id=votacao_id, clube=clube)
     usuario = request.usuario_logado_obj
-
     if request.method == 'POST':
         livro_id = request.POST.get('livro_votado')
         if not livro_id:
             messages.error(request, _("Nenhum livro selecionado para votar."))
             return redirect('principal:detalhes_clube', clube_id=clube_id)
-
         livro = get_object_or_404(Livro, id=livro_id)
-
         if not ClubeMembro.objects.filter(clube=clube, usuario=usuario).exists():
             messages.error(request, _("Você precisa ser membro do clube para votar."))
             return redirect('principal:detalhes_clube', clube_id=clube_id)
-
         if VotoUsuario.objects.filter(votacao=votacao, usuario=usuario).exists():
             messages.error(request, _("Você já votou nesta votação."))
         elif not votacao.is_ativa or votacao.data_fim < timezone.now():
@@ -335,9 +219,7 @@ def registrar_voto(request: HttpRequest, clube_id, votacao_id):
         else:
             VotoUsuario.objects.create(votacao=votacao, usuario=usuario, livro_votado=livro)
             messages.success(request, _("Seu voto em '%(livro_nome)s' foi registrado!") % {'livro_nome': livro.nome})
-        
         return redirect('principal:detalhes_clube', clube_id=clube_id)
-    
     messages.error(request, _("Método inválido para registrar voto."))
     return redirect('principal:detalhes_clube', clube_id=clube_id)
 
@@ -345,61 +227,45 @@ def registrar_voto(request: HttpRequest, clube_id, votacao_id):
 def entrar_clube(request: HttpRequest, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
     usuario = request.usuario_logado_obj
-
-    
-    if clube.privacidade == Clube.PrivacidadeChoices.PRIVADO:
-        return redirect('principal:solicitar_entrada_privado', clube_id=clube.id)
-
     if request.method == 'POST':
-       
+        if clube.privacidade == 'PRIVADO':
+            return redirect('principal:solicitar_entrada_privado', clube_id=clube.id)
         membro_existente = ClubeMembro.all_objects.filter(clube=clube, usuario=usuario).first()
-
         if membro_existente:
             if membro_existente.cargo == ClubeMembro.Cargo.BANIDO:
                 messages.error(request, _("Você foi banido deste clube e não pode entrar novamente."))
                 return redirect('principal:detalhes_clube', clube_id=clube.id)
-
             if not membro_existente.deleted:
                 messages.info(request, _("Você já é membro deste clube."))
                 return redirect('principal:detalhes_clube', clube_id=clube.id)
-
-       
-        ClubeMembro.all_objects.update_or_create(
-            clube=clube,
-            usuario=usuario,
-            defaults={'deleted': None, 'cargo': ClubeMembro.Cargo.MEMBRO}
-        )
-
-        messages.success(request, _("Você entrou no clube com sucesso!"))
-
+        if clube.membros.count() >= clube.limite_membros:
+            messages.error(request, _("O clube '%(nome_clube)s' está lotado.") % {'nome_clube': clube.nome})
+            return redirect('principal:detalhes_clube', clube_id=clube_id)
+        membro, created = ClubeMembro.all_objects.update_or_create(clube=clube, usuario=usuario, defaults={'deleted': None, 'cargo': ClubeMembro.Cargo.MEMBRO})
+        if created:
+            messages.success(request, _("Você entrou no clube com sucesso!"))
+        else:
+            messages.success(request, _("Bem-vindo(a) de volta ao clube!"))
     return redirect('principal:detalhes_clube', clube_id=clube.id)
 
 @login_obrigatorio
 def solicitar_entrada_privado(request: HttpRequest, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
     usuario = request.usuario_logado_obj
-
     if request.method == 'POST':
-
         membro_existente = ClubeMembro.all_objects.filter(clube=clube, usuario=usuario).first()
-
         if membro_existente:
             if membro_existente.cargo == ClubeMembro.Cargo.BANIDO:
                 messages.error(request, _("Você foi banido deste clube e não pode solicitar entrada."))
                 return redirect('principal:detalhes_clube', clube_id=clube.id)
-
             if not membro_existente.deleted:
                 messages.info(request, _("Você já é membro ou já solicitou entrada."))
                 return redirect('principal:detalhes_clube', clube_id=clube.id)
-
-        ClubeMembro.all_objects.update_or_create(
-            clube=clube,
-            usuario=usuario,
-            defaults={'deleted': None, 'cargo': ClubeMembro.Cargo.PENDENTE}
-        )
-
+        if clube.membros.count() >= clube.limite_membros:
+            messages.error(request, _("O clube '%(nome_clube)s' está lotado e não pode aceitar novas solicitações.") % {'nome_clube': clube.nome})
+            return redirect('principal:detalhes_clube', clube_id=clube.id)
+        ClubeMembro.all_objects.update_or_create(clube=clube, usuario=usuario, defaults={'deleted': None, 'cargo': ClubeMembro.Cargo.PENDENTE})
         messages.success(request, _("Sua solicitação foi enviada ao administrador do clube."))
-    
     return redirect('principal:detalhes_clube', clube_id=clube.id)
 
 @login_obrigatorio
@@ -424,21 +290,17 @@ def editar_clube(request: HttpRequest, clube, **kwargs):
         form = ClubeEditForm(request.POST, request.FILES, instance=clube)
         if form.is_valid():
             clube_editado = form.save(commit=False)
-            
             if not clube_editado.unique_id:
                 clube_editado.unique_id = generate_unique_id(prefix='#')
-
             capa_clube_file = request.FILES.get('capa_clube')
             capa_recomendada_path = request.POST.get('capa_recomendada_selecionada')
-
             if capa_clube_file:
                 clube_editado.capa_clube = capa_clube_file
-                clube_editado.capa_recomendada = None 
+                clube_editado.capa_recomendada = None
             elif capa_recomendada_path:
                 clube_editado.capa_recomendada = capa_recomendada_path
                 if clube_editado.capa_clube:
                     clube_editado.capa_clube.delete(save=False)
-            
             clube_editado.save()
             messages.success(request, _("O clube '%(nome_clube)s' foi atualizado com sucesso!") % {'nome_clube': clube.nome})
             return redirect('principal:detalhes_clube', clube_id=clube.id)
@@ -446,19 +308,8 @@ def editar_clube(request: HttpRequest, clube, **kwargs):
             messages.error(request, _("Houve um erro no formulário. Por favor, verifique os dados."))
     else:
         form = ClubeEditForm(instance=clube)
-    
-    membros_candidatos = ClubeMembro.objects.filter(
-        clube=clube
-    ).exclude(
-        usuario=request.usuario_logado_obj
-    ).select_related('usuario')
-
-    contexto = {
-        'form': form,
-        'clube': clube,
-        'nome_usuario': request.usuario_logado_obj.nome,
-        'membros_candidatos': membros_candidatos,
-    }
+    membros_candidatos = ClubeMembro.objects.filter(clube=clube).exclude(usuario=request.usuario_logado_obj).select_related('usuario')
+    contexto = {'form': form, 'clube': clube, 'nome_usuario': request.usuario_logado_obj.nome, 'membros_candidatos': membros_candidatos}
     return render(request, 'principal/admin/editar_clube.html', contexto)
 
 @admin_clube_obrigatorio
@@ -471,6 +322,7 @@ def excluir_clube(request: HttpRequest, clube, **kwargs):
     else:
         messages.error(request, _("Ação inválida."))
         return redirect('principal:detalhes_clube', clube_id=clube.id)
+
 
 @login_obrigatorio
 @transaction.atomic
@@ -684,8 +536,11 @@ def definir_leitura_atual_clube(request: HttpRequest, clube, **kwargs):
     }
     return render(request, 'principal/admin/definir_leitura_atual.html', contexto)
 
+
+
 @admin_clube_obrigatorio
 def criar_votacao_clube(request: HttpRequest, clube, **kwargs):
+
     if request.method == 'POST':
         form = CriarVotacaoForm(request.POST, clube=clube)
         if form.is_valid():
@@ -694,21 +549,17 @@ def criar_votacao_clube(request: HttpRequest, clube, **kwargs):
             nova_votacao.clube = clube
             nova_votacao.is_ativa = True
             nova_votacao.save()
-            form.save_m2m() # Salva as relações ManyToMany
+            livros_selecionados = form.cleaned_data['livros_opcoes']
+            nova_votacao.livros_opcoes.set(livros_selecionados)
             messages.success(request, _("Nova votação criada com sucesso!"))
             return redirect('principal:detalhes_clube', clube_id=clube.id)
         else:
             for field, error_list in form.errors.items():
                 for error in error_list:
-                    messages.error(request, error)
+                    messages.error(request, f"{error}")
     else:
         form = CriarVotacaoForm(clube=clube)
-        
-    contexto = {
-        'clube': clube,
-        'form': form,
-        'nome_usuario': request.usuario_logado_obj.nome,
-    }
+    contexto = {'form': form, 'clube': clube, 'nome_usuario': request.usuario_logado_obj.nome}
     return render(request, 'principal/admin/criarvotacao.html', contexto)
 
 @login_obrigatorio
@@ -745,10 +596,45 @@ def perfil(request):
         })
 
     contexto = {
-        'nome_usuario': usuario_logado.nome,
+        'usuario': usuario_logado,
         'clubes_recentes': clubes_para_template
     }
     return render(request, 'principal/perfil.html', contexto)
+
+@login_obrigatorio
+def perfil_usuario(request, user_id):
+    """Exibe o perfil público de um usuário com base em seu ID único."""
+    # O user_id vem com o '@', então removemos para a busca
+    usuario_perfil = get_object_or_404(Usuario, unique_id=f"@{user_id}")
+    
+    # Lógica para buscar os clubes e leituras deste usuário (similar à view 'perfil')
+    # ... (você pode adicionar essa lógica depois se quiser mostrar os clubes públicos dele)
+
+    contexto = {
+        'usuario_perfil': usuario_perfil
+    }
+    return render(request, 'principal/perfil_usuario.html', contexto)
+
+@login_obrigatorio
+def editar_perfil(request: HttpRequest):
+    """Página para o usuário logado editar suas informações de perfil."""
+    usuario = request.usuario_logado_obj
+    if request.method == 'POST':
+        # Passamos o request.FILES para lidar com o upload de imagens
+        form = PerfilEditForm(request.POST, request.FILES, instance=usuario)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _("Perfil atualizado com sucesso!"))
+            return redirect('principal:perfil')
+        else:
+            messages.error(request, _("Houve um erro no formulário. Por favor, verifique os dados."))
+    else:
+        form = PerfilEditForm(instance=usuario)
+
+    contexto = {
+        'form': form,
+    }
+    return render(request, 'principal/editar_perfil.html', contexto)
 
 @login_obrigatorio
 def estante(request, clube_id):
@@ -786,8 +672,12 @@ def releitura_view(request, clube_id):
     contexto = {'clube': clube}
     return render(request, 'principal/releitura.html', contexto)
 
+# principal/views.py
+
 @admin_clube_obrigatorio
 def criar_reuniao(request: HttpRequest, clube, **kwargs):
+    # Esta view não precisa de alteração de fuso horário, pois cria um novo objeto.
+    # A lógica de tratamento de erros já está correta.
     if request.method == 'POST':
         form = ReuniaoForm(request.POST, clube=clube)
         if form.is_valid():
@@ -802,6 +692,7 @@ def criar_reuniao(request: HttpRequest, clube, **kwargs):
                     messages.error(request, error)
     else:
         form = ReuniaoForm(clube=clube)
+        
     contexto = {'form': form, 'clube': clube, 'form_title': _('Agendar Nova Reunião')}
     return render(request, 'principal/admin/gerenciar_reuniao.html', contexto)
 
@@ -814,23 +705,66 @@ def editar_reuniao(request: HttpRequest, clube, reuniao_id, **kwargs):
             form.save()
             messages.success(request, _("Reunião atualizada com sucesso!"))
             return redirect('principal:detalhes_clube', clube_id=clube.id)
+        else:
+            # Garante que os erros de validação sejam exibidos
+            for field, error_list in form.errors.items():
+                for error in error_list:
+                    messages.error(request, error)
     else:
-        form = ReuniaoForm(instance=reuniao, clube=clube)
-    return render(request, 'principal/admin/gerenciar_reuniao.html', {'form': form, 'clube': clube, 'reuniao': reuniao, 'form_title': _('Editar Reunião')})
+        # --- LÓGICA DE FUSO HORÁRIO APLICADA AQUI, NA VIEW ---
+        # 1. Converte a data do banco (UTC) para o fuso horário local
+        data_horario_local = timezone.localtime(reuniao.data_horario)
+
+        # 2. Prepara um dicionário com os dados iniciais para o formulário
+        initial_data = {
+            'titulo': reuniao.titulo,
+            'data_horario': data_horario_local,
+            # (outros campos são preenchidos pela 'instance')
+        }
+        # 3. Inicia o formulário com a instância E os dados iniciais corrigidos
+        form = ReuniaoForm(instance=reuniao, clube=clube, initial=initial_data)
+
+    contexto = {
+        'form': form, 
+        'clube': clube, 
+        'reuniao': reuniao, 
+        'form_title': _('Editar Reunião')
+    }
+    return render(request, 'principal/admin/gerenciar_reuniao.html', contexto)
 
 @admin_clube_obrigatorio
 def editar_votacao(request: HttpRequest, clube, votacao_id, **kwargs): 
     votacao = get_object_or_404(Votacao, id=votacao_id, clube=clube)
+
     if request.method == 'POST':
-        form = VotacaoEditForm(request.POST, instance=votacao, clube=clube)
+        form = VotacaoEditForm(request.POST, instance=votacao)
         if form.is_valid():
             form.save()
             messages.success(request, _("Votação atualizada com sucesso!"))
             return redirect('principal:detalhes_clube', clube_id=clube.id)
+        else:
+            for field, error_list in form.errors.items():
+                for error in error_list:
+                    messages.error(request, error)
     else:
-        form = VotacaoEditForm(instance=votacao, clube=clube)
-    return render(request, 'principal/admin/editar_votacao.html', {'form': form, 'clube': clube, 'votacao': votacao})
+        # --- LÓGICA DE FUSO HORÁRIO APLICADA AQUI, NA VIEW ---
+        # 1. Converte a data do banco (UTC) para o fuso horário local
+        data_fim_local = timezone.localtime(votacao.data_fim)
 
+        # 2. Prepara um dicionário com os dados iniciais para o formulário
+        initial_data = {
+            'titulo': votacao.titulo,
+            'data_fim': data_fim_local, # Usa a data já convertida
+        }
+        # 3. Inicia o formulário com os dados da instância E os dados iniciais corrigidos
+        form = VotacaoEditForm(instance=votacao, initial=initial_data)
+        
+    contexto = {
+        'form': form, 
+        'clube': clube, 
+        'votacao': votacao
+    }
+    return render(request, 'principal/admin/editar_votacao.html', contexto)
 @admin_clube_obrigatorio
 def fechar_votacao(request: HttpRequest, clube, votacao_id, **kwargs):
     if request.method == 'POST':

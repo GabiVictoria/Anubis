@@ -13,6 +13,8 @@ urlpatterns = [
     # ==============================================================================
     path("", views.home, name="home"),
     path("perfil/", views.perfil, name="perfil"), 
+    path("perfil/editar/", views.editar_perfil, name="editar_perfil"), # Página para editar o perfil
+    path("usuario/<str:user_id>/", views.perfil_usuario, name="perfil_usuario"), # Perfil público de outros usuários
     path("busca/", views.pagina_de_busca, name="pagina_de_busca"),
     path("criar-clube/", views.criar_clube, name="criar_clube"),
 

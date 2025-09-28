@@ -1,0 +1,23 @@
+{% extends 'principal/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'principal/editarp.css' %}"> {% endblock %}
+
+{% block content %}
+<div class="form-container card-style">
+  <h1>{% trans "Editar Perfil" %}</h1>
+  
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+
+    <div class="form-actions">
+      <button type="submit" class="action-button">{% trans "Salvar Alterações" %}</button>
+      <a href="{% url 'principal:perfil' %}" class="link-cancelar">{% trans "Cancelar" %}</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

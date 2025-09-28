@@ -99,7 +99,7 @@ nav a {
   border-radius: var(--border-radius);
   transition: background 0.3s, color 0.3s;
   font-weight: 500;
-  border: 2px solid var(--accent-color); /* ADICIONADO: borda nos botões */
+  border: 2px solid var(--accent-color); 
 }
 
 nav a:hover {
@@ -117,4 +117,17 @@ nav a:hover {
   margin-right: 10px;
 }
 
-/* até aqui deveria ser o menu */
+
+ .texto-truncado {
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis; 
+    max-width: 300px;
+    margin: 0px;
+    }
+
+.quebra-linha {
+  white-space: normal;       
+  word-wrap: break-word;     
+  overflow-wrap: break-word; 
+}

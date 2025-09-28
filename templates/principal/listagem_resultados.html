@@ -10,7 +10,6 @@
  {% block content %}
 
   <section class="search-section">
-    <h2>{% blocktrans %}Resultados da Pesquisa para: "{{ query|default_if_none:'' }}"{% endblocktrans %}</h2>
     <form method="get" action="{% url 'principal:pagina_de_busca' %}" class="search-bar-container">
       <input class="search-bar-input" type="text" name="q" placeholder="{% trans 'Buscar novamente...' %}" value="{{ query|default_if_none:'' }}">
       <button class="search-bar-button" type="submit">
@@ -35,10 +34,10 @@
             <img src="{% static 'img/imgideal.png' %}" alt="{% trans 'Capa padrão' %}" class="club-image">
           {% endif %}
             <div class="club-card-content-wrapper">
-                <h3 class="club-title">{{ clube_res.nome }}</h3>
+                <h3 class="club-title quebra-linha">{{ clube_res.nome }}</h3>
                 <p class="club-description club-content-fixed-item">{{ clube_res.descricao|truncatewords:15|default:"&nbsp;" }}</p>
                 <div class="founder club-content-fixed-item">
-                  <span>{% trans "Fundado por:" %} {{ clube_res.fundador_nome|default:"&nbsp;" }}</span>
+                  <span class="texto-truncado">{% trans "Fundado por:" %} {{ clube_res.fundador_nome|default:"&nbsp;" }}</span>
                 </div>
                 <p class="club-meta club-content-fixed-item">{% trans "Membros:" %} {{ clube_res.membros_count|default:"&nbsp;" }}</p>
                 <p class="club-meta club-content-fixed-item">{% trans "Fundado em:" %} {{ clube_res.data_fundacao_formatada|default:"&nbsp;" }}</p>
@@ -64,7 +63,7 @@
         {% endfor %}
       </div>
     {% else %}
-      <p style="text-align:center; margin-top: 40px; width:100%; font-size: 1.2rem;">{% blocktrans %}Nenhum clube encontrado para "{{ query }}".{% endblocktrans %}</p>
+      <p style="text-align:center; margin-top: 40px; width:100%; font-size: 1.2rem;">{% blocktrans %}Nenhum clube encontrado para <p class="quebra-linha">"{{ query }}"</p>{% endblocktrans %}</p>
     {% endif %}
   </main>
 

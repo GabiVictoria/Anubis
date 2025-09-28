@@ -9,28 +9,45 @@
 
 {% block content %}
   <div class="main-container admin-form-page">
-    <h2 class="form-title">{% blocktrans %}Criar Nova Votação {% endblocktrans %}</h2>
+    <h2 class="form-title">{% blocktrans %}Criar Nova Votação{% endblocktrans %}</h2>
    
-
-    {% if form.fields.livros_opcoes.queryset %} {# Verifica se há opções de livros no formulário #}
+    {% if form.fields.livro_opcao_1.queryset %}
       <form method="post" class="styled-form">
         {% csrf_token %}
-        {% for field in form %}
-            <div class="form-field">
-                {{ field.label_tag }}
-                {% if field.name == "livros_opcoes" %}
-                    <ul id="id_livros_opcoes" class="checkbox-list"> {# Classe para estilizar lista de checkboxes #}
-                    {% for checkbox in field %}
-                        <li><label for="{{ checkbox.id_for_label }}">{{ checkbox.tag }} {{ checkbox.choice_label }}</label></li>
-                    {% endfor %}
-                    </ul>
-                {% else %}
-                    {{ field }}
-                {% endif %}
-                {% if field.help_text %}<small class="helptext">{{ field.help_text }}</small>{% endif %}
-               
-            </div>
-        {% endfor %}
+
+        <div class="form-field">
+            {{ form.titulo.label_tag }}
+            {{ form.titulo }}
+            {% if form.titulo.help_text %}<small class="helptext">{{ form.titulo.help_text }}</small>{% endif %}
+            {% if form.titulo.errors %}<div class="form-error">{{ form.titulo.errors }}</div>{% endif %}
+        </div>
+
+        <div class="form-field">
+            {{ form.livro_opcao_1.label_tag }}
+            {{ form.livro_opcao_1 }}
+            {% if form.livro_opcao_1.errors %}<div class="form-error">{{ form.livro_opcao_1.errors }}</div>{% endif %}
+        </div>
+
+        <div class="form-field">
+            {{ form.livro_opcao_2.label_tag }}
+            {{ form.livro_opcao_2 }}
+            {% if form.livro_opcao_2.errors %}<div class="form-error">{{ form.livro_opcao_2.errors }}</div>{% endif %}
+        </div>
+
+        <div class="form-field">
+            {{ form.livro_opcao_3.label_tag }}
+            {{ form.livro_opcao_3 }}
+            {% if form.livro_opcao_3.errors %}<div class="form-error">{{ form.livro_opcao_3.errors }}</div>{% endif %}
+        </div>
+        
+        <div class="form-field">
+            {{ form.data_fim.label_tag }}
+            {{ form.data_fim }}
+            {% if form.data_fim.errors %}<div class="form-error">{{ form.data_fim.errors }}</div>{% endif %}
+        </div>
+
+        
+
         <div class="form-actions">
           <button type="submit" class="action-button">{% trans "Criar Votação" %}</button>
           <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">{% trans "Cancelar" %}</a>
@@ -44,4 +61,45 @@
       </div>
     {% endif %}
   </div>
+
+  <script>
+    // --- SCRIPT PARA IMPEDIR SELEÇÃO DUPLICADA NOS DROPDOWNS ---
+    const dropdowns = [
+        document.getElementById('id_livro_opcao_1'),
+        document.getElementById('id_livro_opcao_2'),
+        document.getElementById('id_livro_opcao_3')
+    ];
+
+    function updateDropdownOptions() {
+        // Pega todos os valores que já foram selecionados (e não são vazios)
+        const selectedValues = dropdowns
+            .map(d => d.value)
+            .filter(v => v !== "");
+
+        // Para cada dropdown...
+        dropdowns.forEach(currentDropdown => {
+            // ...itera sobre suas opções
+            Array.from(currentDropdown.options).forEach(option => {
+                // Se a opção não estiver vazia, estiver selecionada em OUTRO dropdown,
+                // e não for a opção que já está selecionada NESTE dropdown,
+                // então desabilita a opção.
+                if (option.value !== "" && selectedValues.includes(option.value) && option.value !== currentDropdown.value) {
+                    option.disabled = true;
+                } else {
+                    option.disabled = false;
+                }
+            });
+        });
+    }
+
+    // Adiciona o evento de 'change' para cada dropdown
+    dropdowns.forEach(dropdown => {
+        if (dropdown) { // Garante que o elemento existe
+            dropdown.addEventListener('change', updateDropdownOptions);
+        }
+    });
+
+    // Roda a função uma vez no carregamento da página para desabilitar opções pré-selecionadas (caso de edição)
+    document.addEventListener('DOMContentLoaded', updateDropdownOptions);
+  </script>
 {% endblock %}

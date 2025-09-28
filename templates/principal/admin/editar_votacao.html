@@ -1,25 +1,43 @@
 {% extends 'principal/base.html' %}
 {% load i18n %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'principal/admin.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="main-container admin-form-page">
     <h2 class="form-title">{% trans "Editar Votação" %}</h2>
+    
     <form method="post" class="styled-form">
         {% csrf_token %}
+
+        <div class="form-field">
+            {{ form.titulo.label_tag }}
+            {{ form.titulo }}
+            {% if form.titulo.errors %}<div class="form-error">{{ form.titulo.errors }}</div>{% endif %}
+        </div>
+
         <div class="form-field">
             {{ form.data_fim.label_tag }}
             {{ form.data_fim }}
-            {% if form.data_fim.errors %}<div class="error-message">{{ form.data_fim.errors }}</div>{% endif %}
+            {% if form.data_fim.errors %}<div class="form-error">{{ form.data_fim.errors }}</div>{% endif %}
         </div>
+
         <div class="form-field">
-            {{ form.livros_opcoes.label_tag }}
-            <ul class="checkbox-list">
-            {% for checkbox in form.livros_opcoes %}
-                <li><label for="{{ checkbox.id_for_label }}">{{ checkbox.tag }} {{ checkbox.choice_label.livro.nome }}</label></li>
-            {% endfor %}
+            <label class="form-label">{% trans "Livros nesta Votação (não editável)" %}</label>
+            <ul class="info-list">
+                {% for livro in votacao.livros_opcoes.all %}
+                    <li>{{ livro.nome }}</li>
+                {% empty %}
+                    <li>{% trans "Nenhum livro nesta votação." %}</li>
+                {% endfor %}
             </ul>
-            {% if form.livros_opcoes.errors %}<div class="error-message">{{ form.livros_opcoes.errors }}</div>{% endif %}
         </div>
+        
+    
+
         <div class="form-actions">
             <button type="submit" class="action-button">{% trans "Salvar Alterações" %}</button>
             <a href="{% url 'principal:detalhes_clube' clube.id %}" class="action-button secondary-action">{% trans "Cancelar" %}</a>

@@ -89,7 +89,7 @@
                 <select name="novo_admin_id" id="id_novo_admin" required class="form-control" style="width: 100%; padding: 8px;">
                     <option value="" selected disabled>{% trans "Selecione um membro..." %}</option>
                     {% for membro in membros_candidatos %}
-                        <option value="{{ membro.usuario.id }}">{{ membro.usuario.nome }} ({{ membro.get_cargo_display }})</option>
+                        <option value="{{ membro.usuario.id }}">{{ membro.usuario.unique_id }} ({{ membro.get_cargo_display }})</option>
                     {% endfor %}
                 </select>
             </div>

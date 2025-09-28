@@ -1,51 +1,25 @@
+{% extends 'principal/base.html' %}
 {% load static %}
 {% load i18n %}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
-   <title>Anúbis</title>
+
+{% block styles %}
   <link rel="stylesheet" href="{% static 'principal/perfil.css' %}">
-  
-  {# --- CORREÇÃO: Link para a biblioteca de ícones foi adicionado aqui --- #}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+{% endblock %}
 
-</head>
-
-<header>
-    <div class="logo-container">
-      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Anúbis' %}">
-      <h1>{% trans "Anúbis" %}</h1>
-    </div>
-    <div class="slogan">
-      {% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro." %}
-    </div>
-    <nav>
-      <a href="{% url 'principal:home' %}" class="active">{% trans "Home" %}</a>
-      <a href="{% url 'principal:criar_clube' %}">{% trans "Criar" %}</a>
-      <a href="{% url 'principal:perfil' %}">{% trans "Perfil" %}</a>
-      <a href="{% url 'inicial:logout' %}">{% trans "Sair" %}</a>
-    </nav>
-</header>
-
-<body>
+{% block content %}
   <div class="perfil-container">
     <div class="capa">
-      <label for="upload-capa">
-        <input type="file" id="upload-capa" hidden />
-        <span class="icone-camera">&#128247;</span>
-      </label>
+      <img src="{% if usuario.foto_capa %}{{ usuario.foto_capa.url }}{% else %}{% static 'img/default_cover.jpg' %}{% endif %}" alt="{% trans 'Foto de capa' %}">
     </div>
 
     <div class="perfil-informacoes">
       <div class="foto-perfil">
-        <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Foto de perfil' %}" />
+       <img src="{% if usuario.foto_perfil %}{{ usuario.foto_perfil.url }}{% else %}{% static 'img/Logo..png' %}{% endif %}" alt="{% trans 'Foto de perfil' %}" />
       </div>
       <div class="dados-perfil">
         <div class="titulo-drop">
-          <h1>{{nome_usuario}}</h1>
+          <h1 class="nome">{{usuario.nome}}</h1>
           
           <div class="language-dropdown">
               <button class="language-globe-button" onclick="toggleLanguageMenu()">
@@ -64,14 +38,14 @@
               </div>
           </div>
         </div>
-        <p class="descricao">{% trans "Amo ler, compartihar e socializar! Gosto de ler durante as noites!•" %}</p> 
+        <p class="user-id"><strong>ID:</strong> {{ usuario.unique_id }}</p>
+        <p class="descricao">{{ usuario.bio|default:_("Nenhuma bio adicionada.") }}</p> 
         <div class="botoes">
-          <button class="azul">{% trans "livros lidos" %}</button>
-          <button class="azul">{% trans "Abandonados" %}</button>
-          <button class="azul">{% trans "Quero ler" %}</button>
-          <button class="azul">{% trans "Relendo" %}</button>
-          <button class="azul">{% trans "Meus clubes" %}</button>
-          <button class="borda">{% trans "Editar perfil" %}</button>
+          <button class="azul">{% trans "Estante pessoal" %}</button>
+          <button class="azul">{% trans "Convites" %}</button>
+          <button class="azul" >{% trans "Meus clubes" %}</button>
+          <a href="{% url 'principal:editar_perfil' %}" class="borda">{% trans "Editar perfil" %}</a>
+        </div>
         </div>
       </div>
     </div>
@@ -121,13 +95,15 @@
           
           <h3>{{ item.clube_obj.nome }}</h3>
           
-          <p><strong>{% trans "Admin:" %}</strong> {{ item.admin_nome|default:_("N/D") }}</p>
+          <p class="admin-info">
+              <strong>{% trans "Admin:" %}</strong>
+              <span>{{ item.admin_nome|default:_("N/D") }}</span>
+          </p>
           <p><strong>{% trans "Criado em:" %}</strong> {{ item.clube_obj.data_criacao|date:"d/m/Y" }}</p>
           <p><strong>{% trans "Você entrou em:" %}</strong> {{ item.data_entrada|date:"d/m/Y" }}</p>
           
-          <p><strong>📖 {% trans "Livro atual:" %}</strong> {{ item.livro_atual|default:_("Não definido") }}</p>
-          <p><strong>📘 {% trans "Próximo livro:" %}</strong> {{ item.proximo_livro|default:_("Não definido") }}</p>
-
+          <p class="book-info"><strong>📖 {% trans "Livro atual:" %}</strong> {{ item.livro_atual|default:_("Não definido") }}</p>
+          <p class="book-info"><strong>📘 {% trans "Próximo livro:" %}</strong> {{ item.proximo_livro|default:_("Não definido") }}</p>
         </div>
       {% empty %}
         <p class="sem-clubes-msg">{% trans "Você ainda não faz parte de nenhum clube. Que tal explorar alguns?" %}</p>
@@ -135,65 +111,15 @@
 
     </div>
   </section>
-
-  <style>
-    /* Estilos para o menu de idiomas */
-    .titulo-drop {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .language-dropdown {
-        position: relative;
-        display: inline-block;
-    }
-    .language-globe-button {
-        background: none;
-        border: none;
-        color: #333; /* Cor escura para ser visível */
-        font-size: 1.8em;
-        cursor: pointer;
-        padding: 0;
-    }
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: white;
-        min-width: 160px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        z-index: 1;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        right: 0;
-    }
-    .dropdown-content .language-form button {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-        width: 100%;
-        text-align: left;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1em;
-        font-family: inherit;
-    }
-    .dropdown-content .language-form button:hover {
-        background-color: #f1f1f1;
-    }
-    .show {
-        display: block;
-    }
-  </style>
-
-  <script>
-    /* Função para mostrar/esconder o menu */
+{% endblock %}
+ 
+{% block scripts %}
+<script>
+  
     function toggleLanguageMenu() {
         document.getElementById("language-menu").classList.toggle("show");
     }
 
-    // Fecha o dropdown se o usuário clicar fora dele
     window.onclick = function(event) {
         if (!event.target.matches('.language-globe-button') && !event.target.matches('.fa-globe')) {
             var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -206,5 +132,5 @@
         }
     }
   </script>
-</body>
-</html>
+{% endblock %}
+  
