@@ -20,3 +20,14 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+from django.core.mail import send_mail
+send_mail(
+    "Teste Apollo",
+    "Se você recebeu este e-mail, o SendGrid está funcionando!",
+    None,
+    ["gabrielebatista2810@gmail.com"],
+    fail_silently=False,
+)

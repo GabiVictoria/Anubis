@@ -191,12 +191,22 @@ LOCALE_PATHS = [
 GOOGLE_BOOKS_API_KEY = os.environ.get('GOOGLE_BOOKS_API_KEY')
 # Para produção (exemplo com Gmail - requer "permitir apps menos seguros" na sua conta Google)
 # ATENÇÃO: Nunca coloque senhas diretamente no código em produção. Use variáveis de ambiente.
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
-EMAIL_HOST_USER = 'anubis.clubes.literarios@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 465
+# EMAIL_USE_SSL = True
+# EMAIL_USE_TLS = False
+# EMAIL_HOST_USER = 'anubis.clubes.literarios@gmail.com'
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+
+# Configuração de envio de e-mails usando SendGrid
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
+
+# Importante: evita que falhe silenciosamente
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+# Define o e-mail de origem
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "anubis.clubes.literarios@gmail.com")
