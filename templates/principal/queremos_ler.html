@@ -1,54 +1,34 @@
+{% extends 'principal/base.html' %}
 {% load static %}
-{% load i18n %} {# Carrega a biblioteca de internacionalização #}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% trans "Clube do Livro" %}</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+{% load i18n %}
+
+{% block styles %}
   <link rel="stylesheet" href="{% static 'principal/lidos.css' %}">
   <script src="{% static 'principal/js/lidos.js' %}"></script>
+{% endblock %}
 
-</head>
-<body>
-
-  <header>
-    <div class="logo-container">
-      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Anúbis' %}">
-      <h1>{% trans "Anúbis" %}</h1>
-    </div>
-    <div class="slogan">
-      {% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro." %}
-    </div>
-    <nav>
-      <a href="{% url 'principal:home' %}" class="active">{% trans "Home" %}</a>
-      <a href="{% url 'principal:criar_clube' %}">{% trans "Criar" %}</a>
-      <a href="{% url 'principal:perfil' %}">{% trans "Perfil" %}</a>
-      <a href="{% url 'inicial:logout' %}">{% trans "Sair" %}</a>
-    </nav>
-  </header>
-
+{% block content %}
   <div class="card-central">
     <div class="clube-header">
       <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo do Clube' %}">
-      <h1>{% trans "Clube dos Leitores Fantásticos" %}</h1>
+      <h1 class="quebra-linha"> {{ clube.nome }}</h1>
     </div>
 
     <p class="descricao-clube">
-      {% trans "Um grupo apaixonado por literatura fantástica, onde discutimos obras, autores e universos que nos transportam além da realidade." %}
+      {{ clube.descricao }}
     </p>
 
+    
     <div class="botoes">
       <a href="{% url 'principal:estante' clube.id %}" class="botoes">{% trans "Lendo" %}</a>
       <a href="{% url 'principal:lidos' clube.id %}" class="botoes">{% trans "Lidos" %}</a>
       <a href="{% url 'principal:abandonados' clube.id %}" class="botoes">{% trans "Abandonados" %}</a>
       <a href="{% url 'principal:proximo_livro' clube.id %}" class="botoes">{% trans "Próximo Livro" %}</a>
-      <a href="{% url 'principal:queremos_ler' clube.id %}" class="botoes">{% trans "Queremos Ler" %}</a>
+      <a href="{% url 'principal:queremos_ler' clube.id %}" class="botoes" id="bt_atual">{% trans "Queremos Ler" %}</a>
       <a href="{% url 'principal:releitura' clube.id %}" class="botoes">{% trans "Releitura" %}</a>
     </div>
 
-
+   
     <div class="filtro-ano">
       <label for="ano">{% trans "Filtrar por ano:" %} </label>
       <select id="ano">
@@ -58,29 +38,109 @@
       </select>
     </div>
 
+    
     <div class="livros-container">
-      <div class="livro-card" data-ano="2025">
-        <img src="p4.jpg" alt="{% trans 'Capa do Livro' %}">
-        <div class="livro-info">
-          <h3>Sul da fronteira, oeste do sol</h3>
-          <p><strong>{% trans "Autor:" %}</strong> Haruki Murakami</p>
-          <p><strong>{% trans "Início Previsto:" %}</strong> {% trans "sem data prevista" %}</p>
-          <p><strong>{% trans "Nota média:" %}</strong> {% trans "A definir" %}</p>
-        </div>
-      </div>
-
-      <div class="livros-container" >
-        <div class="livro-card" data-ano="2025">
-          <img src="p4.jpg" alt="{% trans 'Capa do Livro' %}">
+      {% for leitura in leituras_a_ler %}
+        <div class="livro-card" data-livro-id="{{ leitura.id }}">
+          <img src="{% if leitura.livro.capa %}{{ leitura.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{% trans 'Capa do Livro' %}">
+          
           <div class="livro-info">
-            <h3>Noites Brancas</h3>
-            <p><strong>{% trans "Autor:" %}</strong> Dostoiévski</p>
+            <h3>{{ leitura.livro.nome }}</h3>
+            <p><strong>{% trans "Autor:" %}</strong> {{ leitura.livro.autor }}</p>
             <p><strong>{% trans "Início Previsto:" %}</strong> {% trans "sem data prevista" %}</p>
             <p><strong>{% trans "Nota média:" %}</strong> {% trans "A definir" %}</p>
           </div>
         </div>
-      </div>
+      {% empty %}
+        <p class="sem-livros-msg" style="width: 100%; text-align: center;">
+          {% trans "Ainda não há livros na lista de 'Queremos Ler' deste clube." %}
+        </p>
+      {% endfor %}
     </div>
   </div>
-</body>
-</html>
+
+  
+  <div class="modal-overlay" id="statusModalOverlay" style="display:none;">
+    <div class="modal" id="statusModal">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <h2>Alterar Status do Livro</h2>
+
+      <form id="statusForm">
+        {% csrf_token %}
+        <input type="hidden" id="modalLivroId" name="livro_id" value="">
+        
+        <label for="novoStatus">Status:</label>
+        <select id="novoStatus" name="status">
+          <option value="A_LER">{% trans "Queremos Ler" %}</option>
+          <option value="PROXIMO">{% trans "Próximo a Ser Lido" %}</option>
+          <option value="LENDO">{% trans "Lendo Atualmente" %}</option>
+          <option value="FINALIZADO">{% trans "Finalizado" %}</option>
+        </select>
+
+        <div class="modal-actions" style="margin-top:15px; display:flex; gap:10px; justify-content:flex-end;">
+          <button type="button" class="btn-cancel" id="cancelModal">{% trans "Cancelar" %}</button>
+          <button type="submit" class="btn-save">{% trans "Salvar" %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalOverlay = document.getElementById('statusModalOverlay');
+    const modalClose = document.getElementById('modalClose');
+    const cancelModal = document.getElementById('cancelModal');
+    const statusForm = document.getElementById('statusForm');
+    const modalLivroIdInput = document.getElementById('modalLivroId');
+    const clubeId = "{{ clube.id }}"; 
+
+    
+    document.querySelectorAll('.livro-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const leituraId = card.getAttribute('data-livro-id');
+        modalLivroIdInput.value = leituraId;
+        modalOverlay.style.display = 'flex';
+      });
+    });
+
+    
+    modalClose.addEventListener('click', () => modalOverlay.style.display = 'none');
+    cancelModal.addEventListener('click', () => modalOverlay.style.display = 'none');
+
+    
+    statusForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const leituraId = modalLivroIdInput.value;
+      const novoStatus = document.getElementById('novoStatus').value;
+
+      
+      const url = `/app/clube/${clubeId}/admin/alterar-status-leitura/${leituraId}/`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+          },
+          body: JSON.stringify({ status: novoStatus }) 
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert('{% trans "Status atualizado com sucesso!" %}');
+          modalOverlay.style.display = 'none';
+          location.reload(); 
+        } else {
+          
+          alert('{% trans "Erro ao atualizar status:" %} ' + (data.error || ''));
+        }
+      } catch (error) {
+        console.error('Erro na requisição:', error);
+        alert('{% trans "Ocorreu um erro de rede. Tente novamente." %}');
+      }
+    });
+  });
+</script>
+{% endblock %}

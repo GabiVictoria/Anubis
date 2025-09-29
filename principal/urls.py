@@ -36,6 +36,7 @@ urlpatterns = [
     path('estante/<int:clube_id>/proximo/', views.proximo_livro_view, name='proximo_livro'), 
     path('estante/<int:clube_id>/queremos/', views.queremos_ler_view, name='queremos_ler'), 
     path('estante/<int:clube_id>/releitura/', views.releitura_view, name='releitura'), 
+    path('clube/<int:clube_id>/admin/alterar-status-leitura/<int:leitura_id>/', views.alterar_status_livro, name='alterar_status_livro'),
 
     # ==============================================================================
     # ROTAS DE AÇÕES DIRETAS DO USUÁRIO

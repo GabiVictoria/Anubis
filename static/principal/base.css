@@ -118,13 +118,13 @@ nav a:hover {
 }
 
 
- .texto-truncado {
+.texto-truncado {
     white-space: nowrap;      
     overflow: hidden;         
     text-overflow: ellipsis; 
     max-width: 300px;
     margin: 0px;
-    }
+}
 
 .quebra-linha {
   white-space: normal;       

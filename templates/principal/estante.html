@@ -1,43 +1,21 @@
+{% extends 'principal/base.html' %}
 {% load static %}
-{% load i18n %} {# Carrega a biblioteca de internacionalização #}
-<!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}"> {# Usa o código de idioma dinâmico #}
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="{% static 'img/Logo..png' %}" type="image/png">
-  <title>Anúbis</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+{% load i18n %} 
+{% block styles %}
   <link rel="stylesheet" href="{% static 'principal/estante.css' %}">
   <script src="{% static 'principal/js/estante.js' %}"></script>
+{% endblock %}
 
-</head>
-<body>
-
-  <header>
-    <div class="logo-container">
-      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Anúbis' %}">
-      <h1>{% trans "Anúbis" %}</h1>
-    </div>
-    <div class="slogan">
-      {% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro." %}
-    </div>
-    <nav>
-      <a href="{% url 'principal:home' %}" class="active">{% trans "Home" %}</a>
-      <a href="{% url 'principal:criar_clube' %}">{% trans "Criar" %}</a>
-      <a href="{% url 'principal:perfil' %}">{% trans "Perfil" %}</a>
-      <a href="{% url 'inicial:logout' %}">{% trans "Sair" %}</a>
-    </nav>
-  </header>
+{% block content %}
 
   <div class="card-central">
     <div class="clube-header">
       <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo do Clube' %}">
-      <h1> {{ clube.nome }}</h1>
+      <h1 class="quebra-linha"> {{ clube.nome }}</h1>
     </div>
 
     <p class="descricao-clube">
-      {% trans "Um grupo apaixonado por literatura fantástica, onde discutimos obras, autores e universos que nos transportam além da realidade." %}
+      {{clube.descricao}}
     </p>
 
    <div class="botoes">
@@ -52,7 +30,7 @@
 
    
 
-{% block content %}
+{% block livro %}
 <div class="estante-container">
   
   
@@ -101,5 +79,4 @@
 </div>
 {% endblock %}
 
-</body>
-</html>
+{% endblock %}

@@ -3,20 +3,9 @@
 {% load i18n %} {# Carrega a biblioteca de internacionalização #}
 
 {% block styles %}
-  <link rel="stylesheet" href="{% static 'principal/admin.css' %}">
+  <link rel="stylesheet" href="{% static 'principal/ad_livro.css' %}">
 
-  <style>
-    /* Seu CSS permanece o mesmo */
-    .results-container { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
-    .livro-card { border: 1px solid var(--border-color-light); border-radius: var(--border-radius); padding: 1rem; display: flex; flex-direction: column; align-items: center; text-align: center; background-color: #f9f9f9; }
-    .livro-card img { width: 100px; height: 150px; object-fit: cover; border-radius: 5px; margin-bottom: 0.8rem; background-color: #e0e0e0; }
-    .livro-card h4 { font-size: 1rem; font-weight: 600; margin: 0 0 0.3rem 0; }
-    .livro-card p { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.2rem; }
-    .livro-card .info-extra { font-size: 0.8rem; color: #777; margin-bottom: 0.8rem; }
-    .livro-card .action-button { width: 100%; padding: 0.5rem; font-size: 0.8rem; margin-top: auto; }
-    #load-more-container { grid-column: 1 / -1; text-align: center; padding: 1rem 0; }
-    .search-form-grid { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: flex-end; }
-  </style>
+  
 {% endblock %}
 
 {% block content %}

@@ -172,7 +172,7 @@ class LeituraClube(SafeDeleteModel):
     _safedelete_policy = SOFT_DELETE_CASCADE
     
     class StatusClube(models.TextChoices):
-        A_LER = 'A_LER', _('A Ler (Lista de Desejos)')
+        A_LER = 'A_LER', _('Queremos Ler')
         PROXIMO = 'PROXIMO', _('Próximo a Ser Lido')
         LENDO_ATUALMENTE = 'LENDO', _('Lendo Atualmente')
         FINALIZADO = 'FINALIZADO', _('Finalizado')

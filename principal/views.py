@@ -19,6 +19,9 @@ import urllib.parse
 from datetime import datetime
 from django.utils.translation import gettext as _ 
 from django.utils import formats
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import json
 
 @login_obrigatorio
 def home(request: HttpRequest):
@@ -651,28 +654,77 @@ def lidos_view(request, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
     contexto = {'clube': clube}
     return render(request, 'principal/lidos.html', contexto) 
-
+@login_obrigatorio
 def abandonados_view(request, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
     contexto = {'clube': clube}
     return render(request, 'principal/abandonados.html', contexto) 
-
+@login_obrigatorio
 def proximo_livro_view(request, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
     contexto = {'clube': clube}
     return render(request, 'principal/proximo_livro.html', contexto)
-
+@login_obrigatorio
 def queremos_ler_view(request, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
-    contexto = {'clube': clube}
+    
+    leituras_a_ler = LeituraClube.objects.filter(
+        clube=clube, 
+        status=LeituraClube.StatusClube.A_LER
+    ).select_related('livro')
+
+    contexto = {
+        'clube': clube,
+        'leituras_a_ler': leituras_a_ler
+    }
+    
     return render(request, 'principal/queremos_ler.html', contexto)
 
+@login_obrigatorio
 def releitura_view(request, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
     contexto = {'clube': clube}
     return render(request, 'principal/releitura.html', contexto)
 
-# principal/views.py
+@login_obrigatorio
+@require_POST 
+
+@login_obrigatorio
+@require_POST
+def alterar_status_livro(request, clube_id, leitura_id):
+    if not ClubeMembro.objects.filter(clube_id=clube_id, usuario=request.usuario_logado_obj, cargo=ClubeMembro.Cargo.ADMIN).exists():
+        return JsonResponse({'success': False, 'error': 'Permissão negada'}, status=403)
+
+    try:
+        data = json.loads(request.body)
+        novo_status = data.get('status')
+
+        if novo_status not in LeituraClube.StatusClube.values:
+            return JsonResponse({'success': False, 'error': 'Status inválido'}, status=400)
+
+        leitura = get_object_or_404(LeituraClube, id=leitura_id, clube_id=clube_id)
+
+       
+        if novo_status == LeituraClube.StatusClube.LENDO_ATUALMENTE:
+            
+            LeituraClube.objects.filter(
+                clube_id=clube_id, 
+                status=LeituraClube.StatusClube.LENDO_ATUALMENTE
+            ).exclude(id=leitura_id).update(status=LeituraClube.StatusClube.A_LER)
+        
+
+        leitura.status = novo_status
+        leitura.save()
+        
+        return JsonResponse({
+            'success': True,
+            'message': 'Status atualizado com sucesso!'
+        })
+        
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'JSON inválido'}, status=400)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
 
 @admin_clube_obrigatorio
 def criar_reuniao(request: HttpRequest, clube, **kwargs):

@@ -156,15 +156,3 @@ ul.messages li.info { color: #055160; background-color: #cff4fc; border-color: #
 .secondary-action:hover {
   background-color: #bbb;
 }
-
-/* Responsividade */
-@media (max-width: 600px) {
-  .form-actions {
-    flex-direction: column;
-  }
-  .form-actions .action-button,
-  .form-actions .secondary-action {
-    width: 100%;
-    text-align: center;
-  }
-}

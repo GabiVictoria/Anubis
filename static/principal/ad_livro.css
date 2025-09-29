@@ -1,0 +1,333 @@
+/* anubis/static/principal/css/admin_styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-family: 'Poppins', sans-serif;
+  --primary-color: #6b4c3b;
+  --accent-color: #7a6053;
+  --text-color: #333;
+  --text-secondary: #555;
+  --border-color-light: #ddd;
+  --border-radius: 6px;
+  --card-bg: #fff;
+  --shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* --- Container Principal --- */
+.main-container.admin-page,
+.main-container.admin-form-page {
+  max-width: 750px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+/* --- Títulos --- */
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color-light);
+  padding-bottom: 0.5rem;
+}
+
+/* --- Formulários --- */
+.styled-form {
+  font-family: var(--font-family);
+}
+
+.styled-form .form-field {
+  margin-bottom: 1.2rem;
+}
+
+.styled-form label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.styled-form input[type="text"],
+.styled-form input[type="email"],
+.styled-form input[type="password"],
+.styled-form input[type="file"],
+.styled-form input[type="date"],
+.styled-form input[type="datetime-local"],
+.styled-form input[type="url"],
+.styled-form textarea,
+.styled-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  color: var(--text-color);
+  background-color: #fff;
+}
+
+.styled-form input:focus,
+.styled-form textarea:focus,
+.styled-form select:focus {
+  border-color: var(--accent-color);
+  outline: none;
+  box-shadow: 0 0 4px rgba(122, 96, 83, 0.3);
+}
+
+.styled-form textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Radios e checkboxes */
+.styled-form ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.styled-form ul[id*="privacidade"] li,
+.styled-form ul[id*="id_status"] li {
+  display: inline-block;
+  margin-right: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.styled-form ul[id*="id_leitura_clube_item"] li,
+.styled-form ul[id*="id_livros_opcoes"] li {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.styled-form input[type="radio"],
+.styled-form input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.styled-form ul li label {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Preview de imagens */
+.current-image-preview {
+  margin: 1rem 0;
+}
+
+.form-image-preview {
+  max-width: 180px;
+  height: auto;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color-light);
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* --- Botões --- */
+.form-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color-light);
+}
+
+.action-button {
+  padding: 0.7rem 1.3rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: none;
+  text-decoration: none;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.action-button[type="submit"],
+.action-button.primary {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.action-button.primary:hover {
+  background-color: #4a3636;
+}
+
+.secondary-action {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.secondary-action:hover {
+  background-color: #4a3636;
+}
+
+/* --- Mensagens do Django --- */
+ul.messages {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+ul.messages li {
+  padding: 0.8rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+}
+
+ul.messages li.success { color: #0f5132; background: #d1e7dd; }
+ul.messages li.error   { color: #842029; background: #f8d7da; }
+ul.messages li.warning { color: #664d03; background: #fff3cd; }
+ul.messages li.info    { color: #055160; background: #cff4fc; }
+
+/* --- Ajuda e Erros --- */
+.helptext,
+.styled-form small.form-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+  display: block;
+}
+
+.error-message {
+  color: #d93025;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+/* --- Livros em votação --- */
+.livro-opcao {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.livro-opcao label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.capa-livro {
+  width: 50px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.titulo-livro {
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+/* --- Tooltip --- */
+.info-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+}
+
+.info-tooltip .fa-info-circle {
+  color: #324457;
+  font-size: 0.9rem;
+}
+
+.info-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.info-tooltip:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- Resultados da busca --- */
+.results-container {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.livro-card {
+  border: 1px solid var(--border-color-light);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  text-align: center;
+  background-color: #f9f9f9;
+  transition: 0.2s;
+}
+
+.livro-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+}
+
+.livro-card img {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 0.8rem;
+  background-color: #e0e0e0;
+}
+
+.livro-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.livro-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.livro-card .info-extra {
+  font-size: 0.8rem;
+  color: #777;
+  margin-bottom: 0.8rem;
+}
+
+.livro-card .action-button {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+#load-more-container {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.search-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+

@@ -13,114 +13,6 @@
   --co-leader-color: #795548;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family);
-  background-color: var(--bg-color);
-  color: var(--primary-color);
-  line-height: 1.6;
-}
-
-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-}
-
-h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-h3 {
-  font-size: 1.6rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-p {
-  margin-bottom: 1rem;
-  font-size: 1rem;  
-}     
-
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.8rem 1.5rem; /* ALTERADO: menu menor */
-  background-color: var(--card-bg);
-  box-shadow: var(--shadow);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-}
-
-.header-left img {
-  height: 80px; /* ALTERADO: imagem maior */
-  width: 80px;  /* ALTERADO: imagem maior */
-  margin-right: 1rem;
-}
-
-.header-left h1 {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.slogan {
-  font-size: 1.3rem; 
-  color: #555;
-  text-align: center;
-  max-width: 100%;        /* ALTERADO: permite ocupar mais espaço */
-  white-space: nowrap;    /* ADICIONADO: impede quebra de linha */
-  overflow: hidden;       /* OPCIONAL: esconde se passar do limite */
-  text-overflow: ellipsis;/* OPCIONAL: adiciona "..." se cortar */
-}
-
-
-nav {
-  display: flex;
-  gap: 0.5rem; /* ALTERADO: espaçamento menor entre botões */
-  flex-wrap: wrap;
-}
-
-nav a {
-  text-decoration: none;
-  color: var(--primary-color);
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  transition: background 0.3s, color 0.3s;
-  font-weight: 500;
-  border: 2px solid var(--accent-color); /* ADICIONADO: borda nos botões */
-}
-
-nav a:hover {
-  background: var(--accent-color);
-  color: #fff;
-}
-
-/* até aqui deveria ser o menu */
-
-.logo-container {
-  display: flex;
-  align-items: center;
-}
-
-.logo-container img {
-  height: 80px; /* ALTERADO: imagem maior */
-  margin-right: 10px;
-}
-
-
-
  * {
       box-sizing: border-box;
       margin: 0;
@@ -146,6 +38,7 @@ nav a:hover {
     .clube-header h1 {
       font-size: 2rem;
       color: #333;
+      max-width: 800px;
     }
 
     .botoes {
@@ -180,45 +73,51 @@ nav a:hover {
     }
 
     .livros-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* colunas automáticas */
+  gap: 20px;
+}
 
-    .livro-card {
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      width: 350px;
-    }
+.livro-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-    .livro-card img {
-      width: 80px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 5px;
-    }
+.livro-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 
-    .livro-info {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
+.livro-card img {
+  width: 80px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
+}
 
-    .livro-info h3 {
-      margin: 0;
-      color: #222;
-    }
+.livro-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
 
-    .livro-info p {
-      margin: 0;
-      font-size: 0.9rem;
-      color: #555;
-    }
+.livro-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.livro-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
 
     .card-central {
   max-width: 1000px;
@@ -229,10 +128,10 @@ nav a:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* NN COLAR NO MENU*/
+
 .card-central {
   max-width: 1000px;
-  margin: 60px auto 40px auto; /* Aumenta o espaço acima */
+  margin: 60px auto 40px auto; 
   background-color: white;
   border-radius: 16px;
   padding: 30px;
@@ -241,17 +140,17 @@ nav a:hover {
 
 
 
-/* caixa da descrição */
+
 .descricao-clube{
-  background-color: #f0f0f0; /* cor de fundo clara */
-  border: 1.5px solid #a67c52; /* borda marrom, por exemplo */
-  border-radius: 8px; /* borda arredondada */
-  padding: 9px 16px; /* espaçamento interno */
-  max-width: 1000px; /* largura máxima */
-  margin-top: 10px; /* espaço acima da caixa */
+  background-color: #f0f0f0; 
+  border: 1.5px solid #a67c52; 
+  border-radius: 8px; 
+  padding: 9px 16px; 
+  max-width: 1000px; 
+  margin-top: 10px; 
   font-size: 1rem;
-  color: #333; /* cor do texto */
-  box-shadow: 1px 1px 6px rgba(0,0,0,0.1); /* sombra leve opcional */
+  color: #333; 
+  box-shadow: 1px 1px 6px rgba(0,0,0,0.1); 
 }
 
 
@@ -277,3 +176,111 @@ nav a:hover {
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
+#bt_atual {background-color: #4A3636;}
+
+
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    display: none; /* Escondido por padrão */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+
+.modal {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 25px 30px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    transform: translateY(-50px);
+    opacity: 0;
+    animation: slideIn 0.3s forwards;
+    position: relative;
+}
+
+
+.modal h2 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    color: #6B4C3B;
+    text-align: center;
+}
+
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 1.2rem;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+
+.modal select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin: 15px 0;
+}
+
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.modal-actions .btn-save {
+    background-color: #6B4C3B;
+    color: white;
+}
+
+.modal-actions .btn-save:hover {
+    background-color: #4A3636;
+}
+
+.modal-actions .btn-cancel {
+    background-color: #ccc;
+    color: #333;
+}
+
+.modal-actions .btn-cancel:hover {
+    background-color: #bbb;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
