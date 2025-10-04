@@ -5,13 +5,13 @@ from django.http import HttpRequest, HttpResponseForbidden, JsonResponse
 from django.contrib import messages
 from django.utils import timezone
 from .decorators import login_obrigatorio, admin_clube_obrigatorio
-from inicial.models import Clube, ClubeMembro, LeituraClube, Livro, Votacao, VotoUsuario, Mensagem, Usuario, Reuniao, EstantePessoal, generate_unique_id
+from inicial.models import Clube, ClubeMembro, LeituraClube, Livro, Votacao, VotoUsuario, Mensagem, Usuario, Reuniao, EstantePessoal, generate_unique_id, AvaliacaoLeitura
 from django.db import IntegrityError, transaction
 from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.files.base import ContentFile
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.db.models import Q
+from django.db.models import Q, Avg
 from .forms import ClubeEditForm, DefinirLeituraAtualForm, CriarVotacaoForm,  ReuniaoForm, VotacaoEditForm, ConvidarUsuarioForm, PerfilEditForm
 import os
 import requests
@@ -570,18 +570,16 @@ def perfil(request):
     usuario_logado = request.usuario_logado_obj 
     ultimas_adesoes = ClubeMembro.objects.filter(usuario=usuario_logado).select_related('clube').order_by('-data_inscricao')[:3]
     clubes = [adesao.clube for adesao in ultimas_adesoes]
-    leituras_qs = LeituraClube.objects.filter(clube__in=clubes, status__in=[LeituraClube.StatusClube.LENDO_ATUALMENTE, LeituraClube.StatusClube.PROXIMO]).select_related('livro')
+    leituras_qs = LeituraClube.objects.filter(clube__in=clubes, status__in=[LeituraClube.StatusClube.LENDO_ATUALMENTE]).select_related('livro')
     admins_qs = ClubeMembro.objects.filter(clube__in=clubes, cargo=ClubeMembro.Cargo.ADMIN).select_related('usuario')
 
     dados_extras_clubes = {}
     for clube in clubes:
-        dados_extras_clubes[clube.id] = {'livro_atual': None, 'proximo_livro': None, 'admin_nome': _("N/D")}
+        dados_extras_clubes[clube.id] = {'livro_atual': None, 'admin_nome': _("N/D")}
 
     for leitura in leituras_qs:
-        if leitura.status == LeituraClube.StatusClube.LENDO_ATUALMENTE:
             dados_extras_clubes[leitura.clube_id]['livro_atual'] = leitura.livro.nome
-        elif leitura.status == LeituraClube.StatusClube.PROXIMO:
-            dados_extras_clubes[leitura.clube_id]['proximo_livro'] = leitura.livro.nome
+       
     
     for admin in admins_qs:
         dados_extras_clubes[admin.clube_id]['admin_nome'] = admin.usuario.nome
@@ -595,7 +593,7 @@ def perfil(request):
             'data_entrada': adesao.data_inscricao,
             'admin_nome': dados_extras['admin_nome'],
             'livro_atual': dados_extras['livro_atual'],
-            'proximo_livro': dados_extras['proximo_livro'],
+           
         })
 
     contexto = {
@@ -604,14 +602,12 @@ def perfil(request):
     }
     return render(request, 'principal/perfil.html', contexto)
 
+# busca de perfil
 @login_obrigatorio
 def perfil_usuario(request, user_id):
-    """Exibe o perfil público de um usuário com base em seu ID único."""
-    # O user_id vem com o '@', então removemos para a busca
+    
     usuario_perfil = get_object_or_404(Usuario, unique_id=f"@{user_id}")
     
-    # Lógica para buscar os clubes e leituras deste usuário (similar à view 'perfil')
-    # ... (você pode adicionar essa lógica depois se quiser mostrar os clubes públicos dele)
 
     contexto = {
         'usuario_perfil': usuario_perfil
@@ -652,18 +648,34 @@ def estante(request, clube_id):
 @login_obrigatorio
 def lidos_view(request, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
-    contexto = {'clube': clube}
+    
+    lidos = LeituraClube.objects.filter(
+        clube=clube, 
+        status=LeituraClube.StatusClube.FINALIZADO
+    ).select_related('livro')
+
+    contexto = {
+        'clube': clube,
+        'lidos': lidos
+    }
     return render(request, 'principal/lidos.html', contexto) 
+
 @login_obrigatorio
 def abandonados_view(request, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
-    contexto = {'clube': clube}
+    
+    abandonado = LeituraClube.objects.filter(
+        clube=clube, 
+        status=LeituraClube.StatusClube.ABANDONADO
+    ).select_related('livro')
+
+    contexto = {
+        'clube': clube,
+        'abandonado': abandonado
+    }
+   
     return render(request, 'principal/abandonados.html', contexto) 
-@login_obrigatorio
-def proximo_livro_view(request, clube_id):
-    clube = get_object_or_404(Clube, id=clube_id)
-    contexto = {'clube': clube}
-    return render(request, 'principal/proximo_livro.html', contexto)
+
 @login_obrigatorio
 def queremos_ler_view(request, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
@@ -680,51 +692,170 @@ def queremos_ler_view(request, clube_id):
     
     return render(request, 'principal/queremos_ler.html', contexto)
 
-@login_obrigatorio
-def releitura_view(request, clube_id):
-    clube = get_object_or_404(Clube, id=clube_id)
-    contexto = {'clube': clube}
-    return render(request, 'principal/releitura.html', contexto)
-
-@login_obrigatorio
-@require_POST 
 
 @login_obrigatorio
 @require_POST
 def alterar_status_livro(request, clube_id, leitura_id):
     if not ClubeMembro.objects.filter(clube_id=clube_id, usuario=request.usuario_logado_obj, cargo=ClubeMembro.Cargo.ADMIN).exists():
-        return JsonResponse({'success': False, 'error': 'Permissão negada'}, status=403)
+        return JsonResponse({'success': False, 'level': 'error', 'message': 'Permissão negada'}, status=403)
 
     try:
         data = json.loads(request.body)
         novo_status = data.get('status')
+        data_finalizacao_str = data.get('data_finalizacao') 
 
         if novo_status not in LeituraClube.StatusClube.values:
-            return JsonResponse({'success': False, 'error': 'Status inválido'}, status=400)
+            return JsonResponse({'success': False, 'level': 'error', 'message': 'Status inválido'}, status=400)
 
         leitura = get_object_or_404(LeituraClube, id=leitura_id, clube_id=clube_id)
 
-       
+        
         if novo_status == LeituraClube.StatusClube.LENDO_ATUALMENTE:
-            
             LeituraClube.objects.filter(
                 clube_id=clube_id, 
                 status=LeituraClube.StatusClube.LENDO_ATUALMENTE
             ).exclude(id=leitura_id).update(status=LeituraClube.StatusClube.A_LER)
         
+        
+        if novo_status == LeituraClube.StatusClube.FINALIZADO:
+            if not data_finalizacao_str:
+                return JsonResponse({'success': False, 'level': 'error', 'message': 'Para finalizar um livro, a data de finalização é obrigatória.'}, status=400)
+            try:
+                # Converte a string de data para um objeto de data do Python
+                leitura.data_finalizacao = datetime.strptime(data_finalizacao_str, '%Y-%m-%d').date()
+            except ValueError:
+                return JsonResponse({'success': False, 'level': 'error', 'message': 'Formato de data inválido. Use AAAA-MM-DD.'}, status=400)
+        else:
+            # Garante que a data de finalização seja limpa se o status não for 'FINALIZADO'
+            leitura.data_finalizacao = None
 
         leitura.status = novo_status
         leitura.save()
         
         return JsonResponse({
             'success': True,
-            'message': 'Status atualizado com sucesso!'
+            'level': 'success',
+            'message': _('Status do livro atualizado com sucesso!')
         })
         
     except json.JSONDecodeError:
-        return JsonResponse({'success': False, 'error': 'JSON inválido'}, status=400)
+        return JsonResponse({'success': False, 'level': 'error', 'message': 'JSON inválido'}, status=400)
     except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+        return JsonResponse({'success': False, 'level': 'error', 'message': str(e)}, status=500)
+    
+
+
+@login_obrigatorio
+@require_POST 
+def atualizar_progresso(request: HttpRequest, estante_pessoal_id):
+    """
+    Atualiza o progresso da leitura via JSON, retornando uma mensagem padronizada.
+    """
+    estante_entry = get_object_or_404(EstantePessoal, id=estante_pessoal_id, usuario=request.usuario_logado_obj)
+    
+    try:
+        data = json.loads(request.body)
+        paginas_lidas = int(data.get('paginas_lidas', estante_entry.progresso_paginas))
+        finalizado = data.get('finalizado', False)
+
+        total_paginas = estante_entry.livro.paginas
+
+        # Validação de páginas lidas
+        if total_paginas and (paginas_lidas < 0 or paginas_lidas > total_paginas):
+            message_text = _('Número de páginas inválido.')
+            messages.error(request, message_text)
+            return JsonResponse({'success': False, 'message': str(message_text), 'level': 'error'}, status=400)
+
+        is_100_percent = total_paginas is not None and paginas_lidas >= total_paginas
+
+        if finalizado or is_100_percent:
+            estante_entry.progresso_paginas = total_paginas
+            estante_entry.status = EstantePessoal.StatusLeitura.LIDO
+            
+            message_text = _('Leitura finalizada com sucesso!')
+            messages.success(request, message_text)
+            
+            response_data = {
+                'success': True,
+                'message': str(message_text),
+                'level': 'success',
+                'show_rating_modal': False
+            }
+            leitura_do_clube = LeituraClube.objects.filter(clube=estante_entry.clube, livro=estante_entry.livro).first()
+            if leitura_do_clube:
+                ja_avaliou = AvaliacaoLeitura.objects.filter(leitura_clube=leitura_do_clube, usuario=request.usuario_logado_obj).exists()
+                if leitura_do_clube.status == LeituraClube.StatusClube.LENDO_ATUALMENTE and not ja_avaliou:
+                    response_data['show_rating_modal'] = True
+                    response_data['leitura_clube_id'] = leitura_do_clube.id
+            
+            estante_entry.save()
+            return JsonResponse(response_data)
+
+        estante_entry.progresso_paginas = paginas_lidas
+        estante_entry.save()
+        
+        message_text = _('Progresso atualizado!')
+        messages.success(request, message_text)
+        return JsonResponse({'success': True, 'message': str(message_text), 'level': 'success'})
+
+    except json.JSONDecodeError:
+        message_text = _('Erro nos dados enviados.')
+        messages.error(request, message_text)
+        return JsonResponse({'success': False, 'message': str(message_text), 'level': 'error'}, status=400)
+    except Exception as e:
+        message_text = _('Ocorreu um erro inesperado ao atualizar o progresso.')
+        messages.error(request, str(e)) # Log do erro real no backend
+        return JsonResponse({'success': False, 'message': str(message_text), 'level': 'error'}, status=500)
+
+
+@login_obrigatorio
+@require_POST
+def registrar_nota_clube(request: HttpRequest, leitura_id):
+    """
+    Salva a nota do usuário e recalcula a média, retornando JSON com a mensagem.
+    """
+    try:
+        leitura_clube = get_object_or_404(LeituraClube, id=leitura_id)
+        usuario = request.usuario_logado_obj
+        
+        if not ClubeMembro.objects.filter(clube=leitura_clube.clube, usuario=usuario).exists():
+            message_text = _('Você não é membro deste clube.')
+            messages.error(request, message_text)
+            return JsonResponse({'success': False, 'message': str(message_text), 'level': 'error'}, status=403)
+
+        data = json.loads(request.body)
+        nota = float(data.get('nota'))
+
+        # Validação da nota
+        if not (0 <= nota <= 5):
+            message_text = _('A nota deve ser um valor entre 0 e 5.')
+            messages.error(request, message_text)
+            return JsonResponse({'success': False, 'message': str(message_text), 'level': 'error'}, status=400)
+        
+        AvaliacaoLeitura.objects.update_or_create(
+            leitura_clube=leitura_clube,
+            usuario=usuario,
+            defaults={'nota': nota}
+        )
+
+        nova_media = AvaliacaoLeitura.objects.filter(leitura_clube=leitura_clube).aggregate(Avg('nota'))['nota__avg']
+        leitura_clube.nota_media_clube = round(nova_media, 1) if nova_media else None
+        leitura_clube.save()
+
+        message_text = _('Sua avaliação foi registrada. Obrigado!')
+        messages.success(request, message_text)
+        return JsonResponse({'success': True, 'message': str(message_text), 'level': 'success'})
+
+    except json.JSONDecodeError:
+        message_text = _('Erro nos dados enviados.')
+        messages.error(request, message_text)
+        return JsonResponse({'success': False, 'message': str(message_text), 'level': 'error'}, status=400)
+    except Exception as e:
+        message_text = _('Ocorreu um erro inesperado ao salvar sua avaliação.')
+        messages.error(request, str(e)) # Log do erro real
+        return JsonResponse({'success': False, 'message': str(message_text), 'level': 'error'}, status=500)
+
+
 
 @admin_clube_obrigatorio
 def criar_reuniao(request: HttpRequest, clube, **kwargs):
@@ -826,27 +957,6 @@ def fechar_votacao(request: HttpRequest, clube, votacao_id, **kwargs):
         votacao.save()
         messages.success(request, _("A votação foi fechada manualmente."))
     return redirect('principal:detalhes_clube', clube_id=clube.id)
-
-@login_obrigatorio
-def atualizar_progresso(request: HttpRequest, estante_pessoal_id):
-    estante_entry = get_object_or_404(EstantePessoal, id=estante_pessoal_id, usuario=request.usuario_logado_obj)
-    clube_id = estante_entry.clube.id
-    if request.method == 'POST':
-        try:
-            paginas_lidas_str = request.POST.get('paginas_lidas', '0')
-            if not paginas_lidas_str.isdigit():
-                messages.error(request, _("Por favor, insira um número de páginas válido."))
-                return redirect('principal:detalhes_clube', clube_id=clube_id)
-            paginas_lidas = int(paginas_lidas_str)
-            if estante_entry.livro.paginas and paginas_lidas > estante_entry.livro.paginas:
-                paginas_lidas = estante_entry.livro.paginas
-                messages.warning(request, _("O número de páginas foi ajustado para o máximo do livro."))
-            estante_entry.progresso_paginas = paginas_lidas
-            estante_entry.save()
-            messages.success(request, _("Progresso de leitura atualizado com sucesso!"))
-        except Exception:
-            messages.error(request, _("Ocorreu um erro inesperado ao atualizar o progresso."))
-    return redirect('principal:detalhes_clube', clube_id=clube_id)
 
 @login_obrigatorio
 def iniciar_leitura(request: HttpRequest, clube_id, livro_id):

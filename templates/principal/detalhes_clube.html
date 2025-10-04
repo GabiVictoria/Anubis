@@ -6,7 +6,7 @@
 {% block styles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{% static 'principal/clube_detalhe.css' %}">
-  <script src="{% static 'principal/js/clube_detalhe.js' %}"></script>
+  <!-- <script src="{% static 'principal/js/clube_detalhe.js' %}"></script> -->
 {% endblock %}
 
 {% block content %}
@@ -210,35 +210,55 @@
     </div>
   </div> -->
 
- {% if estante_pessoal_obj %}
-<div class="card-container">
-  <h2 class="card-title">{% trans "PROGRESSO DE LEITURA" %}</h2>
-  <hr />
-  <div class="card">
-    <img src="{% if estante_pessoal_obj.livro.capa %}{{ estante_pessoal_obj.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ estante_pessoal_obj.livro.nome }}" class="capa-progresso">
-    <div class="content">
-      <h3 class="title">{{ estante_pessoal_obj.livro.nome }}</h3>
-      <p class="club">{{ estante_pessoal_obj.livro.autor }}</p>
-      <div class="progress-container">
-        <div class="progress-bar" id="progressBar" style="width: {{ progresso_percentual }}%;"></div>
-      </div>
-      <div class="progress-text" id="progressText">
-          {{ progresso_percentual }}% {% trans "concluído" %}
-      </div>
-      
-     
-      <div class="controls">
-        <form method="post" action="{% url 'principal:atualizar_progresso' estante_pessoal_obj.id %}">
-            {% csrf_token %}
-            <label for="progressInput">{% trans "Páginas lidas:" %}</label>
-            <input type="number" id="progressInput" name="paginas_lidas" min="0" max="{{ estante_pessoal_obj.livro.paginas|default:'' }}" value="{{ estante_pessoal_obj.progresso_paginas|default:0 }}">
-            <button class="btpadrao" type="submit">{% trans "Atualizar" %}</button>
-        </form>
+    {% if estante_pessoal_obj %}
+    <div class="card-container">
+      <h2 class="card-title">{% trans "PROGRESSO DE LEITURA" %}</h2>
+      <hr />
+      <div class="card">
+        <img src="{% if estante_pessoal_obj.livro.capa %}{{ estante_pessoal_obj.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ estante_pessoal_obj.livro.nome }}" class="capa-progresso">
+        <div class="content">
+          <h3 class="title">{{ estante_pessoal_obj.livro.nome }}</h3>
+          <p class="club">{{ estante_pessoal_obj.livro.autor }}</p>
+          <div class="progress-container">
+            <div class="progress-bar" id="progressBar" style="width: {{ progresso_percentual }}%;"></div>
+          </div>
+          <div class="progress-text" id="progressText" data-translation="{% trans 'concluído' %}">
+            {{ progresso_percentual }}% {% trans "concluído" %}
+          </div>
+          <div class="controls">
+            <form id="progressForm">
+                {% csrf_token %}
+                <label for="progressInput">{% trans "Páginas lidas:" %}</label>
+                <input type="number" id="progressInput" name="paginas_lidas" min="0" max="{{ estante_pessoal_obj.livro.paginas|default:'' }}" value="{{ estante_pessoal_obj.progresso_paginas|default:0 }}">
+                <button class="btpadrao" type="submit">{% trans "Atualizar" %}</button>
+                <button class="btpadrao finish-button" type="button" id="finishReadingBtn">{% trans "Finalizar Leitura" %}</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-{% endif %}
+    {% endif %}
+
+    <div class="modal-overlay" id="ratingModalOverlay">
+        <div class="modal" id="ratingModal">
+            <h2>{% trans "Parabéns por finalizar a leitura!" %}</h2>
+            <p>{% trans "Por favor, dê uma nota de 0 a 5. Esta nota contribuirá para a média do clube." %}</p>
+            <form id="ratingForm">
+                {% csrf_token %}
+                <input type="hidden" id="modalLeituraClubeId" name="leitura_clube_id" value="">
+                <div class="rating-stars">
+                    <label for="nota">{% trans "Sua nota:" %} <output id="notaOutput">3.0</output></label>
+                    <input type="range" id="nota" name="nota" min="0" max="5" step="0.5" value="3" style="width: 100%;">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="cancelRatingBtn">{% trans "Cancelar" %}</button>
+                    <button type="submit" class="btn-save">{% trans "Enviar Avaliação" %}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    </div>
 
  
 
@@ -288,72 +308,126 @@
         {% endif %}
     </div>
 
-
+{% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- LÓGICA 1: Animação das barras de progresso da votação ---
-    const animateVotingBars = () => {
-        const progressBars = document.querySelectorAll('.voting-section .progress-bar');
-        progressBars.forEach(bar => {
-            const finalWidth = bar.style.width;
-            if (finalWidth) {
-                bar.style.width = '0%';
-                setTimeout(() => {
-                    bar.style.width = finalWidth;
-                }, 300);
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    // --- LÓGICA DE PROGRESSO DE LEITURA ---
+    const progressForm = document.getElementById('progressForm');
+    const finishReadingBtn = document.getElementById('finishReadingBtn');
+
+    async function saveProgress(finalizado = false) {
+        const progressInput = document.getElementById('progressInput');
+        const paginasLidas = parseInt(progressInput.value) || 0;
+        const url = "{% url 'principal:atualizar_progresso' estante_pessoal_obj.id %}";
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken
+                },
+                body: JSON.stringify({
+                    paginas_lidas: paginasLidas,
+                    finalizado: finalizado
+                })
+            });
+
+            const data = await response.json();
+
+            // **LÓGICA ALTERADA AQUI**
+            if (data.success) {
+                // Se a view retornou sucesso, recarrega a página.
+                // A mensagem do Django aparecerá após o reload.
+                location.reload();
+            } else {
+                // Se a view retornou um erro, exibe um alerta para o usuário
+                // sem recarregar, para que ele possa corrigir.
+                alert(data.message || "{% trans 'Ocorreu um erro ao salvar o progresso.' %}");
+            }
+
+        } catch (err) {
+            console.error("Erro na requisição de progresso:", err);
+            alert("{% trans 'Erro de rede. Tente novamente.' %}");
+        }
+    }
+
+    // --- Event Listeners ---
+
+    if (progressForm) {
+        progressForm.addEventListener('submit', (e) => {
+            // Previne o envio padrão para deixar nosso script assumir o controle
+            e.preventDefault();
+            saveProgress(false);
+        });
+    }
+
+    if (finishReadingBtn) {
+        finishReadingBtn.addEventListener('click', () => {
+            if (confirm("{% trans 'Finalizar a leitura marcará o livro como 100% concluído. Deseja continuar?' %}")) {
+                saveProgress(true);
             }
         });
-    };
+    }
 
-    
-    const handleReadingProgressUpdate = () => {
-        const updateBtn = document.getElementById('updateProgressBtn');
-        if (!updateBtn) return; // Se o botão não existir na página, não faz nada
+    // --- LÓGICA DO MODAL DE AVALIAÇÃO (NÃO PRECISA RECARREGAR IMEDIATAMENTE) ---
+    // Esta parte continua igual, pois o modal aparece dinamicamente
+    const ratingModalOverlay = document.getElementById("ratingModalOverlay");
+    if (ratingModalOverlay) {
+        const ratingForm = document.getElementById("ratingForm");
+        const cancelRatingBtn = document.getElementById("cancelRatingBtn");
+        const notaInput = document.getElementById("nota");
+        const notaOutput = document.getElementById("notaOutput");
 
-        updateBtn.addEventListener('click', () => {
-            const input = document.getElementById('progressInput');
-            const paginasLidas = input.value;
-            const estanteId = "{{ estante_pessoal_obj.id }}"; // Django injeta o ID aqui
-            const url = `/app/estante_pessoal/${estanteId}/atualizar_progresso/`;
-            
-            updateBtn.disabled = true;
-            updateBtn.textContent = "{% trans 'Salvando...' %}";
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: `paginas_lidas=${paginasLidas}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const progressBar = document.getElementById('progressBar');
-                    const progressText = document.getElementById('progressText');
-                    const formatoTraduzido = progressText.getAttribute('data-translation-format');
-                    
-                    progressBar.style.width = data.percentual + '%';
-                    progressText.textContent = formatoTraduzido.replace('{value}', data.percentual);
-                    input.value = data.paginas_lidas;
-                } else {
-                    alert('{% trans "Erro ao atualizar o progresso." %}');
-                }
-            })
-            .catch(error => console.error('Error:', error))
-            .finally(() => {
-                updateBtn.disabled = false;
-                updateBtn.textContent = "{% trans 'Atualizar' %}";
+        if (notaInput && notaOutput) {
+            notaInput.addEventListener("input", () => {
+                notaOutput.textContent = parseFloat(notaInput.value).toFixed(1);
             });
+        }
+
+        function closeModal() {
+            ratingModalOverlay.classList.remove('active');
+        }
+
+        cancelRatingBtn.addEventListener("click", closeModal);
+        ratingModalOverlay.addEventListener('click', (event) => {
+            if (event.target === ratingModalOverlay) closeModal();
         });
-    };
 
-    
-    animateVotingBars();
-    handleReadingProgressUpdate();
+        if (ratingForm) {
+            ratingForm.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const leituraClubeId = document.getElementById("modalLeituraClubeId").value;
+                const nota = parseFloat(notaInput.value);
+                const url = "{% url 'principal:registrar_nota_clube' 0 %}".replace("0", leituraClubeId);
 
+                try {
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken },
+                        body: JSON.stringify({ nota: nota })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        // Após dar a nota, também recarregamos a página
+                        location.reload();
+                    } else {
+                        alert(data.message || "{% trans 'Não foi possível registrar a nota.' %}");
+                    }
+                } catch (err) {
+                    console.error("Erro ao registrar nota:", err);
+                    alert("{% trans 'Erro de rede ao enviar avaliação.' %}");
+                }
+            });
+        }
+    }
 });
 </script>
+
 {% endblock %}
+
+
+{% endblock %}
+

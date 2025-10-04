@@ -173,9 +173,9 @@ class LeituraClube(SafeDeleteModel):
     
     class StatusClube(models.TextChoices):
         A_LER = 'A_LER', _('Queremos Ler')
-        PROXIMO = 'PROXIMO', _('Próximo a Ser Lido')
         LENDO_ATUALMENTE = 'LENDO', _('Lendo Atualmente')
         FINALIZADO = 'FINALIZADO', _('Finalizado')
+        ABANDONADO = 'ABANDONADO', _('Abandonado')
 
     clube = models.ForeignKey(Clube, on_delete=models.CASCADE)
     livro = models.ForeignKey(Livro, on_delete=models.CASCADE)
@@ -261,3 +261,25 @@ class Mensagem(SafeDeleteModel):
 
     def __str__(self):
         return f"Mensagem de {self.autor.email} em '{self.clube.nome}'"
+    
+
+# ==============================================================================
+# 9. MODELO DE AVALIAÇÃO DE LEITURA 
+# ==============================================================================
+class AvaliacaoLeitura(SafeDeleteModel):
+    _safedelete_policy = SOFT_DELETE_CASCADE
+
+    leitura_clube = models.ForeignKey(LeituraClube, on_delete=models.CASCADE, related_name='avaliacoes')
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    nota = models.DecimalField(
+        max_digits=3, decimal_places=1,
+        validators=[MinValueValidator(0.0), MaxValueValidator(5.0)]
+    )
+    data_avaliacao = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+       
+        unique_together = ('leitura_clube', 'usuario')
+
+    def __str__(self):
+        return f"Nota {self.nota} de {self.usuario.nome} para '{self.leitura_clube.livro.nome}'"

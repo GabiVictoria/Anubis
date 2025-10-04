@@ -116,6 +116,10 @@
   gap: 40px;
 }
 
+.livro-card h2{
+  max-width: 800px;
+}
+
 .livro-img {
   width: 200px;      /* IMAGEM MAIS LARGA */
   height: 300px;     /* IMAGEM MAIS ALTA */
@@ -147,3 +151,111 @@
   margin: 0;
 }
 
+
+
+
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    display: none; /* Escondido por padrão */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+
+.modal {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 25px 30px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    transform: translateY(-50px);
+    opacity: 0;
+    animation: slideIn 0.3s forwards;
+    position: relative;
+}
+
+
+.modal h2 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    color: #6B4C3B;
+    text-align: center;
+}
+
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 1.2rem;
+    color: #333;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+
+.modal select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin: 15px 0;
+}
+
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.modal-actions .btn-save {
+    background-color: #6B4C3B;
+    color: white;
+}
+
+.modal-actions .btn-save:hover {
+    background-color: #4A3636;
+}
+
+.modal-actions .btn-cancel {
+    background-color: #ccc;
+    color: #333;
+}
+
+.modal-actions .btn-cancel:hover {
+    background-color: #bbb;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
+}

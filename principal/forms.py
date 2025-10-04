@@ -39,7 +39,7 @@ class AdicionarLivroEstanteForm(forms.Form):
     status = forms.ChoiceField(
         choices=[
             (LeituraClube.StatusClube.A_LER, 'Quero Ler (Estante do Clube)'),
-            (LeituraClube.StatusClube.PROXIMO, 'Próximo a Ser Lido pelo Clube'),
+            
         ], 
         label="Status da Leitura no Clube"
     )
@@ -64,7 +64,7 @@ class DefinirLeituraAtualForm(forms.Form):
         if clube:
             self.fields['leitura_clube_item'].queryset = LeituraClube.objects.filter(
                 clube=clube,
-                status__in=[LeituraClube.StatusClube.A_LER, LeituraClube.StatusClube.PROXIMO]
+                status__in=[LeituraClube.StatusClube.A_LER, LeituraClube.StatusClube.ABANDONADO]
             ).select_related('livro').order_by('livro__nome')
             self.fields['leitura_clube_item'].label_from_instance = lambda obj: f"{obj.livro.nome} (Status atual: {obj.get_status_display()})"
 

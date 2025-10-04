@@ -33,9 +33,7 @@ urlpatterns = [
     path('estante/<int:clube_id>/', views.estante, name='estante'),
     path('estante/<int:clube_id>/lidos/', views.lidos_view, name='lidos'), 
     path('estante/<int:clube_id>/abandonados/', views.abandonados_view, name='abandonados'),
-    path('estante/<int:clube_id>/proximo/', views.proximo_livro_view, name='proximo_livro'), 
-    path('estante/<int:clube_id>/queremos/', views.queremos_ler_view, name='queremos_ler'), 
-    path('estante/<int:clube_id>/releitura/', views.releitura_view, name='releitura'), 
+    path('estante/<int:clube_id>/queremos/', views.queremos_ler_view, name='queremos_ler'),  
     path('clube/<int:clube_id>/admin/alterar-status-leitura/<int:leitura_id>/', views.alterar_status_livro, name='alterar_status_livro'),
 
     # ==============================================================================
@@ -44,7 +42,7 @@ urlpatterns = [
     path('clube/<int:clube_id>/votacao/<int:votacao_id>/votar/', views.registrar_voto, name='registrar_voto'),
     path('clube/<int:clube_id>/livro/<int:livro_id>/iniciar_leitura/', views.iniciar_leitura, name='iniciar_leitura'),
     path('estante_pessoal/<int:estante_pessoal_id>/atualizar_progresso/', views.atualizar_progresso, name='atualizar_progresso'),
-
+    path('leitura/<int:leitura_id>/avaliar/', views.registrar_nota_clube, name='registrar_nota_clube'),
     # ==============================================================================
     # ROTAS DE ADMINISTRAÇÃO DO CLUBE 
     # ==============================================================================

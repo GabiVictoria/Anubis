@@ -1,90 +1,166 @@
 {% extends 'principal/base.html' %}
 {% load static %}
 {% load i18n %}
+
 {% block styles %}
   <link rel="stylesheet" href="{% static 'principal/lidos.css' %}">
-  <script src="{% static 'principal/js/lidos.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
 {% endblock %}
 
 {% block content %}
+  <ul class="messages" id="dynamic-messages"></ul>
+
   <div class="card-central">
     <div class="clube-header">
       <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo do Clube' %}">
       <h1 class="quebra-linha"> {{ clube.nome }}</h1>
     </div>
-
-    <p class="descricao-clube">
-      {{clube.descricao}}
-    </p>
+    <p class="descricao-clube">{{ clube.descricao }}</p>
 
     <div class="botoes">
       <a href="{% url 'principal:estante' clube.id %}" class="botoes">{% trans "Lendo" %}</a>
       <a href="{% url 'principal:lidos' clube.id %}" class="botoes" id="bt_atual">{% trans "Lidos" %}</a>
       <a href="{% url 'principal:abandonados' clube.id %}" class="botoes">{% trans "Abandonados" %}</a>
-      <a href="{% url 'principal:proximo_livro' clube.id %}" class="botoes">{% trans "Próximo Livro" %}</a>
       <a href="{% url 'principal:queremos_ler' clube.id %}" class="botoes">{% trans "Queremos Ler" %}</a>
-      <a href="{% url 'principal:releitura' clube.id %}" class="botoes">{% trans "Releitura" %}</a>
     </div>
-
-    <div class="filtro-ano">
-        <label for="ano">{% trans "Filtrar por ano:" %} </label>
-        <select id="ano">
-          <option>{% trans "Todos" %}</option>
-          <option>2025</option>
-          <option>2024</option>
-        </select>
-      </div>
 
     <div class="livros-container">
-      <div class="livro-card" data-ano="2025">
-        <img src="p4.jpg" alt="{% trans 'Capa do Livro' %}">
-        <div class="livro-info" data-ano="2025">
-          <h3>O Nome do Vento</h3>
-          <p><strong>{% trans "Autor:" %}</strong> Patrick Rothfuss</p>
-          <p><strong>{% trans "Última leitura:" %}</strong> 15/05/2025</p>
-          <p><strong>{% trans "Nota média:" %}</strong> ⭐ 4.8</p>
+      {% for leitura in lidos %}
+        <div class="livro-card" data-livro-id="{{ leitura.id }}">
+          <img src="{% if leitura.livro.capa %}{{ leitura.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{% trans 'Capa do Livro' %}">
+          <div class="livro-info">
+            <h3>{{ leitura.livro.nome }}</h3>
+            <p><strong>{% trans "Autor:" %}</strong> {{ leitura.livro.autor }}</p>
+            <p><strong>{% trans "Finalizado em:" %}</strong> {{ leitura.data_finalizacao|date:"d/m/Y" }}</p>
+            <p><strong>{% trans "Nota média:" %}</strong> ⭐ {{ leitura.nota_media_clube|default:"N/A" }}</p>
+          </div>
         </div>
-      </div>
-
-      <div class="livro-card" data-ano="2025">
-        <img src="capa-duna.jpg" alt="{% trans 'Capa do Livro' %}">
-        <div class="livro-info">
-          <h3>Duna</h3>
-          <p><strong>{% trans "Autor:" %}</strong> Frank Herbert</p>
-          <p><strong>{% trans "Última leitura:" %}</strong> 02/03/2025</p>
-          <p><strong>{% trans "Nota média:" %}</strong>⭐ 4.5</p>
-        </div>
-      </div>
-
-      <div class="livro-card" data-ano="2025">
-        <img src="capa-hobbit.jpg" alt="{% trans 'Capa do Livro' %}">
-        <div class="livro-info">
-          <h3>O Hobbit</h3>
-          <p><strong>{% trans "Autor:" %}</strong> J.R.R. Tolkien</p>
-          <p><strong>{% trans "Última leitura:" %}</strong> 10/01/2025</p>
-          <p><strong>{% trans "Nota média:" %}</strong>⭐ 4.9</p>
-        </div>
-      </div>
-
-      <div class="livro-card" data-ano="2025">
-        <img src="capa-cores-da-magica.jpg" alt="{% trans 'Capa do Livro' %}">
-        <div class="livro-info">
-          <h3>A Cor da Magia</h3>
-          <p><strong>{% trans "Autor:" %}</strong> Terry Pratchett</p>
-          <p><strong>{% trans "Última leitura:" %}</strong> 25/02/2025</p>
-          <p><strong>{% trans "Nota média:" %}</strong> ⭐ 4.2</p>
-        </div>
-      </div>
-
-      <div class="livro-card" data-ano="2025">
-        <img src="capa-jogos-vorazes.jpg" alt="{% trans 'Capa do Livro' %}">
-        <div class="livro-info">
-          <h3>Jogos Vorazes</h3>
-          <p><strong>{% trans "Autor:" %}</strong> Suzanne Collins</p>
-          <p><strong>{% trans "Última leitura:" %}</strong> 08/04/2025</p>
-          <p><strong>{% trans "Nota média:" %}</strong>⭐ 4.6</p>
-        </div>
-      </div>
+      {% empty %}
+        <p class="sem-livros-msg">{% trans "Nenhum livro foi finalizado por este clube ainda." %}</p>
+      {% endfor %}
     </div>
   </div>
+  
+   <div class="modal-overlay" id="statusModalOverlay" style="display:none;">
+    <div class="modal" id="statusModal">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <h2>{% trans "Alterar Status do Livro" %}</h2>
+
+      <form id="statusForm">
+        {% csrf_token %}
+        <input type="hidden" id="modalLivroId" name="livro_id" value="">
+        
+        <label for="novoStatus">Status:</label>
+        <select id="novoStatus" name="status">
+          <option value="A_LER">{% trans "A Ler" %}</option>
+          <option value="LENDO_ATUALMENTE">{% trans "Lendo Atualmente" %}</option>
+          <option value="ABANDONADO">{% trans "Abandonado" %}</option>
+        </select>
+
+        <div id="dataFinalizacaoContainer" style="display:none; margin-top: 10px;">
+            <label for="dataFinalizacao">{% trans "Data de Finalização:" %}</label>
+            <input type="date" id="dataFinalizacao" name="data_finalizacao" style="width: 100%; padding: 8px; box-sizing: border-box;">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelModal">{% trans "Cancelar" %}</button>
+          <button type="submit" class="btn-save">{% trans "Salvar" %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+ 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const modalOverlay = document.getElementById('statusModalOverlay');
+      const modalClose = document.getElementById('modalClose');
+      const cancelModal = document.getElementById('cancelModal');
+      const statusForm = document.getElementById('statusForm');
+      const modalLivroIdInput = document.getElementById('modalLivroId');
+      const clubeId = "{{ clube.id }}";
+      
+      const novoStatusSelect = document.getElementById('novoStatus');
+      const dataFinalizacaoContainer = document.getElementById('dataFinalizacaoContainer');
+
+      
+      novoStatusSelect.addEventListener('change', () => {
+        if (novoStatusSelect.value === 'FINALIZADO') {
+          dataFinalizacaoContainer.style.display = 'block';
+        } else {
+          dataFinalizacaoContainer.style.display = 'none';
+        }
+      });
+
+      
+      document.querySelectorAll('.livro-card').forEach(card => {
+        card.addEventListener('click', () => {
+          modalLivroIdInput.value = card.getAttribute('data-livro-id');
+          
+          novoStatusSelect.value = 'A_LER';
+          dataFinalizacaoContainer.style.display = 'none';
+          modalOverlay.style.display = 'flex';
+        });
+      });
+      
+      
+      modalClose.addEventListener('click', () => modalOverlay.style.display = 'none');
+      cancelModal.addEventListener('click', () => modalOverlay.style.display = 'none');
+
+      
+      function showDynamicMessage(message, level) {
+          const messagesContainer = document.getElementById('dynamic-messages');
+          const messageLi = document.createElement('li');
+          messageLi.className = level; 
+          messageLi.textContent = message;
+          messagesContainer.appendChild(messageLi);
+         
+          setTimeout(() => {
+              messageLi.style.opacity = '0';
+              setTimeout(() => messageLi.remove(), 500);
+          }, 5000);
+      }
+
+      
+      statusForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const leituraId = modalLivroIdInput.value;
+        const novoStatus = novoStatusSelect.value;
+        const dataFinalizacao = document.getElementById('dataFinalizacao').value;
+        const url = `/app/clube/${clubeId}/admin/alterar-status-leitura/${leituraId}/`;
+
+        
+        let bodyData = { status: novoStatus };
+        if (novoStatus === 'FINALIZADO') {
+            bodyData.data_finalizacao = dataFinalizacao;
+        }
+
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            },
+            body: JSON.stringify(bodyData)
+          });
+          const data = await response.json();
+
+          
+          showDynamicMessage(data.message, data.level);
+
+          if (response.ok) {
+            modalOverlay.style.display = 'none';
+           
+            setTimeout(() => location.reload(), 1000);
+          }
+        } catch (error) {
+          console.error('Erro na requisição:', error);
+          showDynamicMessage('{% trans "Ocorreu um erro de rede. Tente novamente." %}', 'error');
+        }
+      });
+    });
+  </script>
 {% endblock %}
