@@ -173,7 +173,7 @@
       <ul class="member-list">
         {% for membro_cm in membros_do_clube %}
           <li class="member-item">
-            <img src="{{ default_avatar_url }}" alt="{{ membro_cm.usuario.nome }}" class="member-avatar">
+            <img src="{% if usuario.foto_perfil %}{{ usuario.foto_perfil.url }}{% else %}{% static 'img/Logo..png' %}{% endif %}" alt="{{ membro_cm.usuario.nome }}" class="member-avatar">
             <div class="member-info">
               <span class="member-name {% if membro_cm.cargo == CargoChoices.ADMIN %}leader{% elif membro_cm.cargo == CargoChoices.MODERADOR %}co-leader{% endif %}">
                 <p class="texto-truncado">{{ membro_cm.usuario.nome }}</p>
@@ -188,7 +188,7 @@
       </ul>
     </div>
 
-    <!-- <div class="shelf-section section card-style">
+    <div class="shelf-section section card-style">
       <h3>{% trans "Livros Já Lidos Pelo Clube" %}</h3>
       {% if leituras_finalizadas %}
         <ul class="shelf-list">
@@ -197,9 +197,17 @@
               <img src="{% if leitura.livro.capa %}{{ leitura.livro.capa.url }}{% else %}{% static 'img/default_book_cover.png' %}{% endif %}" alt="{{ leitura.livro.nome }}" class="shelf-book-cover">
               <div class="shelf-item-info">
                 <strong>{{ leitura.livro.nome }}</strong>
-                {% with final_date=leitura.data_finalizacao|date:"d/m/Y"|default:"N/D" rating=leitura.nota_media_clube|default:"N/A" %}
-                    <span>{% blocktrans %}Finalizado em: {{ final_date }} | Avaliação: {{ rating }}/5{% endblocktrans %}</span>
-                {% endwith %}
+                {% with final_date=leitura.data_finalizacao|date:"d/m/Y"|default:"N/D" %}
+    <span>
+        {% blocktrans %}Finalizado em: {{ final_date }}{% endblocktrans %} |
+        {% trans "Avaliação:" %}
+        {% if leitura.nota_media_clube %}
+            {{ leitura.nota_media_clube }}/5
+        {% else %}
+            N/A
+        {% endif %}
+    </span>
+{% endwith %}
               </div>
             </li>
           {% endfor %}
@@ -208,7 +216,7 @@
         <p>{% trans "Nenhum livro finalizado pelo clube ainda." %}</p>
       {% endif %}
     </div>
-  </div> -->
+  </div>
 
     {% if estante_pessoal_obj %}
     <div class="card-container">
@@ -257,7 +265,8 @@
             </form>
         </div>
     </div>
-<div class="modal-overlay" id="confirmFinishModalOverlay">
+
+    <div class="modal-overlay" id="confirmFinishModalOverlay">
     <div class="modal" id="confirmFinishModal">
         <h2>{% trans "Confirmar Finalização" %}</h2>
         <p>{% trans "Finalizar a leitura marcará o livro como 100% concluído. Deseja continuar?" %}</p>
@@ -268,7 +277,7 @@
     </div>
 </div>
 
-    </div>
+</div>
 
  
 

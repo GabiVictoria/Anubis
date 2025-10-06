@@ -37,5 +37,5 @@ if settings.DEBUG:
 
 # talvez precise comentar antes de enviar para deploy
 
-# if not settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if not settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

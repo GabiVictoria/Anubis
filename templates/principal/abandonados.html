@@ -9,7 +9,13 @@
 {% block content %}
   <div class="card-central">
     <div class="clube-header">
-      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo do Clube' %}">
+     {% if clube.capa_clube %}
+        <img src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" class="club-main-image">
+      {% elif clube.capa_recomendada %}
+        <img src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" class="club-main-image">
+      {% else %}
+        <img src="{% static 'img/imgideal.png' %}" alt="{% trans 'Capa Padrão' %}" class="club-main-image">
+      {% endif %}
       <h1 class="quebra-linha"> {{ clube.nome }}</h1>
     </div>
 
