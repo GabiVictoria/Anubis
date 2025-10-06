@@ -810,7 +810,8 @@ def atualizar_progresso(request: HttpRequest, estante_pessoal_id):
 @require_POST
 def registrar_nota_clube(request: HttpRequest, leitura_id):
     """
-    Salva a nota do usuário e recalcula a média, retornando JSON com a mensagem.
+    Salva a nota do usuário tanto na avaliação do clube quanto na sua estante pessoal,
+    e recalcula a média do clube.
     """
     try:
         leitura_clube = get_object_or_404(LeituraClube, id=leitura_id)
@@ -830,12 +831,32 @@ def registrar_nota_clube(request: HttpRequest, leitura_id):
             messages.error(request, message_text)
             return JsonResponse({'success': False, 'message': str(message_text), 'level': 'error'}, status=400)
         
+        # --- INÍCIO DA MODIFICAÇÃO ---
+
+        # 1. Atualiza a nota na Estante Pessoal do usuário
+        try:
+            estante_pessoal_entry = EstantePessoal.objects.get(
+                usuario=usuario,
+                livro=leitura_clube.livro,
+                clube=leitura_clube.clube
+            )
+            estante_pessoal_entry.nota_pessoal = nota
+            estante_pessoal_entry.save()
+        except EstantePessoal.DoesNotExist:
+            # Se por algum motivo o livro não estiver na estante pessoal,
+            # a avaliação do clube ainda prosseguirá sem erros.
+            pass 
+
+        # --- FIM DA MODIFICAÇÃO ---
+
+        # 2. Cria ou atualiza a avaliação para o clube
         AvaliacaoLeitura.objects.update_or_create(
             leitura_clube=leitura_clube,
             usuario=usuario,
             defaults={'nota': nota}
         )
 
+        # 3. Recalcula a nota média do clube
         nova_media = AvaliacaoLeitura.objects.filter(leitura_clube=leitura_clube).aggregate(Avg('nota'))['nota__avg']
         leitura_clube.nota_media_clube = round(nova_media, 1) if nova_media else None
         leitura_clube.save()

@@ -4,4 +4,3 @@ __pycache__/
 *.pyc
 avatares/
 db.sqlite3
-venv

@@ -257,6 +257,16 @@
             </form>
         </div>
     </div>
+<div class="modal-overlay" id="confirmFinishModalOverlay">
+    <div class="modal" id="confirmFinishModal">
+        <h2>{% trans "Confirmar Finalização" %}</h2>
+        <p>{% trans "Finalizar a leitura marcará o livro como 100% concluído. Deseja continuar?" %}</p>
+        <div class="modal-actions">
+            <button type="button" class="btn-cancel" id="cancelFinishBtn">{% trans "Cancelar" %}</button>
+            <button type="button" class="btn-save" id="confirmFinishBtn">{% trans "Confirmar" %}</button>
+        </div>
+    </div>
+</div>
 
     </div>
 
@@ -322,11 +332,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const notaInput = document.getElementById("nota");
     const notaOutput = document.getElementById("notaOutput");
 
+    // --- ELEMENTOS DO NOVO MODAL DE CONFIRMAÇÃO ---
+    const confirmFinishModalOverlay = document.getElementById('confirmFinishModalOverlay');
+    const confirmFinishBtn = document.getElementById('confirmFinishBtn');
+    const cancelFinishBtn = document.getElementById('cancelFinishBtn');
+
+    // --- VARIÁVEL DE CONTROLE ---
+    let isProcessing = false;
+
     // --- FUNÇÕES ---
 
-    /**
-     * Mostra o modal de avaliação e configura o ID da leitura.
-     */
     function showRatingModal(leituraClubeId) {
         if (ratingModalOverlay) {
             document.getElementById("modalLeituraClubeId").value = leituraClubeId;
@@ -334,73 +349,86 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Esconde o modal de avaliação.
-     */
     function hideRatingModal() {
         if (ratingModalOverlay) {
             ratingModalOverlay.classList.remove('active');
         }
     }
 
-    /**
-     * Envia os dados de progresso para o servidor.
-     */
+    // Funções para o novo modal
+    function showConfirmFinishModal() {
+        if (confirmFinishModalOverlay) {
+            confirmFinishModalOverlay.classList.add('active');
+        }
+    }
+
+    function hideConfirmFinishModal() {
+        if (confirmFinishModalOverlay) {
+            confirmFinishModalOverlay.classList.remove('active');
+        }
+    }
+
     async function saveProgress(finalizado = false) {
+        if (isProcessing) return;
+        isProcessing = true;
+
+        hideConfirmFinishModal(); // Esconde o modal de confirmação
+
         const progressInput = document.getElementById('progressInput');
-        // Garante que temos um valor numérico, mesmo que o campo esteja vazio
         const paginasLidas = parseInt(progressInput.value, 10) || 0;
         const url = "{% url 'principal:atualizar_progresso' estante_pessoal_obj.id %}";
+
+        const updateBtn = progressForm.querySelector('button[type="submit"]');
+        if (updateBtn) updateBtn.disabled = true;
+        if (finishReadingBtn) finishReadingBtn.disabled = true;
 
         try {
             const response = await fetch(url, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrfToken
-                },
-                body: JSON.stringify({
-                    paginas_lidas: paginasLidas,
-                    finalizado: finalizado
-                })
+                headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken },
+                body: JSON.stringify({ paginas_lidas: paginasLidas, finalizado: finalizado })
             });
-
             const data = await response.json();
 
             if (!response.ok) {
-                // Se a resposta HTTP não for OK (ex: 400, 500), trata como erro
                 throw new Error(data.message || "{% trans 'Ocorreu um erro.' %}");
             }
 
-            // --- LÓGICA CORRIGIDA ---
             if (data.success) {
                 if (data.show_rating_modal && data.leitura_clube_id) {
-                    // Se o backend mandar exibir o modal, nós o exibimos.
                     showRatingModal(data.leitura_clube_id);
+                    isProcessing = false;
+                    if (updateBtn) updateBtn.disabled = false;
+                    if (finishReadingBtn) finishReadingBtn.disabled = false;
                 } else {
-                    // Caso contrário (uma atualização normal ou o livro já foi avaliado),
-                    // recarregamos a página para mostrar a mensagem do Django.
                     location.reload();
                 }
             } else {
-                 // Exibe a mensagem de erro vinda do backend sem recarregar.
                 alert(data.message);
+                isProcessing = false;
+                if (updateBtn) updateBtn.disabled = false;
+                if (finishReadingBtn) finishReadingBtn.disabled = false;
             }
-
         } catch (err) {
             console.error("Erro na requisição de progresso:", err);
             alert(err.message || "{% trans 'Erro de rede. Tente novamente.' %}");
+            isProcessing = false;
+            if (updateBtn) updateBtn.disabled = false;
+            if (finishReadingBtn) finishReadingBtn.disabled = false;
         }
     }
 
-    /**
-     * Envia a nota de avaliação para o servidor.
-     */
     async function submitRating(e) {
         e.preventDefault();
+        if (isProcessing) return;
+        isProcessing = true;
+
         const leituraClubeId = document.getElementById("modalLeituraClubeId").value;
         const nota = parseFloat(notaInput.value);
         const url = `{% url 'principal:registrar_nota_clube' 0 %}`.replace('0', leituraClubeId);
+
+        const submitRatingBtn = ratingForm.querySelector('button[type="submit"]');
+        if (submitRatingBtn) submitRatingBtn.disabled = true;
 
         try {
             const response = await fetch(url, {
@@ -411,43 +439,52 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (data.success) {
-                // Após avaliar, aí sim recarregamos a página.
                 location.reload();
             } else {
                 alert(data.message || "{% trans 'Não foi possível registrar a nota.' %}");
+                isProcessing = false;
+                if (submitRatingBtn) submitRatingBtn.disabled = false;
             }
         } catch (err) {
             console.error("Erro ao registrar nota:", err);
             alert("{% trans 'Erro de rede ao enviar avaliação.' %}");
+            isProcessing = false;
+            if (submitRatingBtn) submitRatingBtn.disabled = false;
         }
     }
 
-
     // --- EVENT LISTENERS ---
-
     if (progressForm) {
         progressForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Previne o envio padrão do formulário
-            saveProgress(false); // 'false' porque é apenas uma atualização
+            e.preventDefault();
+            saveProgress(false);
         });
     }
 
     if (finishReadingBtn) {
+        // Agora, o botão de finalizar apenas ABRE o nosso modal de confirmação.
         finishReadingBtn.addEventListener('click', () => {
-            if (confirm("{% trans 'Finalizar a leitura marcará o livro como 100% concluído. Deseja continuar?' %}")) {
-                saveProgress(true); // 'true' para indicar finalização
-            }
+            showConfirmFinishModal();
         });
     }
 
-    // --- LÓGICA DO MODAL ---
+    // Listeners para o NOVO modal de confirmação
+    if (confirmFinishModalOverlay) {
+        cancelFinishBtn.addEventListener('click', hideConfirmFinishModal);
+        confirmFinishModalOverlay.addEventListener('click', (event) => {
+            if (event.target === confirmFinishModalOverlay) hideConfirmFinishModal();
+        });
+        confirmFinishBtn.addEventListener('click', () => {
+            // Só ao clicar em "Confirmar" que a função de salvar é chamada.
+            saveProgress(true);
+        });
+    }
+
+    // --- LÓGICA DO MODAL DE AVALIAÇÃO (permanece igual) ---
     if (ratingModalOverlay) {
         cancelRatingBtn.addEventListener("click", hideRatingModal);
         ratingModalOverlay.addEventListener('click', (event) => {
-            // Fecha o modal se clicar fora da área do conteúdo
-            if (event.target === ratingModalOverlay) {
-                hideRatingModal();
-            }
+            if (event.target === ratingModalOverlay) hideRatingModal();
         });
     }
 
@@ -456,10 +493,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (notaInput && notaOutput) {
-        // Atualiza o texto da nota conforme o usuário desliza o range
         notaInput.addEventListener("input", () => {
             notaOutput.textContent = parseFloat(notaInput.value).toFixed(1);
         });
+        notaOutput.textContent = parseFloat(notaInput.value).toFixed(1);
     }
 });
 </script>

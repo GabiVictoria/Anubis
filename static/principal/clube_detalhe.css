@@ -601,3 +601,84 @@ height: 2.3rem;
         transform: translateX(100%);
     }
 }
+
+.modal-overlay {
+    /* (Estilos que você já deve ter para o overlay do modal de nota) */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    
+    /* Adicionado para controlar visibilidade */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    /* (Estilos que você já deve ter para a caixa do modal) */
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.modal h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.modal p {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Você pode reaproveitar as classes .btn-cancel e .btn-save que já deve ter */
+.btn-cancel, .btn-save {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-cancel {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.btn-cancel:hover {
+    background-color: #ddd;
+}
+
+.btn-save {
+    background-color: #007bff; /* Ou a cor principal do seu site */
+    color: white;
+}
+
+.btn-save:hover {
+    background-color: #0056b3;
+}
