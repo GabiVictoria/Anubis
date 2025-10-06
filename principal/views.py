@@ -567,38 +567,39 @@ def criar_votacao_clube(request: HttpRequest, clube, **kwargs):
 
 @login_obrigatorio
 def perfil(request):
-    usuario_logado = request.usuario_logado_obj 
-    ultimas_adesoes = ClubeMembro.objects.filter(usuario=usuario_logado).select_related('clube').order_by('-data_inscricao')[:3]
-    clubes = [adesao.clube for adesao in ultimas_adesoes]
-    leituras_qs = LeituraClube.objects.filter(clube__in=clubes, status__in=[LeituraClube.StatusClube.LENDO_ATUALMENTE]).select_related('livro')
-    admins_qs = ClubeMembro.objects.filter(clube__in=clubes, cargo=ClubeMembro.Cargo.ADMIN).select_related('usuario')
+    usuario = request.usuario_logado_obj
 
-    dados_extras_clubes = {}
-    for clube in clubes:
-        dados_extras_clubes[clube.id] = {'livro_atual': None, 'admin_nome': _("N/D")}
+    livros_lidos_recentemente = EstantePessoal.objects.filter(
+        usuario=usuario,
+        status=EstantePessoal.StatusLeitura.LIDO
+    ).order_by('-id')[:5]
 
-    for leitura in leituras_qs:
-            dados_extras_clubes[leitura.clube_id]['livro_atual'] = leitura.livro.nome
+
+    clubes_membro = ClubeMembro.objects.filter(
+        usuario=usuario,
+        cargo__in=[ClubeMembro.Cargo.MEMBRO, ClubeMembro.Cargo.ADMIN, ClubeMembro.Cargo.MODERADOR]
+    ).order_by('-data_inscricao')[:5].select_related('clube')
+
+    clubes_recentes_data = []
+    for membro_info in clubes_membro:
+        clube = membro_info.clube
        
-    
-    for admin in admins_qs:
-        dados_extras_clubes[admin.clube_id]['admin_nome'] = admin.usuario.nome
-
-    clubes_para_template = []
-    for adesao in ultimas_adesoes:
-        clube = adesao.clube
-        dados_extras = dados_extras_clubes[clube.id]
-        clubes_para_template.append({
+        admin_membro = ClubeMembro.objects.filter(clube=clube, cargo=ClubeMembro.Cargo.ADMIN).first()
+        
+        leitura_atual = LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.LENDO_ATUALMENTE).first()
+        
+        clubes_recentes_data.append({
             'clube_obj': clube,
-            'data_entrada': adesao.data_inscricao,
-            'admin_nome': dados_extras['admin_nome'],
-            'livro_atual': dados_extras['livro_atual'],
-           
+            'data_entrada': membro_info.data_inscricao,
+            'admin_nome': admin_membro.usuario.nome if admin_membro else None,
+            'livro_atual': leitura_atual.livro.nome if leitura_atual else None,
+            'proximo_livro': None,
         })
 
     contexto = {
-        'usuario': usuario_logado,
-        'clubes_recentes': clubes_para_template
+        'usuario': usuario,
+        'clubes_recentes': clubes_recentes_data,
+        'livros_lidos_recentemente': livros_lidos_recentemente
     }
     return render(request, 'principal/perfil.html', contexto)
 
@@ -1123,3 +1124,25 @@ def desbanir_membro(request: HttpRequest, clube, membro_id, **kwargs):
             )
     
     return redirect('principal:gerenciar_membros', clube_id=clube.id)
+
+
+
+@login_obrigatorio
+def estante_pessoal(request):
+    usuario = request.usuario_logado_obj
+
+    estante_completa = EstantePessoal.objects.filter(usuario=usuario).select_related('livro', 'clube')
+
+    livros_lendo = estante_completa.filter(status=EstantePessoal.StatusLeitura.LENDO)
+    livros_lidos = estante_completa.filter(status=EstantePessoal.StatusLeitura.LIDO)
+    livros_abandonados = estante_completa.filter(status=EstantePessoal.StatusLeitura.ABANDONADO)
+    livros_favoritos = estante_completa.filter(favorito=True)
+
+    contexto = {
+        'usuario': usuario,
+        'livros_lendo': livros_lendo,
+        'livros_lidos': livros_lidos,
+        'livros_abandonados': livros_abandonados,
+        'livros_favoritos': livros_favoritos,
+    }
+    return render(request, 'principal/estante_pessoal.html', contexto)

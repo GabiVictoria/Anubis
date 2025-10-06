@@ -43,10 +43,11 @@
             </div>
           </div>
         {% empty %}
-          {# Mensagem que aparece se o usuário não estiver lendo nenhum livro #}
+          <div class="no-clubs-message" style="text-align:center; padding: 20px; margin-top: 20px; background-color: #f0f0f0; border-radius: 8px;"></div>
           <p style="grid-column: 1 / -1; text-align: center; padding: 20px;">
             {% trans "Você ainda não iniciou a leitura de nenhum livro nos seus clubes." %}
           </p>
+        </div>
         {% endfor %}
     </div>
 </div>

@@ -1,0 +1,81 @@
+{% extends 'principal/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'principal/estante_pessoal.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="estante-container">
+    <h1>{% trans "Minha Estante Pessoal" %}</h1>
+    <p>{% trans "Aqui estão todos os livros que você está lendo, já leu, ou abandonou em algum clube." %}</p>
+
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event, 'Lendo')">{% trans "Lendo" %}</button>
+        <button class="tab-button" onclick="openTab(event, 'Lidos')">{% trans "Lidos" %}</button>
+        <button class="tab-button" onclick="openTab(event, 'Favoritos')">⭐ {% trans "Favoritos" %}</button>
+        <button class="tab-button" onclick="openTab(event, 'Abandonados')">{% trans "Abandonados" %}</button>
+    </div>
+
+    <div id="Lendo" class="tab-content" style="display:block;">
+        <div class="galeria-livros">
+            {% for item in livros_lendo %}
+                {% include 'principal/partials/card_livro_pessoal.html' %}
+            {% empty %}
+                <p>{% trans "Você não está lendo nenhum livro no momento." %}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="Lidos" class="tab-content">
+        <div class="galeria-livros">
+            {% for item in livros_lidos %}
+                {% include 'principal/partials/card_livro_pessoal.html' %}
+            {% empty %}
+                <p>{% trans "Nenhum livro na sua lista de lidos." %}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+
+    <div id="Favoritos" class="tab-content">
+        <div class="galeria-livros">
+            {% for item in livros_favoritos %}
+                {% include 'principal/partials/card_livro_pessoal.html' %}
+            {% empty %}
+                <p>{% trans "Você ainda não marcou nenhum livro como favorito." %}</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div id="Abandonados" class="tab-content">
+        <div class="galeria-livros">
+            {% for item in livros_abandonados %}
+                {% include 'principal/partials/card_livro_pessoal.html' %}
+            {% empty %}
+                <p>{% trans "Nenhum livro abandonado." %}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tabbuttons;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tabbuttons = document.getElementsByClassName("tab-button");
+    for (i = 0; i < tabbuttons.length; i++) {
+        tabbuttons[i].className = tabbuttons[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+{% endblock %}

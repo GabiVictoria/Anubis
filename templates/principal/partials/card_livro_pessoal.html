@@ -1,0 +1,26 @@
+{% load static %}
+{% load i18n %}
+
+<div class="livro-card-estante">
+    {% if item.favorito %}
+        <div class="favorito-icon" title="{% trans 'Favorito' %}">⭐</div>
+    {% endif %}
+
+    <img src="{% if item.livro.capa %}{{ item.livro.capa.url }}{% else %}{% static 'img/sem_capa.png' %}{% endif %}" alt="{{ item.livro.nome }}">
+    <div class="info">
+        <h3>{{ item.livro.nome }}</h3>
+        <p>{{ item.livro.autor }}</p>
+        {% if item.clube %}
+            <p class="clube-info">{% trans "Lido com:" %} <a href="{% url 'principal:detalhes_clube' item.clube.id %}">{{ item.clube.nome }}</a></p>
+        {% endif %}
+        {% if item.nota_pessoal %}
+            <p class="nota-info">{% trans "Sua nota:" %} ⭐ {{ item.nota_pessoal }}</p>
+        {% endif %}
+        {% if item.status == 'LENDO' and item.livro.paginas %}
+            <div class="progresso-container">
+                <div class="progresso-barra" style="width: {% widthratio item.progresso_paginas item.livro.paginas 100 %}%"></div>
+            </div>
+            <p class="progresso-texto">{{ item.progresso_paginas }} / {{ item.livro.paginas }} {% trans "páginas" %}</p>
+        {% endif %}
+    </div>
+</div>

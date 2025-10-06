@@ -43,6 +43,7 @@ urlpatterns = [
     path('clube/<int:clube_id>/livro/<int:livro_id>/iniciar_leitura/', views.iniciar_leitura, name='iniciar_leitura'),
     path('estante_pessoal/<int:estante_pessoal_id>/atualizar_progresso/', views.atualizar_progresso, name='atualizar_progresso'),
     path('leitura/<int:leitura_id>/avaliar/', views.registrar_nota_clube, name='registrar_nota_clube'),
+    path('minha-estante/', views.estante_pessoal, name='estante_pessoal'),
     # ==============================================================================
     # ROTAS DE ADMINISTRAÇÃO DO CLUBE 
     # ==============================================================================

@@ -41,7 +41,7 @@
         <p class="user-id"><strong>ID:</strong> {{ usuario.unique_id }}</p>
         <p class="descricao">{{ usuario.bio|default:_("Nenhuma bio adicionada.") }}</p> 
         <div class="botoes">
-          <button class="azul">{% trans "Estante pessoal" %}</button>
+          <a href="{% url 'principal:estante_pessoal' %}" class="azul">{% trans "Estante pessoal" %}</a>
           <button class="azul">{% trans "Convites" %}</button>
           <button class="azul" >{% trans "Meus clubes" %}</button>
           <a href="{% url 'principal:editar_perfil' %}" class="borda">{% trans "Editar perfil" %}</a>
@@ -51,32 +51,27 @@
     </div>
   </div>
 
-  <div class="livros-recentes">
+<div class="livros-recentes">
     <h2>📚 {% trans "Livros lidos recentemente" %}</h2>
     <div class="livros-galeria">
-      <div class="livro-card">
-        <img src="https://covers.openlibrary.org/b/id/10523367-L.jpg" alt="Drácula">
-        <h3>Drácula</h3>
-        <p>Bram Stoker</p>
-        <p class="clube">{% trans "Clube:" %} {% trans "Terror dos Clássicos" %}</p>
-        <p class="nota">{% trans "Nota média:" %} ⭐ 4.7</p>
-      </div>
-      <div class="livro-card">
-        <img src="https://covers.openlibrary.org/b/id/8235116-L.jpg" alt="Frankenstein">
-        <h3>Frankenstein</h3>
-        <p>Mary Shelley</p>
-        <p class="clube">{% trans "Clube:" %} {% trans "Lendas Góticas" %}</p>
-        <p class="nota">{% trans "Nota média:" %} ⭐ 4.5</p>
-      </div>
-      <div class="livro-card">
-        <img src="https://covers.openlibrary.org/b/id/11169723-L.jpg" alt="O Médico e o Monstro">
-        <h3>O Médico e o Monstro</h3>
-        <p>R. L. Stevenson</p>
-        <p class="clube">{% trans "Clube:" %} {% trans "Noites de Mistério" %}</p>
-        <p class="nota">{% trans "Nota média:" %} ⭐ 4.2</p>
-      </div>
+      {% for item_estante in livros_lidos_recentemente %}
+        <div class="livro-card">
+          <img src="{% if item_estante.livro.capa %}{{ item_estante.livro.capa.url }}{% else %}{% static 'img/sem_capa.png' %}{% endif %}" alt="{{ item_estante.livro.nome }}">
+          <h3>{{ item_estante.livro.nome }}</h3>
+          <p>{{ item_estante.livro.autor }}</p>
+          {% if item_estante.clube %}
+          <p class="clube quebra-linha">{% trans "Clube:" %} {{ item_estante.clube.nome }}</p>
+          {% endif %}
+          {% if item_estante.nota_pessoal %}
+          <p class="nota">{% trans "Sua nota:" %} ⭐ {{ item_estante.nota_pessoal }}</p>
+          {% endif %}
+        </div>
+      {% empty %}
+        <p class="sem-livros-msg">{% trans "Você ainda não finalizou nenhuma leitura. Continue lendo!" %}</p>
+      {% endfor %}
     </div>
   </div>
+
 
     <section class="clubes-recentes">
     <h2>📚 {% trans "Clubes Que Você Entrou Recentemente" %}</h2>

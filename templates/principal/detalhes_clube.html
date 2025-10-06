@@ -173,7 +173,7 @@
       <ul class="member-list">
         {% for membro_cm in membros_do_clube %}
           <li class="member-item">
-            <img src="{% if usuario.foto_perfil %}{{ usuario.foto_perfil.url }}{% else %}{% static 'img/Logo..png' %}{% endif %}" alt="{{ membro_cm.usuario.nome }}" class="member-avatar">
+            <img src="{% if membro_cm.usuario.foto_perfil %}{{ membro_cm.usuario.foto_perfil.url }}{% else %}{% static 'img/Logo..png' %}{% endif %}" alt="{{ membro_cm.usuario.nome }}" class="member-avatar">
             <div class="member-info">
               <span class="member-name {% if membro_cm.cargo == CargoChoices.ADMIN %}leader{% elif membro_cm.cargo == CargoChoices.MODERADOR %}co-leader{% endif %}">
                 <p class="texto-truncado">{{ membro_cm.usuario.nome }}</p>
