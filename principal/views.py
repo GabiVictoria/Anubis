@@ -179,8 +179,16 @@ def detalhes_clube(request: HttpRequest, clube_id):
             opcoes_votacao_com_votos.append({'livro': livro_opcao, 'votos': votos_neste_livro, 'percentual': round(percentual), 'id': livro_opcao.id})
         if is_membro:
             usuario_ja_votou = VotoUsuario.objects.filter(votacao=votacao_ativa, usuario=usuario_atual).exists()
-    membros_do_clube_obj = ClubeMembro.objects.filter(clube=clube).select_related('usuario').order_by('cargo', 'usuario__nome')
+    
+    # --- LINHA CORRIGIDA ---
+    # Filtra apenas os membros com os cargos desejados
+    cargos_visiveis = [ClubeMembro.Cargo.ADMIN, ClubeMembro.Cargo.MODERADOR, ClubeMembro.Cargo.MEMBRO]
+    membros_do_clube_obj = ClubeMembro.objects.filter(clube=clube, cargo__in=cargos_visiveis).select_related('usuario').order_by('cargo', 'usuario__nome')
+    
+    # --- LINHA CORRIGIDA ---
+    # A contagem agora reflete apenas os membros filtrados
     contagem_membros_ativos = membros_do_clube_obj.count()
+
     leituras_finalizadas_obj = LeituraClube.objects.filter(clube=clube, status=LeituraClube.StatusClube.FINALIZADO).select_related('livro').order_by('-data_finalizacao')
     membro = ClubeMembro.all_objects.filter(clube=clube, usuario=usuario_atual).first()
     data_criacao_formatada = formats.date_format(clube.data_criacao, "F Y") if clube.data_criacao else ""
