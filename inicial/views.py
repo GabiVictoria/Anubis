@@ -218,7 +218,7 @@ def inicial_busca_view(request):
             leituraclube__livro__nome__icontains=query,
             leituraclube__status__in=[
                 LeituraClube.StatusClube.LENDO_ATUALMENTE,
-                LeituraClube.StatusClube.PROXIMO
+                
             ]
         )
 
