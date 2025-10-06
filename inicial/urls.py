@@ -13,4 +13,5 @@ urlpatterns = [
     path('validar_email/<str:token>/', views.validate_email_view, name='validar_email'),
     path('recuperar_senha/', views.request_password_reset, name='recuperar_senha'),
     path('redefinir_senha/<str:token>/', views.reset_password_view, name='redefinir_senha'),
+    path('termos-de-uso/', views.termos_de_uso, name='termos_de_uso'),
 ]

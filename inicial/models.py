@@ -36,7 +36,7 @@ class Usuario(SafeDeleteModel):
     bio = models.CharField(max_length=100, blank=True, null=True, verbose_name=_("Bio"))
     foto_perfil = models.ImageField(upload_to='perfil/fotos/', null=True, blank=True, verbose_name=_("Foto de Perfil"))
     foto_capa = models.ImageField(upload_to='perfil/capas/', null=True, blank=True, verbose_name=_("Foto de Capa"))
-
+    termos_aceitos = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     auth_token = models.CharField(max_length=100, blank=True)
     reset_token = models.CharField(max_length=100, blank=True)

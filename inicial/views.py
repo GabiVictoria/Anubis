@@ -13,6 +13,7 @@ from django.db.models import Q, Subquery, OuterRef, Count, CharField, Value
 from .user_validator import send_validation_email, send_password_reset_email
 from django.core.validators import EmailValidator
 from django.core.exceptions import ValidationError
+from principal.decorators import login_obrigatorio
 
 # Create your views here.
 
@@ -128,39 +129,42 @@ def cadastrar_usuario(request:HttpRequest):
             return render(request, 'inicial/cadastro.html', {'form_data': form_data})
 
     return render(request, 'inicial/cadastro.html')
-
-def login(request:HttpRequest):
+def login(request: HttpRequest):
     if request.method == "POST":
         email = request.POST.get("email_usuario")
         senha = request.POST.get("senha_usuario")
-        form_data = {"email_usuario" : email} 
+        form_data = {"email_usuario": email}
+
         if not email or not senha:
             messages.error(request, _("Todos os campos são obrigatórios."))
             return render(request, 'inicial/login.html', {'form_data': form_data})
-        try:        
+
+        try:
             usuario = Usuario.objects.get(email=email)
             
             if not usuario.is_active:
-                send_validation_email(request, usuario) 
+                # send_validation_email(request, usuario) 
                 messages.error(request, _("Sua conta ainda não foi ativada. Um novo e-mail de validação foi enviado para sua caixa de entrada. Por favor, verifique."))
                 return render(request, 'inicial/login.html', {'form_data': form_data})
 
             if check_password(senha, usuario.senha):
-  
                 if not usuario.unique_id:
-                    usuario.unique_id = generate_unique_id(prefix='@')
+                    # usuario.unique_id = generate_unique_id(prefix='@')
                     usuario.save()
             
                 request.session['usuario_id'] = usuario.id
                 request.session['usuario_nome'] = usuario.nome
-                return redirect("principal:home") 
-            else:
+                
+                if not usuario.termos_aceitos:
+                    return redirect("inicial:termos_de_uso")
+                else:
+                    return redirect("principal:home")
             
+            else:
                 messages.error(request, _("E-mail ou senha inválidos."))
                 return render(request, 'inicial/login.html', {'form_data': form_data})
 
         except Usuario.DoesNotExist:
-           
             messages.error(request, _("E-mail ou senha inválidos."))
             return render(request, 'inicial/login.html', {'form_data': form_data})
         
@@ -169,7 +173,6 @@ def login(request:HttpRequest):
             return render(request, 'inicial/login.html', {'form_data': form_data})
 
     return render(request, 'inicial/login.html')
-
 def validate_email_view(request, token):
     """
     View para ativar a conta do usuário a partir do link no e-mail.
@@ -294,3 +297,23 @@ def reset_password_view(request, token):
         return redirect('inicial:login')
 
     return render(request, 'inicial/form_senha.html', {'token': token})
+
+
+@login_obrigatorio
+def termos_de_uso(request):
+    usuario = request.usuario_logado_obj
+    
+    # Se o usuário já aceitou e tentar acessar a página, redirecione
+    if usuario.termos_aceitos:
+        return redirect('principal:home')
+
+    if request.method == 'POST':
+        if request.POST.get('aceito'):
+            usuario.termos_aceitos = True
+            usuario.save()
+            messages.success(request, 'Termos de uso aceitos com sucesso!')
+            return redirect('principal:home')
+        else:
+            messages.error(request, 'Você precisa aceitar os termos para continuar.')
+
+    return render(request, 'inicial/termos_de_uso.html')

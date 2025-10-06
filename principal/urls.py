@@ -17,6 +17,7 @@ urlpatterns = [
     path("usuario/<str:user_id>/", views.perfil_usuario, name="perfil_usuario"), # Perfil público de outros usuários
     path("busca/", views.pagina_de_busca, name="pagina_de_busca"),
     path("criar-clube/", views.criar_clube, name="criar_clube"),
+    
 
     # ==============================================================================
     # ROTAS DE CLUBES (VISUALIZAÇÃO E INTERAÇÃO BÁSICA)

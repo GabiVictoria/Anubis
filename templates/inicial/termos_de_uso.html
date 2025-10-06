@@ -1,0 +1,127 @@
+{% extends 'principal/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block styles %}
+<style>
+    .termos-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        line-height: 1.6;
+    }
+    .termos-container h1, .termos-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    .termos-texto {
+        height: 400px;
+        overflow-y: scroll;
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+        text-align: justify;
+    }
+    .termos-texto p, .termos-texto h2 {
+        margin-bottom: 15px;
+    }
+    .termos-texto h2 {
+        font-size: 1.2rem;
+        color: #444;
+        text-align: left;
+    }
+    .aceite-form {
+        text-align: center;
+    }
+    .aceite-label {
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+    .btn-aceitar {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin-top: 20px;
+        background-color: #2962ff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn-aceitar:hover {
+        background-color: #0039cb;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="termos-container">
+    <h1>{% trans "Termos de Uso e Política de Privacidade da Plataforma Anúbis" %}</h1>
+
+    <div class="termos-texto">
+        <h2>{% trans "PREÂMBULO" %}</h2>
+        <p>{% trans "Estes Termos e Política de Privacidade ('Termos') constituem o acordo legal vinculativo entre o usuário ('Você' ou 'Usuário') e a plataforma Anúbis ('Plataforma', 'Nós', 'Nosso'), que rege o seu acesso e utilização da nossa aplicação web destinada à gestão e ao engajamento de clubes literários." %} {% trans "Ao realizar o seu cadastro e utilizar as funcionalidades da Plataforma, Você declara ter lido, compreendido e consentido, de forma livre e expressa, com a integralidade das cláusulas aqui dispostas." %} {% trans "A utilização da Plataforma está condicionada à sua plena aceitação destes Termos." %}</p>
+
+        <h2>{% trans "CLÁUSULA 1ª - DO OBJETO" %}</h2>
+        <p>{% trans "1.1. A Plataforma Anúbis é uma aplicação web que visa fomentar o hábito da leitura na era digital, oferecendo um ambiente interativo para a criação, gestão e participação em clubes literários." %}</p>
+        <p>{% trans "1.2. Nossos serviços incluem, mas não se limitam a: ferramentas para organização de reuniões, definição de metas de leitura, fóruns de discussão, sistemas de notificação, acompanhamento de progresso individual e coletivo, e funcionalidades de pesquisa e descoberta de clubes e livros." %}</p>
+        <p>{% trans "1.3. Fica expressamente estabelecido que a Plataforma atua como uma ferramenta de organização e interação social, não permitindo, sob nenhuma hipótese, a compra, venda, troca ou qualquer forma de distribuição de obras literárias, sejam elas físicas ou digitais." %}</p>
+
+        <h2>{% trans "CLÁUSULA 2ª - DA ELEGIBILIDADE E DO CADASTRO" %}</h2>
+        <p>{% trans "2.1. A elegibilidade para o uso da Plataforma requer que o Usuário possua, no mínimo, 13 (treze) anos de idade completos. Ao se cadastrar, Você declara e garante possuir a idade mínima exigida." %}</p>
+        <p>{% trans "2.2. Para o cadastro, o Usuário compromete-se a fornecer informações verídicas, precisas, completas e atualizadas. A manutenção da fidedignidade dos dados cadastrais é de inteira responsabilidade do Usuário." %}</p>
+        <p>{% trans "2.3. A confidencialidade e a segurança da senha de acesso são de responsabilidade exclusiva do Usuário. A conta é de caráter pessoal e intransferível. A Plataforma se isenta de qualquer responsabilidade por danos decorrentes do uso não autorizado da sua conta." %}</p>
+
+        <h2>{% trans "CLÁUSULA 3ª - DAS OBRIGAÇÕES E DA CONDUTA DO USUÁRIO" %}</h2>
+        <p>{% trans "3.1. O Usuário compromete-se a utilizar a Plataforma em conformidade com a lei, a moral, os bons costumes e estes Termos, abstendo-se de utilizá-la para fins ilícitos ou que violem direitos de terceiros." %}</p>
+        <p>{% trans "3.2. É estritamente vedado ao Usuário: a) Publicar, transmitir ou distribuir qualquer conteúdo que seja ilegal, difamatório, calunioso, abusivo, ameaçador, odioso, racista, ou que incite à violência ou a qualquer forma de discriminação. b) Praticar assédio, intimidação, perseguição (stalking) ou qualquer outra forma de importunação a outros Usuários. c) Violar os direitos de propriedade intelectual da Plataforma ou de terceiros." %}</p>
+        
+        <h2>{% trans "CLÁUSULA 4ª – DA CRIAÇÃO E GESTÃO DE CLUBES" %}</h2>
+        <p>{% trans "4.1. Qualquer Usuário logado pode criar um clube de leitura, tornando-se seu 'Administrador'." %}</p>
+        <p>{% trans "4.2. O Administrador possui prerrogativas para gerir o clube, incluindo: editar suas informações, definir sua privacidade (público ou privado), adicionar ou remover membros, agendar reuniões, definir metas e moderar o fórum de discussão." %}</p>
+        <p>{% trans "4.3. Nomeação de Moderadores: O Administrador poderá nomear um ou mais membros do clube para a função de 'Moderador', que o auxiliará na gestão da comunidade. A cada 15 (quinze) membros, a nomeação de um moderador é obrigatória." %}</p>
+        <p>{% trans "4.4. Os Moderadores são Usuários voluntários e não possuem qualquer vínculo de representação, agência ou empregatício com a Plataforma Anúbis. Suas ações são de sua inteira responsabilidade." %}</p>
+
+        <h2>{% trans "CLÁUSULA 5ª - DA ISENÇÃO DE RESPONSABILIDADE SOBRE OBRAS E CONTEÚDOS" %}</h2>
+        <p>{% trans "5.1. Conteúdo das Obras Literárias: O Usuário reconhece que a seleção das obras discutidas nos clubes é de responsabilidade exclusiva de seus respectivos membros e Administradores. A Plataforma Anúbis não realiza curadoria, endosso ou revisão do conteúdo de tais obras." %}</p>
+        <p>{% trans "5.2. O Usuário declara-se ciente de que as obras literárias podem conter temas e descrições de natureza sensível, incluindo, mas não se limitando a: violência gráfica, cenas de sexo explícito, linguagem adulta e apologia a crimes. O acesso a tais conteúdos é de sua inteira responsabilidade." %}</p>
+        <p>{% trans "5.3. Responsabilidade Parental: Reafirma-se que a responsabilidade pela supervisão, controle e orientação do conteúdo acessado por Usuários menores de idade recai exclusivamente sobre seus pais e/ou responsáveis legais." %}</p>
+        <p>{% trans "5.4. Conteúdo Gerado pelo Usuário: A Plataforma não se responsabiliza pelo conteúdo gerado e publicado pelos Usuários (mensagens, comentários, etc.). No entanto, reserva-se o direito de remover, sem aviso prévio, qualquer conteúdo que infrinja estes Termos." %}</p>
+        <p>{% trans "5.5. Moderação de Clubes: A Anúbis não se responsabiliza pelas ações ou omissões dos Administradores e Moderadores na gestão de seus clubes, incluindo a falha em remover conteúdos impróprios. Contudo, a Plataforma reserva-se o direito soberano de intervir, a seu exclusivo critério, para aplicar sanções a qualquer Usuário ou remover conteúdo que viole estes Termos." %}</p>
+
+        <h2>{% trans "CLÁUSULA 6ª - DA PROPRIEDADE INTELECTUAL" %}</h2>
+        <p>{% trans "6.1. Todos os elementos da Plataforma Anúbis, incluindo seu código-fonte, design, logotipos, textos e demais componentes, são de propriedade exclusiva da Anúbis e protegidos pelas leis de propriedade intelectual." %}</p>
+        <p>{% trans "6.2. O Usuário retém os direitos autorais sobre o conteúdo original que publicar. No entanto, ao publicá-lo, concede à Anúbis uma licença não exclusiva, mundial, isenta de royalties, para usar, distribuir, reproduzir e exibir tal conteúdo no âmbito da prestação dos serviços da Plataforma." %}</p>
+
+        <h2>{% trans "CLÁUSULA 7ª - DA PRIVACIDADE E PROTEÇÃO DE DADOS" %}</h2>
+        <p>{% trans "7.1. A Plataforma Anúbis reconhece a importância da sua privacidade e se compromete a tratar seus dados pessoais em estrita conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018) e demais legislações aplicáveis." %}</p>
+        <p>{% trans "7.2. A coleta e o tratamento de dados pessoais são realizados com finalidades específicas e legítimas, informadas ao Usuário, e limitam-se ao mínimo necessário para a prestação dos serviços oferecidos, como a identificação da conta, a comunicação sobre as atividades dos clubes e a melhoria da experiência na Plataforma." %}</p>
+        <p>{% trans "7.3. Como titular dos dados, Você possui o direito de acessar, corrigir, anonimizar, bloquear ou eliminar seus dados pessoais, bem como solicitar a portabilidade e obter informações sobre o compartilhamento de dados, nos termos da lei." %}</p>
+
+        <h2>{% trans "CLÁUSULA 8ª - DA VIGÊNCIA, RESCISÃO E SANÇÕES" %}</h2>
+        <p>{% trans "8.1. Estes Termos entram em vigor na data de seu aceite e permanecem válidos por tempo indeterminado." %}</p>
+        <p>{% trans "8.2. O Usuário pode rescindir este acordo a qualquer momento, encerrando sua conta." %}</p>
+        <p>{% trans "8.3. A Anúbis reserva-se o direito de suspender ou rescindir, de forma imediata e sem aviso prévio, o acesso de qualquer Usuário que viole, de forma grave ou reiterada, qualquer cláusula destes Termos." %}</p>
+
+        <h2>{% trans "CLÁUSULA 9ª - DAS DISPOSIÇÕES GERAIS" %}</h2>
+        <p>{% trans "9.1. Alterações nos Termos: Reservamo-nos o direito de modificar estes Termos a qualquer momento. Notificaremos os Usuários sobre alterações substanciais por meio de um aviso na Plataforma ou via e-mail. A continuidade do uso da Plataforma após tais modificações constituirá sua aceitação tácita dos novos Termos." %}</p>
+        <p>{% trans "9.2. Legislação Aplicável e Foro: Estes Termos serão regidos e interpretados de acordo com as leis da República Federativa do Brasil. Fica eleito o foro da Comarca de São Paulo, Estado de São Paulo, para dirimir quaisquer controvérsias oriundas deste instrumento." %}</p>
+    </div>
+
+    <form method="POST" class="aceite-form">
+        {% csrf_token %}
+        <label for="aceito" class="aceite-label">
+            <input type="checkbox" name="aceito" id="aceito" required>
+            {% trans "Eu li e aceito os Termos de Uso." %}
+        </label>
+        <button type="submit" class="btn-aceitar">{% trans "Continuar para a Plataforma" %}</button>
+    </form>
+</div>
+{% endblock %}
