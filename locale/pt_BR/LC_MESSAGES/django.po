@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-24 21:58-0300\n"
+"POT-Creation-Date: 2025-10-06 17:21-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,109 +18,141 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\anubis\settings.py:147
+#: .\anubis\settings.py:149
 msgid "Português do Brasil"
 msgstr ""
 
-#: .\anubis\settings.py:148
+#: .\anubis\settings.py:150
 msgid "Inglês"
 msgstr ""
 
-#: .\anubis\settings.py:149
+#: .\anubis\settings.py:151
 msgid "Espanhol"
 msgstr ""
 
-#: .\inicial\models.py:47 .\templates\principal\criar_clube.html:66
+#: .\inicial\models.py:36
+msgid "Bio"
+msgstr ""
+
+#: .\inicial\models.py:37
+msgid "Foto de Perfil"
+msgstr ""
+
+#: .\inicial\models.py:38
+msgid "Foto de Capa"
+msgstr ""
+
+#: .\inicial\models.py:44
+msgid "ID de Usuário"
+msgstr ""
+
+#: .\inicial\models.py:76 .\templates\principal\criar_clube.html:66
 msgid "Público"
 msgstr ""
 
-#: .\inicial\models.py:48 .\templates\principal\criar_clube.html:67
+#: .\inicial\models.py:77 .\templates\principal\criar_clube.html:67
 msgid "Privado"
 msgstr ""
 
-#: .\inicial\models.py:51 .\templates\principal\criar_clube.html:50
+#: .\inicial\models.py:80 .\templates\principal\criar_clube.html:50
 msgid "Até 10 membros"
 msgstr ""
 
-#: .\inicial\models.py:52 .\templates\principal\criar_clube.html:51
+#: .\inicial\models.py:81 .\templates\principal\criar_clube.html:51
 msgid "Até 20 membros"
 msgstr ""
 
-#: .\inicial\models.py:53 .\templates\principal\criar_clube.html:52
+#: .\inicial\models.py:82 .\templates\principal\criar_clube.html:52
 msgid "Até 50 membros"
 msgstr ""
 
-#: .\inicial\models.py:80
-msgid "Ativo"
+#: .\inicial\models.py:108
+msgid "ID do Clube"
 msgstr ""
 
-#: .\inicial\models.py:90
+#: .\inicial\models.py:122
 msgid "Administrador"
 msgstr ""
 
-#: .\inicial\models.py:91
+#: .\inicial\models.py:123
 msgid "Moderador"
 msgstr ""
 
-#: .\inicial\models.py:92
+#: .\inicial\models.py:124
 msgid "Membro"
 msgstr ""
 
-#: .\inicial\models.py:146
-msgid "A Ler (Lista de Desejos)"
+#: .\inicial\models.py:125
+msgid "Pendente"
 msgstr ""
 
-#: .\inicial\models.py:147
-msgid "Próximo a Ser Lido"
+#: .\inicial\models.py:126
+msgid "Banido"
 msgstr ""
 
-#: .\inicial\models.py:148
+#: .\inicial\models.py:175 .\templates\principal\abandonados.html:30
+#: .\templates\principal\estante.html:30 .\templates\principal\lidos.html:30
+#: .\templates\principal\queremos_ler.html:32
+msgid "Queremos Ler"
+msgstr ""
+
+#: .\inicial\models.py:176 .\templates\principal\abandonados.html:77
+#: .\templates\principal\lidos.html:62
+#: .\templates\principal\queremos_ler.html:77
 msgid "Lendo Atualmente"
 msgstr ""
 
-#: .\inicial\models.py:149
+#: .\inicial\models.py:177 .\templates\principal\abandonados.html:78
+#: .\templates\principal\estante.html:63
+#: .\templates\principal\queremos_ler.html:78
 msgid "Finalizado"
 msgstr ""
 
-#: .\inicial\models.py:168
-msgid "Remoto"
-msgstr ""
-
-#: .\inicial\models.py:169
-msgid "Presencial"
-msgstr ""
-
-#: .\inicial\models.py:173
-msgid "Capítulos"
-msgstr ""
-
-#: .\inicial\models.py:174
-#: .\templates\principal\admin\adicionar_livro_estante.html:73
-msgid "Páginas"
-msgstr ""
-
-#: .\inicial\models.py:178
-msgid "Reunião de Discussão"
-msgstr ""
-
-#: .\inicial\models.py:183
-msgid "Detalhes, pauta ou o que será discutido na reunião."
-msgstr ""
-
-#: .\inicial\models.py:197 .\templates\principal\abandonados.html:43
-#: .\templates\principal\estante.html:44 .\templates\principal\lidos.html:43
-#: .\templates\principal\proximo_livro.html:43
-#: .\templates\principal\queremos_ler.html:43
-#: .\templates\principal\releitura.html:43
-msgid "Lendo"
-msgstr ""
-
-#: .\inicial\models.py:198
-msgid "Lido"
+#: .\inicial\models.py:178 .\inicial\models.py:231
+#: .\templates\principal\estante.html:64 .\templates\principal\lidos.html:63
+#: .\templates\principal\queremos_ler.html:79
+msgid "Abandonado"
 msgstr ""
 
 #: .\inicial\models.py:199
-msgid "Abandonado"
+msgid "Remoto"
+msgstr ""
+
+#: .\inicial\models.py:200
+msgid "Presencial"
+msgstr ""
+
+#: .\inicial\models.py:201
+msgid "Híbrido"
+msgstr ""
+
+#: .\inicial\models.py:204
+msgid "Capítulos"
+msgstr ""
+
+#: .\inicial\models.py:205
+#: .\templates\principal\admin\adicionar_livro_estante.html:62
+msgid "Páginas"
+msgstr ""
+
+#: .\inicial\models.py:209
+msgid "Reunião de Discussão"
+msgstr ""
+
+#: .\inicial\models.py:214
+msgid "Detalhes, pauta ou o que será discutido na reunião."
+msgstr ""
+
+#: .\inicial\models.py:229 .\templates\principal\abandonados.html:27
+#: .\templates\principal\estante.html:27
+#: .\templates\principal\estante_pessoal.html:15
+#: .\templates\principal\lidos.html:27
+#: .\templates\principal\queremos_ler.html:29
+msgid "Lendo"
+msgstr ""
+
+#: .\inicial\models.py:230
+msgid "Lido"
 msgstr ""
 
 #: .\inicial\views.py:47 .\inicial\views.py:138
@@ -135,7 +167,7 @@ msgstr ""
 msgid "Você deve ter pelo menos 13 anos para se cadastrar."
 msgstr ""
 
-#: .\inicial\views.py:68 .\inicial\views.py:279
+#: .\inicial\views.py:68 .\inicial\views.py:283
 msgid "As senhas não coincidem."
 msgstr ""
 
@@ -179,323 +211,534 @@ msgstr ""
 msgid "Ocorreu um erro inesperado durante o cadastro. Tente novamente."
 msgstr ""
 
-#: .\inicial\views.py:144
+#: .\inicial\views.py:145
 msgid ""
 "Sua conta ainda não foi ativada. Um novo e-mail de validação foi enviado "
 "para sua caixa de entrada. Por favor, verifique."
 msgstr ""
 
-#: .\inicial\views.py:153 .\inicial\views.py:158
+#: .\inicial\views.py:159 .\inicial\views.py:164
 msgid "E-mail ou senha inválidos."
 msgstr ""
 
-#: .\inicial\views.py:163
+#: .\inicial\views.py:168
 #, python-format
 msgid "Ocorreu um erro inesperado: %(error)s"
 msgstr ""
 
-#: .\inicial\views.py:178
+#: .\inicial\views.py:182
 msgid "Seu e-mail foi validado com sucesso! Agora você pode fazer o login."
 msgstr ""
 
-#: .\inicial\views.py:180
+#: .\inicial\views.py:184
 msgid "Token de validação inválido ou expirado."
 msgstr ""
 
-#: .\inicial\views.py:187
+#: .\inicial\views.py:191
 msgid "Você foi desconectado com sucesso."
 msgstr ""
 
-#: .\inicial\views.py:235
+#: .\inicial\views.py:239
 msgid "Entre ou cadastre-se para mais informações sobre os clubes"
 msgstr ""
 
-#: .\inicial\views.py:248
+#: .\inicial\views.py:252
 msgid "Um e-mail com instruções para redefinir sua senha foi enviado."
 msgstr ""
 
-#: .\inicial\views.py:251
+#: .\inicial\views.py:255
 msgid "Não foi possível enviar o e-mail. Tente novamente mais tarde."
 msgstr ""
 
-#: .\inicial\views.py:254
+#: .\inicial\views.py:258
 msgid "Se este e-mail estiver cadastrado, um link de recuperação será enviado."
 msgstr ""
 
-#: .\inicial\views.py:271
+#: .\inicial\views.py:275
 msgid "O link para redefinição de senha é inválido ou já expirou."
 msgstr ""
 
-#: .\inicial\views.py:289
+#: .\inicial\views.py:293
 msgid "Sua senha foi redefinida com sucesso!"
 msgstr ""
 
-#: .\principal\forms.py:131
-msgid "Ex: 50 ou 5"
+#: .\principal\forms.py:22
+msgid "min 50 caracteres e max 300"
 msgstr ""
 
-#: .\principal\forms.py:133
-msgid "Ex: Rua Fictícia, 123, Bairro"
+#: .\principal\forms.py:77
+msgid "Opção de Livro 1"
 msgstr ""
 
-#: .\principal\forms.py:134
+#: .\principal\forms.py:79
+msgid "--- Selecione o primeiro livro ---"
+msgstr ""
+
+#: .\principal\forms.py:83
+msgid "Opção de Livro 2"
+msgstr ""
+
+#: .\principal\forms.py:85
+msgid "--- Selecione o segundo livro ---"
+msgstr ""
+
+#: .\principal\forms.py:89
+msgid "Opção de Livro 3 (Opcional)"
+msgstr ""
+
+#: .\principal\forms.py:91
+msgid "--- Selecione o terceiro livro ---"
+msgstr ""
+
+#: .\principal\forms.py:98 .\principal\forms.py:164
+msgid "Título da Votação"
+msgstr ""
+
+#: .\principal\forms.py:99
+msgid "Data e Hora de Término"
+msgstr ""
+
+#: .\principal\forms.py:105
+msgid "Ex: Votação para livro de Julho"
+msgstr ""
+
+#: .\principal\forms.py:130
+msgid "A votação deve durar pelo menos 1 hora a partir de agora."
+msgstr ""
+
+#: .\principal\forms.py:142
+msgid ""
+"Você não pode selecionar o mesmo livro mais de uma vez. Por favor, escolha "
+"livros diferentes."
+msgstr ""
+
+#: .\principal\forms.py:147
+msgid "Por favor, selecione pelo menos dois livros para a votação."
+msgstr ""
+
+#: .\principal\forms.py:165
+msgid "Nova Data e Hora de Término"
+msgstr ""
+
+#: .\principal\forms.py:182
+#, python-format
+msgid "A nova data de término deve ser posterior à data atual (%s)."
+msgstr ""
+
+#: .\principal\forms.py:196
 msgid "Livro em Discussão (opcional)"
 msgstr ""
 
-#: .\principal\forms.py:135
+#: .\principal\forms.py:197
 msgid "Tipo de Meta (opcional)"
 msgstr ""
 
-#: .\principal\forms.py:136
+#: .\principal\forms.py:198
 msgid "Quantidade da Meta (opcional)"
 msgstr ""
 
-#: .\principal\views.py:62
+#: .\principal\forms.py:206
+msgid "Ex: 50 ou 5"
+msgstr ""
+
+#: .\principal\forms.py:208
+msgid "Ex: Rua Fictícia, 123, Bairro"
+msgstr ""
+
+#: .\principal\forms.py:213
+msgid "A reunião deve ser agendada com pelo menos 4 horas de antecedência."
+msgstr ""
+
+#: .\principal\forms.py:220
+msgid "Para reuniões remotas, o link é obrigatório."
+msgstr ""
+
+#: .\principal\forms.py:222
+msgid "Para reuniões presenciais, o endereço é obrigatório."
+msgstr ""
+
+#: .\principal\forms.py:224
+msgid ""
+"Para reuniões híbridas, tanto o link quanto o endereço são obrigatórios."
+msgstr ""
+
+#: .\principal\forms.py:229
+msgid "ID do Usuário para Convidar"
+msgstr ""
+
+#: .\principal\forms.py:241
+msgid "O ID do usuário deve começar com '@'."
+msgstr ""
+
+#: .\principal\forms.py:246
+msgid "Nenhum usuário encontrado com este ID."
+msgstr ""
+
+#: .\principal\forms.py:251
+msgid "Este usuário está banido deste clube e não pode ser convidado."
+msgstr ""
+
+#: .\principal\forms.py:253
+msgid ""
+"Este usuário já é membro ou tem uma solicitação pendente para este clube."
+msgstr ""
+
+#: .\principal\forms.py:258
+msgid "Fale um pouco sobre você, máximo de 100 caracteres"
+msgstr ""
+
+#: .\principal\forms.py:260
+msgid "Sua Bio"
+msgstr ""
+
+#: .\principal\forms.py:264
+msgid "Alterar Foto de Perfil"
+msgstr ""
+
+#: .\principal\forms.py:270
+msgid "Alterar Imagem de Capa"
+msgstr ""
+
+#: .\principal\forms.py:282
+msgid "Seu Nome"
+msgstr ""
+
+#: .\principal\views.py:51
 msgid "(a definir)"
 msgstr ""
 
-#: .\principal\views.py:109
+#: .\principal\views.py:82
 msgid "O nome e a descrição do clube são obrigatórios."
 msgstr ""
 
-#: .\principal\views.py:113
+#: .\principal\views.py:85
 msgid "O limite de membros é obrigatório."
 msgstr ""
 
-#: .\principal\views.py:119
+#: .\principal\views.py:90
 msgid "Valor inválido para limite de membros."
 msgstr ""
 
-#: .\principal\views.py:123
+#: .\principal\views.py:93
 msgid "Opção de privacidade inválida."
 msgstr ""
 
-#: .\principal\views.py:127
+#: .\principal\views.py:96
 #, python-format
 msgid ""
 "Já existe um clube com o nome '%(nome_clube)s'. Por favor, escolha outro "
 "nome."
 msgstr ""
 
-#: .\principal\views.py:155
+#: .\principal\views.py:109
 #, python-format
 msgid "Clube '%(nome_clube)s' criado com sucesso!"
 msgstr ""
 
-#: .\principal\views.py:159
+#: .\principal\views.py:112
 #, python-format
 msgid "Ocorreu um erro inesperado ao criar o clube: %(error)s"
 msgstr ""
 
-#: .\principal\views.py:190 .\principal\views.py:191 .\principal\views.py:224
-#: .\principal\views.py:715 .\templates\principal\perfil.html:124
+#: .\principal\views.py:131 .\principal\views.py:155
+#: .\templates\principal\perfil.html:95
 msgid "N/D"
 msgstr ""
 
-#: .\principal\views.py:193
+#: .\principal\views.py:134
 msgid "Nenhuma leitura atual"
 msgstr ""
 
-#: .\principal\views.py:198
+#: .\principal\views.py:138
 #, python-format
 msgid "Nome do clube corresponde a '%(query)s'"
 msgstr ""
 
-#: .\principal\views.py:201
+#: .\principal\views.py:140
 #, python-format
 msgid "Livro '%(livro_nome)s' corresponde a '%(query)s'"
 msgstr ""
 
-#: .\principal\views.py:324
+#: .\principal\views.py:210
 msgid "Nenhum livro selecionado para votar."
 msgstr ""
 
-#: .\principal\views.py:330
+#: .\principal\views.py:214
 msgid "Você precisa ser membro do clube para votar."
 msgstr ""
 
-#: .\principal\views.py:334 .\templates\principal\detalhes_clube.html:125
+#: .\principal\views.py:217 .\templates\principal\detalhes_clube.html:157
 msgid "Você já votou nesta votação."
 msgstr ""
 
-#: .\principal\views.py:336
+#: .\principal\views.py:219
 msgid "Esta votação não está mais ativa."
 msgstr ""
 
-#: .\principal\views.py:338
+#: .\principal\views.py:221
 msgid "Este livro não é uma opção válida para esta votação."
 msgstr ""
 
-#: .\principal\views.py:341
+#: .\principal\views.py:224
 #, python-format
 msgid "Seu voto em '%(livro_nome)s' foi registrado!"
 msgstr ""
 
-#: .\principal\views.py:345
+#: .\principal\views.py:226
 msgid "Método inválido para registrar voto."
 msgstr ""
 
-#: .\principal\views.py:357
-#, python-format
-msgid "Você entrou no clube '%(nome_clube)s'!"
+#: .\principal\views.py:239
+msgid "Você foi banido deste clube e não pode entrar novamente."
 msgstr ""
 
-#: .\principal\views.py:359
-#, python-format
-msgid "O clube '%(nome_clube)s' atingiu o limite de membros."
-msgstr ""
-
-#: .\principal\views.py:361
+#: .\principal\views.py:242
 msgid "Você já é membro deste clube."
 msgstr ""
 
-#: .\principal\views.py:363
-msgid "Este clube é privado. A entrada precisa de aprovação."
+#: .\principal\views.py:245
+#, python-format
+msgid "O clube '%(nome_clube)s' está lotado."
 msgstr ""
 
-#: .\principal\views.py:375
+#: .\principal\views.py:249
+msgid "Você entrou no clube com sucesso!"
+msgstr ""
+
+#: .\principal\views.py:251
+msgid "Bem-vindo(a) de volta ao clube!"
+msgstr ""
+
+#: .\principal\views.py:262
+msgid "Você foi banido deste clube e não pode solicitar entrada."
+msgstr ""
+
+#: .\principal\views.py:265
+msgid "Você já é membro ou já solicitou entrada."
+msgstr ""
+
+#: .\principal\views.py:268
+#, python-format
+msgid ""
+"O clube '%(nome_clube)s' está lotado e não pode aceitar novas solicitações."
+msgstr ""
+
+#: .\principal\views.py:271
+msgid "Sua solicitação foi enviada ao administrador do clube."
+msgstr ""
+
+#: .\principal\views.py:282
 msgid ""
 "Você é o único administrador. Promova outro membro antes de sair ou exclua o "
 "clube."
 msgstr ""
 
-#: .\principal\views.py:378
+#: .\principal\views.py:285
 #, python-format
 msgid "Você saiu do clube '%(nome_clube)s'."
 msgstr ""
 
-#: .\principal\views.py:380
+#: .\principal\views.py:287 .\principal\views.py:822
 msgid "Você não é membro deste clube."
 msgstr ""
 
-#: .\principal\views.py:402
+#: .\principal\views.py:308
 #, python-format
 msgid "O clube '%(nome_clube)s' foi atualizado com sucesso!"
 msgstr ""
 
-#: .\principal\views.py:405
+#: .\principal\views.py:311 .\principal\views.py:630
 msgid "Houve um erro no formulário. Por favor, verifique os dados."
 msgstr ""
 
-#: .\principal\views.py:429
+#: .\principal\views.py:323
 #, python-format
-msgid "O clube '%(nome_clube)s' foi excluído permanentemente."
+msgid ""
+"O clube '%(nome_clube)s' foi desativado com sucesso e não aparecerá mais nas "
+"buscas."
 msgstr ""
 
-#: .\principal\views.py:432 .\principal\views.py:439
+#: .\principal\views.py:326 .\principal\views.py:337
 msgid "Ação inválida."
 msgstr ""
 
-#: .\principal\views.py:449
+#: .\principal\views.py:343
 msgid "Você não tem permissão para realizar esta ação."
 msgstr ""
 
-#: .\principal\views.py:455
+#: .\principal\views.py:348
 msgid "Você deve selecionar um membro para ser o novo administrador."
 msgstr ""
 
-#: .\principal\views.py:462
+#: .\principal\views.py:354
 msgid "O membro selecionado não é válido."
 msgstr ""
 
-#: .\principal\views.py:473
+#: .\principal\views.py:362
 #, python-format
 msgid ""
 "Cargo de administrador transferido com sucesso para %(nome_usuario)s. Você "
 "agora é um membro comum."
 msgstr ""
 
-#: .\principal\views.py:484
+#: .\principal\views.py:372
 msgid "Forneça um título ou autor para a busca."
 msgstr ""
 
-#: .\principal\views.py:521 .\principal\views.py:558
+#: .\principal\views.py:407 .\principal\views.py:443
 msgid "Título indisponível"
 msgstr ""
 
-#: .\principal\views.py:522 .\principal\views.py:559
-#: .\templates\principal\admin\adicionar_livro_estante.html:72
+#: .\principal\views.py:408 .\principal\views.py:444
+#: .\templates\principal\admin\adicionar_livro_estante.html:61
 msgid "Autor desconhecido"
 msgstr ""
 
-#: .\principal\views.py:599
+#: .\principal\views.py:484
 msgid "Dados do livro incompletos (ISBN obrigatório)."
 msgstr ""
 
-#: .\principal\views.py:618
+#: .\principal\views.py:503
 #, python-format
 msgid "O livro '%(livro_nome)s' já está na estante do clube."
 msgstr ""
 
-#: .\principal\views.py:621
+#: .\principal\views.py:506
 #, python-format
 msgid "Livro '%(livro_nome)s' adicionado à estante com sucesso!"
 msgstr ""
 
-#: .\principal\views.py:648
+#: .\principal\views.py:528
 #, python-format
 msgid "'%(livro_nome)s' definido como leitura atual do clube."
 msgstr ""
 
-#: .\principal\views.py:651
+#: .\principal\views.py:531
 msgid "Erro ao definir leitura atual. Verifique os dados do formulário."
 msgstr ""
 
-#: .\principal\views.py:677
+#: .\principal\views.py:557
 msgid "Nova votação criada com sucesso!"
 msgstr ""
 
-#: .\principal\views.py:680
-msgid "Erro ao criar votação. Verifique os campos."
+#: .\principal\views.py:627
+msgid "Perfil atualizado com sucesso!"
 msgstr ""
 
-#: .\principal\views.py:817
-msgid "Reunião agendada com sucesso!"
+#: .\principal\views.py:739
+msgid "Status do livro atualizado com sucesso!"
 msgstr ""
 
-#: .\principal\views.py:821
-msgid "Agendar Nova Reunião"
+#: .\principal\views.py:764
+msgid "Número de páginas inválido."
 msgstr ""
 
-#: .\principal\views.py:830
-msgid "Reunião atualizada com sucesso!"
+#: .\principal\views.py:774
+msgid "Leitura finalizada com sucesso!"
 msgstr ""
 
-#: .\principal\views.py:834
-msgid "Editar Reunião"
+#: .\principal\views.py:796
+msgid "Progresso atualizado!"
 msgstr ""
 
-#: .\principal\views.py:843
-msgid "Votação atualizada com sucesso!"
+#: .\principal\views.py:801 .\principal\views.py:870
+msgid "Erro nos dados enviados."
 msgstr ""
 
-#: .\principal\views.py:856
-msgid "A votação foi fechada manualmente."
-msgstr ""
-
-#: .\principal\views.py:878
-msgid "Por favor, insira um número de páginas válido."
-msgstr ""
-
-#: .\principal\views.py:886
-msgid "O número de páginas foi ajustado para o máximo do livro."
-msgstr ""
-
-#: .\principal\views.py:890
-msgid "Progresso de leitura atualizado com sucesso!"
-msgstr ""
-
-#: .\principal\views.py:893
+#: .\principal\views.py:805
 msgid "Ocorreu um erro inesperado ao atualizar o progresso."
 msgstr ""
 
-#: .\principal\views.py:913
+#: .\principal\views.py:831
+msgid "A nota deve ser um valor entre 0 e 5."
+msgstr ""
+
+#: .\principal\views.py:865
+msgid "Sua avaliação foi registrada. Obrigado!"
+msgstr ""
+
+#: .\principal\views.py:874
+msgid "Ocorreu um erro inesperado ao salvar sua avaliação."
+msgstr ""
+
+#: .\principal\views.py:890
+msgid "Reunião agendada com sucesso!"
+msgstr ""
+
+#: .\principal\views.py:899
+msgid "Agendar Nova Reunião"
+msgstr ""
+
+#: .\principal\views.py:909
+msgid "Reunião atualizada com sucesso!"
+msgstr ""
+
+#: .\principal\views.py:934
+msgid "Editar Reunião"
+msgstr ""
+
+#: .\principal\views.py:946
+msgid "Votação atualizada com sucesso!"
+msgstr ""
+
+#: .\principal\views.py:978
+msgid "A votação foi fechada manualmente."
+msgstr ""
+
+#: .\principal\views.py:988
 msgid "Você precisa ser membro do clube para iniciar uma leitura."
 msgstr ""
 
-#: .\principal\views.py:924
+#: .\principal\views.py:996
 #, python-format
 msgid "Leitura de '%(livro_nome)s' iniciada!"
+msgstr ""
+
+#: .\principal\views.py:1032
+#, python-format
+msgid "Usuário '%(nome_usuario)s' foi convidado e adicionado ao clube."
+msgstr ""
+
+#: .\principal\views.py:1034
+#, python-format
+msgid "Usuário '%(nome_usuario)s' já estava no clube, mas foi restaurado."
+msgstr ""
+
+#: .\principal\views.py:1048
+#, python-format
+msgid "Solicitação de '%(nome_usuario)s' aprovada."
+msgstr ""
+
+#: .\principal\views.py:1059
+#, python-format
+msgid "Solicitação de '%(nome_usuario)s' rejeitada."
+msgstr ""
+
+#: .\principal\views.py:1070
+#, python-format
+msgid "'%(nome_usuario)s' foi promovido a moderador."
+msgstr ""
+
+#: .\principal\views.py:1081
+#, python-format
+msgid "'%(nome_usuario)s' foi rebaixado para membro."
+msgstr ""
+
+#: .\principal\views.py:1092
+#, python-format
+msgid "'%(nome_usuario)s' foi removido do clube."
+msgstr ""
+
+#: .\principal\views.py:1105
+#, python-format
+msgid "'%(nome_usuario)s' foi BANIDO do clube."
+msgstr ""
+
+#: .\principal\views.py:1123
+#, python-format
+msgid ""
+"'%(nome_usuario)s' foi desbanido e pode solicitar a entrada no clube "
+"novamente."
 msgstr ""
 
 #: .\templates\inicial\cadastro.html:27 .\templates\inicial\form_senha.html:28
@@ -564,19 +807,7 @@ msgstr ""
 #: .\templates\inicial\inicial.html:31
 #: .\templates\inicial\inicial_busca.html:30
 #: .\templates\inicial\listagemInicial.html:31
-#: .\templates\principal\abandonados.html:18
-#: .\templates\principal\abandonados.html:19 .\templates\principal\base.html:27
-#: .\templates\principal\base.html:28 .\templates\principal\estante.html:19
-#: .\templates\principal\estante.html:20 .\templates\principal\home.html:8
-#: .\templates\principal\home.html:26 .\templates\principal\home.html:27
-#: .\templates\principal\lidos.html:18 .\templates\principal\lidos.html:19
-#: .\templates\principal\perfil.html:19 .\templates\principal\perfil.html:20
-#: .\templates\principal\proximo_livro.html:18
-#: .\templates\principal\proximo_livro.html:19
-#: .\templates\principal\queremos_ler.html:18
-#: .\templates\principal\queremos_ler.html:19
-#: .\templates\principal\releitura.html:18
-#: .\templates\principal\releitura.html:19
+#: .\templates\principal\base.html:28 .\templates\principal\base.html:29
 msgid "Anúbis"
 msgstr ""
 
@@ -610,8 +841,8 @@ msgid "Que tal procurar o clube ideal para você? Dá um clique"
 msgstr ""
 
 #: .\templates\inicial\inicial.html:48
-#: .\templates\principal\detalhes_clube.html:13
-#: .\templates\principal\home.html:41
+#: .\templates\principal\detalhes_clube.html:14
+#: .\templates\principal\home.html:10
 msgid "Buscar livros, clubes..."
 msgstr ""
 
@@ -677,28 +908,28 @@ msgid "Resultados para: %(query)s"
 msgstr ""
 
 #: .\templates\inicial\inicial_busca.html:47
-#: .\templates\principal\listagem_resultados.html:15
+#: .\templates\principal\listagem_resultados.html:14
 msgid "Buscar novamente..."
 msgstr ""
 
 #: .\templates\inicial\inicial_busca.html:64
 #: .\templates\inicial\inicial_busca.html:66
-#: .\templates\principal\perfil.html:115 .\templates\principal\perfil.html:117
+#: .\templates\principal\perfil.html:84 .\templates\principal\perfil.html:86
 msgid "Capa do clube"
 msgstr ""
 
 #: .\templates\inicial\inicial_busca.html:68
 #: .\templates\principal\admin\editar_clube.html:22
-#: .\templates\principal\home.html:96
-#: .\templates\principal\listagem_resultados.html:35
-#: .\templates\principal\perfil.html:119
+#: .\templates\principal\home.html:66
+#: .\templates\principal\listagem_resultados.html:34
+#: .\templates\principal\perfil.html:88
 msgid "Capa padrão"
 msgstr ""
 
-#: .\templates\inicial\inicial_busca.html:73
-#: .\templates\principal\home.html:102 .\templates\principal\home.html:136
-#: .\templates\principal\home.html:145 .\templates\principal\home.html:154
-#: .\templates\principal\listagem_resultados.html:43
+#: .\templates\inicial\inicial_busca.html:73 .\templates\principal\home.html:72
+#: .\templates\principal\home.html:106 .\templates\principal\home.html:115
+#: .\templates\principal\home.html:124
+#: .\templates\principal\listagem_resultados.html:42
 msgid "Membros:"
 msgstr ""
 
@@ -707,7 +938,7 @@ msgid "Data de criação:"
 msgstr ""
 
 #: .\templates\inicial\inicial_busca.html:76
-#: .\templates\principal\perfil.html:128
+#: .\templates\principal\perfil.html:100
 msgid "Livro atual:"
 msgstr ""
 
@@ -756,282 +987,208 @@ msgstr ""
 msgid "Enviar"
 msgstr ""
 
-#: .\templates\principal\abandonados.html:8 .\templates\principal\lidos.html:8
-#: .\templates\principal\proximo_livro.html:8
-#: .\templates\principal\queremos_ler.html:8
-#: .\templates\principal\releitura.html:8
-msgid "Clube do Livro"
+#: .\templates\principal\abandonados.html:17
+#: .\templates\principal\detalhes_clube.html:27
+#: .\templates\principal\estante.html:20 .\templates\principal\lidos.html:20
+#: .\templates\principal\queremos_ler.html:18
+msgid "Capa Padrão"
 msgstr ""
 
-#: .\templates\principal\abandonados.html:22 .\templates\principal\base.html:31
-#: .\templates\principal\estante.html:23 .\templates\principal\home.html:30
-#: .\templates\principal\lidos.html:22 .\templates\principal\perfil.html:23
-#: .\templates\principal\proximo_livro.html:22
-#: .\templates\principal\queremos_ler.html:22
-#: .\templates\principal\releitura.html:22
-msgid "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro."
-msgstr ""
-
-#: .\templates\principal\abandonados.html:25 .\templates\principal\base.html:34
-#: .\templates\principal\estante.html:26 .\templates\principal\home.html:33
-#: .\templates\principal\lidos.html:25 .\templates\principal\perfil.html:26
-#: .\templates\principal\proximo_livro.html:25
-#: .\templates\principal\queremos_ler.html:25
-#: .\templates\principal\releitura.html:25
-msgid "Home"
-msgstr ""
-
-#: .\templates\principal\abandonados.html:26 .\templates\principal\base.html:35
-#: .\templates\principal\estante.html:27 .\templates\principal\home.html:34
-#: .\templates\principal\lidos.html:26 .\templates\principal\perfil.html:27
-#: .\templates\principal\proximo_livro.html:26
-#: .\templates\principal\queremos_ler.html:26
-#: .\templates\principal\releitura.html:26
-msgid "Criar"
-msgstr ""
-
-#: .\templates\principal\abandonados.html:27 .\templates\principal\base.html:36
-#: .\templates\principal\estante.html:28 .\templates\principal\home.html:35
-#: .\templates\principal\lidos.html:27 .\templates\principal\perfil.html:28
-#: .\templates\principal\proximo_livro.html:27
-#: .\templates\principal\queremos_ler.html:27
-#: .\templates\principal\releitura.html:27
-msgid "Perfil"
-msgstr ""
-
-#: .\templates\principal\abandonados.html:28 .\templates\principal\base.html:37
-#: .\templates\principal\estante.html:29 .\templates\principal\home.html:36
-#: .\templates\principal\lidos.html:28 .\templates\principal\perfil.html:29
-#: .\templates\principal\proximo_livro.html:28
-#: .\templates\principal\queremos_ler.html:28
-#: .\templates\principal\releitura.html:28
-msgid "Sair"
-msgstr ""
-
-#: .\templates\principal\abandonados.html:34
-#: .\templates\principal\estante.html:35 .\templates\principal\lidos.html:34
-#: .\templates\principal\proximo_livro.html:34
-#: .\templates\principal\queremos_ler.html:34
-#: .\templates\principal\releitura.html:34
-msgid "Logo do Clube"
-msgstr ""
-
-#: .\templates\principal\abandonados.html:35
-#: .\templates\principal\lidos.html:35
-#: .\templates\principal\proximo_livro.html:35
-#: .\templates\principal\queremos_ler.html:35
-#: .\templates\principal\releitura.html:35
-msgid "Clube dos Leitores Fantásticos"
-msgstr ""
-
-#: .\templates\principal\abandonados.html:39
-#: .\templates\principal\estante.html:40 .\templates\principal\lidos.html:39
-#: .\templates\principal\proximo_livro.html:39
-#: .\templates\principal\queremos_ler.html:39
-#: .\templates\principal\releitura.html:39
-msgid ""
-"Um grupo apaixonado por literatura fantástica, onde discutimos obras, "
-"autores e universos que nos transportam além da realidade."
-msgstr ""
-
-#: .\templates\principal\abandonados.html:44
-#: .\templates\principal\estante.html:45 .\templates\principal\lidos.html:44
-#: .\templates\principal\proximo_livro.html:44
-#: .\templates\principal\queremos_ler.html:44
-#: .\templates\principal\releitura.html:44
+#: .\templates\principal\abandonados.html:28
+#: .\templates\principal\estante.html:28
+#: .\templates\principal\estante_pessoal.html:16
+#: .\templates\principal\lidos.html:28
+#: .\templates\principal\queremos_ler.html:30
 msgid "Lidos"
 msgstr ""
 
-#: .\templates\principal\abandonados.html:45
-#: .\templates\principal\estante.html:46 .\templates\principal\lidos.html:45
-#: .\templates\principal\perfil.html:70
-#: .\templates\principal\proximo_livro.html:45
-#: .\templates\principal\queremos_ler.html:45
-#: .\templates\principal\releitura.html:45
+#: .\templates\principal\abandonados.html:29
+#: .\templates\principal\estante.html:29
+#: .\templates\principal\estante_pessoal.html:18
+#: .\templates\principal\lidos.html:29
+#: .\templates\principal\queremos_ler.html:31
 msgid "Abandonados"
 msgstr ""
 
-#: .\templates\principal\abandonados.html:46
-#: .\templates\principal\estante.html:47 .\templates\principal\lidos.html:46
-#: .\templates\principal\proximo_livro.html:46
-#: .\templates\principal\queremos_ler.html:46
-#: .\templates\principal\releitura.html:46
-msgid "Próximo Livro"
-msgstr ""
-
-#: .\templates\principal\abandonados.html:47
-#: .\templates\principal\estante.html:48 .\templates\principal\lidos.html:47
-#: .\templates\principal\proximo_livro.html:47
-#: .\templates\principal\queremos_ler.html:47
-#: .\templates\principal\releitura.html:47
-msgid "Queremos Ler"
-msgstr ""
-
-#: .\templates\principal\abandonados.html:48
-#: .\templates\principal\estante.html:49 .\templates\principal\lidos.html:48
-#: .\templates\principal\proximo_livro.html:48
-#: .\templates\principal\queremos_ler.html:48
-#: .\templates\principal\releitura.html:48
-msgid "Releitura"
-msgstr ""
-
-#: .\templates\principal\abandonados.html:53
-#: .\templates\principal\lidos.html:52
-#: .\templates\principal\proximo_livro.html:53
-#: .\templates\principal\queremos_ler.html:53
-#: .\templates\principal\releitura.html:53
+#: .\templates\principal\abandonados.html:36
+#: .\templates\principal\queremos_ler.html:37
 msgid "Filtrar por ano:"
 msgstr ""
 
-#: .\templates\principal\abandonados.html:55
-#: .\templates\principal\lidos.html:54
-#: .\templates\principal\proximo_livro.html:55
-#: .\templates\principal\queremos_ler.html:55
-#: .\templates\principal\releitura.html:55
+#: .\templates\principal\abandonados.html:38
+#: .\templates\principal\queremos_ler.html:39
 msgid "Todos"
 msgstr ""
 
-#: .\templates\principal\abandonados.html:63
-#: .\templates\principal\lidos.html:62 .\templates\principal\lidos.html:72
-#: .\templates\principal\lidos.html:82 .\templates\principal\lidos.html:92
-#: .\templates\principal\lidos.html:102
-#: .\templates\principal\proximo_livro.html:63
-#: .\templates\principal\queremos_ler.html:63
-#: .\templates\principal\queremos_ler.html:74
-#: .\templates\principal\releitura.html:62
+#: .\templates\principal\abandonados.html:47
+#: .\templates\principal\lidos.html:36
+#: .\templates\principal\queremos_ler.html:49
 msgid "Capa do Livro"
 msgstr ""
 
-#: .\templates\principal\abandonados.html:66
-#: .\templates\principal\admin\adicionar_livro_estante.html:37
-#: .\templates\principal\detalhes_clube.html:75
-#: .\templates\principal\estante.html:74 .\templates\principal\lidos.html:65
-#: .\templates\principal\lidos.html:75 .\templates\principal\lidos.html:85
-#: .\templates\principal\lidos.html:95 .\templates\principal\lidos.html:105
-#: .\templates\principal\proximo_livro.html:66
-#: .\templates\principal\queremos_ler.html:66
-#: .\templates\principal\queremos_ler.html:77
-#: .\templates\principal\releitura.html:65
+#: .\templates\principal\abandonados.html:51
+#: .\templates\principal\admin\adicionar_livro_estante.html:26
+#: .\templates\principal\detalhes_clube.html:107
+#: .\templates\principal\estante.html:40 .\templates\principal\lidos.html:39
+#: .\templates\principal\queremos_ler.html:53
 msgid "Autor:"
 msgstr ""
 
-#: .\templates\principal\abandonados.html:67
-#: .\templates\principal\lidos.html:66 .\templates\principal\lidos.html:76
-#: .\templates\principal\lidos.html:86 .\templates\principal\lidos.html:96
-#: .\templates\principal\lidos.html:106 .\templates\principal\releitura.html:66
-msgid "Última leitura:"
+#: .\templates\principal\abandonados.html:52
+msgid "Início Previsto:"
 msgstr ""
 
-#: .\templates\principal\abandonados.html:68
-#: .\templates\principal\lidos.html:67 .\templates\principal\lidos.html:77
-#: .\templates\principal\lidos.html:87 .\templates\principal\lidos.html:97
-#: .\templates\principal\lidos.html:107 .\templates\principal\perfil.html:88
-#: .\templates\principal\perfil.html:95 .\templates\principal\perfil.html:102
-#: .\templates\principal\proximo_livro.html:68
-#: .\templates\principal\queremos_ler.html:68
-#: .\templates\principal\queremos_ler.html:79
-#: .\templates\principal\releitura.html:67
+#: .\templates\principal\abandonados.html:52
+msgid "sem data prevista"
+msgstr ""
+
+#: .\templates\principal\abandonados.html:53
+#: .\templates\principal\lidos.html:41
 msgid "Nota média:"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:24
+#: .\templates\principal\abandonados.html:53
+msgid "A definir"
+msgstr ""
+
+#: .\templates\principal\abandonados.html:58
+msgid "Nenhum livro foi abandonado por este clube ainda."
+msgstr ""
+
+#: .\templates\principal\abandonados.html:68
+#: .\templates\principal\estante.html:55 .\templates\principal\lidos.html:53
+#: .\templates\principal\queremos_ler.html:68
+msgid "Alterar Status do Livro"
+msgstr ""
+
+#: .\templates\principal\abandonados.html:76
+#: .\templates\principal\estante.html:61 .\templates\principal\lidos.html:61
+msgid "A Ler"
+msgstr ""
+
+#: .\templates\principal\abandonados.html:83
+#: .\templates\principal\estante.html:67 .\templates\principal\lidos.html:67
+#: .\templates\principal\queremos_ler.html:83
+msgid "Data de Finalização:"
+msgstr ""
+
+#: .\templates\principal\abandonados.html:88
+#: .\templates\principal\admin\criarvotacao.html:53
+#: .\templates\principal\admin\definir_leitura_atual.html:28
+#: .\templates\principal\admin\editar_clube.html:76
+#: .\templates\principal\admin\editar_votacao.html:43
+#: .\templates\principal\admin\gerenciar_reuniao.html:140
+#: .\templates\principal\criar_clube.html:73
+#: .\templates\principal\detalhes_clube.html:262
+#: .\templates\principal\detalhes_clube.html:274
+#: .\templates\principal\editar_perfil.html:19
+#: .\templates\principal\estante.html:71 .\templates\principal\lidos.html:72
+#: .\templates\principal\queremos_ler.html:88
+msgid "Cancelar"
+msgstr ""
+
+#: .\templates\principal\abandonados.html:89
+#: .\templates\principal\admin\gerenciar_reuniao.html:139
+#: .\templates\principal\estante.html:72 .\templates\principal\lidos.html:73
+#: .\templates\principal\queremos_ler.html:89
+msgid "Salvar"
+msgstr ""
+
+#: .\templates\principal\abandonados.html:183
+#: .\templates\principal\estante.html:166 .\templates\principal\lidos.html:167
+#: .\templates\principal\queremos_ler.html:183
+msgid "Ocorreu um erro de rede. Tente novamente."
+msgstr ""
+
+#: .\templates\principal\admin\adicionar_livro_estante.html:13
 #, python-format
 msgid "Adicionar Livro à Estante: %(clube.nome)s"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:28
+#: .\templates\principal\admin\adicionar_livro_estante.html:17
 msgid "Preencha um ou ambos os campos abaixo para buscar."
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:32
+#: .\templates\principal\admin\adicionar_livro_estante.html:21
 msgid "Título do Livro:"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:33
+#: .\templates\principal\admin\adicionar_livro_estante.html:22
 msgid "Ex: O Pequeno Príncipe"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:38
+#: .\templates\principal\admin\adicionar_livro_estante.html:27
 msgid "Ex: Antoine de Saint-Exupéry"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:43
+#: .\templates\principal\admin\adicionar_livro_estante.html:32
 msgid "Buscar"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:46
+#: .\templates\principal\admin\adicionar_livro_estante.html:35
 msgid "Voltar para o Clube"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:52
+#: .\templates\principal\admin\adicionar_livro_estante.html:41
 msgid "Preencha um ou ambos os campos acima para buscar."
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:56
-#: .\templates\principal\admin\adicionar_livro_estante.html:81
+#: .\templates\principal\admin\adicionar_livro_estante.html:45
+#: .\templates\principal\admin\adicionar_livro_estante.html:70
 msgid "Carregar Mais"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:74
+#: .\templates\principal\admin\adicionar_livro_estante.html:63
 msgid "N/A"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:75
+#: .\templates\principal\admin\adicionar_livro_estante.html:64
 msgid "Adicionar à Estante"
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:76
+#: .\templates\principal\admin\adicionar_livro_estante.html:65
 msgid "Buscando..."
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:77
+#: .\templates\principal\admin\adicionar_livro_estante.html:66
 msgid "Por favor, preencha o título ou o autor."
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:78
+#: .\templates\principal\admin\adicionar_livro_estante.html:67
 msgid "Carregando..."
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:79
+#: .\templates\principal\admin\adicionar_livro_estante.html:68
 msgid "Nenhum livro encontrado para esta busca."
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:80
+#: .\templates\principal\admin\adicionar_livro_estante.html:69
 msgid "Ocorreu um erro ao buscar. Tente novamente."
 msgstr ""
 
-#: .\templates\principal\admin\adicionar_livro_estante.html:97
+#: .\templates\principal\admin\adicionar_livro_estante.html:86
 msgid "Capa de"
 msgstr ""
 
-#: .\templates\principal\admin\criarvotacao.html:11
-#, python-format
-msgid "Criar Nova Votação para: %(clube.nome)s"
+#: .\templates\principal\admin\criarvotacao.html:12
+#: .\templates\principal\detalhes_clube.html:93
+msgid "Criar Nova Votação"
 msgstr ""
 
-#: .\templates\principal\admin\criarvotacao.html:33
+#: .\templates\principal\admin\criarvotacao.html:52
 msgid "Criar Votação"
 msgstr ""
 
-#: .\templates\principal\admin\criarvotacao.html:34
-#: .\templates\principal\admin\definir_leitura_atual.html:28
-#: .\templates\principal\admin\editar_clube.html:76
-#: .\templates\principal\admin\editar_votacao.html:25
-#: .\templates\principal\admin\gerenciar_reuniao.html:127
-#: .\templates\principal\criar_clube.html:73
-msgid "Cancelar"
-msgstr ""
-
-#: .\templates\principal\admin\criarvotacao.html:38
+#: .\templates\principal\admin\criarvotacao.html:57
 msgid "Não há livros suficientes ou adequados na estante do clube (status \\"
 msgstr ""
 
-#: .\templates\principal\admin\criarvotacao.html:39
+#: .\templates\principal\admin\criarvotacao.html:58
 #: .\templates\principal\admin\definir_leitura_atual.html:33
 msgid "Adicionar Livros à Estante"
 msgstr ""
 
-#: .\templates\principal\admin\criarvotacao.html:41
+#: .\templates\principal\admin\criarvotacao.html:60
 #: .\templates\principal\admin\definir_leitura_atual.html:35
 msgid "Voltar"
 msgstr ""
@@ -1096,7 +1253,8 @@ msgid "Público ou Privado:"
 msgstr ""
 
 #: .\templates\principal\admin\editar_clube.html:75
-#: .\templates\principal\admin\editar_votacao.html:24
+#: .\templates\principal\admin\editar_votacao.html:42
+#: .\templates\principal\editar_perfil.html:18
 msgid "Salvar Alterações"
 msgstr ""
 
@@ -1151,23 +1309,153 @@ msgstr ""
 msgid "Excluir Clube"
 msgstr ""
 
-#: .\templates\principal\admin\editar_votacao.html:6
+#: .\templates\principal\admin\editar_votacao.html:11
 msgid "Editar Votação"
 msgstr ""
 
-#: .\templates\principal\admin\gerenciar_reuniao.html:126
-msgid "Salvar"
+#: .\templates\principal\admin\editar_votacao.html:29
+msgid "Livros nesta Votação (não editável)"
 msgstr ""
 
-#: .\templates\principal\criar_clube.html:14 .\templates\principal\home.html:50
+#: .\templates\principal\admin\editar_votacao.html:34
+msgid "Nenhum livro nesta votação."
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:14
+msgid "Voltar para"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:15
+msgid "Gerenciar Membros do Clube"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:19
+msgid "Solicitações"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:22
+msgid "Equipe"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:23
+#: .\templates\principal\detalhes_clube.html:172
+msgid "Membros"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:24
+msgid "Banidos"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:25
+#: .\templates\principal\admin\gerenciar_membros.html:104
+msgid "Convidar"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:29
+msgid "Solicitações de Entrada Pendentes"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:36
+msgid "Aprovar"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:37
+msgid "Rejeitar"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:43
+msgid "Não há solicitações de entrada pendentes."
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:48
+msgid "Equipe de Moderação"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:54
+msgid "Rebaixar para Membro"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:58
+msgid "Nenhum moderador no clube."
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:64
+msgid "Membros do Clube"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:70
+msgid "Promover a Moderador"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:71
+msgid ""
+"Tem certeza que deseja remover este membro? Ele poderá solicitar entrada "
+"novamente."
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:71
+msgid "Remover"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:72
+msgid ""
+"ATENÇÃO: Banir este membro o impedirá de entrar no clube novamente. Deseja "
+"continuar?"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:72
+msgid "Banir"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:76
+msgid "Nenhum membro comum no clube."
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:82
+msgid "Membros Banidos"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:89
+msgid "Desbanir"
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:95
+msgid "Não há membros banidos neste clube."
+msgstr ""
+
+#: .\templates\principal\admin\gerenciar_membros.html:100
+msgid "Convidar Novo Membro"
+msgstr ""
+
+#: .\templates\principal\base.html:32
+msgid "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro."
+msgstr ""
+
+#: .\templates\principal\base.html:35
+msgid "Home"
+msgstr ""
+
+#: .\templates\principal\base.html:36
+msgid "Criar"
+msgstr ""
+
+#: .\templates\principal\base.html:37
+msgid "Perfil"
+msgstr ""
+
+#: .\templates\principal\base.html:38
+msgid "Sair"
+msgstr ""
+
+#: .\templates\principal\criar_clube.html:14 .\templates\principal\home.html:19
 msgid "Slide 1"
 msgstr ""
 
-#: .\templates\principal\criar_clube.html:15 .\templates\principal\home.html:53
+#: .\templates\principal\criar_clube.html:15 .\templates\principal\home.html:22
 msgid "Slide 2"
 msgstr ""
 
-#: .\templates\principal\criar_clube.html:16 .\templates\principal\home.html:56
+#: .\templates\principal\criar_clube.html:16 .\templates\principal\home.html:25
 msgid "Slide 3"
 msgstr ""
 
@@ -1227,436 +1515,500 @@ msgstr ""
 msgid "Criar Clube"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:26
-msgid "Capa Padrão"
-msgstr ""
-
-#: .\templates\principal\detalhes_clube.html:34
+#: .\templates\principal\detalhes_clube.html:35
 #, python-format
-msgid "Criado por <strong>%(fundador_nome)s</strong> em %(creation_date)s"
+msgid ""
+"Criado por <strong><p class=\"texto-truncado\">%(fundador_nome)s</p></"
+"strong> em %(creation_date)s"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:42
+#: .\templates\principal\detalhes_clube.html:45
 msgid "Sair do Clube"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:47
-msgid "Entrar no Clube"
+#: .\templates\principal\detalhes_clube.html:49
+msgid "Sua solicitação está pendente de aprovação."
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:50
-msgid "Este clube é privado."
-msgstr ""
-
-#: .\templates\principal\detalhes_clube.html:57
-msgid "Painel do Administrador do Clube"
+#: .\templates\principal\detalhes_clube.html:52
+msgid "Você foi banido deste clube."
 msgstr ""
 
 #: .\templates\principal\detalhes_clube.html:59
+#: .\templates\principal\detalhes_clube.html:73
+msgid "Entrar no Clube"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:64
+#: .\templates\principal\detalhes_clube.html:78
+msgid "Solicitar Entrada"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:88
+msgid "Painel do Administrador do Clube"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:90
 msgid "Editar Informações do Clube"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:60
+#: .\templates\principal\detalhes_clube.html:91
 msgid "Adicionar Livro à Estante"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:61
+#: .\templates\principal\detalhes_clube.html:92
 msgid "Definir Leitura Atual"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:62
-msgid "Criar Nova Votação"
-msgstr ""
-
-#: .\templates\principal\detalhes_clube.html:63
+#: .\templates\principal\detalhes_clube.html:94
 msgid "Agendar Reunião"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:70
+#: .\templates\principal\detalhes_clube.html:95
+msgid "Gerenciar Membros"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:102
 msgid "Livro do Momento"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:76
+#: .\templates\principal\detalhes_clube.html:108
 msgid "Páginas:"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:81
+#: .\templates\principal\detalhes_clube.html:113
 msgid "Iniciar Leitura"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:95
+#: .\templates\principal\detalhes_clube.html:127
 #, python-format
 msgid ""
 "Votação para Próximo Livro <small>(encerra em "
 "%(data_fim_votacao_formatada)s)</small>"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:99
-#: .\templates\principal\detalhes_clube.html:249
+#: .\templates\principal\detalhes_clube.html:131
+#: .\templates\principal\detalhes_clube.html:320
 msgid "Editar"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:102
+#: .\templates\principal\detalhes_clube.html:134
 msgid "Tem certeza que deseja fechar esta votação?"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:102
+#: .\templates\principal\detalhes_clube.html:134
 msgid "Fechar"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:114
+#: .\templates\principal\detalhes_clube.html:146
 msgid "por"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:115
+#: .\templates\principal\detalhes_clube.html:147
 msgid "dos votos"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:118
+#: .\templates\principal\detalhes_clube.html:150
 msgid "voto(s) de"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:119
+#: .\templates\principal\detalhes_clube.html:151
 msgid "Votar neste"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:124
+#: .\templates\principal\detalhes_clube.html:156
 msgid "Confirmar Voto"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:126
+#: .\templates\principal\detalhes_clube.html:158
 msgid "Você precisa ser membro para votar."
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:127
+#: .\templates\principal\detalhes_clube.html:159
 msgid "Nenhuma opção de livro nesta votação ainda."
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:135
+#: .\templates\principal\detalhes_clube.html:167
 msgid "O clube não está lendo nenhum livro e não há votações ativas."
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:140
-msgid "Membros"
-msgstr ""
-
-#: .\templates\principal\detalhes_clube.html:148
+#: .\templates\principal\detalhes_clube.html:180
 msgid "Admin"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:148
+#: .\templates\principal\detalhes_clube.html:180
 msgid "Mod"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:150
+#: .\templates\principal\detalhes_clube.html:182
 msgid "Entrou:"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:154
+#: .\templates\principal\detalhes_clube.html:186
 msgid "Este clube ainda não tem membros."
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:160
+#: .\templates\principal\detalhes_clube.html:192
 msgid "Livros Já Lidos Pelo Clube"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:169
+#: .\templates\principal\detalhes_clube.html:202
 #, python-format
-msgid "Finalizado em: %(final_date)s | Avaliação: %(rating)s/5"
-msgstr ""
-
-#: .\templates\principal\detalhes_clube.html:176
-msgid "Nenhum livro finalizado pelo clube ainda."
-msgstr ""
-
-#: .\templates\principal\detalhes_clube.html:183
-msgid "PROGRESSO DE LEITURA"
-msgstr ""
-
-#: .\templates\principal\detalhes_clube.html:194
-#: .\templates\principal\home.html:73
-msgid "concluído"
-msgstr ""
-
-#: .\templates\principal\detalhes_clube.html:201
-msgid "Páginas lidas:"
+msgid "Finalizado em: %(final_date)s"
 msgstr ""
 
 #: .\templates\principal\detalhes_clube.html:203
-#: .\templates\principal\detalhes_clube.html:316
+msgid "Avaliação:"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:216
+msgid "Nenhum livro finalizado pelo clube ainda."
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:223
+msgid "PROGRESSO DE LEITURA"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:233
+#: .\templates\principal\detalhes_clube.html:234
+#: .\templates\principal\home.html:42
+msgid "concluído"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:239
+msgid "Páginas lidas:"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:241
 msgid "Atualizar"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:214
+#: .\templates\principal\detalhes_clube.html:242
+msgid "Finalizar Leitura"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:252
+msgid "Parabéns por finalizar a leitura!"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:253
+msgid ""
+"Por favor, dê uma nota de 0 a 5. Esta nota contribuirá para a média do clube."
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:258
+#: .\templates\principal\partials\card_livro_pessoal.html:17
+#: .\templates\principal\perfil.html:66
+msgid "Sua nota:"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:263
+msgid "Enviar Avaliação"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:271
+msgid "Confirmar Finalização"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:272
+#, python-format
+msgid ""
+"Finalizar a leitura marcará o livro como 100%% concluído. Deseja continuar?"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:275
+msgid "Confirmar"
+msgstr ""
+
+#: .\templates\principal\detalhes_clube.html:285
 msgid "VISITAR A ESTANTE DO CLUBE"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:218
+#: .\templates\principal\detalhes_clube.html:289
 msgid ""
 "Explore os livros mais desejados e odiados. Clique abaixo para visitar a "
 "estante e conhecer um pouco os gostos do nosso clube."
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:221
+#: .\templates\principal\detalhes_clube.html:292
 msgid "Visitar Estante"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:230
+#: .\templates\principal\detalhes_clube.html:301
 msgid "Próximas Reuniões"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:241
+#: .\templates\principal\detalhes_clube.html:312
 msgid "às"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:242
+#: .\templates\principal\detalhes_clube.html:313
 msgid "Sobre o livro:"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:243
+#: .\templates\principal\detalhes_clube.html:314
 msgid "Meta:"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:243
+#: .\templates\principal\detalhes_clube.html:314
 msgid "Ler até"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:245
+#: .\templates\principal\detalhes_clube.html:316
 msgid "Link da Reunião"
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:255
+#: .\templates\principal\detalhes_clube.html:326
 msgid "Nenhuma reunião agendada."
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:289
-msgid "Salvando..."
+#: .\templates\principal\detalhes_clube.html:403
+msgid "Ocorreu um erro."
 msgstr ""
 
-#: .\templates\principal\detalhes_clube.html:310
-msgid "Erro ao atualizar o progresso."
+#: .\templates\principal\detalhes_clube.html:423
+msgid "Erro de rede. Tente novamente."
 msgstr ""
 
-#: .\templates\principal\estante.html:66
-msgid "Capa do livro"
+#: .\templates\principal\detalhes_clube.html:453
+msgid "Não foi possível registrar a nota."
 msgstr ""
 
-#: .\templates\principal\estante.html:68
-msgid "Capa do livro não disponível"
+#: .\templates\principal\detalhes_clube.html:459
+msgid "Erro de rede ao enviar avaliação."
 msgstr ""
 
-#: .\templates\principal\estante.html:77
-msgid "Data de Início:"
+#: .\templates\principal\editar_perfil.html:10
+msgid "Editar Perfil"
 msgstr ""
 
-#: .\templates\principal\estante.html:81
-msgid "Próxima Reunião:"
-msgstr ""
-
-#: .\templates\principal\estante.html:85
-#: .\templates\principal\proximo_livro.html:68
-#: .\templates\principal\queremos_ler.html:68
-#: .\templates\principal\queremos_ler.html:79
-msgid "A definir"
-msgstr ""
-
-#: .\templates\principal\estante.html:96
+#: .\templates\principal\estante.html:46
 #, python-format
 msgid ""
 "O clube '%(clube_nome)s' não tem uma leitura definida como \"lendo "
 "atualmente\"."
 msgstr ""
 
-#: .\templates\principal\home.html:62
+#: .\templates\principal\estante_pessoal.html:11
+msgid "Minha Estante Pessoal"
+msgstr ""
+
+#: .\templates\principal\estante_pessoal.html:12
+msgid ""
+"Aqui estão todos os livros que você está lendo, já leu, ou abandonou em "
+"algum clube."
+msgstr ""
+
+#: .\templates\principal\estante_pessoal.html:17
+msgid "Favoritos"
+msgstr ""
+
+#: .\templates\principal\estante_pessoal.html:26
+msgid "Você não está lendo nenhum livro no momento."
+msgstr ""
+
+#: .\templates\principal\estante_pessoal.html:36
+msgid "Nenhum livro na sua lista de lidos."
+msgstr ""
+
+#: .\templates\principal\estante_pessoal.html:48
+msgid "Você ainda não marcou nenhum livro como favorito."
+msgstr ""
+
+#: .\templates\principal\estante_pessoal.html:58
+msgid "Nenhum livro abandonado."
+msgstr ""
+
+#: .\templates\principal\home.html:31
 msgid "Leituras Atuais"
 msgstr ""
 
-#: .\templates\principal\home.html:79
+#: .\templates\principal\home.html:48
 msgid "Você ainda não iniciou a leitura de nenhum livro nos seus clubes."
 msgstr ""
 
-#: .\templates\principal\home.html:85
+#: .\templates\principal\home.html:55
 msgid "Meus Clubes do Livro"
 msgstr ""
 
-#: .\templates\principal\home.html:100
-#: .\templates\principal\listagem_resultados.html:41
+#: .\templates\principal\home.html:70
+#: .\templates\principal\listagem_resultados.html:40
 msgid "Fundado por:"
 msgstr ""
 
-#: .\templates\principal\home.html:101
+#: .\templates\principal\home.html:71
 msgid "Desde:"
 msgstr ""
 
-#: .\templates\principal\home.html:104
+#: .\templates\principal\home.html:74
 msgid "Lendo agora:"
 msgstr ""
 
-#: .\templates\principal\home.html:113
+#: .\templates\principal\home.html:83
 #, python-format
 msgid "Olá, %(nome_usuario)s! Você ainda não faz parte de nenhum clube."
 msgstr ""
 
-#: .\templates\principal\home.html:117
+#: .\templates\principal\home.html:87
 msgid "Que tal"
 msgstr ""
 
-#: .\templates\principal\home.html:118
+#: .\templates\principal\home.html:88
 msgid "criar um novo clube"
 msgstr ""
 
-#: .\templates\principal\home.html:119
+#: .\templates\principal\home.html:89
 msgid "ou explorar clubes existentes?"
 msgstr ""
 
-#: .\templates\principal\home.html:128
+#: .\templates\principal\home.html:98
 msgid "Recomendações de Clubes"
 msgstr ""
 
-#: .\templates\principal\home.html:131 .\templates\principal\home.html:133
+#: .\templates\principal\home.html:101 .\templates\principal\home.html:103
 msgid "Fantasia Épica"
 msgstr ""
 
-#: .\templates\principal\home.html:134
+#: .\templates\principal\home.html:104
 msgid "Fundado por Júlia Ramos"
 msgstr ""
 
-#: .\templates\principal\home.html:135
+#: .\templates\principal\home.html:105
 msgid "Desde Fev 2024"
 msgstr ""
 
-#: .\templates\principal\home.html:140 .\templates\principal\home.html:142
+#: .\templates\principal\home.html:110 .\templates\principal\home.html:112
 msgid "Literatura Brasileira"
 msgstr ""
 
-#: .\templates\principal\home.html:143
+#: .\templates\principal\home.html:113
 msgid "Fundado por Pedro Souza"
 msgstr ""
 
-#: .\templates\principal\home.html:144
+#: .\templates\principal\home.html:114
 msgid "Desde Abr 2024"
 msgstr ""
 
-#: .\templates\principal\home.html:149 .\templates\principal\home.html:151
+#: .\templates\principal\home.html:119 .\templates\principal\home.html:121
 msgid "Sci-Fi e Futuro"
 msgstr ""
 
-#: .\templates\principal\home.html:152
+#: .\templates\principal\home.html:122
 msgid "Fundado por Renan Costa"
 msgstr ""
 
-#: .\templates\principal\home.html:153
+#: .\templates\principal\home.html:123
 msgid "Desde Jan 2024"
 msgstr ""
 
-#: .\templates\principal\listagem_resultados.html:13
-#, python-format
-msgid "Resultados da Pesquisa para: \"%(query|default_if_none:'')s\""
+#: .\templates\principal\lidos.html:40
+msgid "Finalizado em:"
 msgstr ""
 
-#: .\templates\principal\listagem_resultados.html:44
+#: .\templates\principal\lidos.html:45
+msgid "Nenhum livro foi finalizado por este clube ainda."
+msgstr ""
+
+#: .\templates\principal\listagem_resultados.html:43
 msgid "Fundado em:"
 msgstr ""
 
-#: .\templates\principal\listagem_resultados.html:47
+#: .\templates\principal\listagem_resultados.html:46
 msgid "Lendo:"
 msgstr ""
 
-#: .\templates\principal\listagem_resultados.html:60
+#: .\templates\principal\listagem_resultados.html:59
 msgid "Ver Clube"
 msgstr ""
 
-#: .\templates\principal\listagem_resultados.html:67
+#: .\templates\principal\listagem_resultados.html:66
 #, python-format
-msgid "Nenhum clube encontrado para \"%(query)s\"."
+msgid ""
+"Nenhum clube encontrado para <p class=\"quebra-linha\">\"%(query)s\"</p>"
 msgstr ""
 
-#: .\templates\principal\perfil.html:44
+#: .\templates\principal\partials\card_livro_pessoal.html:6
+msgid "Favorito"
+msgstr ""
+
+#: .\templates\principal\partials\card_livro_pessoal.html:14
+msgid "Lido com:"
+msgstr ""
+
+#: .\templates\principal\partials\card_livro_pessoal.html:23
+msgid "páginas"
+msgstr ""
+
+#: .\templates\principal\perfil.html:13
+msgid "Foto de capa"
+msgstr ""
+
+#: .\templates\principal\perfil.html:18
 msgid "Foto de perfil"
 msgstr ""
 
-#: .\templates\principal\perfil.html:67
-msgid "Amo ler, compartihar e socializar! Gosto de ler durante as noites!•"
+#: .\templates\principal\perfil.html:42
+msgid "Nenhuma bio adicionada."
 msgstr ""
 
-#: .\templates\principal\perfil.html:69
-msgid "livros lidos"
+#: .\templates\principal\perfil.html:44
+msgid "Estante pessoal"
 msgstr ""
 
-#: .\templates\principal\perfil.html:71
-msgid "Quero ler"
+#: .\templates\principal\perfil.html:45
+msgid "Convites"
 msgstr ""
 
-#: .\templates\principal\perfil.html:72
-msgid "Relendo"
-msgstr ""
-
-#: .\templates\principal\perfil.html:73
+#: .\templates\principal\perfil.html:46
 msgid "Meus clubes"
 msgstr ""
 
-#: .\templates\principal\perfil.html:74
+#: .\templates\principal\perfil.html:47
 msgid "Editar perfil"
 msgstr ""
 
-#: .\templates\principal\perfil.html:81
+#: .\templates\principal\perfil.html:55
 msgid "Livros lidos recentemente"
 msgstr ""
 
-#: .\templates\principal\perfil.html:87 .\templates\principal\perfil.html:94
-#: .\templates\principal\perfil.html:101
+#: .\templates\principal\perfil.html:63
 msgid "Clube:"
 msgstr ""
 
-#: .\templates\principal\perfil.html:87
-msgid "Terror dos Clássicos"
+#: .\templates\principal\perfil.html:70
+msgid "Você ainda não finalizou nenhuma leitura. Continue lendo!"
 msgstr ""
 
-#: .\templates\principal\perfil.html:94
-msgid "Lendas Góticas"
-msgstr ""
-
-#: .\templates\principal\perfil.html:101
-msgid "Noites de Mistério"
-msgstr ""
-
-#: .\templates\principal\perfil.html:108
+#: .\templates\principal\perfil.html:77
 msgid "Clubes Que Você Entrou Recentemente"
 msgstr ""
 
-#: .\templates\principal\perfil.html:124
+#: .\templates\principal\perfil.html:94
 msgid "Admin:"
 msgstr ""
 
-#: .\templates\principal\perfil.html:125
+#: .\templates\principal\perfil.html:97
 msgid "Criado em:"
 msgstr ""
 
-#: .\templates\principal\perfil.html:126
+#: .\templates\principal\perfil.html:98
 msgid "Você entrou em:"
 msgstr ""
 
-#: .\templates\principal\perfil.html:128 .\templates\principal\perfil.html:129
+#: .\templates\principal\perfil.html:100 .\templates\principal\perfil.html:101
 msgid "Não definido"
 msgstr ""
 
-#: .\templates\principal\perfil.html:129
+#: .\templates\principal\perfil.html:101
 msgid "Próximo livro:"
 msgstr ""
 
-#: .\templates\principal\perfil.html:133
+#: .\templates\principal\perfil.html:104
 msgid "Você ainda não faz parte de nenhum clube. Que tal explorar alguns?"
 msgstr ""
 
-#: .\templates\principal\proximo_livro.html:67
-#: .\templates\principal\queremos_ler.html:67
-#: .\templates\principal\queremos_ler.html:78
-msgid "Início Previsto:"
-msgstr ""
-
-#: .\templates\principal\queremos_ler.html:67
-#: .\templates\principal\queremos_ler.html:78
-msgid "sem data prevista"
+#: .\templates\principal\queremos_ler.html:58
+msgid "Ainda não há livros na lista de desejos deste clube."
 msgstr ""
 
 #: .\venv\Lib\site-packages\django\contrib\messages\apps.py:16
@@ -2881,4 +3233,10 @@ msgstr ""
 
 #: .\venv\Lib\site-packages\django\views\templates\default_urlconf.html:236
 msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: .\venv\Lib\site-packages\test\integ\test_sendgrid.py:333
+#: .\venv\Lib\site-packages\test\integ\test_sendgrid.py:340
+#: .\venv\Lib\site-packages\test\integ\test_sendgrid.py:347
+msgid "global"
 msgstr ""

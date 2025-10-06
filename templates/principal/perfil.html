@@ -42,8 +42,8 @@
         <p class="descricao">{{ usuario.bio|default:_("Nenhuma bio adicionada.") }}</p> 
         <div class="botoes">
           <a href="{% url 'principal:estante_pessoal' %}" class="azul">{% trans "Estante pessoal" %}</a>
-          <button class="azul">{% trans "Convites" %}</button>
-          <button class="azul" >{% trans "Meus clubes" %}</button>
+          <!-- <button class="azul">{% trans "Convites" %}</button> -->
+          <!-- <button class="azul" >{% trans "Meus clubes" %}</button> -->
           <a href="{% url 'principal:editar_perfil' %}" class="borda">{% trans "Editar perfil" %}</a>
         </div>
         </div>

@@ -119,7 +119,7 @@ def pagina_de_busca(request: HttpRequest):
     resultados_finais = []
     if query:
         clubes_por_nome = Clube.objects.filter(nome__icontains=query)
-        leituras_com_livro_buscado = LeituraClube.objects.filter(Q(livro__nome__icontains=query) & (Q(status=LeituraClube.StatusClube.LENDO_ATUALMENTE) | Q(status=LeituraClube.StatusClube.PROXIMO))).select_related('clube', 'livro')
+        leituras_com_livro_buscado = LeituraClube.objects.filter(Q(livro__nome__icontains=query) & (Q(status=LeituraClube.StatusClube.LENDO_ATUALMENTE))).select_related('clube', 'livro')
         clubes_encontrados_ids = set()
         def processar_clube(clube, razao_match):
             if clube.id not in clubes_encontrados_ids:
