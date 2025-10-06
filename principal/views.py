@@ -748,9 +748,7 @@ def alterar_status_livro(request, clube_id, leitura_id):
 @login_obrigatorio
 @require_POST 
 def atualizar_progresso(request: HttpRequest, estante_pessoal_id):
-    """
-    Atualiza o progresso da leitura via JSON, retornando uma mensagem padronizada.
-    """
+ 
     estante_entry = get_object_or_404(EstantePessoal, id=estante_pessoal_id, usuario=request.usuario_logado_obj)
     
     try:

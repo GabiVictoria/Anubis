@@ -209,7 +209,7 @@
       {% endif %}
     </div>
   </div> -->
-<!-- 
+
     {% if estante_pessoal_obj %}
     <div class="card-container">
       <h2 class="card-title">{% trans "PROGRESSO DE LEITURA" %}</h2>
@@ -258,7 +258,7 @@
         </div>
     </div>
 
-    </div> -->
+    </div>
 
  
 
@@ -309,17 +309,47 @@
     </div>
 
 {% block scripts %}
-<!-- <script>
+<script>
 document.addEventListener('DOMContentLoaded', () => {
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-    // --- LÓGICA DE PROGRESSO DE LEITURA ---
+    // --- ELEMENTOS DO DOM ---
     const progressForm = document.getElementById('progressForm');
     const finishReadingBtn = document.getElementById('finishReadingBtn');
+    const ratingModalOverlay = document.getElementById("ratingModalOverlay");
+    const ratingForm = document.getElementById("ratingForm");
+    const cancelRatingBtn = document.getElementById("cancelRatingBtn");
+    const notaInput = document.getElementById("nota");
+    const notaOutput = document.getElementById("notaOutput");
 
+    // --- FUNÇÕES ---
+
+    /**
+     * Mostra o modal de avaliação e configura o ID da leitura.
+     */
+    function showRatingModal(leituraClubeId) {
+        if (ratingModalOverlay) {
+            document.getElementById("modalLeituraClubeId").value = leituraClubeId;
+            ratingModalOverlay.classList.add('active');
+        }
+    }
+
+    /**
+     * Esconde o modal de avaliação.
+     */
+    function hideRatingModal() {
+        if (ratingModalOverlay) {
+            ratingModalOverlay.classList.remove('active');
+        }
+    }
+
+    /**
+     * Envia os dados de progresso para o servidor.
+     */
     async function saveProgress(finalizado = false) {
         const progressInput = document.getElementById('progressInput');
-        const paginasLidas = parseInt(progressInput.value) || 0;
+        // Garante que temos um valor numérico, mesmo que o campo esteja vazio
+        const paginasLidas = parseInt(progressInput.value, 10) || 0;
         const url = "{% url 'principal:atualizar_progresso' estante_pessoal_obj.id %}";
 
         try {
@@ -337,97 +367,103 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
 
-            // **LÓGICA ALTERADA AQUI**
+            if (!response.ok) {
+                // Se a resposta HTTP não for OK (ex: 400, 500), trata como erro
+                throw new Error(data.message || "{% trans 'Ocorreu um erro.' %}");
+            }
+
+            // --- LÓGICA CORRIGIDA ---
             if (data.success) {
-                // Se a view retornou sucesso, recarrega a página.
-                // A mensagem do Django aparecerá após o reload.
-                location.reload();
+                if (data.show_rating_modal && data.leitura_clube_id) {
+                    // Se o backend mandar exibir o modal, nós o exibimos.
+                    showRatingModal(data.leitura_clube_id);
+                } else {
+                    // Caso contrário (uma atualização normal ou o livro já foi avaliado),
+                    // recarregamos a página para mostrar a mensagem do Django.
+                    location.reload();
+                }
             } else {
-                // Se a view retornou um erro, exibe um alerta para o usuário
-                // sem recarregar, para que ele possa corrigir.
-                alert(data.message || "{% trans 'Ocorreu um erro ao salvar o progresso.' %}");
+                 // Exibe a mensagem de erro vinda do backend sem recarregar.
+                alert(data.message);
             }
 
         } catch (err) {
             console.error("Erro na requisição de progresso:", err);
-            alert("{% trans 'Erro de rede. Tente novamente.' %}");
+            alert(err.message || "{% trans 'Erro de rede. Tente novamente.' %}");
         }
     }
 
-    // --- Event Listeners ---
+    /**
+     * Envia a nota de avaliação para o servidor.
+     */
+    async function submitRating(e) {
+        e.preventDefault();
+        const leituraClubeId = document.getElementById("modalLeituraClubeId").value;
+        const nota = parseFloat(notaInput.value);
+        const url = `{% url 'principal:registrar_nota_clube' 0 %}`.replace('0', leituraClubeId);
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken },
+                body: JSON.stringify({ nota: nota })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                // Após avaliar, aí sim recarregamos a página.
+                location.reload();
+            } else {
+                alert(data.message || "{% trans 'Não foi possível registrar a nota.' %}");
+            }
+        } catch (err) {
+            console.error("Erro ao registrar nota:", err);
+            alert("{% trans 'Erro de rede ao enviar avaliação.' %}");
+        }
+    }
+
+
+    // --- EVENT LISTENERS ---
 
     if (progressForm) {
         progressForm.addEventListener('submit', (e) => {
-            // Previne o envio padrão para deixar nosso script assumir o controle
-            e.preventDefault();
-            saveProgress(false);
+            e.preventDefault(); // Previne o envio padrão do formulário
+            saveProgress(false); // 'false' porque é apenas uma atualização
         });
     }
 
     if (finishReadingBtn) {
         finishReadingBtn.addEventListener('click', () => {
             if (confirm("{% trans 'Finalizar a leitura marcará o livro como 100% concluído. Deseja continuar?' %}")) {
-                saveProgress(true);
+                saveProgress(true); // 'true' para indicar finalização
             }
         });
     }
 
-    // --- LÓGICA DO MODAL DE AVALIAÇÃO (NÃO PRECISA RECARREGAR IMEDIATAMENTE) ---
-    // Esta parte continua igual, pois o modal aparece dinamicamente
-    const ratingModalOverlay = document.getElementById("ratingModalOverlay");
+    // --- LÓGICA DO MODAL ---
     if (ratingModalOverlay) {
-        const ratingForm = document.getElementById("ratingForm");
-        const cancelRatingBtn = document.getElementById("cancelRatingBtn");
-        const notaInput = document.getElementById("nota");
-        const notaOutput = document.getElementById("notaOutput");
-
-        if (notaInput && notaOutput) {
-            notaInput.addEventListener("input", () => {
-                notaOutput.textContent = parseFloat(notaInput.value).toFixed(1);
-            });
-        }
-
-        function closeModal() {
-            ratingModalOverlay.classList.remove('active');
-        }
-
-        cancelRatingBtn.addEventListener("click", closeModal);
+        cancelRatingBtn.addEventListener("click", hideRatingModal);
         ratingModalOverlay.addEventListener('click', (event) => {
-            if (event.target === ratingModalOverlay) closeModal();
+            // Fecha o modal se clicar fora da área do conteúdo
+            if (event.target === ratingModalOverlay) {
+                hideRatingModal();
+            }
         });
+    }
 
-        if (ratingForm) {
-            ratingForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                const leituraClubeId = document.getElementById("modalLeituraClubeId").value;
-                const nota = parseFloat(notaInput.value);
-                const url = "{% url 'principal:registrar_nota_clube' 0 %}".replace("0", leituraClubeId);
+    if (ratingForm) {
+        ratingForm.addEventListener("submit", submitRating);
+    }
 
-                try {
-                    const response = await fetch(url, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken },
-                        body: JSON.stringify({ nota: nota })
-                    });
-                    const data = await response.json();
-                    if (data.success) {
-                        // Após dar a nota, também recarregamos a página
-                        location.reload();
-                    } else {
-                        alert(data.message || "{% trans 'Não foi possível registrar a nota.' %}");
-                    }
-                } catch (err) {
-                    console.error("Erro ao registrar nota:", err);
-                    alert("{% trans 'Erro de rede ao enviar avaliação.' %}");
-                }
-            });
-        }
+    if (notaInput && notaOutput) {
+        // Atualiza o texto da nota conforme o usuário desliza o range
+        notaInput.addEventListener("input", () => {
+            notaOutput.textContent = parseFloat(notaInput.value).toFixed(1);
+        });
     }
 });
-</script> -->
-
+</script>
 {% endblock %}
 
 
 {% endblock %}
-
