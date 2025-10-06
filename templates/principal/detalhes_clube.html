@@ -319,6 +319,7 @@
     </div>
 
 {% block scripts %}
+{% if estante_pessoal_obj %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -332,7 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const notaInput = document.getElementById("nota");
     const notaOutput = document.getElementById("notaOutput");
 
-    // --- ELEMENTOS DO NOVO MODAL DE CONFIRMAÇÃO ---
+    // --- ELEMENTOS DO MODAL DE CONFIRMAÇÃO ---
     const confirmFinishModalOverlay = document.getElementById('confirmFinishModalOverlay');
     const confirmFinishBtn = document.getElementById('confirmFinishBtn');
     const cancelFinishBtn = document.getElementById('cancelFinishBtn');
@@ -355,7 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Funções para o novo modal
     function showConfirmFinishModal() {
         if (confirmFinishModalOverlay) {
             confirmFinishModalOverlay.classList.add('active');
@@ -372,12 +372,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isProcessing) return;
         isProcessing = true;
 
-        hideConfirmFinishModal(); // Esconde o modal de confirmação
+        hideConfirmFinishModal(); 
 
         const progressInput = document.getElementById('progressInput');
         const paginasLidas = parseInt(progressInput.value, 10) || 0;
         const url = "{% url 'principal:atualizar_progresso' estante_pessoal_obj.id %}";
-
+        
         const updateBtn = progressForm.querySelector('button[type="submit"]');
         if (updateBtn) updateBtn.disabled = true;
         if (finishReadingBtn) finishReadingBtn.disabled = true;
@@ -426,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const leituraClubeId = document.getElementById("modalLeituraClubeId").value;
         const nota = parseFloat(notaInput.value);
         const url = `{% url 'principal:registrar_nota_clube' 0 %}`.replace('0', leituraClubeId);
-
+        
         const submitRatingBtn = ratingForm.querySelector('button[type="submit"]');
         if (submitRatingBtn) submitRatingBtn.disabled = true;
 
@@ -462,25 +462,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (finishReadingBtn) {
-        // Agora, o botão de finalizar apenas ABRE o nosso modal de confirmação.
         finishReadingBtn.addEventListener('click', () => {
             showConfirmFinishModal();
         });
     }
 
-    // Listeners para o NOVO modal de confirmação
     if (confirmFinishModalOverlay) {
         cancelFinishBtn.addEventListener('click', hideConfirmFinishModal);
         confirmFinishModalOverlay.addEventListener('click', (event) => {
             if (event.target === confirmFinishModalOverlay) hideConfirmFinishModal();
         });
         confirmFinishBtn.addEventListener('click', () => {
-            // Só ao clicar em "Confirmar" que a função de salvar é chamada.
             saveProgress(true);
         });
     }
 
-    // --- LÓGICA DO MODAL DE AVALIAÇÃO (permanece igual) ---
     if (ratingModalOverlay) {
         cancelRatingBtn.addEventListener("click", hideRatingModal);
         ratingModalOverlay.addEventListener('click', (event) => {
@@ -500,6 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+{% endif %}
 {% endblock %}
 
 
