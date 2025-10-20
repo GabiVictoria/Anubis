@@ -32,14 +32,7 @@
     </div>
 
 
-    <div class="filtro-ano">
-      <label for="ano">{% trans "Filtrar por ano:" %} </label>
-      <select id="ano">
-        <option>{% trans "Todos" %}</option>
-        <option>2025</option>
-        <option>2024</option>
-      </select>
-    </div>
+    
 
 <div class="livros-container">
       {% for leitura in abandonado %}
@@ -49,8 +42,8 @@
           <div class="livro-info">
             <h3>{{ leitura.livro.nome }}</h3>
             <p><strong>{% trans "Autor:" %}</strong> {{ leitura.livro.autor }}</p>
-            <p><strong>{% trans "Início Previsto:" %}</strong> {% trans "sem data prevista" %}</p>
-            <p><strong>{% trans "Nota média:" %}</strong> {% trans "A definir" %}</p>
+            <p><strong>{% trans "Páginas" %}</strong> {{leitura.livro.paginas}}</p>
+            
           </div>
         </div>
       {% empty %}

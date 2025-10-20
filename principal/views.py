@@ -12,6 +12,7 @@ from django.contrib.staticfiles import finders
 from django.core.files.base import ContentFile
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.db.models import Q, Avg
+from django.db.models.functions import ExtractYear
 from .forms import ClubeEditForm, DefinirLeituraAtualForm, CriarVotacaoForm,  ReuniaoForm, VotacaoEditForm, ConvidarUsuarioForm, PerfilEditForm
 import os
 import requests
@@ -656,17 +657,44 @@ def estante(request, clube_id):
 @login_obrigatorio
 def lidos_view(request, clube_id):
     clube = get_object_or_404(Clube, id=clube_id)
-    
+    query = request.GET.get('q', '')
+    ano_selecionado = request.GET.get('ano')
+
+    # 1. Começamos com uma query base que será usada para tudo.
     lidos = LeituraClube.objects.filter(
         clube=clube, 
-        status=LeituraClube.StatusClube.FINALIZADO
+        status='FINALIZADO'
     ).select_related('livro')
 
+    # 2. Se houver uma busca por texto, aplicamos o filtro.
+    if query:
+        lidos = lidos.filter(
+            livro__nome__icontains=query
+        ) | lidos.filter(
+            livro__autor__icontains=query
+        )
+        lidos = lidos.distinct()
+
+    # 3. Pegamos os anos disponíveis a partir da query principal, ANTES de filtrar por ano.
+    anos_disponiveis = lidos.annotate(
+        ano=ExtractYear('data_finalizacao')
+    ).values_list('ano', flat=True).distinct().order_by('-ano')
+
+    # 4. Se um ano for selecionado, filtramos o resultado final.
+    if ano_selecionado and ano_selecionado.isdigit():
+        lidos = lidos.filter(data_finalizacao__year=ano_selecionado)
+
+    # 5. Ordenamos o resultado final.
+    lidos = lidos.order_by('-data_finalizacao')
+    
     contexto = {
         'clube': clube,
-        'lidos': lidos
+        'lidos': lidos,
+        'anos_disponiveis': anos_disponiveis,
+        'ano_selecionado': int(ano_selecionado) if ano_selecionado and ano_selecionado.isdigit() else None,
+        'query': query,
     }
-    return render(request, 'principal/lidos.html', contexto) 
+    return render(request, 'principal/lidos.html', contexto)
 
 @login_obrigatorio
 def abandonados_view(request, clube_id):

@@ -30,6 +30,18 @@
       <a href="{% url 'principal:queremos_ler' clube.id %}" class="botoes">{% trans "Queremos Ler" %}</a>
     </div>
 
+    <div class="filter-container">
+      <form method="get" action="">
+        <label for="ano">{% trans "Filtrar por ano de finalização:" %}</label>
+        <select name="ano" id="ano" onchange="this.form.submit()">
+          <option value="">{% trans "Todos os anos" %}</option>
+          {% for ano in anos_disponiveis %}
+            <option value="{{ ano }}" {% if ano == ano_selecionado %}selected{% endif %}>{{ ano }}</option>
+          {% endfor %}
+        </select>
+      </form>
+    </div>
+
     <div class="livros-container">
       {% for leitura in lidos %}
         <div class="livro-card" data-livro-id="{{ leitura.id }}">
