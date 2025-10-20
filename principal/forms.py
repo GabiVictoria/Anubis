@@ -1,5 +1,7 @@
 # anubis/principal/forms.py
+import re  
 from django import forms
+from django.db.models import Case, When
 from inicial.models import Clube, Livro, LeituraClube, Votacao, ClubeMembro, Reuniao, Usuario
 from django.utils import timezone
 from datetime import timedelta
@@ -112,8 +114,7 @@ class CriarVotacaoForm(forms.ModelForm):
             livros_elegiveis = Livro.objects.filter(
                 leituraclube__clube=clube,
                 leituraclube__status__in=[
-                    LeituraClube.StatusClube.A_LER,
-                    LeituraClube.StatusClube.PROXIMO
+                    LeituraClube.StatusClube.A_LER
                 ]
             ).distinct().order_by('nome')
             self.fields['livro_opcao_1'].queryset = livros_elegiveis
@@ -193,7 +194,7 @@ class ReuniaoForm(forms.ModelForm):
         fields = ['titulo', 'leitura_associada', 'data_horario', 'tipo', 'link_reuniao', 'endereco', 'descricao', 'meta_tipo', 'meta_quantidade']
         widgets = {'data_horario': DateTimePickerInput()}
         labels = {
-            'leitura_associada': _("Livro em Discussão (opcional)"),
+            'leitura_associada': _("Livro em Discussão "),
             'meta_tipo': _("Tipo de Meta (opcional)"),
             'meta_quantidade': _("Quantidade da Meta (opcional)"),
         }
@@ -202,7 +203,19 @@ class ReuniaoForm(forms.ModelForm):
         clube = kwargs.pop('clube', None)
         super().__init__(*args, **kwargs)
         if clube:
-            self.fields['leitura_associada'].queryset = LeituraClube.objects.filter(clube=clube)
+            ordem_status = Case(
+                When(status='LENDO', then=0),
+                When(status='A_LER', then=1),
+                When(status='FINALIZADO', then=2),
+                When(status='ABANDONADO', then=3),
+                default=4
+            )
+            self.fields['leitura_associada'].queryset = LeituraClube.objects.filter(
+                clube=clube
+            ).annotate(
+                ordem_status=ordem_status
+            ).order_by('ordem_status', 'livro__nome')
+        self.fields['leitura_associada'].empty_label = "Reunião de assuntos gerais. Sem livro definido"
         self.fields['meta_quantidade'].widget.attrs.update({'placeholder': _('Ex: 50 ou 5')})
         self.fields['link_reuniao'].widget.attrs.update({'placeholder': 'https://...'})
         self.fields['endereco'].widget.attrs.update({'placeholder': _('Ex: Rua Fictícia, 123, Bairro')})
@@ -213,6 +226,33 @@ class ReuniaoForm(forms.ModelForm):
             raise forms.ValidationError(_("A reunião deve ser agendada com pelo menos 4 horas de antecedência."))
         return data_horario_inserida
 
+
+    def clean_descricao(self):
+        descricao = self.cleaned_data.get('descricao')
+        if descricao and len(descricao) < 20: 
+            raise forms.ValidationError(
+                _("A descrição deve ter no mínimo 20 caracteres.")
+            )
+        return descricao
+
+    
+    def clean_endereco(self):
+        endereco = self.cleaned_data.get('endereco')
+        
+       
+        if endereco:
+           
+            if len(endereco) < 10:
+                raise forms.ValidationError(
+                    _("O endereço deve ter no mínimo 10 caracteres.")
+                )
+            
+            if not re.search(r'\d', endereco) or not re.search(r'[a-zA-Z]', endereco):
+                 raise forms.ValidationError(
+                    _("O endereço deve conter letras e números.")
+                )
+        return endereco
+
     def clean(self):
         cleaned_data = super().clean()
         tipo_reuniao = cleaned_data.get('tipo')
@@ -222,6 +262,21 @@ class ReuniaoForm(forms.ModelForm):
             self.add_error('endereco', _("Para reuniões presenciais, o endereço é obrigatório."))
         if tipo_reuniao == Reuniao.TipoReuniao.HIBRIDO and not (cleaned_data.get('link_reuniao') and cleaned_data.get('endereco')):
             self.add_error(None, _("Para reuniões híbridas, tanto o link quanto o endereço são obrigatórios."))
+
+        meta_tipo = cleaned_data.get('meta_tipo')
+        meta_quantidade = cleaned_data.get('meta_quantidade')
+
+       
+        if meta_tipo and not meta_quantidade:
+            self.add_error('meta_quantidade', _("Se um tipo de meta é definido, a quantidade é obrigatória."))
+
+        if meta_quantidade and not meta_tipo:
+            self.add_error('meta_tipo', _("Se uma quantidade de meta é definida, o tipo é obrigatório."))
+
+       
+        if meta_quantidade and meta_quantidade <= 0:
+            self.add_error('meta_quantidade', _("A quantidade da meta deve ser um número positivo."))
+            
         return cleaned_data
     
 class ConvidarUsuarioForm(forms.Form):

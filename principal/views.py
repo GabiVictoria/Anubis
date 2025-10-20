@@ -601,7 +601,6 @@ def perfil(request):
             'data_entrada': membro_info.data_inscricao,
             'admin_nome': admin_membro.usuario.nome if admin_membro else None,
             'livro_atual': leitura_atual.livro.nome if leitura_atual else None,
-            'proximo_livro': None,
         })
 
     contexto = {
@@ -887,8 +886,6 @@ def registrar_nota_clube(request: HttpRequest, leitura_id):
 
 @admin_clube_obrigatorio
 def criar_reuniao(request: HttpRequest, clube, **kwargs):
-    # Esta view não precisa de alteração de fuso horário, pois cria um novo objeto.
-    # A lógica de tratamento de erros já está correta.
     if request.method == 'POST':
         form = ReuniaoForm(request.POST, clube=clube)
         if form.is_valid():
@@ -917,22 +914,21 @@ def editar_reuniao(request: HttpRequest, clube, reuniao_id, **kwargs):
             messages.success(request, _("Reunião atualizada com sucesso!"))
             return redirect('principal:detalhes_clube', clube_id=clube.id)
         else:
-            # Garante que os erros de validação sejam exibidos
+            
             for field, error_list in form.errors.items():
                 for error in error_list:
                     messages.error(request, error)
     else:
-        # --- LÓGICA DE FUSO HORÁRIO APLICADA AQUI, NA VIEW ---
-        # 1. Converte a data do banco (UTC) para o fuso horário local
+       
         data_horario_local = timezone.localtime(reuniao.data_horario)
 
-        # 2. Prepara um dicionário com os dados iniciais para o formulário
+        
         initial_data = {
             'titulo': reuniao.titulo,
             'data_horario': data_horario_local,
-            # (outros campos são preenchidos pela 'instance')
+            
         }
-        # 3. Inicia o formulário com a instância E os dados iniciais corrigidos
+        
         form = ReuniaoForm(instance=reuniao, clube=clube, initial=initial_data)
 
     contexto = {

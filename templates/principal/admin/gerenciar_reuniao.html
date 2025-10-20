@@ -4,10 +4,10 @@
 
 {% block styles %}
 <style>
-    /* --- Estilos Gerais da Página --- */
+    
     .main-container.admin-form-page {
-        max-width: 700px; /* Largura máxima do formulário */
-        margin: 2rem auto; /* Centraliza na página com margem no topo/baixo */
+        max-width: 700px; 
+        margin: 2rem auto;
         padding: 2rem;
         background-color: #ffffff;
         border-radius: 8px;
@@ -15,26 +15,25 @@
         border: 1px solid #e0e0e0;
     }
 
-    /* --- Título do Formulário --- */
     .form-title {
         color: #333;
         font-size: 1.8rem;
         font-weight: 600;
         text-align: center;
         margin-bottom: 2rem;
-        border-bottom: 2px solid #007bff; /* Linha azul abaixo do título */
+        border-bottom: 2px solid #007bff; 
         padding-bottom: 0.5rem;
     }
 
-    /* --- Estilização do Formulário e Campos --- */
+    
     .styled-form p {
-        margin-bottom: 1.5rem; /* Espaçamento entre os campos do formulário */
+        margin-bottom: 1.5rem; 
     }
 
     .styled-form label {
-        display: block; /* Faz o label ocupar a linha inteira */
+        display: block; 
         font-weight: 600;
-        margin-bottom: 0.5rem; /* Espaço entre o label e o campo */
+        margin-bottom: 0.5rem; 
         color: #555;
     }
 
@@ -51,7 +50,7 @@
         border: 1px solid #ccc;
         border-radius: 6px;
         font-size: 1rem;
-        box-sizing: border-box; /* Garante que o padding não afete a largura */
+        box-sizing: border-box; 
         transition: border-color 0.2s, box-shadow 0.2s;
     }
 
@@ -59,23 +58,23 @@
     .styled-form textarea:focus,
     .styled-form select:focus {
         outline: none;
-        border-color: #007bff; /* Cor da borda ao focar */
-        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); /* Sombra suave ao focar */
+        border-color: #007bff; 
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2); 
     }
 
     .styled-form textarea {
-        resize: vertical; /* Permite redimensionamento vertical */
+        resize: vertical; 
         min-height: 120px;
     }
 
-    /* --- Botões de Ação --- */
+    
     .form-actions {
         display: flex;
-        justify-content: flex-end; /* Alinha os botões à direita */
-        gap: 1rem; /* Espaço entre os botões */
+        justify-content: flex-end; 
+        gap: 1rem; 
         margin-top: 2rem;
         padding-top: 1.5rem;
-        border-top: 1px solid #e0e0e0; /* Linha separadora */
+        border-top: 1px solid #e0e0e0; 
     }
 
     .action-button {
@@ -93,21 +92,21 @@
 
     /* Botão principal (Salvar) */
     .action-button {
-        background-color: #007bff; /* Azul primário */
+        background-color: #007bff; 
         color: white;
     }
 
     .action-button:hover {
-        background-color: #0056b3; /* Azul mais escuro no hover */
+        background-color: #0056b3; 
     }
 
     .action-button:active {
-        transform: scale(0.98); /* Efeito de clique */
+        transform: scale(0.98); 
     }
 
     /* Botão secundário (Cancelar) */
     .action-button.secondary-action {
-        background-color: #6c757d; /* Cinza secundário */
+        background-color: #6c757d;
         color: white;
     }
 

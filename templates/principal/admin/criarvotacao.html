@@ -63,7 +63,7 @@
   </div>
 
   <script>
-    // --- SCRIPT PARA IMPEDIR SELEÇÃO DUPLICADA NOS DROPDOWNS ---
+    
     const dropdowns = [
         document.getElementById('id_livro_opcao_1'),
         document.getElementById('id_livro_opcao_2'),
@@ -71,18 +71,16 @@
     ];
 
     function updateDropdownOptions() {
-        // Pega todos os valores que já foram selecionados (e não são vazios)
+       
         const selectedValues = dropdowns
             .map(d => d.value)
             .filter(v => v !== "");
 
-        // Para cada dropdown...
+        
         dropdowns.forEach(currentDropdown => {
-            // ...itera sobre suas opções
+            
             Array.from(currentDropdown.options).forEach(option => {
-                // Se a opção não estiver vazia, estiver selecionada em OUTRO dropdown,
-                // e não for a opção que já está selecionada NESTE dropdown,
-                // então desabilita a opção.
+               
                 if (option.value !== "" && selectedValues.includes(option.value) && option.value !== currentDropdown.value) {
                     option.disabled = true;
                 } else {
@@ -92,14 +90,14 @@
         });
     }
 
-    // Adiciona o evento de 'change' para cada dropdown
+   
     dropdowns.forEach(dropdown => {
-        if (dropdown) { // Garante que o elemento existe
+        if (dropdown) { 
             dropdown.addEventListener('change', updateDropdownOptions);
         }
     });
 
-    // Roda a função uma vez no carregamento da página para desabilitar opções pré-selecionadas (caso de edição)
+    
     document.addEventListener('DOMContentLoaded', updateDropdownOptions);
   </script>
 {% endblock %}
