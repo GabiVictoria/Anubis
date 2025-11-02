@@ -1,15 +1,16 @@
 {% extends 'principal/base.html' %}
 {% load static %}
 {% load i18n %}
+
 {% block styles %}
   <link rel="stylesheet" href="{% static 'principal/lidos.css' %}">
-  <script src="{% static 'principal/js/abandonados.js' %}"></script>
+  
 {% endblock %}
 
 {% block content %}
   <div class="card-central">
     <div class="clube-header">
-     {% if clube.capa_clube %}
+      {% if clube.capa_clube %}
         <img src="{{ clube.capa_clube.url }}" alt="{{ clube.nome }}" class="club-main-image">
       {% elif clube.capa_recomendada %}
         <img src="{% static clube.capa_recomendada %}" alt="{{ clube.nome }}" class="club-main-image">
@@ -20,20 +21,21 @@
     </div>
 
     <p class="descricao-clube">
-      {{clube.descricao}}
+      {{ clube.descricao }}
     </p>
 
-   <div class="botoes">
+    
+    <div class="botoes">
       <a href="{% url 'principal:estante' clube.id %}" class="botoes">{% trans "Lendo" %}</a>
       <a href="{% url 'principal:lidos' clube.id %}" class="botoes">{% trans "Lidos" %}</a>
-      <a href="{% url 'principal:abandonados' clube.id %}" class="botoes" id="bt_atual">{% trans "Abandonados" %}</a>
+      <a href="{% url 'principal:abandonados' clube.id %}" class="botoes"  id="bt_atual">{% trans "Abandonados" %}</a>
       <a href="{% url 'principal:queremos_ler' clube.id %}" class="botoes">{% trans "Queremos Ler" %}</a>
-
+      <a href="{% url 'principal:detalhes_clube' clube.id %}" class="botoes">{% trans "Voltar ao clube" %}</a>
     </div>
 
+   
 
     
-
 <div class="livros-container">
       {% for leitura in abandonado %}
         <div class="livro-card" data-livro-id="{{ leitura.id }}">
@@ -66,10 +68,10 @@
         
         <label for="novoStatus">Status:</label>
         <select id="novoStatus" name="status">
-          <option value="A_LER">{% trans "A Ler" %}</option>
-          <option value="LENDO_ATUALMENTE">{% trans "Lendo Atualmente" %}</option>
-          <option value="FINALIZADO">{% trans "Finalizado" %}</option>
 
+          <option value="LENDO">{% trans "Lendo Atualmente" %}</option>
+          <option value="FINALIZADO">{% trans "Finalizado" %}</option>
+          <option value="A_LER">{% trans "Queremos Ler" %}</option>
         </select>
 
         <div id="dataFinalizacaoContainer" style="display:none; margin-top: 10px;">
@@ -87,70 +89,100 @@
 {% endblock %}
 
 {% block scripts %}
- 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const modalOverlay = document.getElementById('statusModalOverlay');
-      const modalClose = document.getElementById('modalClose');
-      const cancelModal = document.getElementById('cancelModal');
-      const statusForm = document.getElementById('statusForm');
-      const modalLivroIdInput = document.getElementById('modalLivroId');
-      const clubeId = "{{ clube.id }}";
-      
-      const novoStatusSelect = document.getElementById('novoStatus');
-      const dataFinalizacaoContainer = document.getElementById('dataFinalizacaoContainer');
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modalOverlay = document.getElementById('statusModalOverlay');
+    const modalClose = document.getElementById('modalClose');
+    const cancelModal = document.getElementById('cancelModal');
+    const statusForm = document.getElementById('statusForm');
+    const modalLivroIdInput = document.getElementById('modalLivroId');
+    const clubeId = "{{ clube.id }}";
+    const novoStatusSelect = document.getElementById('novoStatus');
+    const dataFinalizacaoContainer = document.getElementById('dataFinalizacaoContainer');
+    const dataFinalizacaoInput = document.getElementById('dataFinalizacao');
 
-      
-      novoStatusSelect.addEventListener('change', () => {
-        if (novoStatusSelect.value === 'FINALIZADO') {
-          dataFinalizacaoContainer.style.display = 'block';
-        } else {
-          dataFinalizacaoContainer.style.display = 'none';
-        }
-      });
+    // --- 🔒 Trava de data (impede datas futuras) ---
+    const hoje = new Date().toISOString().split('T')[0];
+    dataFinalizacaoInput.setAttribute('max', hoje);
 
-      
-      document.querySelectorAll('.livro-card').forEach(card => {
-        card.addEventListener('click', () => {
-          modalLivroIdInput.value = card.getAttribute('data-livro-id');
-          
-          novoStatusSelect.value = 'A_LER';
-          dataFinalizacaoContainer.style.display = 'none';
-          modalOverlay.style.display = 'flex';
-        });
-      });
-      
-      
-      modalClose.addEventListener('click', () => modalOverlay.style.display = 'none');
-      cancelModal.addEventListener('click', () => modalOverlay.style.display = 'none');
-
-      
-      function showDynamicMessage(message, level) {
-          const messagesContainer = document.getElementById('dynamic-messages');
-          const messageLi = document.createElement('li');
-          messageLi.className = level; 
-          messageLi.textContent = message;
-          messagesContainer.appendChild(messageLi);
-         
-          setTimeout(() => {
-              messageLi.style.opacity = '0';
-              setTimeout(() => messageLi.remove(), 500);
-          }, 5000);
+    // Exibe o campo de data apenas se for "FINALIZADO"
+    novoStatusSelect.addEventListener('change', () => {
+      if (novoStatusSelect.value === 'FINALIZADO') {
+        dataFinalizacaoContainer.style.display = 'block';
+      } else {
+        dataFinalizacaoContainer.style.display = 'none';
       }
+    });
 
-      
-      statusForm.addEventListener('submit', async (e) => {
+    // Abre o modal ao clicar em um livro
+    document.querySelectorAll('.livro-card').forEach(card => {
+      card.addEventListener('click', () => {
+        modalLivroIdInput.value = card.getAttribute('data-livro-id');
+        novoStatusSelect.value = 'none';
+        dataFinalizacaoContainer.style.display = 'none';
+        dataFinalizacaoInput.value = ''; // limpa campo anterior
+        modalOverlay.style.display = 'flex';
+      });
+    });
+
+    // Fecha o modal
+    modalClose.addEventListener('click', () => modalOverlay.style.display = 'none');
+    cancelModal.addEventListener('click', () => modalOverlay.style.display = 'none');
+
+// Função para exibir mensagens dinâmicas (VERSÃO FINAL E ROBUSTA)
+    function showDynamicMessage(message, level) {
+        
+        // 1. Tenta encontrar o container que o 'base.html' cria
+        let messagesContainer = document.querySelector('.messages');
+
+        // 2. Se o 'base.html' não criou (por não ter msg do Django), NÓS CRIAMOS.
+        if (!messagesContainer) {
+            messagesContainer = document.createElement('ul');
+            messagesContainer.className = 'messages'; 
+            // Insere no topo do body, logo após o <header>
+            const header = document.querySelector('header');
+            if (header) {
+                header.parentNode.insertBefore(messagesContainer, header.nextSibling);
+            } else {
+                document.body.prepend(messagesContainer); // Fallback
+            }
+        }
+
+        // 3. Cria e adiciona a mensagem
+        const messageLi = document.createElement('li');
+        messageLi.className = level; // 'success' ou 'error'
+        messageLi.textContent = message;
+        messagesContainer.appendChild(messageLi);
+        
+        // 4. Define o tempo para remover
+        setTimeout(() => {
+            messageLi.style.opacity = '0';
+            setTimeout(() => messageLi.remove(), 500);
+        }, 5000);
+    }
+
+    // --- SUBMISSÃO DO FORMULÁRIO ---
+  statusForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const leituraId = modalLivroIdInput.value;
         const novoStatus = novoStatusSelect.value;
         const dataFinalizacao = document.getElementById('dataFinalizacao').value;
-        const url = `/app/clube/${clubeId}/admin/alterar-status-leitura/${leituraId}/`;
+        // Certifique-se que a URL está correta para a view que altera o status
+        const url = `/app/clube/{{ clube.id }}/admin/alterar-status-leitura/${leituraId}/`;
 
-        
         let bodyData = { status: novoStatus };
         if (novoStatus === 'FINALIZADO') {
+            // Validação simples de data no front-end (opcional, mas recomendada)
+            if (!dataFinalizacao) {
+                showDynamicMessage('{% trans "Por favor, informe a data de finalização." %}', 'error');
+                return; // Impede o envio se a data for obrigatória e não preenchida
+            }
             bodyData.data_finalizacao = dataFinalizacao;
         }
+
+        // Desabilitar botão para evitar cliques múltiplos (opcional)
+        const submitButton = statusForm.querySelector('button[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
 
         try {
           const response = await fetch(url, {
@@ -161,21 +193,44 @@
             },
             body: JSON.stringify(bodyData)
           });
-          const data = await response.json();
 
-          
-          showDynamicMessage(data.message, data.level);
-
-          if (response.ok) {
-            modalOverlay.style.display = 'none';
-           
-            setTimeout(() => location.reload(), 1000);
+          // Primeiro, verifica se a resposta HTTP indica um erro grave (ex: 403, 404, 500)
+          if (!response.ok) {
+              // Tenta ler a mensagem de erro do JSON, se houver
+              let errorMessage = '{% trans "Ocorreu um erro no servidor." %}';
+              try {
+                  const errorData = await response.json();
+                  errorMessage = errorData.message || errorMessage;
+              } catch (jsonError) {
+                  // Se não conseguir ler o JSON, usa o status text
+                  errorMessage = response.statusText || errorMessage;
+              }
+              throw new Error(errorMessage); // Joga o erro para o catch
           }
+
+          // Se a resposta HTTP foi OK (2xx), processa o JSON
+          const data = await response.json();
+          showDynamicMessage(data.message, data.level); // Mostra a mensagem (success ou error lógico)
+
+          // --- PONTO CHAVE DA CORREÇÃO ---
+          // Verifica se a operação no backend foi realmente bem-sucedida
+          if (data.success) {
+            modalOverlay.style.display = 'none'; // Fecha o modal
+            // Recarrega a página após a mensagem ser exibida
+            setTimeout(() => location.reload(), 1500); // Aumentei um pouco o tempo
+          }
+          // Se data.success for false, a mensagem de erro já foi exibida,
+          // o modal permanece aberto para o usuário corrigir.
+
         } catch (error) {
-          console.error('Erro na requisição:', error);
-          showDynamicMessage('{% trans "Ocorreu um erro de rede. Tente novamente." %}', 'error');
+          console.error('Erro na requisição ou processamento:', error);
+          // Mostra a mensagem de erro capturada (do throw new Error ou erro de rede)
+          showDynamicMessage(error.message || '{% trans "Ocorreu um erro de rede. Tente novamente." %}', 'error');
+        } finally {
+            // Reabilita o botão, independentemente do resultado
+            if (submitButton) submitButton.disabled = false;
         }
       });
-    });
-  </script>
+  });
+</script>
 {% endblock %}

@@ -780,7 +780,6 @@ def alterar_status_livro(request, clube_id, leitura_id):
         return JsonResponse({'success': False, 'level': 'error', 'message': str(e)}, status=500)
     
 
-
 @login_obrigatorio
 @require_POST 
 def atualizar_progresso(request: HttpRequest, estante_pessoal_id):
@@ -1178,3 +1177,82 @@ def estante_pessoal(request):
         'livros_favoritos': livros_favoritos,
     }
     return render(request, 'principal/estante_pessoal.html', contexto)
+
+@login_obrigatorio
+@require_POST
+def atualizar_estante_pessoal(request):
+    """
+    View para atualizar o status (Lendo, Lido, Abandonado), o 
+    status de favorito ou a NOTA PESSOAL de um livro na EstantePessoal via AJAX.
+    """
+    usuario = request.usuario_logado_obj
+    
+    try:
+        data = json.loads(request.body)
+        item_id = data.get('item_id')
+        
+        if not item_id:
+            return JsonResponse({'sucesso': False, 'erro': 'ID do item não fornecido'}, status=400)
+
+        # Busca o item e garante que pertence ao usuário logado
+        item_estante = get_object_or_404(EstantePessoal, id=item_id, usuario=usuario)
+
+        novo_status = data.get('novo_status')
+        novo_favorito = data.get('favorito') # Vem como True/False
+        nova_nota = data.get('nova_nota') # --- CAMPO NOVO ADICIONADO ---
+
+        if novo_status:
+            # Validação do status
+            status_validos = [EstantePessoal.StatusLeitura.LENDO, EstantePessoal.StatusLeitura.LIDO, EstantePessoal.StatusLeitura.ABANDONADO]
+            if novo_status in status_validos:
+                item_estante.status = novo_status
+                # Se mudar de lido para outro status, limpa favorito e nota
+                if novo_status != EstantePessoal.StatusLeitura.LIDO:
+                    item_estante.favorito = False
+                    item_estante.nota_pessoal = None # Limpa a nota
+            else:
+                 return JsonResponse({'sucesso': False, 'erro': 'Status inválido'}, status=400)
+
+        elif novo_favorito is not None:
+            # Regra: Só pode favoritar se o livro estiver LIDO
+            if item_estante.status == EstantePessoal.StatusLeitura.LIDO:
+                item_estante.favorito = bool(novo_favorito)
+            else:
+                return JsonResponse({'sucesso': False, 'erro': 'Só é possível favoritar livros já lidos'}, status=400)
+        
+        # --- LÓGICA DE NOTA ADICIONADA ---
+        elif nova_nota is not None:
+            # Regra: Só pode avaliar se o livro estiver LIDO
+            if item_estante.status != EstantePessoal.StatusLeitura.LIDO:
+                return JsonResponse({'sucesso': False, 'erro': 'Só é possível avaliar livros já lidos'}, status=400)
+            
+            try:
+                # O valor "0" é usado para "Remover nota"
+                if str(nova_nota) == "0":
+                    item_estante.nota_pessoal = None
+                else:
+                    # Converte para float e valida
+                    nota_float = float(nova_nota)
+                    # O seu modelo permite de 0.0 a 5.0, mas 0.5 é a menor nota "real"
+                    if 0.5 <= nota_float <= 5.0: 
+                        item_estante.nota_pessoal = nota_float
+                    else:
+                        return JsonResponse({'sucesso': False, 'erro': 'Nota inválida.'}, status=400)
+            except ValueError:
+                 return JsonResponse({'sucesso': False, 'erro': 'Formato de nota inválido.'}, status=400)
+        # --- FIM DA LÓGICA DE NOTA ---
+
+        item_estante.save()
+        return JsonResponse({
+            'sucesso': True, 
+            'novo_status': item_estante.status, 
+            'favorito': item_estante.favorito,
+            'nota': item_estante.nota_pessoal # Retorna a nota atualizada
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({'sucesso': False, 'erro': 'JSON inválido'}, status=400)
+    except EstantePessoal.DoesNotExist:
+        return JsonResponse({'sucesso': False, 'erro': 'Item não encontrado ou não pertence a você'}, status=404)
+    except Exception as e:
+        return JsonResponse({'sucesso': False, 'erro': str(e)}, status=500)

@@ -21,7 +21,21 @@
     <div id="Lendo" class="tab-content" style="display:block;">
         <div class="galeria-livros">
             {% for item in livros_lendo %}
-                {% include 'principal/partials/card_livro_pessoal.html' %}
+                <div class="livro-card" 
+                     data-item-id="{{ item.id }}" 
+                     data-livro-titulo="{{ item.livro.titulo }}"
+                     data-status-atual="{{ item.status }}"
+                     data-favorito="{{ item.favorito|yesno:'true,false' }}"
+                     data-nota-atual="{{ item.nota_pessoal|default_if_none:'' }}"> 
+                    
+                    <img src="{% if item.livro.capa %}{{ item.livro.capa.url }}{% else %}{% static 'img/sem_capa.png' %}{% endif %}" alt="Capa de {{ item.livro.titulo }}">
+                    <div class="livro-info">
+                      <h3>{{ item.livro.titulo }}</h3>
+                      <p class="quebra-linha"><strong>{% trans "Autor:" %}</strong> {{ item.livro.autor }}</p>
+                      <p><strong>{% trans "Páginas:" %}</strong> {{ item.livro.paginas }}</p>
+                      <p class="texto-truncado" style="font-size: 0.8rem; color: #555;">{% trans "Do clube:" %} {{ item.clube.nome }}</p>
+                    </div>
+                </div>
             {% empty %}
                 <p>{% trans "Você não está lendo nenhum livro no momento." %}</p>
             {% endfor %}
@@ -31,19 +45,67 @@
     <div id="Lidos" class="tab-content">
         <div class="galeria-livros">
             {% for item in livros_lidos %}
-                {% include 'principal/partials/card_livro_pessoal.html' %}
+                <div class="livro-card" 
+                     data-item-id="{{ item.id }}" 
+                     data-livro-titulo="{{ item.livro.titulo }}"
+                     data-status-atual="{{ item.status }}"
+                     data-favorito="{{ item.favorito|yesno:'true,false' }}"
+                     data-nota-atual="{{ item.nota_pessoal|default_if_none:'' }}"> 
+                    
+                    <img src="{% if item.livro.capa %}{{ item.livro.capa.url }}{% else %}{% static 'img/sem_capa.png' %}{% endif %}" alt="Capa de {{ item.livro.titulo }}">
+                    <div class="livro-info">
+                      <h3>{{ item.livro.titulo }}</h3>
+                      <p class="quebra-linha"><strong>{% trans "Autor:" %}</strong> {{ item.livro.autor }}</p>
+                      <p><strong>{% trans "Páginas:" %}</strong> {{ item.livro.paginas }}</p>
+                      <p class="texto-truncado" style="font-size: 0.8rem; color: #555;">{% trans "Do clube:" %} {{ item.clube.nome }}</p>
+                      
+                      
+                      <div class="nota-display">
+                        <strong>{% trans "Sua Nota:" %}</strong>
+                        {% if item.nota_pessoal %}
+                            <span class="nota-valor">⭐ {{ item.nota_pessoal|floatformat:1 }}</span>
+                        {% else %}
+                            <span class="nota-vazia">{% trans "Sem nota" %}</span>
+                        {% endif %}
+                      </div>
+                      
+                    </div>
+                </div>
             {% empty %}
                 <p>{% trans "Nenhum livro na sua lista de lidos." %}</p>
             {% endfor %}
         </div>
     </div>
 
-    
-
     <div id="Favoritos" class="tab-content">
         <div class="galeria-livros">
             {% for item in livros_favoritos %}
-                {% include 'principal/partials/card_livro_pessoal.html' %}
+                <div class="livro-card" 
+                     data-item-id="{{ item.id }}" 
+                     data-livro-titulo="{{ item.livro.titulo }}"
+                     data-status-atual="{{ item.status }}"
+                     data-favorito="{{ item.favorito|yesno:'true,false' }}"
+                     data-nota-atual="{{ item.nota_pessoal|default_if_none:'' }}"> 
+                    
+                    <img src="{% if item.livro.capa %}{{ item.livro.capa.url }}{% else %}{% static 'img/sem_capa.png' %}{% endif %}" alt="Capa de {{ item.livro.titulo }}">
+                    <div class="livro-info">
+                      <h3>{{ item.livro.titulo }}</h3>
+                      <p class="quebra-linha"><strong>{% trans "Autor:" %}</strong> {{ item.livro.autor }}</p>
+                      <p><strong>{% trans "Páginas:" %}</strong> {{ item.livro.paginas }}</p>
+                      <p class="texto-truncado" style="font-size: 0.8rem; color: #555;">{% trans "Do clube:" %} {{ item.clube.nome }}</p>
+                      
+                      
+                      <div class="nota-display">
+                        <strong>{% trans "Sua Nota:" %}</strong>
+                        {% if item.nota_pessoal %}
+                            <span class="nota-valor">⭐ {{ item.nota_pessoal|floatformat:1 }}</span>
+                        {% else %}
+                            <span class="nota-vazia">{% trans "Sem nota" %}</span>
+                        {% endif %}
+                      </div>
+                      
+                    </div>
+                </div>
             {% empty %}
                 <p>{% trans "Você ainda não marcou nenhum livro como favorito." %}</p>
             {% endfor %}
@@ -53,17 +115,70 @@
     <div id="Abandonados" class="tab-content">
         <div class="galeria-livros">
             {% for item in livros_abandonados %}
-                {% include 'principal/partials/card_livro_pessoal.html' %}
+                <div class="livro-card" 
+                     data-item-id="{{ item.id }}" 
+                     data-livro-titulo="{{ item.livro.titulo }}"
+                     data-status-atual="{{ item.status }}"
+                     data-favorito="{{ item.favorito|yesno:'true,false' }}"
+                     data-nota-atual="{{ item.nota_pessoal|default_if_none:'' }}"> 
+                    
+                    <img src="{% if item.livro.capa %}{{ item.livro.capa.url }}{% else %}{% static 'img/sem_capa.png' %}{% endif %}" alt="Capa de {{ item.livro.titulo }}">
+                    <div class="livro-info">
+                      <h3>{{ item.livro.titulo }}</h3>
+                      <p class="quebra-linha"><strong>{% trans "Autor:" %}</strong> {{ item.livro.autor }}</p>
+                      <p><strong>{% trans "Páginas:" %}</strong> {{ item.livro.paginas }}</p>
+                      <p class="texto-truncado" style="font-size: 0.8rem; color: #555;">{% trans "Do clube:" %} {{ item.clube.nome }}</p>
+                    </div>
+                </div>
             {% empty %}
                 <p>{% trans "Nenhum livro abandonado." %}</p>
             {% endfor %}
         </div>
     </div>
 </div>
+
+<div id="modalGerenciarLivro" class="modal-estante">
+  <div class="modal-estante-content">
+    <h3 id="modalLivroTitulo">{% trans "Gerenciar Livro" %}</h3>
+    
+    
+    <div id="secaoAvaliacao" class="secao-avaliacao" style="display:none;">
+        <label for="selectNota">{% trans "Minha Avaliação:" %}</label>
+        <select id="selectNota" class="select-nota">
+            <option value="">{% trans "Dar nota..." %}</option>
+            <option value="5.0">⭐⭐⭐⭐⭐ (5.0)</option>
+            <option value="4.5">⭐⭐⭐⭐🌗 (4.5)</option>
+            <option value="4.0">⭐⭐⭐⭐ (4.0)</option>
+            <option value="3.5">⭐⭐⭐🌗 (3.5)</option>
+            <option value="3.0">⭐⭐⭐ (3.0)</option>
+            <option value="2.5">⭐⭐🌗 (2.5)</option>
+            <option value="2.0">⭐⭐ (2.0)</option>
+            <option value="1.5">⭐🌗 (1.5)</option>
+            <option value="1.0">⭐ (1.0)</option>
+            <option value="0.5">🌗 (0.5)</option>
+            <option value="0">{% trans "Remover nota" %}</option> 
+        </select>
+    </div>
+    
+
+    <div class="btn-group">
+        <button id="btnModalLendo" class="btn btn-lendo" data-status="LENDO">{% trans "Marcar como 'Lendo'" %}</button>
+        <button id="btnModalLido" class="btn btn-lido" data-status="LIDO">{% trans "Marcar como 'Lido'" %}</button>
+        <button id="btnModalAbandonado" class="btn btn-abandonado" data-status="ABANDONADO">{% trans "Marcar como 'Abandonado'" %}</button>
+        <hr id="hrFavorito" style="display:none;">
+        <button id="btnModalFavorito" class="btn btn-favorito" data-favorito="true">⭐ {% trans "Marcar como Favorito" %}</button>
+        <button id="btnModalDesfavorito" class="btn btn-desfavorito" data-favorito="false">💔 {% trans "Remover dos Favoritos" %}</button>
+    </div>
+    
+    <button id="btnModalFechar" class="btn btn-fechar">{% trans "Fechar" %}</button>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
 <script>
+
 function openTab(evt, tabName) {
     var i, tabcontent, tabbuttons;
     tabcontent = document.getElementsByClassName("tab-content");
@@ -77,5 +192,122 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('modalGerenciarLivro');
+    const modalTitle = document.getElementById('modalLivroTitulo');
+    const btnFechar = document.getElementById('btnModalFechar');
+    
+    
+    const btnLendo = document.getElementById('btnModalLendo');
+    const btnLido = document.getElementById('btnModalLido');
+    const btnAbandonado = document.getElementById('btnModalAbandonado');
+    const btnFavorito = document.getElementById('btnModalFavorito');
+    const btnDesfavorito = document.getElementById('btnModalDesfavorito');
+    const hrFavorito = document.getElementById('hrFavorito');
+    
+    
+    const secaoAvaliacao = document.getElementById('secaoAvaliacao');
+    const selectNota = document.getElementById('selectNota');
+    
+    let currentItemId = null;
+    
+    
+    
+    const updateUrl = "{% url 'principal:atualizar_estante_pessoal' %}"; 
+    const csrfToken = '{{ csrf_token }}'; 
+
+    
+    document.querySelectorAll('.livro-card').forEach(card => {
+        card.addEventListener('click', function() {
+            currentItemId = this.dataset.itemId;
+            const titulo = this.dataset.livroTitulo;
+            const status = this.dataset.statusAtual;
+            const favorito = this.dataset.favorito === 'true';
+            const nota = this.dataset.notaAtual; 
+
+            modalTitle.textContent = titulo;
+            
+            
+            btnLendo.style.display = (status === 'LENDO') ? 'none' : 'block';
+            btnLido.style.display = (status === 'LIDO') ? 'none' : 'block';
+            btnAbandonado.style.display = (status === 'ABANDONADO') ? 'none' : 'block';
+
+            
+            if (status === 'LIDO') {
+                hrFavorito.style.display = 'block';
+                btnFavorito.style.display = (favorito) ? 'none' : 'block';
+                btnDesfavorito.style.display = (favorito) ? 'block' : 'none';
+                
+                secaoAvaliacao.style.display = 'block';
+                
+                selectNota.value = nota ? parseFloat(nota).toFixed(1) : "";
+
+            } else {
+                
+                hrFavorito.style.display = 'none';
+                btnFavorito.style.display = 'none';
+                btnDesfavorito.style.display = 'none';
+                secaoAvaliacao.style.display = 'none';
+                selectNota.value = "";
+            }
+            
+            modal.style.display = 'block';
+        });
+    });
+
+    
+    btnFechar.onclick = () => modal.style.display = 'none';
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    };
+
+    
+    async function atualizarLivro(data) {
+        data.item_id = currentItemId; 
+        
+        try {
+            const response = await fetch(updateUrl, { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                location.reload(); 
+            } else {
+                const errorData = await response.json();
+                console.error('Falha ao atualizar:', errorData.erro);
+                alert('Ocorreu um erro: ' + (errorData.erro || 'Erro desconhecido'));
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Ocorreu um erro de conexão.');
+        }
+    }
+
+    
+    btnLendo.onclick = () => atualizarLivro({ novo_status: 'LENDO' });
+    btnLido.onclick = () => atualizarLivro({ novo_status: 'LIDO' });
+    btnAbandonado.onclick = () => atualizarLivro({ novo_status: 'ABANDONADO' });
+    btnFavorito.onclick = () => atualizarLivro({ favorito: true });
+    btnDesfavorito.onclick = () => atualizarLivro({ favorito: false });
+
+    
+    selectNota.onchange = () => {
+        const notaSelecionada = selectNota.value;
+        if (notaSelecionada !== "") { 
+            atualizarLivro({ nova_nota: notaSelecionada }); 
+        }
+    };
+
+});
 </script>
 {% endblock %}

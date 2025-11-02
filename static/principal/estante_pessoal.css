@@ -43,78 +43,150 @@
     to { opacity: 1; }
 }
 
+
+
 .galeria-livros {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 20px;
 }
 
-.livro-card-estante {
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+.livro-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer; 
+}
+
+.livro-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.livro-card img {
+    width: 80px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.livro-info {
     display: flex;
     flex-direction: column;
-    position: relative;
+    gap: 5px;
+    overflow: hidden; 
 }
 
-.favorito-icon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1.5rem;
-    color: #FFD700;
-    text-shadow: 0 0 4px rgba(0,0,0,0.5);
-    z-index: 10;
-}
-
-.livro-card-estante img {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-}
-
-.livro-card-estante .info {
-    padding: 15px;
-}
-
-.livro-card-estante h3 {
+.livro-info h3 {
+    margin: 0;
     font-size: 1.1rem;
-    margin: 0 0 5px 0;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.livro-card-estante p {
+.livro-info p {
+    margin: 0;
     font-size: 0.9rem;
-    color: #666;
-    margin: 0 0 10px 0;
-}
-
-.clube-info a {
-    color: #4A3636;
-    text-decoration: none;
-    font-weight: 500;
-}
-.clube-info a:hover {
-    text-decoration: underline;
-}
-
-.progresso-container {
-    width: 100%;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    height: 8px;
-    margin-top: 10px;
-}
-
-.progresso-barra {
-    height: 100%;
-    background-color: #007bff;
-    border-radius: 5px;
-}
-
-.progresso-texto {
-    font-size: 0.8rem;
     color: #555;
-    margin-top: 5px;
+}
+
+
+
+.modal-estante {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-estante-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.modal-estante-content h3 {
+    margin-top: 0;
+}
+
+.modal-estante-content .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-estante-content .btn-group .btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-lendo { background-color: #4CAF50; color: white; }
+.btn-lido { background-color: #008CBA; color: white; }
+.btn-abandonado { background-color: #f44336; color: white; }
+.btn-favorito { background-color: #FFD700; color: black; }
+.btn-desfavorito { background-color: #f0f0f0; color: black; }
+.btn-fechar { background-color: #ccc; margin-top: 15px; }
+
+
+.nota-display {
+    font-size: 0.9rem;
+    color: #333;
+    margin-top: 8px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 8px;
+}
+
+.nota-valor {
+    font-weight: bold;
+    color: #E6A91A; 
+}
+
+.nota-vazia {
+    font-style: italic;
+    color: #888;
+}
+
+
+.secao-avaliacao {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.secao-avaliacao label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.select-nota {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #fff;
+    cursor: pointer;
 }
