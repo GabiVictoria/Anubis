@@ -1,7 +1,7 @@
 {% load static %}
-{% load i18n %} 
+{% load i18n %}
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}"> 
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,8 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'inicial/inicia.css' %}" />
   <link rel="stylesheet" href="{% static 'inicial/messages.css' %}"/>
- <script defer src="{% static 'inicial/messages.js' %}"></script> 
+  <script defer src="{% static 'inicial/messages.js' %}"></script>
 </head>
+
 <body>
 
   {% if messages %}
@@ -27,25 +28,26 @@
 
   <header>
     <div class="branding">
-      <img src="{% static 'img/Logo..png' %}" alt="{% trans 'Logo da Anúbis' %}" class="logo" />
-      <h1>{% trans "Anúbis" %}</h1>
+      <img src="{% static 'img/Logo..png' %}" alt="Logo da Anúbis" class="logo" />
+      <h1>Anúbis</h1>
     </div>
-    <p>{% trans "Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro" %}</p>
-    <p>{% trans "Conecte-se com leitores como você. Leia junto. Compartilhe ideias." %}</p>
+    <p>Reúna. Leia. Renove. Viva com Anúbis, sua plataforma de Clube do livro</p>
+    <p>Conecte-se com leitores como você. Leia junto. Compartilhe ideias.</p>
+
     <div class="buttons">
-      <a href="{% url 'inicial:login' %}">{% trans "Entrar" %}</a>
-      <a href="{% url 'inicial:cadastro' %}">{% trans "Criar Conta" %}</a>
+      <a href="{% url 'inicial:login' %}">Entrar</a>
+      <a href="{% url 'inicial:cadastro' %}">Criar Conta</a>
     </div>
   </header>
 
   <section class="search-section">
-    <h2>{% trans "Que tal procurar o clube ideal para você? Dá um clique" %}</h2>
+    <h2>Que tal procurar o clube ideal para você? Dá um clique</h2>
     <div class="search-bar-container">
-      <form action="{% url 'inicial:inicial_busca' %}" method="GET"> 
+      <form action="{% url 'inicial:inicial_busca' %}" method="GET">
         <input
         type="text"
         name="q"
-        placeholder="{% trans 'Buscar livros, clubes...' %}"
+        placeholder="Buscar livros, clubes..."
         class="search-input"
         />
         <button type="submit" class="search-button">
@@ -55,35 +57,94 @@
     </div>
   </section>
 
+  <!-- ======== LIVROS EM DESTAQUE ======== -->
   <section class="section">
-    <h2>{% trans "Livros que os clubes estão lendo agora" %}</h2>
+    <h2>Livros que os clubes estão lendo agora</h2>
     <div class="books">
       <div class="book">
-        <img src="{% static 'img/eassimqacaba.jpg' %}" alt="{% trans 'Livro 1' %}" />
-        <p>{% trans "É Assim que Acaba" %}</p>
+        <img src="{% static 'img/eassimqacaba.jpg' %}" alt="Livro 1" />
+        <p>É Assim que Acaba</p>
       </div>
       <div class="book">
-        <img src="{% static 'img/opusculo-humanitario.jpg' %}" alt="{% trans 'Livro 2' %}" />
-        <p>{% trans "Opúscolo Humanitário" %}</p>
+        <img src="{% static 'img/opusculo-humanitario.jpg' %}" alt="Livro 2" />
+        <p>Opúsculo Humanitário</p>
       </div>
       <div class="book">
-        <img src="{% static 'img/osol.jpg' %}" alt="{% trans 'Livro 3' %}" />
-        <p>{% trans "O Sol é para Todos" %}</p>
+        <img src="{% static 'img/osol.jpg' %}" alt="Livro 3" />
+        <p>O Sol é para Todos</p>
       </div>
       <div class="book">
-        <img src="{% static 'img/haruki.jpg' %}" alt="{% trans 'Livro 4' %}" />
-        <p>{% trans "Norwegian Wood" %}</p>
+        <img src="{% static 'img/haruki.jpg' %}" alt="Livro 4" />
+        <p>Norwegian Wood</p>
       </div>
       <div class="book">
-        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="{% trans 'Livro 5' %}" /> 
-        <p>{% trans "Noites Brancas" %}</p>
+        <img src="{% static 'img/NoitesBrancas.jpg' %}" alt="Livro 5" />
+        <p>Noites Brancas</p>
       </div>
     </div>
   </section>
 
+    <section class="func-section">
+    <h2>Funcionalidades da Anúbis</h2>
+
+    <div class="func-cards">
+
+        <div class="func-card">
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f" alt="Clube do Livro">
+            <h3>Organização dos Clubes</h3>
+            <p>Gerencie reuniões, participantes, metas de leitura e atividades do clube com facilidade.</p>
+        </div>
+
+        <div class="func-card">
+            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba" alt="Leitura Coletiva">
+            <h3>Leituras Coletivas</h3>
+            <p>Defina leituras por capítulos, páginas ou porcentagem com sincronização automática.</p>
+        </div>
+
+        <div class="func-card">
+            <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d" alt="Comunidade Literária">
+            <h3>Comunidade</h3>
+            <p>Participe de discussões, compartilhe resenhas e conheça novos leitores como você.</p>
+        </div>
+
+        <div class="func-card">
+            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2" alt="Metas e Progresso">
+            <h3>Metas de Leitura</h3>
+            <p>Progresso visual, metas personalizadas e notificações automáticas para manter o ritmo.</p>
+        </div>
+
+    </div>
+  </section>
+  <section class="sobre-nos">
+    <div class="sobre-container">
+      <h2>Sobre Nós</h2>
+      <p>
+        A plataforma <strong>Anúbis</strong> nasceu com o propósito de aproximar leitores, fortalecer clubes do livro
+        e transformar o ato de ler em uma experiência coletiva. Acreditamos que a leitura se torna mais rica
+        quando compartilhada — por isso, oferecemos ferramentas que ajudam clubes a se organizarem, discutirem
+        obras e acompanharem seu progresso de maneira simples e intuitiva.
+      </p>
+      <p>
+        Nossa missão é incentivar o hábito de leitura, conectar pessoas e criar um espaço onde ideias circulem,
+        perspectivas se encontrem e novas narrativas ganhem vida. Seja você iniciante ou leitor experiente, a
+        Anúbis é o seu espaço para descobrir livros, comunidades e debates que transformam.
+      </p>
+
+      <div class="social-links">
+        <a href="https://www.instagram.com/anubis.app/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://github.com/GabiVictoria/Anubis" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:anubis.clubes.literarios@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+  </section>
+
+
+
   <footer>
-    © 2025 Anúbis. {% trans "Todos os direitos reservados." %}
-    {% trans "Plataforma criada no Instituto Federal de São Paulo" %}
+    © 2025 Anúbis. Todos os direitos reservados.
+    Plataforma criada no Instituto Federal de São Paulo.
   </footer>
+
 </body>
 </html>

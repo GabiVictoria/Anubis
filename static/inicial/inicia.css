@@ -2,236 +2,292 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-  }
-  
-  body {
+}
+
+/* ======== BODY ======== */
+body {
     font-family: 'Roboto', sans-serif;
     background: linear-gradient(to bottom right, #5c340b, #e2d1c3);
     color: #333;
     overflow-x: hidden;
-  }
-  
-  header {
+}
+
+/* ======== HEADER ======== */
+header {
     background-color: rgba(255, 255, 255, 0.9);
     padding: 2rem;
     text-align: center;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  }
-  
-  .branding {
+}
+
+.branding {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 1rem;
     margin-bottom: 1rem;
-  }
-  
-  .logo {
+}
+
+.logo {
     width: 60px;
     height: 60px;
-  }
-  
-  .branding h1 {
+}
+
+.branding h1 {
     font-family: 'Playfair Display', serif;
     font-size: 2.5rem;
     color: #6b4f4f;
-  }
-  
-  header p {
+}
+
+header p {
     font-size: 1.2rem;
     color: #666;
-  }
-  
-  .buttons {
-    margin-top: 1.5rem;
-  }
-  
-  .buttons {
+}
+
+/* ======== BOTÕES LOGIN E CADASTRO ======== */
+
+.buttons {
     position: absolute;
     top: 1rem;
     right: 1rem;
     margin: 0;
     display: flex;
-    gap: 1.5rem; 
-    background: transparent; 
-    padding: 0; 
-    border-radius: 0;
-    box-shadow: none;
-  }
-  
+    gap: 1.5rem;
+}
+
 .buttons a {
-  background-color: #6b4f4f;
-  color: white;
-  padding: 0.5rem 1.5rem;
-  border-radius: 6px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  text-decoration: none;
-  transition: background 0.3s;
-  display: inline-block;
+    background-color: #6b4f4f;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    text-decoration: none;
+    transition: background 0.3s;
 }
 
 .buttons a:hover {
-  background-color: #4a3636;
+    background-color: #4a3636;
 }
 
-  .buttons a:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
-  
-
-  
-  .buttons a:hover {
-    background-color: #4a3636;
-  }
-  
-  .section {
+/* ======== SEÇÕES ======== */
+.section {
     padding: 3rem 2rem;
     text-align: center;
-  }
-  
+}
+
 .section h2 {
-  font-size: 1.8rem; 
-  margin-bottom: 0.8rem; 
-}
-  
-  .books {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem; 
-  margin-top: 1.5rem; 
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
 }
 
-.book {
-  background: white;
-  padding: 0.8rem; 
-  border-radius: 12px; 
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08); 
-  width: 200px; 
-  transition: transform 0.3s ease;
-}
+/* ======== LIVROS ======== */
 
-.book:hover {
-  transform: scale(1.05);
-}
-
-.book img {
-  width: 100%;
-  border-radius: 10px; 
-}
-
-.book p {
-  margin-top: 0.6rem; 
-  font-size: 0.9rem; 
-  font-weight: bold;
-  color: #6b4f4f;
-}
-  
-  .combined-section {
+.books {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 2rem;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
-  }
-  
-  .meeting-section, .rating-section {
-    display: flex;
-    flex-direction: column;
     gap: 1.5rem;
-  }
-  
-  .meeting, .rating {
-    background: #fff;
-    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.book {
+    background: white;
+    padding: 0.8rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    width: 200px;
+    transition: transform 0.3s ease;
+}
+
+.book:hover {
+    transform: scale(1.05);
+}
+
+.book img {
+    width: 100%;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  }
-  
-  .meeting h3 {
-    color: #6b4f4f;
-    margin-bottom: 0.5rem;
-    text-align: left;
-  }
-  
-  .meeting p {
-    margin: 0.25rem 0;
-    color: #555;
-    text-align: left;
-  }
-  
-  .rating p {
-    font-style: italic;
-    color: #444;
-  }
-  
-  .rating .user {
-    margin-top: 0.5rem;
+}
+
+.book p {
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
     font-weight: bold;
     color: #6b4f4f;
-  }
-  
-  footer {
+}
+
+/* ======== BARRA DE PESQUISA ======== */
+
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0 2rem;
+    box-sizing: border-box;
+}
+
+form {
+    display: flex;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px 0 0 5px;
+    font-size: 1rem;
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+.search-input::placeholder {
+    color: #888;
+}
+
+.search-button {
+    background-color: #6f4e37;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    padding: 0 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem auto;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* =========================== */
+/* ======== SOBRE NÓS ======== */
+/* =========================== */
+
+.sobre-nos {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 4rem 2rem;
+    margin-top: 3rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.sobre-container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.sobre-nos h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #6b4f4f;
+    margin-bottom: 1.5rem;
+}
+
+.sobre-nos p {
+    font-size: 1.1rem;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+    text-align: justify;
+}
+
+/* ======== ÍCONES SOCIAIS ======== */
+
+.social-links {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+}
+
+.social-links a {
+    font-size: 1.8rem;
+    color: #6b4f4f;
+    transition: transform 0.3s ease, color 0.3s;
+}
+
+.social-links a:hover {
+    transform: scale(1.15);
+    color: #4a3636;
+}
+
+/* =========================== */
+/*     FUNCIONALIDADES         */
+/* =========================== */
+
+.func-section {
+    padding: 4rem 2rem;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.func-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #6b4f4f;
+    margin-bottom: 2.5rem;
+}
+
+.func-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.func-card {
+    background: #ffffffd8;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.func-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+
+.func-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.func-card h3 {
+    margin: 1rem 0 0.5rem 0;
+    font-size: 1.3rem;
+    color: #6b4f4f;
+}
+
+.func-card p {
+    color: #444;
+    padding: 0 1.2rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* ======== FOOTER ======== */
+
+footer {
     text-align: center;
     padding: 2rem;
     font-size: 0.9rem;
     color: #888;
-  }
-
- /* BARRA DE PESQUISA MEO */
-.search-bar-container {
-  display: flex;
-  justify-content: center;
-  width: 100%; /* garante que ocupe toda a tela */
-  padding: 0 2rem; /* espaçamento lateral opcional */
-  box-sizing: border-box;
-}
-
-form {
-  display: flex;
-  width: 100%;
-  max-width: 1000px; /* ajuste como quiser: 1100px, 1200px... */
-}
-
-.search-input {
-  flex: 1;
-  padding: 10px 15px; /* ALTURA PADRÃO MANTIDA */
-  border: none;
-  border-radius: 5px 0 0 5px;
-  font-size: 1rem; /* TAMANHO DO TEXTO PADRÃO */
-  background-color: #f1f1f1;
-  color: #333;
-}
-
-.search-input::placeholder {
-  color: #888;
-}
-
-.search-button {
-  background-color: #6f4e37; 
-  border: none;
-  border-radius: 0 5px 5px 0;
-  padding: 0 15px; /* MANTIDO */
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.search-icon {
-  color: white; 
-  font-size: 1.2rem;
-}
-
-.search-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 2rem auto;
-}
-h2 {
-  text-align: center;
-  margin-bottom: 1.5rem; /* aumenta o espaço abaixo do texto */
 }

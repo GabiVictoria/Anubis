@@ -94,38 +94,7 @@
     {% endif %}
   </div>
 
-  <div class="section">
-    <h2>{% trans "Recomendações de Clubes" %}</h2>
-    <div class="cards">
-      <div class="card">
-        <img src="{% static 'img/epico.jpg' %}" alt="{% trans 'Fantasia Épica' %}">
-        <div class="card-content">
-          <h3>{% trans "Fantasia Épica" %}</h3>
-          <p class="info-label">{% trans "Fundado por Júlia Ramos" %}</p>
-          <p class="info-label">{% trans "Desde Fev 2024" %}</p>
-          <p class="info-label"><strong>{% trans "Membros:" %}</strong> 50</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="{% static 'img/classicos.jpg' %}" alt="{% trans 'Literatura Brasileira' %}">
-        <div class="card-content">
-          <h3>{% trans "Literatura Brasileira" %}</h3>
-          <p class="info-label">{% trans "Fundado por Pedro Souza" %}</p>
-          <p class="info-label">{% trans "Desde Abr 2024" %}</p>
-          <p class="info-label"><strong>{% trans "Membros:" %}</strong> 90</p>
-        </div>
-      </div>
-      <div class="card">
-        <img src="{% static 'img/futuro.jpg' %}" alt="{% trans 'Sci-Fi e Futuro' %}">
-        <div class="card-content">
-          <h3>{% trans "Sci-Fi e Futuro" %}</h3>
-          <p class="info-label">{% trans "Fundado por Renan Costa" %}</p>
-          <p class="info-label">{% trans "Desde Jan 2024" %}</p>
-          <p class="info-label"><strong>{% trans "Membros:" %}</strong> 77</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  
   {% block scripts %}<script defer src="{% static 'principal/js/home.js' %}"></script>{% endblock %}
   
 {% endblock %}

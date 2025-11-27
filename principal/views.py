@@ -11,11 +11,11 @@ from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.files.base import ContentFile
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.db.models import Q, Avg
+from django.db.models import Q, Avg, Count, F, ExpressionWrapper, FloatField
 from django.db.models.functions import ExtractYear
 from .forms import ClubeEditForm, DefinirLeituraAtualForm, CriarVotacaoForm,  ReuniaoForm, VotacaoEditForm, ConvidarUsuarioForm, PerfilEditForm
 import os
-import requests
+import requests, random
 import urllib.parse
 from datetime import datetime
 from django.utils.translation import gettext as _ 
@@ -59,12 +59,15 @@ def home(request: HttpRequest):
         if leitura_atual and leitura_atual.livro:
             clube_info['leitura_atual_nome'] = leitura_atual.livro.nome
         clubes_info_list.append(clube_info)
+
+
     contexto = {
         "nome_usuario": usuario_atual.nome,
         "usuario_logado": True,
         "clubes_do_usuario": clubes_info_list,
         "search_query": query,
         "leituras_atuais": leituras_atuais_formatadas,
+      
     }
     return render(request, 'principal/home.html', contexto)
 
